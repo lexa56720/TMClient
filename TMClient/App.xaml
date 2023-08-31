@@ -4,33 +4,63 @@
              xmlns:local="clr-namespace:TMClient"
              StartupUri="View/Auth/MainAuthWindow.xaml">
     <Application.Resources>
+        <Color x:Key="ActiveHighlightColor">#0078D7</Color>
+        <SolidColorBrush x:Key="ActiveHighlightBrush" Color="{StaticResource ActiveHighlightColor}"/>
+
+        <Color x:Key="ActiveColor">#0063B1</Color>
+        <SolidColorBrush x:Key="ActiveBrush" Color="{StaticResource ActiveColor}" />
+
+        <Color x:Key="ActiveClickColor">#0D47A1</Color>
+        <SolidColorBrush x:Key="ActiveClickBrush" Color="{StaticResource ActiveClickColor}" />
+
+        <Color x:Key="InteractColor">#242424</Color>
+        <SolidColorBrush x:Key="InteractBrush" Color="{StaticResource InteractColor}"/>
+        
+        <Color x:Key="BackgroundColor">#282828</Color>
+        <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
+        
+        <Color x:Key="InteractiveColor">#323232</Color>
+        <SolidColorBrush x:Key="InteractiveBrush" Color="{StaticResource InteractiveColor}"/>
+
+        <Color x:Key="InteractiveHighlightColor">#383838</Color>
+        <SolidColorBrush x:Key="InteractiveHighlightBrush" Color="{StaticResource InteractiveHighlightColor}"/>
+
+
+        <Color x:Key="ForegroundColor">#E1F5FE</Color>
+        <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}"/>
+
+        <Color x:Key="LightInteractColor"> #545454</Color>
+        <SolidColorBrush x:Key="LightInteractBrush" Color="{StaticResource LightInteractColor}"/>
+
+
         <FontFamily x:Key="SegoeIcons">./Resources/Fonts/#Segoe Fluent Icons</FontFamily>
         <FontFamily x:Key="SegoeUI">./Resources/Fonts/#{StaticResource SegoeUI}</FontFamily>
 
         <Storyboard x:Key="MouseOverStart">
             <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
-                                    To="#323232"
+                                    To="{StaticResource ActiveHighlightColor}"
                                     AutoReverse="False"
                                     FillBehavior="HoldEnd" 
                                     Duration="0:0:0.2"/>
         </Storyboard>
         <Storyboard  x:Key="MouseOverEnd">
             <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
-                                    To="#00323232"
+                                    To="{StaticResource ActiveColor}"
                                     AutoReverse="False"
                                     FillBehavior="HoldEnd" 
                                     Duration="0:0:0.3"/>
         </Storyboard>
+
         <Style TargetType="ToolTip">
             <Setter Property="FontFamily" Value="{StaticResource SegoeUI}"/>
-            <Setter Property="Background" Value="#323232"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource InteractiveBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
             <Setter Property="BorderThickness" Value="0"/>
         </Style>
 
         <Style TargetType="Label">
             <Setter Property="Control.FontFamily" Value="{StaticResource SegoeUI}" />
-            <Setter Property="Control.Foreground" Value="White" />
+            <Setter Property="Control.Foreground" Value="{StaticResource ForegroundBrush}" />
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="HorizontalContentAlignment" Value="Right"/>
             <Setter Property="Padding" Value="5" />
@@ -44,8 +74,8 @@
             </Style.Resources>
             <Setter Property="Control.FontSize" Value="20" />
             <Setter Property="Control.FontFamily" Value="{StaticResource SegoeUI}" />
-            <Setter Property="Control.Background" Value="#00323232" />
-            <Setter Property="Control.Foreground" Value="White" />
+            <Setter Property="Control.Background" Value="{StaticResource ActiveBrush}" />
+            <Setter Property="Control.Foreground" Value="{StaticResource ForegroundBrush}" />
             <Setter Property="VerticalContentAlignment" Value="Top" />
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Control.Margin" Value="2" />
@@ -69,16 +99,15 @@
                     <MultiTrigger.ExitActions>
                         <BeginStoryboard Storyboard="{StaticResource MouseOverEnd}"/>
                     </MultiTrigger.ExitActions>
-
                 </MultiTrigger>
                 <EventTrigger RoutedEvent="Button.Click">
                     <BeginStoryboard>
                         <Storyboard>
                             <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
-                                    To="#242424"
+                                    To="{StaticResource ActiveClickColor}"
                                     AutoReverse="True"
                                     FillBehavior="Stop" 
-                                    Duration="0:0:0.15"/>
+                                    Duration="0:0:0.2"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
@@ -96,8 +125,9 @@
                 </Style>
             </Style.Resources>
         </Style>
+        
         <Style TargetType="GridSplitter">
-            <Setter Property="Background" Value="#545454" />
+            <Setter Property="Background" Value="{StaticResource LightInteractBrush}" />
             <Setter Property="Margin" Value="5" />
             <Setter Property="Opacity" Value="0.2" />
             <Setter Property="Template">
@@ -113,38 +143,63 @@
 
         <Style TargetType="TextBlock">
             <Setter Property="Control.FontFamily" Value="{StaticResource SegoeUI}" />
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
             <Setter Property="Padding" Value="5" />
         </Style>
 
         <Style TargetType="TextBox">
+            <Setter Property="Control.FontFamily" Value="{StaticResource SegoeUI}" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="{StaticResource InteractiveBrush}" />
             <Style.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5" />
                 </Style>
             </Style.Resources>
             <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#383838"/>
-                </Trigger>
-                <Trigger Property="IsKeyboardFocused" Value="True">
-                    <Setter Property="Background" Value="#242424"/>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True"/>
+                        <Condition  Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsKeyboardFocused}" Value="False"/>
+                    </MultiDataTrigger.Conditions>
+                    <Setter Property="Background" Value="{StaticResource InteractiveHighlightBrush}" />
+
+                </MultiDataTrigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard TargetProperty="Background">
+                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
+                                                To="{StaticResource InteractColor}"
+                                                AutoReverse="False"
+                                                FillBehavior="HoldEnd" 
+                                                Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard TargetProperty="Background">
+                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
+                                                 To="{StaticResource InteractiveColor}"
+                                                 AutoReverse="False"
+                                                 FillBehavior="HoldEnd" 
+                                                 Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
                 </Trigger>
             </Style.Triggers>
-
-            <Setter Property="Control.FontFamily" Value="{StaticResource SegoeUI}" />
-            <Setter Property="Margin" Value="5" />
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Background" Value="#323232" />
         </Style>
 
         <Style TargetType="PasswordBox">
             <Setter Property="Control.FontFamily" Value="{StaticResource SegoeUI}" />
             <Setter Property="Margin" Value="5" />
             <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
             <Setter Property="VerticalContentAlignment" Value="Top"/>
             <Setter Property="Background" Value="#323232" />
             <Setter Property="Template">
@@ -154,11 +209,37 @@
                             <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#383838"/>
-                            </Trigger>
-                            <Trigger Property="IsKeyboardFocused" Value="True">
-                                <Setter Property="Background" Value="#242424"/>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True"/>
+                                    <Condition  Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsKeyboardFocused}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" Value="{StaticResource InteractiveHighlightBrush}" />
+
+                            </MultiDataTrigger>
+                            <Trigger Property="IsFocused" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard TargetProperty="Background">
+                                            <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
+                                                To="{StaticResource InteractColor}"
+                                                AutoReverse="False"
+                                                FillBehavior="HoldEnd" 
+                                                Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard TargetProperty="Background">
+                                            <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
+                                                 To="{StaticResource InteractiveColor}"
+                                                 AutoReverse="False"
+                                                 FillBehavior="HoldEnd" 
+                                                 Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -167,7 +248,7 @@
         </Style>
 
         <Style TargetType="Frame">
-            <Setter Property="Background" Value="#282828" />
+            <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
             <Setter Property="BorderThickness" Value="0"  />
             <Setter Property="Padding" Value="0"/>
             <Setter Property="NavigationUIVisibility" Value="Hidden"/>
@@ -551,12 +632,12 @@
 
         <!--#region LISTVIEW-->
         <Style TargetType="ListView">
-            <Setter Property="Background" Value="#242424"/>
+            <Setter Property="Background" Value="{StaticResource InteractBrush}"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="FontSize" Value="20"/>
         </Style>
         <Style TargetType="ListViewItem">
-            <Setter Property="Background" Value="#292929"/>
+            <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
 
             <Setter Property="Template">
                 <Setter.Value>
@@ -578,7 +659,7 @@
                                     Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#323232"/>
+                                <Setter Property="Background" Value="{StaticResource InteractiveBrush}"/>
                             </Trigger>
 
                         </ControlTemplate.Triggers>
@@ -591,7 +672,7 @@
                         <Condition Property="IsSelected" Value="True" />
                     </MultiTrigger.Conditions>
                     <MultiTrigger.Setters>
-                        <Setter Property="Background" Value="#363636" />
+                        <Setter Property="Background" Value="{StaticResource InteractiveHighlightBrush}" />
                     </MultiTrigger.Setters>
                 </MultiTrigger>
             </Style.Triggers>
@@ -649,5 +730,6 @@
             </Style.Triggers>
         </Style>
         <!--#endregion-->
+
     </Application.Resources>
 </Application>

@@ -26,14 +26,14 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Column="1" Grid.Row="1" Content="Данные для входа" HorizontalAlignment="Center" FontSize="24" />
+        <Label Grid.Column="1" Grid.Row="1" Content="Данные для входа:" HorizontalAlignment="Center" FontSize="24" />
 
         <Label FontSize="20" Content="Имя пользователя:"  Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Left" VerticalAlignment="Bottom" />
-        <TextBox FontSize="20" Grid.Row="3" Grid.Column="1" Text="{Binding Username}"  />
+        <TextBox Margin="10" FontSize="20" Grid.Row="3" Grid.Column="1" Text="{Binding Username}"  />
 
         <Label  FontSize="20" Content="Пароль:" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
-        <PasswordBox x:Name="PasswordBox" FontSize="20"  Grid.Row="5" Grid.Column="1"  />
+        <PasswordBox x:Name="PasswordBox" FontSize="20" Margin="10"  Grid.Row="5" Grid.Column="1"  />
 
-        <Button Grid.Row="6" Margin="20" Grid.Column="1" Content="Войти" FontSize="32" />
+        <Button Grid.Row="6" Margin="80,30,80,30" Grid.Column="1" Content="Войти" FontSize="32" Command="{Binding Login}" CommandParameter="{x:Reference Name=PasswordBox}" />
     </Grid>
 </Page>

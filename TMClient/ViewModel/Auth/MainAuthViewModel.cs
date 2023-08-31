@@ -32,7 +32,7 @@ namespace TMClient.ViewModel.Auth
 
         public MainAuthViewModel()
         {
-           // EnteringFrame = Auth;
+           EnteringFrame = Auth;
         }
 
         private void SwitchPages()
