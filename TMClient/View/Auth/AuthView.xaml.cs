@@ -24,5 +24,6 @@ namespace TMClient.View
         {
             InitializeComponent();
         }
+
     }
 }
