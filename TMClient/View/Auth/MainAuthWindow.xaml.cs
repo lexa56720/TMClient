@@ -25,5 +25,6 @@ namespace TMClient.View.Auth
             InitializeComponent();
             DataContext = new MainAuthViewModel();
         }
+
     }
 }

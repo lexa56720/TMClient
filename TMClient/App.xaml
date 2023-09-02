@@ -2,6 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:TMClient"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              StartupUri="View/Auth/MainAuthWindow.xaml">
     <Application.Resources>
         <Color x:Key="ActiveHighlightColor">#0078D7</Color>
@@ -15,10 +16,10 @@
 
         <Color x:Key="InteractColor">#242424</Color>
         <SolidColorBrush x:Key="InteractBrush" Color="{StaticResource InteractColor}"/>
-        
+
         <Color x:Key="BackgroundColor">#282828</Color>
         <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
-        
+
         <Color x:Key="InteractiveColor">#323232</Color>
         <SolidColorBrush x:Key="InteractiveBrush" Color="{StaticResource InteractiveColor}"/>
 
@@ -26,10 +27,10 @@
         <SolidColorBrush x:Key="InteractiveHighlightBrush" Color="{StaticResource InteractiveHighlightColor}"/>
 
 
-        <Color x:Key="ForegroundColor">#E1F5FE</Color>
+        <Color x:Key="ForegroundColor">#F5F5F5</Color>
         <SolidColorBrush x:Key="ForegroundBrush" Color="{StaticResource ForegroundColor}"/>
 
-        <Color x:Key="LightInteractColor"> #545454</Color>
+        <Color x:Key="LightInteractColor">#545454</Color>
         <SolidColorBrush x:Key="LightInteractBrush" Color="{StaticResource LightInteractColor}"/>
 
 
@@ -125,7 +126,7 @@
                 </Style>
             </Style.Resources>
         </Style>
-        
+
         <Style TargetType="GridSplitter">
             <Setter Property="Background" Value="{StaticResource LightInteractBrush}" />
             <Setter Property="Margin" Value="5" />
@@ -147,7 +148,12 @@
             <Setter Property="Padding" Value="5" />
         </Style>
 
+
+
+
+
         <Style TargetType="TextBox">
+
             <Setter Property="Control.FontFamily" Value="{StaticResource SegoeUI}" />
             <Setter Property="Margin" Value="5" />
             <Setter Property="BorderThickness" Value="0"/>
@@ -160,23 +166,15 @@
                 </Style>
             </Style.Resources>
             <Style.Triggers>
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True"/>
-                        <Condition  Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsKeyboardFocused}" Value="False"/>
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Background" Value="{StaticResource InteractiveHighlightBrush}" />
-
-                </MultiDataTrigger>
                 <Trigger Property="IsFocused" Value="True">
                     <Trigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard TargetProperty="Background">
                                 <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
-                                                To="{StaticResource InteractColor}"
-                                                AutoReverse="False"
-                                                FillBehavior="HoldEnd" 
-                                                Duration="0:0:0.2"/>
+                                         To="{StaticResource InteractColor}"
+                                         AutoReverse="False"
+                                         FillBehavior="HoldEnd" 
+                                         Duration="0:0:0.2"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.EnterActions>
@@ -184,10 +182,10 @@
                         <BeginStoryboard>
                             <Storyboard TargetProperty="Background">
                                 <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
-                                                 To="{StaticResource InteractiveColor}"
-                                                 AutoReverse="False"
-                                                 FillBehavior="HoldEnd" 
-                                                 Duration="0:0:0.2"/>
+                                          To="{StaticResource InteractiveColor}"
+                                          AutoReverse="False"
+                                          FillBehavior="HoldEnd" 
+                                          Duration="0:0:0.2"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </Trigger.ExitActions>
@@ -209,14 +207,6 @@
                             <ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
                         </Border>
                         <ControlTemplate.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True"/>
-                                    <Condition  Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsKeyboardFocused}" Value="False"/>
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="Background" Value="{StaticResource InteractiveHighlightBrush}" />
-
-                            </MultiDataTrigger>
                             <Trigger Property="IsFocused" Value="True">
                                 <Trigger.EnterActions>
                                     <BeginStoryboard>

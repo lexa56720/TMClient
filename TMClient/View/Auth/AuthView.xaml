@@ -9,7 +9,7 @@
       Title="AuthView">
 
 
-    <Grid Grid.Row="1" Grid.Column="1">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.2*"/>
             <RowDefinition  />
@@ -22,18 +22,20 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width=".5*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width=".5*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Column="1" Grid.Row="1" Content="Данные для входа:" HorizontalAlignment="Center" FontSize="24" />
+        <Label Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" Content="Данные для входа:" HorizontalAlignment="Center" FontSize="28" />
 
-        <Label FontSize="20" Content="Имя пользователя:"  Grid.Row="2" Grid.Column="1"  HorizontalAlignment="Left" VerticalAlignment="Bottom" />
-        <TextBox Margin="10" FontSize="20" Grid.Row="3" Grid.Column="1" Text="{Binding Username}"  />
+        <Label FontSize="20" Content="Логин:"  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"   HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+        <TextBox Margin="15"  FontSize="20" Grid.Row="3" Grid.ColumnSpan="3"  Grid.Column="1" Text="{Binding Login}" TextWrapping="NoWrap" AcceptsReturn="False"  />
 
-        <Label  FontSize="20" Content="Пароль:" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
-        <PasswordBox x:Name="PasswordBox" FontSize="20" Margin="10"  Grid.Row="5" Grid.Column="1"  />
+        <Label  FontSize="20" Content="Пароль:" Grid.ColumnSpan="3"  Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
+        <PasswordBox x:Name="PasswordBox" FontSize="20" Grid.ColumnSpan="3"  Margin="15"  Grid.Row="5" Grid.Column="1"  />
 
-        <Button Grid.Row="6" Margin="80,30,80,30" Grid.Column="1" Content="Войти" FontSize="32" Command="{Binding Login}" CommandParameter="{x:Reference Name=PasswordBox}" />
+        <Button Grid.Row="6" Margin="40" Grid.Column="2" Content="Войти" Grid.ColumnSpan="1" FontSize="32" Command="{Binding SignInCommand}" CommandParameter="{x:Reference Name=PasswordBox}" />
     </Grid>
 </Page>
