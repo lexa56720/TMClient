@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TMClient.Utils;
 using TMClient.ViewModel.Auth;
 
 namespace TMClient.View.Auth
@@ -24,6 +25,7 @@ namespace TMClient.View.Auth
         {
             InitializeComponent();
             DataContext = new MainAuthViewModel();
+            Messenger.Subscribe(Messages.CloseAuth, Close);
         }
 
     }

@@ -61,7 +61,7 @@
 
         <Style TargetType="Label">
             <Setter Property="Control.FontFamily" Value="{StaticResource SegoeUI}" />
-            <Setter Property="Control.Foreground" Value="{StaticResource ForegroundBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}" />
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="HorizontalContentAlignment" Value="Right"/>
             <Setter Property="Padding" Value="5" />
@@ -147,10 +147,6 @@
             <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
             <Setter Property="Padding" Value="5" />
         </Style>
-
-
-
-
 
         <Style TargetType="TextBox">
 

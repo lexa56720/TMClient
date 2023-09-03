@@ -24,7 +24,7 @@ namespace TMClient.ViewModel.Auth
         }
         private Page enteringFrame;
 
-        private Page Registration { get; } = new RegisterView();
+        private Page Registration { get; } = new SignUpView();
 
         private Page Auth { get; } = new AuthView();
 

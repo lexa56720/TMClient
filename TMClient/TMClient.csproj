@@ -16,19 +16,26 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\config.cfg" />
     <None Remove="Resources\Fonts\SegoeIcons.ttf" />
     <None Remove="Resources\Fonts\segoeui.ttf" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Model\" />
+    <EmbeddedResource Include="Resources\config.cfg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="6.0.6" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="ApiTypes">
+      <HintPath>Lib\ApiTypes.dll</HintPath>
+    </Reference>
     <Reference Include="TMApi">
       <HintPath>Lib\TMApi.dll</HintPath>
     </Reference>

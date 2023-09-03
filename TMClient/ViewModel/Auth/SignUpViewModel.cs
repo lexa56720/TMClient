@@ -13,11 +13,12 @@ using TMClient.View;
 
 namespace TMClient.ViewModel.Auth
 {
-    class AuthViewModel : BaseViewModel
+    class SignUpViewModel : BaseViewModel
     {
 
-        public ICommand SignInCommand => new AsyncCommand<PasswordBox>(SignIn, (o) => IsNotBusy);
+        public string UserName { get; set; } = string.Empty;
 
+        public string Login { get; set; } = string.Empty;
         public bool IsNotBusy
         {
             get => isNotBusy;
@@ -27,8 +28,8 @@ namespace TMClient.ViewModel.Auth
                 OnPropertyChanged(nameof(IsNotBusy));
             }
         }
-        private bool isNotBusy=true;
-        public string Login { get; set; } = string.Empty;
+        private bool isNotBusy = true;
+        public ICommand SignUpCommand => new AsyncCommand<PasswordBox>(SignUp,o=>IsNotBusy);
 
         public Visibility ErrorVisibility
         {
@@ -40,14 +41,14 @@ namespace TMClient.ViewModel.Auth
             }
         }
         private Visibility errorVisibility = Visibility.Collapsed;
-     
 
-        private async Task SignIn(PasswordBox? passwordBox)
+        private async Task SignUp(PasswordBox? passwordBox)
         {
             IsNotBusy = false;
             var password = passwordBox.Password;
             passwordBox.Password = string.Empty;
-            var api = await SignInModel.SignIn(Login, password);
+
+            var api = await SignUpModel.Registration(UserName, Login, password);
             if (api != null)
             {
                 var mainWindow = new MainWindow(api);
@@ -57,7 +58,7 @@ namespace TMClient.ViewModel.Auth
             }
             ErrorVisibility = Visibility.Visible;
             IsNotBusy = true;
-        }
 
+        }
     }
 }

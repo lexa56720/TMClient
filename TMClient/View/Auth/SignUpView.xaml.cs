@@ -19,12 +19,12 @@ namespace TMClient.View
     /// <summary>
     /// Логика взаимодействия для RegisterView.xaml
     /// </summary>
-    public partial class RegisterView : Page
+    public partial class SignUpView : Page
     {
-        public RegisterView()
+        public SignUpView()
         {
             InitializeComponent();
-            DataContext = new RegisterViewModel();
+            DataContext = new SignUpViewModel();
         }
     }
 }
