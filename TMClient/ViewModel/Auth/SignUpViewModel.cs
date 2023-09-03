@@ -13,7 +13,7 @@ using TMClient.View;
 
 namespace TMClient.ViewModel.Auth
 {
-    class SignUpViewModel : BaseViewModel
+    class SignUpViewModel : BaseAuthViewModel
     {
 
         public string UserName { get; set; } = string.Empty;
@@ -50,12 +50,8 @@ namespace TMClient.ViewModel.Auth
 
             var api = await SignUpModel.Registration(UserName, Login, password);
             if (api != null)
-            {
-                var mainWindow = new MainWindow(api);
-                mainWindow.Show();
-                await Messenger.Send(Messages.CloseAuth);
-                return;
-            }
+                await OpenMainWindow(api);
+
             ErrorVisibility = Visibility.Visible;
             IsNotBusy = true;
 

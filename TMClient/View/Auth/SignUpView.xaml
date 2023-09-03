@@ -11,8 +11,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>
-            
-            <RowDefinition/>
+
+            <RowDefinition Height="1.2*"/>
             
             <RowDefinition Height="0.5*"/>
             <RowDefinition/>
@@ -35,15 +35,17 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" Content="Данные для регистрации:" HorizontalAlignment="Center" FontSize="28" />
+        <StackPanel  Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1">
+            <Label Margin="0" Content="Данные для регистрации:" VerticalAlignment="Top" VerticalContentAlignment="Top" Padding="0" HorizontalAlignment="Center" FontSize="28" />
+            <TextBlock FontSize="20" Text="Ошибка!" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#F44336" Visibility="{Binding ErrorVisibility}" />
+        </StackPanel>
 
         <Label  Padding="5,2,5,5"   FontSize="20" VerticalContentAlignment="Center" Content="Имя пользователя:"  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"   HorizontalAlignment="Left"  />
         <TextBox Margin="15"  FontSize="20" Grid.Row="3" Grid.ColumnSpan="3"  Grid.Column="1" Text="{Binding UserName}" TextWrapping="NoWrap" AcceptsReturn="False"  IsEnabled="{Binding IsNotBusy}"  />
 
 
-        <Label  Padding="5,2,5,5"   FontSize="20" Content="Логин:" Grid.ColumnSpan="3"  Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" />
+        <Label   Padding="5,2,5,5"   FontSize="20" Content="Логин:" Grid.ColumnSpan="3"  Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" />
         <TextBox  Padding="5,2,5,5"   Margin="15"  FontSize="20" Grid.Row="5" Grid.ColumnSpan="3"  Grid.Column="1" Text="{Binding Login}"  IsEnabled="{Binding IsNotBusy}" TextWrapping="NoWrap" AcceptsReturn="False"  />
-        <TextBlock FontSize="20" Text="Логин занят" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#F44336" Visibility="{Binding ErrorVisibility}"  Grid.Row="5" Grid.Column="0"/>
 
 
         <Label  Padding="5,2,5,5"   FontSize="20" Content="Пароль:" Grid.ColumnSpan="3"  Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" />

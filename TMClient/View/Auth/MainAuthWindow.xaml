@@ -4,14 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TMClient.View.Auth"
-        mc:Ignorable="d"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="MainAuthWindow" Height="600" Width="800" HorizontalAlignment="Center" VerticalAlignment="Center"  Background="#282828">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
-        <Frame Grid.Row="1"  Content="{Binding EnteringFrame}"/>
-        <Button  Grid.Row="0" Content="SWITH" Command="{Binding Switch}"/>
+        <Frame Grid.Row="1"  Content="{Binding EnteringFrame}" IsEnabled="{Binding IsLoaded}"/>
+        <fa:ImageAwesome Grid.Row="1" Icon="Refresh" Margin="200" Visibility="{Binding LoadingVisibility}" Foreground="White" Spin="True" SpinDuration="10" />
+        <Button  Grid.Row="0" Content="SWITH" Command="{Binding Switch}" IsEnabled="{Binding IsLoaded}" />
     </Grid>
 </Window>

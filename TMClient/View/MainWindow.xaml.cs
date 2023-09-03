@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TMApi;
+using TMClient.ViewModel;
 
 namespace TMClient.View
 {
@@ -24,6 +25,7 @@ namespace TMClient.View
             App.Api=api;
 
             InitializeComponent();
+            DataContext = new MainViewModel();
         }
     }
 }

@@ -28,7 +28,11 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1" Content="Данные для входа:" HorizontalAlignment="Center" FontSize="28" />
+        <StackPanel  Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1"  HorizontalAlignment="Center">
+            <Label Content="Данные для входа:" HorizontalAlignment="Center" FontSize="28" />
+
+            <TextBlock  Text="Неверный логин или пароль" Foreground="#F44336" Visibility="{Binding ErrorVisibility}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" TextWrapping="WrapWithOverflow"/>
+        </StackPanel>
 
         <Label FontSize="20" Content="Логин:"  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"   HorizontalAlignment="Left" VerticalAlignment="Bottom" />
         <TextBox Margin="15"  FontSize="20" Grid.Row="3" Grid.ColumnSpan="3"  Grid.Column="1" Text="{Binding Login}" TextWrapping="NoWrap" AcceptsReturn="False"  IsEnabled="{Binding IsNotBusy}" />
@@ -39,6 +43,5 @@
         <Button Grid.Row="6" Margin="40" Grid.Column="2" Content="Войти" Grid.ColumnSpan="1" FontSize="32" IsEnabled="{Binding IsNotBusy}" Command="{Binding SignInCommand}" CommandParameter="{x:Reference Name=PasswordBox}" />
 
 
-        <TextBlock Grid.Row="3" Grid.RowSpan="3" Text="Неверный логин или пароль" Foreground="#F44336" Visibility="{Binding ErrorVisibility}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="24" TextWrapping="WrapWithOverflow"/>
     </Grid>
 </Page>

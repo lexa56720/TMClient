@@ -13,7 +13,7 @@ using TMClient.View;
 
 namespace TMClient.ViewModel.Auth
 {
-    class AuthViewModel : BaseViewModel
+    class AuthViewModel : BaseAuthViewModel
     {
 
         public ICommand SignInCommand => new AsyncCommand<PasswordBox>(SignIn, (o) => IsNotBusy);
@@ -45,16 +45,12 @@ namespace TMClient.ViewModel.Auth
         private async Task SignIn(PasswordBox? passwordBox)
         {
             IsNotBusy = false;
-            var password = passwordBox.Password;
-            passwordBox.Password = string.Empty;
+            var password = passwordBox.Password;        
             var api = await SignInModel.SignIn(Login, password);
+            passwordBox.Password = string.Empty;
             if (api != null)
-            {
-                var mainWindow = new MainWindow(api);
-                mainWindow.Show();
-                await Messenger.Send(Messages.CloseAuth);
-                return;
-            }
+               await OpenMainWindow(api);
+
             ErrorVisibility = Visibility.Visible;
             IsNotBusy = true;
         }

@@ -25,7 +25,7 @@ namespace TMClient.View.Auth
         {
             InitializeComponent();
             DataContext = new MainAuthViewModel();
-            Messenger.Subscribe(Messages.CloseAuth, Close);
+            Messenger.Subscribe(Messages.CloseAuth,()=> Application.Current.Dispatcher.Invoke(Close));
         }
 
     }

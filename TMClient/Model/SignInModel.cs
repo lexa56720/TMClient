@@ -11,12 +11,9 @@ namespace TMClient.Model
 {
     internal class SignInModel
     {
-        public static async  Task<Api?> SignIn(string login, string password)
+        public static async Task<Api?> SignIn(string login, string password)
         {
-            var ip = IPAddress.Parse(App.Settings.ConfigData["server-ip"]);
-            var authPort = App.Settings.GetValue<int>("auth-port");
-            var apiPort = App.Settings.GetValue<int>("api-port");
-            var provider = new ApiProvider(ip, authPort, apiPort);
+            var provider = AuthModel.ApiProvider;
             return await provider.GetApiLogin(login, password);
         }
     }

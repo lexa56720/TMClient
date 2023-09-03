@@ -12,11 +12,8 @@ namespace TMClient.Model
     {
         public static async Task<Api?> Registration(string name, string login, string password)
         {
-            var ip = IPAddress.Parse(App.Settings.ConfigData["server-ip"]);
-            var authPort = App.Settings.GetValue<int>("auth-port");
-            var apiPort = App.Settings.GetValue<int>("api-port");
-            var provider = new ApiProvider(ip, authPort, apiPort);
-            return await provider.GetApiRegister(name, login, password);
+            var provider = AuthModel.ApiProvider;
+            return await provider.GetApiRegistration(name, login, password);
         }
     }
 }
