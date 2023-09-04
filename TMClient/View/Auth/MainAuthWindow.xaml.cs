@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TMClient.Controls;
 using TMClient.Utils;
 using TMClient.ViewModel.Auth;
 
@@ -19,7 +20,7 @@ namespace TMClient.View.Auth
     /// <summary>
     /// Логика взаимодействия для MainAuthWindow.xaml
     /// </summary>
-    public partial class MainAuthWindow : Window
+    public partial class MainAuthWindow : ModernWindow
     {
         public MainAuthWindow()
         {

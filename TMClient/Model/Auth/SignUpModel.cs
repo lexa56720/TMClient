@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TMApi;
 
-namespace TMClient.Model
+namespace TMClient.Model.Auth
 {
     internal class SignUpModel
     {

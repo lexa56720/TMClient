@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\AppIcon.png" />
     <None Remove="Resources\config.cfg" />
     <None Remove="Resources\Fonts\SegoeIcons.ttf" />
     <None Remove="Resources\Fonts\segoeui.ttf" />
@@ -43,6 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\AppIcon.png" />
     <Resource Include="Resources\Fonts\SegoeIcons.ttf" />
     <Resource Include="Resources\Fonts\segoeui.ttf" />
   </ItemGroup>

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TMApi;
 
-namespace TMClient.Model
+namespace TMClient.Model.Auth
 {
     internal class AuthModel
     {
@@ -26,7 +26,7 @@ namespace TMClient.Model
 
         public static async Task<Api?> TryGetApi()
         {
-            var path = App.AppFolder;
+            var path = App.AuthFolder;
             if (File.Exists(path))
             {
                 var bytes = await File.ReadAllBytesAsync(path);

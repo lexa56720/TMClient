@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:TMClient"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             StartupUri="View/Auth/MainAuthWindow.xaml">
+             xmlns:controls="clr-namespace:TMClient.Controls"
+             StartupUri="View/Auth/MainAuthWindow.xaml"
+             Exit="Application_Exit">
     <Application.Resources>
         <Color x:Key="ActiveHighlightColor">#0078D7</Color>
         <SolidColorBrush x:Key="ActiveHighlightBrush" Color="{StaticResource ActiveHighlightColor}"/>
@@ -32,6 +34,9 @@
 
         <Color x:Key="LightInteractColor">#545454</Color>
         <SolidColorBrush x:Key="LightInteractBrush" Color="{StaticResource LightInteractColor}"/>
+
+
+        <Color x:Key="RedColor">#F44336</Color>
 
 
         <FontFamily x:Key="SegoeIcons">./Resources/Fonts/#Segoe Fluent Icons</FontFamily>
@@ -67,6 +72,96 @@
             <Setter Property="Padding" Value="5" />
         </Style>
 
+        <Style x:Key="CloseButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button" >
+                        <Grid Background="Transparent" Width="44" Height="30">
+                            <Border  x:Name="LayoutRoot" CornerRadius="5" Background="#00F44336">
+                                <TextBlock x:Name="txt" Text="{TemplateBinding Content}" FontFamily="{StaticResource SegoeIcons}" FontSize="10" 
+                                   Foreground="{StaticResource ForegroundBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   RenderOptions.ClearTypeHint="Auto" TextOptions.TextRenderingMode="Aliased"  TextOptions.TextFormattingMode="Display"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="LayoutRoot"  Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
+                                                    To="{StaticResource RedColor}"
+                                                    AutoReverse="False"
+                                                    FillBehavior="HoldEnd" 
+                                                    Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="LayoutRoot"  Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
+                                                To="#00383838"
+                                                AutoReverse="False"
+                                                FillBehavior="HoldEnd" 
+                                                Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="CaptionButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button" >
+                        <Grid Background="Transparent" Width="44" Height="30">
+                            <Border  x:Name="LayoutRoot" CornerRadius="5" Background="#00383838">
+                                <TextBlock x:Name="txt" Text="{TemplateBinding Content}" FontFamily="{StaticResource SegoeIcons}" FontSize="10" 
+                                   Foreground="{StaticResource ForegroundBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                   RenderOptions.ClearTypeHint="Auto" TextOptions.TextRenderingMode="Aliased"  TextOptions.TextFormattingMode="Display"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="LayoutRoot"  Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
+                                                    To="{StaticResource InteractiveHighlightColor}"
+                                                    AutoReverse="False"
+                                                    FillBehavior="HoldEnd" 
+                                                    Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                            
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="LayoutRoot"  Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
+                                                To="#00383838"
+                                                AutoReverse="False"
+                                                FillBehavior="HoldEnd" 
+                                                Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style TargetType="controls:IconButton" BasedOn="{StaticResource ResourceKey={x:Type Button}}">
+            
+        </Style>
+            
         <Style TargetType="Button">
             <Style.Resources>
                 <Style TargetType="Border">

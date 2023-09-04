@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using TMApi;
 
-namespace TMClient.Model
+namespace TMClient.Model.Auth
 {
     internal class SignInModel
     {

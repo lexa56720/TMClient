@@ -1,4 +1,4 @@
-﻿<Window x:Class="TMClient.View.Auth.MainAuthWindow"
+﻿<controls:ModernWindow  xmlns:controls="clr-namespace:TMClient.Controls" x:Class="TMClient.View.Auth.MainAuthWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,11 +9,12 @@
         Title="MainAuthWindow" Height="600" Width="800" HorizontalAlignment="Center" VerticalAlignment="Center"  Background="#282828">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
             <RowDefinition Height="10*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <Frame Grid.Row="1"  Content="{Binding EnteringFrame}" IsEnabled="{Binding IsLoaded}"/>
-        <fa:ImageAwesome Grid.Row="1" Icon="Refresh" Margin="200" Visibility="{Binding LoadingVisibility}" Foreground="White" Spin="True" SpinDuration="10" />
-        <Button  Grid.Row="0" Content="SWITH" Command="{Binding Switch}" IsEnabled="{Binding IsLoaded}" />
+        
+        <Frame Grid.Row="0"  Content="{Binding EnteringFrame}" IsEnabled="{Binding IsLoaded}"/>
+        <fa:ImageAwesome Grid.Row="0" Icon="Refresh" Margin="200" Visibility="{Binding LoadingVisibility}" Foreground="White" Spin="True" SpinDuration="10" />
+        <Button  Grid.Row="1" Content="SWITH" Command="{Binding Switch}" IsEnabled="{Binding IsLoaded}" />
     </Grid>
-</Window>
+</controls:ModernWindow>
