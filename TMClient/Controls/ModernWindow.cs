@@ -22,16 +22,19 @@ namespace TMClient.Controls
         private StackPanel IconPanel = new StackPanel();
         private StackPanel WindowButtons = new StackPanel();
 
+
+        public Button MinimizeButton { get; private set; }
+        public IconButton MaximizeButton { get; private set; }
+        public IconButton RestoreButton { get; private set; }
+        public IconButton CloseButton { get; private set; }
+
         private WindowChrome Chrome = new WindowChrome()
         {
             CaptionHeight = 34,
             CornerRadius = new CornerRadius(5)
         };
 
-        public Button MinimizeButton { get; private set; }
-        public IconButton MaximizeButton { get; private set; }
-        public IconButton RestoreButton { get; private set; }
-        public IconButton CloseButton { get; private set; }
+
 
         public ModernWindow()
         {

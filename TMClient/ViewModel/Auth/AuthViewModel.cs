@@ -23,11 +23,15 @@ namespace TMClient.ViewModel.Auth
             get => isNotBusy;
             set
             {
+                if (value)
+                    Messenger.Send(Messages.AuthLoadingFinish);
+                else
+                    Messenger.Send(Messages.AuthLoadingStart);
                 isNotBusy = value;
                 OnPropertyChanged(nameof(IsNotBusy));
             }
         }
-        private bool isNotBusy=true;
+        private bool isNotBusy = true;
         public string Login { get; set; } = string.Empty;
 
         public Visibility ErrorVisibility
@@ -40,16 +44,17 @@ namespace TMClient.ViewModel.Auth
             }
         }
         private Visibility errorVisibility = Visibility.Collapsed;
-     
+
 
         private async Task SignIn(PasswordBox? passwordBox)
         {
             IsNotBusy = false;
-            var password = passwordBox.Password;        
+
+            var password = passwordBox.Password;
             var api = await SignInModel.SignIn(Login, password);
             passwordBox.Password = string.Empty;
             if (api != null)
-               await OpenMainWindow(api);
+                await OpenMainWindow(api);
 
             ErrorVisibility = Visibility.Visible;
             IsNotBusy = true;

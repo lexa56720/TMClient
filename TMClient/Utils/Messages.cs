@@ -9,5 +9,7 @@ namespace TMClient.Utils
    public enum Messages
     {
         CloseAuth,
+        AuthLoadingStart,
+        AuthLoadingFinish
     }
 }

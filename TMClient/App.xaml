@@ -345,6 +345,12 @@
             <Setter Property="BorderThickness" Value="0" />
         </Style>
 
+        <Style TargetType="Window">
+            <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+        </Style>
+        <Style TargetType="controls:ModernWindow">
+            <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+        </Style>
         <!--#region ScrollBar -->
 
         <SolidColorBrush x:Key="StandardBorderBrush" Color="SeaGreen" />

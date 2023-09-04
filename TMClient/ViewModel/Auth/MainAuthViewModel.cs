@@ -27,9 +27,18 @@ namespace TMClient.ViewModel.Auth
         private Page enteringFrame = null!;
 
         private Page Registration { get; } = new SignUpView();
-
         private Page Auth { get; } = new AuthView();
 
+        public bool IsLoginPage
+        {
+            get => isLoginPage;
+            set
+            {
+                isLoginPage = value;
+                OnPropertyChanged(nameof(IsLoginPage));
+            }
+        }
+        private bool isLoginPage = true;
         public ICommand Switch => new Command(SwitchPages);
 
         public bool IsLoaded
@@ -39,13 +48,13 @@ namespace TMClient.ViewModel.Auth
             {
                 isLoaded = value;
                 if (value)
-                    LoadingVisibility = Visibility.Hidden; 
+                    LoadingVisibility = Visibility.Hidden;
                 else
                     LoadingVisibility = Visibility.Visible;
                 OnPropertyChanged(nameof(IsLoaded));
             }
         }
-        private bool isLoaded=false;
+        private bool isLoaded = false;
 
         public Visibility LoadingVisibility
         {
@@ -58,10 +67,16 @@ namespace TMClient.ViewModel.Auth
         }
         private Visibility loadingVisibility = Visibility.Visible;
 
+
         public MainAuthViewModel()
         {
             EnteringFrame = Auth;
             TryToLoadAuth();
+            Messenger.Subscribe(Messages.AuthLoadingStart, 
+                ()=> Application.Current.Dispatcher.Invoke(()=> IsLoaded = false));
+            Messenger.Subscribe(Messages.AuthLoadingFinish,
+                () => Application.Current.Dispatcher.Invoke(() => IsLoaded = true));
+
         }
 
         private void TryToLoadAuth()
@@ -76,17 +91,18 @@ namespace TMClient.ViewModel.Auth
                     return;
                 }
 
-                IsLoaded = true;        
+                IsLoaded = true;
             });
         }
 
 
         private void SwitchPages()
         {
-            if (EnteringFrame == Registration)
-                EnteringFrame = Auth;
-            else
+            if (IsLoginPage)
                 EnteringFrame = Registration;
+            else
+                EnteringFrame = Auth;
+            IsLoginPage = !IsLoginPage;
         }
     }
 }
