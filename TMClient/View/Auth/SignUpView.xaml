@@ -52,6 +52,6 @@
         <Label  Padding="5,2,5,5"   FontSize="20" Content="Пароль:" Grid.ColumnSpan="3"  Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" />
         <PasswordBox x:Name="PasswordBox" FontSize="20" Grid.ColumnSpan="3"  Margin="15"  Grid.Row="7" Grid.Column="1"  IsEnabled="{Binding IsNotBusy}"  />
 
-        <Button Grid.Row="8" Margin="20" Grid.Column="2" Content="Войти" Grid.ColumnSpan="1" FontSize="32"  IsEnabled="{Binding IsNotBusy}" Command="{Binding SignUpCommand,IsAsync=True}" CommandParameter="{x:Reference Name=PasswordBox}" />
+        <Button Grid.Row="8" Margin="40,20,40,20" Grid.Column="2" Content="Войти" Grid.ColumnSpan="1" FontSize="32"  IsEnabled="{Binding IsNotBusy}" Command="{Binding SignUpCommand,IsAsync=True}" CommandParameter="{x:Reference Name=PasswordBox}" />
     </Grid>
 </Page>
