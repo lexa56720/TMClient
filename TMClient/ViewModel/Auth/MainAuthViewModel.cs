@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AsyncAwaitBestPractices.MVVM;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -39,7 +40,10 @@ namespace TMClient.ViewModel.Auth
             }
         }
         private bool isLoginPage = true;
+
         public ICommand Switch => new Command(SwitchPages);
+
+        public ICommand WindowLoaded => new AsyncCommand(TryToLoadApi);
 
         public bool IsLoaded
         {
@@ -71,28 +75,25 @@ namespace TMClient.ViewModel.Auth
         public MainAuthViewModel()
         {
             EnteringFrame = Auth;
-            TryToLoadAuth();
-            Messenger.Subscribe(Messages.AuthLoadingStart, 
-                ()=> Application.Current.Dispatcher.Invoke(()=> IsLoaded = false));
+
+            Messenger.Subscribe(Messages.AuthLoadingStart,
+                () => Application.Current.Dispatcher.Invoke(() => IsLoaded = false));
             Messenger.Subscribe(Messages.AuthLoadingFinish,
                 () => Application.Current.Dispatcher.Invoke(() => IsLoaded = true));
-
         }
 
-        private void TryToLoadAuth()
+        private async Task TryToLoadApi()
         {
-            Task.Run(async () =>
+            IsLoaded = false;
+            var api = await AuthModel.TryGetApi();
+            if (api != null)
             {
-                IsLoaded = false;
-                var api = await AuthModel.TryGetApi();
-                if (api != null)
-                {
-                    await OpenMainWindow(api);
-                    return;
-                }
-
                 IsLoaded = true;
-            });
+                await OpenMainWindow(api);
+                return;
+            }
+
+            IsLoaded = true;
         }
 
 

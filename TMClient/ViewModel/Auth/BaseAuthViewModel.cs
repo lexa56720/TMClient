@@ -14,6 +14,7 @@ namespace TMClient.ViewModel.Auth
 
         protected async Task OpenMainWindow(Api api)
         {
+      
             var mainWindow = new MainWindow(api);
             mainWindow.Show();
             await Messenger.Send(Messages.CloseAuth);

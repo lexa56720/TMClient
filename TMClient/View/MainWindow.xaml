@@ -11,11 +11,20 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="4*"/>
+        </Grid.ColumnDefinitions>
 
 
-        <Frame  Grid.Row="0" Content="{Binding MainFrame}"/>
+        <Frame Grid.Row="0"  Grid.Column="0" Background="Green" />
+
+        <GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"  Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+        
+        <Frame  Grid.Row="0" Grid.Column="2" Background="Red" Content="{Binding MainFrame}"/>
 
 
   
