@@ -22,11 +22,12 @@
 
         <Frame Grid.Row="0"  Grid.Column="0"  Content="{Binding SidePanelFrame}" />
 
-        <GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"  Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+        <GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"  Width="8" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
         
-        <Frame  Grid.Row="0" Grid.Column="2" Background="Red" Content="{Binding MainFrame}"/>
+        <Frame  Grid.Row="0" Grid.Column="2"  Content="{Binding MainFrame}"/>
+
+        <TextBlock  Grid.Row="0" Grid.Column="2" Background="Black" Text="WELCOME" TextAlignment="Center" VerticalAlignment="Stretch" FontSize="64" HorizontalAlignment="Stretch"   />
 
 
-  
     </Grid>
 </controls:ModernWindow>

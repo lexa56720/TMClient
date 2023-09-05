@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TMClient.ViewModel;
 
 namespace TMClient.View
 {
@@ -23,6 +24,7 @@ namespace TMClient.View
         public SidePanel()
         {
             InitializeComponent();
+            DataContext = new SidePanelViewModel();
         }
     }
 }
