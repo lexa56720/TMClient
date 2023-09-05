@@ -20,7 +20,7 @@
         </Grid.ColumnDefinitions>
 
 
-        <Frame Grid.Row="0"  Grid.Column="0" Background="Green" />
+        <Frame Grid.Row="0"  Grid.Column="0"  Content="{Binding SidePanelFrame}" />
 
         <GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"  Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
         

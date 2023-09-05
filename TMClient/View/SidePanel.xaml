@@ -1,0 +1,53 @@
+﻿<Page x:Class="TMClient.View.SidePanel"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TMClient.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="300"
+      Title="SidePanel">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0">
+                <Label Content="Друзья" HorizontalAlignment="Left" FontSize="20"/>
+                <ScrollViewer VerticalScrollBarVisibility="Visible">
+                    <ListView>
+                        <TextBlock>LG Nexus 5X</TextBlock>
+                        <TextBlock>Huawei Nexus 6P</TextBlock>
+                        <TextBlock>iPhone 6S</TextBlock>
+                        <TextBlock>iPhone 6S Plus</TextBlock>
+                        <TextBlock>Аsus Zenphone 2</TextBlock>
+                        <TextBlock>Microsoft Lumia 950</TextBlock>
+                    </ListView>
+                </ScrollViewer>
+           
+            </StackPanel>
+
+            <StackPanel  Grid.Row="2">
+                <Label Content="Чаты" HorizontalAlignment="Left" FontSize="20"/>
+                <ListView>
+                    <TextBlock>LG Nexus 5X</TextBlock>
+                    <TextBlock>Huawei Nexus 6P</TextBlock>
+                    <TextBlock>iPhone 6S</TextBlock>
+                    <TextBlock>iPhone 6S Plus</TextBlock>
+                    <TextBlock>Аsus Zenphone 2</TextBlock>
+                    <TextBlock>Microsoft Lumia 950</TextBlock>
+                </ListView>
+            </StackPanel>
+            <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch"  Height="5" VerticalAlignment="Center"/>
+        </Grid>
+    </Grid>
+</Page>
