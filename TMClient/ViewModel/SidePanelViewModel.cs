@@ -10,7 +10,7 @@ namespace TMClient.ViewModel
 {
     class SidePanelViewModel : BaseViewModel
     {
-        public ObservableCollection<Friend> Friends
+        public ObservableCollection<User> Friends
         {
             get => friends;
             set
@@ -20,12 +20,12 @@ namespace TMClient.ViewModel
             }
         }
 
-        private ObservableCollection<Friend> friends = new ObservableCollection<Friend>();
+        private ObservableCollection<User> friends = new ObservableCollection<User>();
 
         public SidePanelViewModel()
         {
             for (int i = 0; i < 20; i++)
-                Friends.Add(new Friend() { Name = "Ffff" });
+                Friends.Add(new User() { Name = "Ffff",IsOnline=true,Id=1 });
         }
 
     }

@@ -29,19 +29,30 @@ namespace TMClient.Controls
                 textVisibility = value;
                 OnPropertyChanged(nameof(TextVisibility));
             }
-              
-        }
-        private Visibility textVisibility=Visibility.Collapsed;
 
+        }
+        private Visibility textVisibility = Visibility.Collapsed;
+
+        public Orientation Orientation
+        {
+            get => orientation;
+            set
+            {
+                orientation = value;
+                OnPropertyChanged(nameof(Orientation));
+            }
+        }
+        private Orientation orientation = Orientation.Horizontal;
         public string Text
         {
-            get { return (string)GetValue(DateProperty); }
-            set { SetValue(DateProperty, value); }
+            get { return (string)GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
         }
 
-        public static readonly DependencyProperty DateProperty =
+        public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register("Text", typeof(string), typeof(IconButton),
             new PropertyMetadata(string.Empty, TextPropertyChanged));
+
 
         public string Icon
         {
@@ -49,14 +60,13 @@ namespace TMClient.Controls
             set => icon = value;
         }
         private string icon;
-    
+
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public IconButton()
         {
             InitializeComponent();
-            DataContext = this;
         }
 
 
@@ -66,7 +76,7 @@ namespace TMClient.Controls
                 TextVisibility = Visibility.Collapsed;
             else
                 TextVisibility = Visibility.Visible;
-            OnPropertyChanged(text);
+            OnPropertyChanged(nameof(Text));
         }
 
         private static void TextPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
