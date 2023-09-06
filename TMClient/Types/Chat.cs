@@ -10,7 +10,6 @@ namespace TMClient.Types
 {
     class Chat : INotifyPropertyChanged
     {
-
         public int Id { get; init; }
 
         public required string Name
@@ -23,7 +22,7 @@ namespace TMClient.Types
             }
         }
         private string name = string.Empty;
-        
+
         public User? WritingUser
         {
             get => writingUser;
@@ -35,8 +34,18 @@ namespace TMClient.Types
         }
         private User? writingUser;
 
-        public ObservableCollection<User> Users { get; set; } = new();
+        public Message? LastMessage
+        {
+            get => lastMessage;
+            set
+            {
+                lastMessage = value;
+                OnPropertyChanged(nameof(LastMessage));
+            }
+        }
+        private Message? lastMessage;
 
+        public ObservableCollection<User> Members { get; set; } = new();
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

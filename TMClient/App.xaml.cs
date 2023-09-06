@@ -5,6 +5,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Windows;
 using TMApi;
+using TMClient.Types;
 
 namespace TMClient
 {
@@ -16,6 +17,7 @@ namespace TMClient
     /// </summary>
     public partial class App : Application
     {
+        internal static UserDataStorage? UserData { get; private set; }
         public static Api? Api { get; set; }
 
         public static Configurator Settings = new Configurator("config.cfg", true);
