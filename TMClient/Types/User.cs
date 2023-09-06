@@ -1,6 +1,8 @@
-﻿using System;
+﻿using ApiTypes.Communication.Users;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +35,13 @@ namespace TMClient.Types
         }
         private bool isOnline = false;
 
+        [SetsRequiredMembers]
+        public User(ApiTypes.Communication.Users.User user)
+        {
+            Id=user.Id;
+            Name=user.Name;
+            IsOnline=user.IsOnline;
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
