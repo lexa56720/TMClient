@@ -43,8 +43,6 @@
         
         <Frame  Grid.Row="0" Grid.Column="3"  Content="{Binding MainFrame}"/>
 
-        <TextBlock  Grid.Row="0" Grid.Column="3" Background="Black" Text="WELCOME" TextAlignment="Center" VerticalAlignment="Stretch" FontSize="64" HorizontalAlignment="Stretch"   />
-
 
     </Grid>
 </controls:ModernWindow>

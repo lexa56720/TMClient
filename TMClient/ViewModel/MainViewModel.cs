@@ -56,6 +56,7 @@ namespace TMClient.ViewModel
         public MainViewModel()
         {
             Panel = new SidePanel();
+            MainFrame = new ChatView();
             SidePanelFrame = Panel;
         }
 

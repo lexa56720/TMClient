@@ -9,8 +9,5 @@ namespace TMClient.Types
     internal class FriendRequest
     {
         public required User From { get; init; }
-
-        public required DateTime Date { get; init; }
-
     }
 }

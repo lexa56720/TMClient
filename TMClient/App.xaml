@@ -19,9 +19,11 @@
         <Color x:Key="InteractColor">#242424</Color>
         <SolidColorBrush x:Key="InteractBrush" Color="{StaticResource InteractColor}"/>
 
+        <Color x:Key="BackgroundDarkColor">#262626</Color>
+        <SolidColorBrush x:Key="BackgroundDarkBrush" Color="{StaticResource BackgroundDarkColor}"/>
+
         <Color x:Key="BackgroundColor">#282828</Color>
         <SolidColorBrush x:Key="BackgroundBrush" Color="{StaticResource BackgroundColor}"/>
-
 
         <Color x:Key="BackgroundLightColor">#303030</Color>
         <SolidColorBrush x:Key="BackgroundLightBrush" Color="{StaticResource BackgroundLightColor}"/>
@@ -315,7 +317,6 @@
         </Style>
 
         <Style TargetType="TextBox">
-
             <Setter Property="Control.FontFamily" Value="{StaticResource SegoeUI}" />
             <Setter Property="Margin" Value="5" />
             <Setter Property="BorderThickness" Value="0"/>
@@ -345,6 +346,46 @@
                             <Storyboard TargetProperty="Background">
                                 <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
                                           To="{StaticResource InteractiveColor}"
+                                          AutoReverse="False"
+                                          FillBehavior="HoldEnd" 
+                                          Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="DarkTextBox" TargetType="TextBox">
+            <Setter Property="Control.FontFamily" Value="{StaticResource SegoeUI}" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#181818" />
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5" />
+                </Style>
+            </Style.Resources>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard TargetProperty="Background">
+                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
+                                         To="#141414"
+                                         AutoReverse="False"
+                                         FillBehavior="HoldEnd" 
+                                         Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard TargetProperty="Background">
+                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
+                                          To="#181818"
                                           AutoReverse="False"
                                           FillBehavior="HoldEnd" 
                                           Duration="0:0:0.2"/>
@@ -422,6 +463,7 @@
         <Style TargetType="controls:ModernWindow">
             <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
         </Style>
+
         <!--#region ScrollBar -->
 
         <SolidColorBrush x:Key="StandardBorderBrush" Color="SeaGreen" />

@@ -42,6 +42,9 @@ namespace TMClient.Types
             Name=user.Name;
             IsOnline=user.IsOnline;
         }
+        public User()
+        {
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
