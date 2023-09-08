@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,35 +21,51 @@ namespace TMClient.Controls
     /// <summary>
     /// Логика взаимодействия для MessageControl.xaml
     /// </summary>
-    public partial class MessageControl : UserControl,INotifyPropertyChanged
+    public partial class MessageControl : UserControl, INotifyPropertyChanged
     {
-        public bool IsOwn
+        public required bool IsOwn
         {
             get => isOwn;
             set
             {
                 isOwn = value;
-                OnPropertyWasChanged(nameof(IsOwn));
+                OnPropertyChanged(nameof(IsOwn));
             }
         }
         private bool isOwn;
 
-        public string Text
+        public required string Text
         {
             get => text;
             set
             {
                 text = value;
-                OnPropertyWasChanged(nameof(Text));
+                OnPropertyChanged(nameof(Text));
             }
         }
-        private string text;
+        private string text = string.Empty;
+
+        public required string Time
+        {
+            get => time;
+            set
+            {
+                time = value;
+                OnPropertyChanged(nameof(Time));
+            }
+        }
+        private string time=string.Empty;
+
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        [SetsRequiredMembers]
         public MessageControl(Message message)
         {
             InitializeComponent();
+            IsOwn = message.Id == App.Api.Id;
+            Text = message.Text;
+            Time = message.SendTime.ToString();
             DataContext = this;
         }
         public MessageControl()
@@ -56,7 +73,7 @@ namespace TMClient.Controls
             InitializeComponent();
             DataContext = this;
         }
-        private void OnPropertyWasChanged(string propertyName)
+        private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

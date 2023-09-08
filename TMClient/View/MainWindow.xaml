@@ -7,7 +7,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TMClient.View" Background="{StaticResource BackgroundLightBrush}"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="700" Width="900">
+        Title="MainWindow" Height="700" Width="900" MinHeight="400" MinWidth="600" >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

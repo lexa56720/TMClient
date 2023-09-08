@@ -14,9 +14,10 @@
         </Grid.RowDefinitions>
 
         <Border Background="#202020" CornerRadius="5">
-            <ListView >
-                <controls:MessageControl IsOwn="True" Text="FFFFFF" />
-            </ListView>
+            <Grid>
+                <ListView ItemsSource="{Binding Messages}" HorizontalContentAlignment="Stretch"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
+            </Grid>
         </Border>
         
         <DockPanel  HorizontalAlignment="Stretch" Grid.Row="1" Margin="10">

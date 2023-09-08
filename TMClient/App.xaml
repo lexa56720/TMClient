@@ -7,6 +7,13 @@
              StartupUri="View/Auth/MainAuthWindow.xaml"
              Exit="Application_Exit">
     <Application.Resources>
+
+        <Color x:Key="OwnMessageColor">#1976D2</Color>
+        <SolidColorBrush x:Key="OwnMessageBrush" Color="{StaticResource OwnMessageColor}"/>
+
+        <Color x:Key="UserMessageColor">#424242</Color>
+        <SolidColorBrush x:Key="UserMessageBrush" Color="{StaticResource UserMessageColor}"/>
+
         <Color x:Key="ActiveHighlightColor">#0078D7</Color>
         <SolidColorBrush x:Key="ActiveHighlightBrush" Color="{StaticResource ActiveHighlightColor}"/>
 
