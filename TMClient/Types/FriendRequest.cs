@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TMClient.Types
 {
-    internal class FriendRequest
+    public class FriendRequest
     {
         public required User From { get; init; }
     }

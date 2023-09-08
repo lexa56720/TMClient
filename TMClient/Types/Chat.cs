@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TMClient.Types
 {
-    class Chat : INotifyPropertyChanged
+    public class Chat : INotifyPropertyChanged
     {
         public int Id { get; init; }
 

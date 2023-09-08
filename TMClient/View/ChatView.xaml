@@ -15,11 +15,7 @@
 
         <Border Background="#202020" CornerRadius="5">
             <ListView >
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="fffdf"/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
+                <controls:MessageControl IsOwn="True" Text="FFFFFF" />
             </ListView>
         </Border>
         

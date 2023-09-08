@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TMClient.Types
 {
-    internal class ChatInvite
+    public class ChatInvite
     {
         public required User Inviter { get; init; }
 

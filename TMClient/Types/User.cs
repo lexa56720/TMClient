@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace TMClient.Types
 {
-    class User : INotifyPropertyChanged
+    public class User : INotifyPropertyChanged
     {
         public required int Id { get; init; }
 
@@ -38,9 +38,9 @@ namespace TMClient.Types
         [SetsRequiredMembers]
         public User(ApiTypes.Communication.Users.User user)
         {
-            Id=user.Id;
-            Name=user.Name;
-            IsOnline=user.IsOnline;
+            Id = user.Id;
+            Name = user.Name;
+            IsOnline = user.IsOnline;
         }
         public User()
         {

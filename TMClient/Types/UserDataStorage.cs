@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace TMClient.Types
 {
-    class UserDataStorage
+    public class UserDataStorage
     {
         public required User CurrentUser { get; init; }
         public ObservableCollection<User> Friends { get; set; } = new();
@@ -17,7 +17,7 @@ namespace TMClient.Types
         public ObservableCollection<Chat> Chats { get; set; } = new();
 
         [SetsRequiredMembers]
-        public UserDataStorage(User currentUser) 
+        public UserDataStorage(User currentUser)
         {
             CurrentUser = currentUser;
         }

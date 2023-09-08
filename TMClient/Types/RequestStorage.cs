@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TMClient.Types
 {
-    internal class RequestStorage : INotifyPropertyChanged
+    public class RequestStorage : INotifyPropertyChanged
     {
         public ObservableCollection<FriendRequest> FriendRequests
         {
