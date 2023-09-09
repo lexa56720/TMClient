@@ -9,12 +9,11 @@ using TMClient.View;
 
 namespace TMClient.ViewModel.Auth
 {
-    internal class BaseAuthViewModel:BaseViewModel
+    internal abstract class BaseAuthViewModel:BaseViewModel
     {
 
         protected async Task OpenMainWindow(Api api)
-        {
-      
+        {    
             var mainWindow = new MainWindow(api);
             mainWindow.Show();
             await Messenger.Send(Messages.CloseAuth);

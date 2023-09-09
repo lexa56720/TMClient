@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace TMClient.Types
 {
     public class Chat : INotifyPropertyChanged
     {
-        public int Id { get; init; }
+        public required int Id { get; init; }
 
         public required string Name
         {
@@ -49,6 +50,16 @@ namespace TMClient.Types
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        [SetsRequiredMembers]
+        public Chat(ApiTypes.Communication.Chats.Chat chat, User[] users)
+        {
+            Id = chat.Id;
+            Name = chat.Name;
+            Members = new ObservableCollection<User>(users);
+        }
+        public Chat()
+        {
+        }
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

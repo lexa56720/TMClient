@@ -19,9 +19,9 @@
             </Grid>
         </Border>
 
-        <DockPanel  HorizontalAlignment="Stretch" Grid.Row="1" Margin="10">
-            <local:IconButton DockPanel.Dock="Right" Icon="&#xE724;" FontSize="32" VerticalAlignment="Bottom" Margin="5" />
-            <local:IconButton DockPanel.Dock="Right" Icon="&#xE723;" FontSize="32" VerticalAlignment="Bottom" Margin="5" />
+        <DockPanel  HorizontalAlignment="Stretch" Grid.Row="1" Margin="5,10,5,10">
+            <local:IconButton DockPanel.Dock="Right" Icon="&#xE724;" FontSize="32" VerticalAlignment="Bottom" Margin="5" Command="{Binding SendCommand}" />
+            <local:IconButton DockPanel.Dock="Right" Icon="&#xE723;" FontSize="32" VerticalAlignment="Bottom" Margin="5" Command="{Binding AttachCommand}" />
             <TextBox DockPanel.Dock="Left" TextWrapping="Wrap" HorizontalAlignment="Stretch" MaxLength="256" 
               FontSize="24" MaxLines="10" Style="{StaticResource DarkTextBox}" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" />
         </DockPanel>

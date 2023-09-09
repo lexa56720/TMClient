@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using TMClient.Types;
 using TMClient.Utils;
 using TMClient.View;
 
@@ -56,7 +57,7 @@ namespace TMClient.ViewModel
         public MainViewModel()
         {
             Panel = new SidePanel();
-            MainFrame = new ChatView();
+            MainFrame = new ChatView(new Chat() { Id=0, Name="намба ван чат"});
             SidePanelFrame = Panel;
         }
 

@@ -14,6 +14,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TMClient.Controls;
+using TMClient.Types;
+using TMClient.ViewModel;
+using TMClient.ViewModel.Chats;
 
 namespace TMClient.View
 {
@@ -22,18 +25,10 @@ namespace TMClient.View
     /// </summary>
     public partial class ChatView : Page
     {
-        public ObservableCollection<MessageControl> Messages { get; set; } = new();
-        public ChatView()
+        public ChatView(Chat chat)
         {
             InitializeComponent();
-            DataContext = this;
-            for (int i = 0; i < 20; i++)
-                Messages.Add(new MessageControl()
-                {
-                    IsOwn = Random.Shared.NextDouble()>0.5f,
-                    Time="сегоддня",
-                    Text = new string('F', 100)
-                });
+            DataContext = new ChatViewModel(chat);
         }
     }
 }

@@ -8,94 +8,105 @@
       d:DesignHeight="800" d:DesignWidth="300"
       Title="SidePanel">
 
-    <Grid>
+    <Grid Background="{StaticResource BackgroundLightBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="12*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0"  HorizontalAlignment="Stretch" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition  Height="auto"/>
-            </Grid.RowDefinitions>
-            <TextBox MaxLength="32" Grid.Row="2" Margin="10" FontSize="20" />
-            <controls:IconButton Grid.Row="2" Margin="-5,10,5,10" Grid.Column="1"  Icon="&#xE71E;" HorizontalAlignment="Stretch"  />
-        </Grid>
-
-        <Border Grid.Row="1" Background="#222222" CornerRadius="5">
-            
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0" >
-                
+        <Border Grid.Row="0" CornerRadius="5,5,0,0"  HorizontalAlignment="Stretch" Margin="0,0,0,-10" Background="{StaticResource BackgroundBrush}">
+            <Grid  >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
+                    <RowDefinition  Height="auto"/>
+                </Grid.RowDefinitions>
+                <TextBox MaxLength="32" Grid.Row="2" Margin="5,10,10,10" FontSize="20" />
+                <controls:IconButton Grid.Row="2" Margin="-5,10,5,10" Grid.Column="1"  Icon="&#xE71E;" HorizontalAlignment="Stretch"  />
+            </Grid>
+        </Border>
+
+
+        <Border Grid.Row="1" Background="Transparent" Margin="0">
+
+            <Grid Background="{StaticResource BackgroundLightBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Border CornerRadius="5" Background="{StaticResource BackgroundBrush}" Margin="5">
-                    <StackPanel  Orientation="Horizontal"  >
-                        <Label   HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Grid.Row="0" Content="Друзья" FontSize="20"/>
-                        <controls:IconButton Icon="&#xE948;" Margin="5" Style="{StaticResource TransperentButton}" />
-                    </StackPanel>
-                </Border>
-                
 
-                <ListView  Grid.Row="1" ItemsSource="{Binding Friends}" ScrollViewer.VerticalScrollBarVisibility="Visible">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" Content="{Binding Name}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <Border  Grid.Row="0" Background="{StaticResource BackgroundBrush}" CornerRadius="0,0,5,5" >
+                    <Grid >
 
-            </Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
 
-            <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Height="5" VerticalAlignment="Center"/>
+                        <Border CornerRadius="5" Background="{StaticResource BackgroundBrush}" Margin="5,0,5,0">
+                            <StackPanel  Orientation="Horizontal"  >
+                                <Label   HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Grid.Row="0" Content="Друзья" FontSize="20"/>
+                                <controls:IconButton Icon="&#xE948;" Margin="5" Style="{StaticResource TransperentButton}" />
+                            </StackPanel>
+                        </Border>
 
-            <Grid Grid.Row="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                
-                <Border CornerRadius="5" Background="{StaticResource BackgroundBrush}" Margin="5">
-                    <StackPanel  Orientation="Horizontal"  >
-                        <Label  Content="Чаты" Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" FontSize="20"/>
-                        <controls:IconButton Icon="&#xE948;" Margin="5" Style="{StaticResource TransperentButton}" />
-                    </StackPanel>
+
+                        <ListView  Grid.Row="1" ItemsSource="{Binding Friends}" ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="1">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Content="{Binding Name}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                    </Grid>
+
                 </Border>
 
-                <ListView  Grid.Row="1" ItemsSource="{Binding Friends}" ScrollViewer.VerticalScrollBarVisibility="Visible">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Label Grid.Column="0" Content="{Binding Name}"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                
+                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,5,0,5"  Height="8"  VerticalAlignment="Center"/>
+
+                <Border  Grid.Row="2" Background="{StaticResource BackgroundBrush}" CornerRadius="5" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Border CornerRadius="5" Background="{StaticResource BackgroundBrush}"  Margin="5,0,5,0">
+                            <StackPanel  Orientation="Horizontal"  >
+                                <Label  Content="Чаты" Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" FontSize="20"/>
+                                <controls:IconButton Icon="&#xE948;" Margin="5" Style="{StaticResource TransperentButton}" />
+                            </StackPanel>
+                        </Border>
+
+                        <ListView  Grid.Row="1" ItemsSource="{Binding Friends}" ScrollViewer.VerticalScrollBarVisibility="Visible"  Margin="1" >
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="0" Content="{Binding Name}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+
+                    </Grid>
+                </Border>
+
+
+
             </Grid>
-       
-        </Grid>
         </Border>
     </Grid>
 </Page>
