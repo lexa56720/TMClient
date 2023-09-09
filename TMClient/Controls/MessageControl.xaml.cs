@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TMApi.ApiRequests.Messages;
 using TMClient.Types;
 
 namespace TMClient.Controls
@@ -23,6 +24,7 @@ namespace TMClient.Controls
     /// </summary>
     public partial class MessageControl : UserControl, INotifyPropertyChanged
     {
+        public required User Author { get; init; }
         public required bool IsOwn
         {
             get => isOwn;
@@ -36,14 +38,15 @@ namespace TMClient.Controls
 
         public required string Text
         {
-            get => text;
+            get 
+            {
+                return string.Join(Environment.NewLine, Messages.Select(m => m.Text));
+            }
             set
             {
-                text = value;
                 OnPropertyChanged(nameof(Text));
             }
         }
-        private string text = string.Empty;
 
         public required string Time
         {
@@ -54,18 +57,22 @@ namespace TMClient.Controls
                 OnPropertyChanged(nameof(Time));
             }
         }
-        private string time=string.Empty;
+        private string time = string.Empty;
 
+        private List<Message> Messages { get; init; } = new();
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
         [SetsRequiredMembers]
         public MessageControl(Message message)
-        {
-            InitializeComponent();
+        {         
+            Messages.Add(message);
+            Author= message.Author; 
             IsOwn = message.Id == App.Api.Id;
             Text = message.Text;
             Time = message.SendTime.ToString();
+
+            InitializeComponent();
             DataContext = this;
         }
         public MessageControl()
@@ -76,6 +83,19 @@ namespace TMClient.Controls
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void UnionToEnd(Message message)
+        {
+            Messages.Add(message);
+            OnPropertyChanged(nameof(Text));
+        }
+
+        public void UnionToStart(Message message)
+        {
+            Messages.Insert(0,message);
+            Time=message.SendTime.ToString();
+            OnPropertyChanged(nameof(Text));
         }
     }
 }

@@ -40,7 +40,28 @@ namespace TMClient.ViewModel.Chats
 
         protected void AddMessage(Message message)
         {
+            var last = Messages.LastOrDefault();
+            if (last != null && last.Author.Id == message.Author.Id)
+                last.UnionToEnd(message);
+            Messages.Add(new MessageControl(message));
+        }
+        protected void AddMessageToStart(Message message)
+        {
+            var first = Messages.FirstOrDefault();
+            if (first != null && first.Author.Id == message.Author.Id)
+                first.UnionToStart(message);              
+            Messages.Insert(0,new MessageControl(message));
+        }
 
+        protected void AddMessage(Message[] messages)
+        {
+            for (int i = 0; i < messages.Length; i++)
+                AddMessage(messages[i]);
+        }
+        protected void AddMessageToStart(Message[] messages)
+        {
+            for (int i = 0; i < messages.Length; i++)
+                AddMessageToStart(messages[i]);
         }
     }
 }
