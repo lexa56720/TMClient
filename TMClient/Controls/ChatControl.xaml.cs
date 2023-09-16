@@ -21,17 +21,17 @@ namespace TMClient.Controls
     /// </summary>
     public partial class ChatControl : UserControl
     {
+        public static readonly DependencyProperty ItemsSourceProperty =
+        DependencyProperty.Register(
+            nameof(ItemsSource),
+            typeof(IEnumerable<MessageControl>),
+            typeof(ChatControl),
+            new PropertyMetadata(null));
         public IEnumerable<MessageControl> ItemsSource
         {
             get { return (IEnumerable<MessageControl>)GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
-
-        public static readonly DependencyProperty ItemsSourceProperty =
-        DependencyProperty.Register(nameof(ItemsSource),
-                typeof(IEnumerable<MessageControl>),
-                typeof(ChatControl),
-                new PropertyMetadata(null));
 
 
         public static readonly DependencyProperty LoadMoreProperty =
@@ -44,6 +44,32 @@ namespace TMClient.Controls
         {
             get { return (ICommand)GetValue(LoadMoreProperty); }
             set { SetValue(LoadMoreProperty, value); }
+        }
+
+
+        public static readonly DependencyProperty SendCommandProperty =
+        DependencyProperty.Register(
+           nameof(SendCommand),
+           typeof(ICommand),
+           typeof(ChatControl),
+           new PropertyMetadata(null));
+        public ICommand SendCommand
+        {
+            get { return (ICommand)GetValue(SendCommandProperty); }
+            set { SetValue(SendCommandProperty, value); }
+        }
+
+
+        public static readonly DependencyProperty AttachCommandProperty =
+        DependencyProperty.Register(
+           nameof(AttachCommand),
+           typeof(ICommand),
+           typeof(ChatControl),
+           new PropertyMetadata(null));
+        public ICommand AttachCommand
+        {
+            get { return (ICommand)GetValue(AttachCommandProperty); }
+            set { SetValue(AttachCommandProperty, value); }
         }
 
         public ChatControl()

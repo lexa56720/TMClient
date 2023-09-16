@@ -16,7 +16,20 @@ namespace TMClient.Model.Chats
             Chat = chat;
         }
 
-        public abstract Message[] GetMessages();
+        public async Task<Message[]> GetHistory(Message lastMessage)
+        {
+            throw new NotImplementedException();
+        }
+        public async Task<Message[]> GetHistory(int offset)
+        {
+            throw new NotImplementedException();
+
+        }
+
+        public async Task SendMessage(Message message)
+        {
+            throw new NotImplementedException();
+        }
 
     }
 }

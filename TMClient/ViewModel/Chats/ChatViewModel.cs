@@ -31,29 +31,7 @@ namespace TMClient.ViewModel.Chats
 
         public ChatViewModel(Chat chat) : base(chat)
         {
-            Task.Run(async () =>
-            {
-                int count = 0;
-                while (true)
-                {
-                    App.Current.Dispatcher.Invoke(() =>
-                    AddMessageToStart(new Message()
-                    {
-                        Text = "Nice man "+ count++,
-                        Destionation = chat,
-                        Id = 1,
-                        Author = new User()
-                        {
-                            Id = Random.Shared.NextDouble() > 0.5f ? App.Api.Id : 1,
-                            IsOnline = true,
-                            Name = "samuel"
-                        }
 
-                    }));
-                    await Task.Delay(300);
-                }
-
-            });
         }
 
         protected override ChatModel GetModel(Chat chat)

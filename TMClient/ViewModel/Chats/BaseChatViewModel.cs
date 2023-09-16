@@ -17,7 +17,12 @@ namespace TMClient.ViewModel.Chats
         protected Chat Chat { get; }
         public ObservableCollection<MessageControl> Messages { get; set; } = new();
 
-        public ICommand LoadHistory => new AsyncCommand(Load);
+        public ICommand LoadHistory => new AsyncCommand(LoadMessages);
+
+        public ICommand Send => new AsyncCommand(SendMessage);
+        public ICommand Attach => new AsyncCommand(AttachFile);
+
+
         public string ChatName
         {
             get => chatName;
@@ -42,7 +47,18 @@ namespace TMClient.ViewModel.Chats
 
 
 
-        public async Task Load()
+        public async Task LoadMessages()
+        {
+            if (Messages.Any())
+                await Model.GetHistory(Messages.Last().InnerMessages.Last());
+        }
+
+        public async Task SendMessage()
+        {
+           
+        }
+
+        public async Task AttachFile()
         {
 
         }

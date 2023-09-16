@@ -61,6 +61,8 @@ namespace TMClient.Controls
 
         private List<Message> Messages { get; init; } = new();
 
+        public IReadOnlyCollection<Message> InnerMessages => Messages;
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         [SetsRequiredMembers]

@@ -13,9 +13,5 @@ namespace TMClient.Model.Chats
         {
         }
 
-        public override Message[] GetMessages()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
