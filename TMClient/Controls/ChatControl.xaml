@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:TMClient.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid  >
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
@@ -14,7 +14,7 @@
 
         <Border Background="#202020" CornerRadius="5">
             <Grid>
-                <ListView ItemsSource="{Binding Messages}" HorizontalContentAlignment="Stretch"
+                <local:ExtendeListView ReachTop="{Binding LoadMore, RelativeSource={RelativeSource AncestorLevel=1, AncestorType={x:Type local:ChatControl}}}" ItemsSource="{Binding Messages}" HorizontalContentAlignment="Stretch"
                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
             </Grid>
         </Border>

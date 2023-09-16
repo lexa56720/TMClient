@@ -53,13 +53,12 @@ namespace TMClient.Controls
             DependencyProperty.Register("Text", typeof(string), typeof(IconButton),
             new PropertyMetadata(string.Empty, TextPropertyChanged));
 
-
         public string Icon
         {
             get => icon;
             set => icon = value;
         }
-        private string icon;
+        private string icon=string.Empty;
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -88,7 +87,6 @@ namespace TMClient.Controls
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-
 
     }
 }

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TMClient.Utils;
 
 namespace TMClient.Controls
 {
@@ -27,8 +28,23 @@ namespace TMClient.Controls
         }
 
         public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable<MessageControl>),
-                typeof(ChatControl), new PropertyMetadata(null));
+        DependencyProperty.Register(nameof(ItemsSource),
+                typeof(IEnumerable<MessageControl>),
+                typeof(ChatControl),
+                new PropertyMetadata(null));
+
+
+        public static readonly DependencyProperty LoadMoreProperty =
+        DependencyProperty.Register(
+           nameof(LoadMore),
+           typeof(ICommand),
+           typeof(ChatControl),
+           new PropertyMetadata(null));
+        public ICommand LoadMore
+        {
+            get { return (ICommand)GetValue(LoadMoreProperty); }
+            set { SetValue(LoadMoreProperty, value); }
+        }
 
         public ChatControl()
         {

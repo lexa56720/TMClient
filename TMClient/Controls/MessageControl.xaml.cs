@@ -68,7 +68,7 @@ namespace TMClient.Controls
         {         
             Messages.Add(message);
             Author= message.Author; 
-            IsOwn = message.Id == App.Api.Id;
+            IsOwn = message.Author.Id == App.Api.Id;
             Text = message.Text;
             Time = message.SendTime.ToString();
 

@@ -39,7 +39,7 @@
                 </Grid>
 
             </Border>
-            <controls:ChatControl Grid.Row="1" ItemsSource="{Binding Messages}"  />
+            <controls:ChatControl LoadMore="{Binding LoadHistory}" Grid.Row="1" ItemsSource="{Binding Messages}"  />
         </Grid>
     </Border>
     
