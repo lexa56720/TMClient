@@ -49,7 +49,7 @@ namespace TMClient.ViewModel
         private async Task AddFriend()
         {
             await Messenger.Send(Messages.ModalOpened);
-            var friendSearchWindow = new NewFriendRequest();
+            var friendSearchWindow = new View.FriendRequest();
             friendSearchWindow.Owner = App.Current.MainWindow;
             friendSearchWindow.ShowInTaskbar = false;
             friendSearchWindow.ShowDialog();

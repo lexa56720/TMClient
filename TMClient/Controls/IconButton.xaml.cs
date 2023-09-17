@@ -56,9 +56,14 @@ namespace TMClient.Controls
         public string Icon
         {
             get => icon;
-            set => icon = value;
+            set
+            {
+                icon = value;
+                OnPropertyChanged(nameof(Icon));
+
+            }
         }
-        private string icon=string.Empty;
+        private string icon = string.Empty;
 
 
         public event PropertyChangedEventHandler? PropertyChanged;

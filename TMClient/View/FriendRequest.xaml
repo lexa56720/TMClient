@@ -1,0 +1,60 @@
+﻿<controls:ModernWindow  xmlns:controls="clr-namespace:TMClient.Controls" x:Class="TMClient.View.FriendRequest"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TMClient.View" xmlns:b="http://schemas.microsoft.com/xaml/behaviors" Background="{StaticResource BackgroundBrush}"
+        mc:Ignorable="d" WindowStartupLocation="CenterOwner"
+        Height="400" Width="400" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <Grid  >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="auto"/>
+            </Grid.RowDefinitions>
+            <TextBox MaxLength="32" Grid.Row="2"  Margin="5" FontSize="20" Name="Query" />
+            <controls:IconButton Grid.Row="2"  Margin="5" Grid.Column="1"  Icon="&#xE71E;"
+                                 HorizontalAlignment="Stretch" Command="{Binding SearchCommand}" CommandParameter="{Binding Text,ElementName=Query}"  />
+        </Grid>
+
+        <ListView Grid.Row="2" ItemsSource="{Binding Users}"  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border>
+                        <Grid   >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition  Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Column="0" Content="{Binding Name}"/>
+                            <controls:IconButton Grid.Column="1" Text="Добавить" Icon="&#xE710;" HorizontalAlignment="Right"
+                                    Command="{Binding Path=DataContext.AddFriend, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FriendRequest}}}" CommandParameter="{Binding .}">
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="Click">
+                                        <b:ChangePropertyAction PropertyName="IsEnabled" Value="False"/>
+                                        <b:ChangePropertyAction PropertyName="Text" Value="Отправлен" />
+                                        <b:ChangePropertyAction PropertyName="Icon" Value="&#xE73E;"  />
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                            </controls:IconButton>
+                        </Grid>
+                    </Border>
+            
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</controls:ModernWindow>

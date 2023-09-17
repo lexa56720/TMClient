@@ -14,7 +14,7 @@ namespace TMClient
     /// </summary>
     public partial class App : Application
     {
-        public static Api? Api
+        public static Api Api
         {
             get => api;
             set
@@ -26,7 +26,7 @@ namespace TMClient
                 }
             }
         }
-        private static Api? api;
+        private static Api? api=null!;
 
         public static Configurator Settings { get; } = new Configurator("config.cfg", true);
 

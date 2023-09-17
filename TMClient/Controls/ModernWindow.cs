@@ -45,7 +45,7 @@ namespace TMClient.Controls
         {
             CaptionHeight = 34,
             CornerRadius = new CornerRadius(5),
-            GlassFrameThickness = new Thickness(0),
+            GlassFrameThickness = new Thickness(1),
         };
 
         public ModernWindow()
