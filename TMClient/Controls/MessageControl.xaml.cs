@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TMApi.ApiRequests.Messages;
 using TMClient.Types;
+using TMClient.Utils;
 
 namespace TMClient.Controls
 {
@@ -72,7 +73,7 @@ namespace TMClient.Controls
             Author= message.Author; 
             IsOwn = message.Author.Id == App.Api.Id;
             Text = message.Text;
-            Time = message.SendTime.ToString();
+            Time = message.SendTime.ToText();
 
             InitializeComponent();
             DataContext = this;
@@ -96,7 +97,7 @@ namespace TMClient.Controls
         public void UnionToStart(Message message)
         {
             Messages.Insert(0,message);
-            Time=message.SendTime.ToString();
+            Time=message.SendTime.ToText();
             OnPropertyChanged(nameof(Text));
         }
     }

@@ -10,6 +10,9 @@ namespace TMClient.Utils
     {
         CloseAuth,
         AuthLoadingStart,
-        AuthLoadingFinish
+        AuthLoadingFinish,
+
+        ModalOpened,
+        ModalClosed,
     }
 }

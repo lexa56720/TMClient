@@ -50,7 +50,7 @@
                         <Border CornerRadius="5" Background="{StaticResource BackgroundBrush}" Margin="5,0,5,0">
                             <StackPanel  Orientation="Horizontal"  >
                                 <Label   HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Grid.Row="0" Content="Друзья" FontSize="20"/>
-                                <controls:IconButton Icon="&#xE948;" Margin="5" Style="{StaticResource TransperentButton}" />
+                                <controls:IconButton Icon="&#xE948;" Margin="5" Style="{StaticResource TransperentButton}" Command="{Binding AddFriendCommand}" />
                             </StackPanel>
                         </Border>
 
@@ -84,11 +84,11 @@
                         <Border CornerRadius="5" Background="{StaticResource BackgroundBrush}"  Margin="5,0,5,0">
                             <StackPanel  Orientation="Horizontal"  >
                                 <Label  Content="Чаты" Background="{StaticResource BackgroundBrush}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" FontSize="20"/>
-                                <controls:IconButton Icon="&#xE948;" Margin="5" Style="{StaticResource TransperentButton}" />
+                                <controls:IconButton Icon="&#xE948;" Margin="5" Style="{StaticResource TransperentButton}" Command="{Binding CreateChatCommand}" />
                             </StackPanel>
                         </Border>
 
-                        <ListView  Grid.Row="1" ItemsSource="{Binding Friends}" ScrollViewer.VerticalScrollBarVisibility="Visible"  Margin="1" >
+                        <ListView  Grid.Row="1" ItemsSource="{Binding Chats}" ScrollViewer.VerticalScrollBarVisibility="Visible"  Margin="1" >
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>

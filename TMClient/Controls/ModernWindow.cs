@@ -28,13 +28,25 @@ namespace TMClient.Controls
         public IconButton RestoreButton { get; private set; }
         public IconButton CloseButton { get; private set; }
 
+
+        public new string Title
+        {
+            get => title;
+            set
+            {
+                title = value;
+                TitleText.Text = title;
+            }
+        }
+        private string title;
+
+
         private WindowChrome Chrome = new WindowChrome()
         {
             CaptionHeight = 34,
-            CornerRadius = new CornerRadius(5)
+            CornerRadius = new CornerRadius(5),
+            GlassFrameThickness = new Thickness(0),
         };
-
-
 
         public ModernWindow()
         {
@@ -47,10 +59,8 @@ namespace TMClient.Controls
             this.StateChanged += MainWindowStateChangeRaised;
         }
 
-
         private void InitializeComponent()
         {
-
             WindowChrome.SetWindowChrome(this, Chrome);
             MainBorder.BorderThickness = new Thickness();
             MainBorder.Child = MainGrid;
@@ -75,8 +85,8 @@ namespace TMClient.Controls
         private void SetupTitle()
         {
             IconPanel.Children.Add(TitleText);
-            TitleText.VerticalAlignment=VerticalAlignment.Center;
-            TitleText.Margin=new Thickness(0,5,0,0);
+            TitleText.VerticalAlignment = VerticalAlignment.Center;
+            TitleText.Margin = new Thickness(0, 5, 0, 0);
 
             MinimizeButton = new Button()
             {

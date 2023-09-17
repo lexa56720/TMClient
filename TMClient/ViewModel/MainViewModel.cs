@@ -27,7 +27,6 @@ namespace TMClient.ViewModel
 
         public ICommand ChangeSideBarState => new Command(SwitchSideBarState);
 
-
         public Visibility SideBarState
         {
             get => sideBarState;
@@ -38,7 +37,6 @@ namespace TMClient.ViewModel
             }
         }
         private Visibility sideBarState = Visibility.Collapsed;
-
 
         public Page MainFrame
         {
@@ -51,22 +49,38 @@ namespace TMClient.ViewModel
         }
         private Page mainFrame;
 
+        public bool IsInModalMode
+        {
+            get => isInModalMode;
+            set
+            {
+                isInModalMode = value;
+                OnPropertyChanged(nameof(IsInModalMode));
+            }
+        }
+        private bool isInModalMode;
 
         private SidePanel Panel;
+
 
         public MainViewModel()
         {
             Panel = new SidePanel();
-            MainFrame = new ChatView(new Chat() { Id=0, Name="намба ван чат"});
+            MainFrame = new ChatView(new Chat() { Id = 0, Name = "намба ван чат" });
             SidePanelFrame = Panel;
+
+            Messenger.Subscribe(Messages.ModalOpened, () => IsInModalMode = true);
+            Messenger.Subscribe(Messages.ModalClosed, () => IsInModalMode = false);
         }
+
+
 
         public void SwitchSideBarState()
         {
-            if(SideBarState== Visibility.Collapsed)
+            if (SideBarState == Visibility.Collapsed)
                 SideBarState = Visibility.Visible;
             else
-                SideBarState= Visibility.Collapsed;
+                SideBarState = Visibility.Collapsed;
         }
     }
 }
