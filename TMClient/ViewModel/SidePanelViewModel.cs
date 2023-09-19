@@ -23,7 +23,7 @@ namespace TMClient.ViewModel
                 OnPropertyChanged(nameof(Friends));
             }
         }
-        private ObservableCollection<User> friends = new ();
+        private ObservableCollection<User> friends = new();
 
         public ObservableCollection<Chat> Chats
         {
@@ -34,7 +34,7 @@ namespace TMClient.ViewModel
                 OnPropertyChanged(nameof(Chats));
             }
         }
-        private ObservableCollection<Chat> chats=new();
+        private ObservableCollection<Chat> chats = new();
 
 
         public ICommand AddFriendCommand => new AsyncCommand(AddFriend);
@@ -43,9 +43,9 @@ namespace TMClient.ViewModel
         public SidePanelViewModel()
         {
             for (int i = 0; i < 20; i++)
-                Friends.Add(new User() { Name = "Ffff",IsOnline=true,Id=1 });
+                Friends.Add(new User() { Name = "Ffff", IsOnline = true, Login = "fdfasd", Id = 1 });
         }
- 
+
         private async Task AddFriend()
         {
             await Messenger.Send(Messages.ModalOpened);
@@ -53,12 +53,7 @@ namespace TMClient.ViewModel
             friendSearchWindow.Owner = App.Current.MainWindow;
             friendSearchWindow.ShowInTaskbar = false;
             friendSearchWindow.ShowDialog();
-            if(friendSearchWindow.DialogResult!=null)
-            {
-
-            }
             await Messenger.Send(Messages.ModalClosed);
-
         }
         private async Task CreateChat()
         {

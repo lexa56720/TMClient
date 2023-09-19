@@ -25,8 +25,6 @@ namespace TMClient.ViewModel
         private FriendRequestModel Model = new();
         public FriendRequestViewModel()
         {
-            for (int i = 0; i < 30; i++)
-                Users.Add(new User() { Id = 1, Name = "Pete tami abu sali", IsOnline = true });
         }
         private async Task SendFriendRequest(User? user)
         {
@@ -35,7 +33,12 @@ namespace TMClient.ViewModel
         }
         private async Task Search(string? query)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(query) || query.Length < 3)
+                return;
+            var users = await Model.SearchByName(query);
+            Users.Clear();
+            foreach (var user in users)
+                Users.Add(user);
         }
     }
 }

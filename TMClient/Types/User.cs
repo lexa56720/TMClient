@@ -24,6 +24,17 @@ namespace TMClient.Types
         }
         private string name = string.Empty;
 
+        public required string Login
+        {
+            get => login;
+            set
+            {
+                login = value;
+                OnPropertyChanged(nameof(Login));
+            }
+        }
+        private string login = string.Empty;
+
         public required bool IsOnline
         {
             get => isOnline;
@@ -35,11 +46,13 @@ namespace TMClient.Types
         }
         private bool isOnline = false;
 
+
         [SetsRequiredMembers]
         public User(ApiTypes.Communication.Users.User user)
         {
             Id = user.Id;
             Name = user.Name;
+            Login = user.Login;
             IsOnline = user.IsOnline;
         }
         public User()
