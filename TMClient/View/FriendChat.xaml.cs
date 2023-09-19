@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TMClient.Types;
 
 namespace TMClient.View
 {
@@ -20,7 +21,7 @@ namespace TMClient.View
     /// </summary>
     public partial class FriendChat : Page
     {
-        public FriendChat()
+        public FriendChat(User user)
         {
             InitializeComponent();
         }

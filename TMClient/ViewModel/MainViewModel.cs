@@ -69,6 +69,8 @@ namespace TMClient.ViewModel
             MainFrame = new ChatView(new Chat() { Id = 0, Name = "намба ван чат" });
             SidePanelFrame = Panel;
 
+            Messenger.Subscribe<Page>(Messages.OpenChatPage, (o,p) => MainFrame = p);
+
             Messenger.Subscribe(Messages.ModalOpened, () => IsInModalMode = true);
             Messenger.Subscribe(Messages.ModalClosed, () => IsInModalMode = false);
         }
