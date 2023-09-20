@@ -3,12 +3,34 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:TMClient.View"
+      xmlns:local="clr-namespace:TMClient.View" xmlns:controls="clr-namespace:TMClient.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="FriendChat">
 
-    <Grid>
-        
-    </Grid>
+    <Border Background="{StaticResource BackgroundBrush}" CornerRadius="5">
+        <Grid  >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                    <Label  Grid.Column="1" FontSize="24" Content="{Binding ChatName}"  HorizontalContentAlignment="Center"  />
+      
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <controls:IconButton Icon="&#xE8F8;" Margin="5" Style="{StaticResource TransperentButton}"
+                                     Orientation="Vertical" FontSize="32" HorizontalAlignment="Right" Command="{Binding BlockCommand}" />
+
+                </StackPanel>
+            </Grid>
+            <controls:ChatControl LoadMore="{Binding LoadHistory}" AttachCommand="{Binding Attach}" SendCommand="{Binding Send}" Grid.Row="1" ItemsSource="{Binding Messages}"  />
+        </Grid>
+    </Border>
 </Page>

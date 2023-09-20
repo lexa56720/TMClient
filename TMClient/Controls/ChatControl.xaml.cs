@@ -53,9 +53,10 @@ namespace TMClient.Controls
            typeof(ICommand),
            typeof(ChatControl),
            new PropertyMetadata(null));
+
         public ICommand SendCommand
         {
-            get { return (ICommand)GetValue(SendCommandProperty); }
+            get { return (ICommand)GetValue(SendCommandProperty);  }
             set { SetValue(SendCommandProperty, value); }
         }
 
@@ -70,6 +71,19 @@ namespace TMClient.Controls
         {
             get { return (ICommand)GetValue(AttachCommandProperty); }
             set { SetValue(AttachCommandProperty, value); }
+        }
+
+
+        public static readonly DependencyProperty WrittenTextProperty =
+        DependencyProperty.Register(
+           nameof (WrittenText),
+           typeof(string),
+           typeof(ChatControl),
+           new FrameworkPropertyMetadata(string.Empty,FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public string WrittenText
+        {
+            get { return (string)GetValue(WrittenTextProperty); }
+            set { SetValue(WrittenTextProperty, value); }
         }
 
         public ChatControl()

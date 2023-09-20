@@ -8,38 +8,36 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ChatView">
 
-    <Border Background="{StaticResource BackgroundBrush}" CornerRadius="5,5,5,5" Margin="0,0,0,0" >
+    <Border Background="{StaticResource BackgroundBrush}" CornerRadius="5">
         <Grid  >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Border  Margin="0,0,0,0">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="1" >
-                        <Label FontSize="24" Content="{Binding ChatName}" Padding="5,0,5,5"  HorizontalContentAlignment="Center"  />
-                        <controls:IconButton   Icon="&#xE716;" Text="{Binding MemberCount, StringFormat={}{0} участников}" Style="{StaticResource TransperentButton}"
+                <StackPanel Grid.Column="1" >
+                    <Label FontSize="24" Content="{Binding ChatName}" Padding="5,0,5,5"  HorizontalContentAlignment="Center"  />
+                    <controls:IconButton   Icon="&#xE716;" Text="{Binding MemberCount, StringFormat={}{0} участников}" Style="{StaticResource TransperentButton}"
                                        HorizontalAlignment="Center"   FontSize="14" Margin="0,-13,0,2" Padding="0"  HorizontalContentAlignment="Center"
                                        Command="{Binding ShowMembersCommand}"/>
-                    </StackPanel>
+                </StackPanel>
 
-                    <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-                        <controls:IconButton Icon="&#xE8FA;" Margin="5" Style="{StaticResource TransperentButton}"
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <controls:IconButton Icon="&#xE8FA;" Margin="5" Style="{StaticResource TransperentButton}"
                                      Orientation="Vertical" FontSize="32" HorizontalAlignment="Right" Command="{Binding InviteCommand}" />
 
-                        <controls:IconButton Icon="&#xEA54;" Margin="5" Style="{StaticResource TransperentButton}"
+                    <controls:IconButton Icon="&#xEA54;" Margin="5" Style="{StaticResource TransperentButton}"
                                      Orientation="Vertical" FontSize="32" HorizontalAlignment="Right" Command="{Binding LeaveCommand}" />
-                    </StackPanel>
-                </Grid>
-
-            </Border>
-            <controls:ChatControl LoadMore="{Binding LoadHistory}" AttachCommand="{Binding Attach}" SendCommand="{Binding Send}" Grid.Row="1" ItemsSource="{Binding Messages}"  />
+                </StackPanel>
+            </Grid>
+            <controls:ChatControl LoadMore="{Binding LoadHistory}" AttachCommand="{Binding Attach}" SendCommand="{Binding Send}"
+                                  WrittenText="{Binding MessageText}"  Grid.Row="1" ItemsSource="{Binding Messages}"  />
         </Grid>
     </Border>
     

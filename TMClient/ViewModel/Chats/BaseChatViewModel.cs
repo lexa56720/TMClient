@@ -14,12 +14,24 @@ namespace TMClient.ViewModel.Chats
 {
     internal abstract class BaseChatViewModel<T> : BaseViewModel where T : BaseChatModel
     {
+        public int Id { get; private set; }
         protected Chat Chat { get; }
         public ObservableCollection<MessageControl> Messages { get; set; } = new();
 
+        public string MessageText
+        {
+            get => messageText;
+            set
+            {
+                messageText = value;
+                OnPropertyChanged(nameof(MessageText));
+            }
+        }
+        private string messageText;
+
         public ICommand LoadHistory => new AsyncCommand(LoadMessages);
 
-        public ICommand Send => new AsyncCommand(SendMessage);
+        public ICommand Send => new AsyncCommand<string>(SendMessage);
         public ICommand Attach => new AsyncCommand(AttachFile);
 
 
@@ -39,13 +51,13 @@ namespace TMClient.ViewModel.Chats
         public BaseChatViewModel(Chat chat)
         {
             ChatName = chat.Name;
-            Model = GetModel(chat);
             Chat = chat;
+            Id = chat.Id;
+
+            Model = GetModel(chat);
         }
 
         protected abstract T GetModel(Chat chat);
-
-
 
         public async Task LoadMessages()
         {
@@ -53,9 +65,17 @@ namespace TMClient.ViewModel.Chats
                 await Model.GetHistory(Messages.Last().InnerMessages.Last());
         }
 
-        public async Task SendMessage()
+        public async Task SendMessage(string text)
         {
-           
+            var message = await Model.SendMessage(new Message()
+            {
+                Author = App.UserData.CurrentUser,
+                Text = text,
+                Destionation = Chat,
+            });
+            if (message != null)
+                Messages.Add(new MessageControl(message));
+            MessageText = string.Empty;
         }
 
         public async Task AttachFile()

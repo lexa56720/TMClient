@@ -11,7 +11,7 @@ namespace TMClient.Types
 {
     public class Message : INotifyPropertyChanged
     {
-        public required int Id { get; init; }
+        public int Id { get; init; }
         public required User Author
         {
             get => author;

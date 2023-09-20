@@ -26,9 +26,12 @@ namespace TMClient.Model.Chats
 
         }
 
-        public async Task SendMessage(Message message)
+        public async Task<Message?> SendMessage(Message message)
         {
-            throw new NotImplementedException();
+            var result = await App.Api.Messages.SendMessage(message.Text, message.Destionation.Id);
+            if (result == null)
+                return null;
+            return new Message(result, App.UserData.CurrentUser);
         }
 
     }

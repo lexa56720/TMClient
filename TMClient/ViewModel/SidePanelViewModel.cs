@@ -42,16 +42,17 @@ namespace TMClient.ViewModel
         public ICommand CreateChatCommand => new AsyncCommand(CreateChat);
 
 
-        public ICommand ChatSelected => new AsyncCommand<User>(Selected);
+        public ICommand ChatSelected => new AsyncCommand<Chat>(Selected);
 
-        public ICommand FriendSelected => new AsyncCommand<Chat>(Selected);
+        public ICommand FriendSelected => new AsyncCommand<User>(Selected);
 
         private async Task Selected(User? user)
         {
             if (user == null)
                 return;
 
-            var userChat = new FriendChat(user);
+            var chat = App.UserData.Chats.Values.SingleOrDefault(c => c.Members.Count == 2 && c.Members.Any(m => m.Id == user.Id));
+            var userChat = new FriendChat(chat);
             await OpenChat(userChat);
         }
         private async Task Selected(Chat? chat)

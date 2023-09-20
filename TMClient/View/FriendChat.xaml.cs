@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TMClient.Types;
+using TMClient.ViewModel.Chats;
 
 namespace TMClient.View
 {
@@ -21,9 +22,10 @@ namespace TMClient.View
     /// </summary>
     public partial class FriendChat : Page
     {
-        public FriendChat(User user)
+        public FriendChat(Chat chat)
         {
             InitializeComponent();
+            DataContext = new FriendChatViewModel(chat);
         }
     }
 }

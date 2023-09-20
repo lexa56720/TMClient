@@ -21,9 +21,7 @@ namespace TMClient
             {
                 api = value;
                 if (api != null)
-                {
                     InitAppData();
-                }
             }
         }
         private static Api? api=null!;
@@ -38,9 +36,10 @@ namespace TMClient
         public static string AuthFolder => Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/userdata/auth");
 
-        private static void InitAppData()
+        internal static void InitAppData()
         {
-            UserData = new UserDataStorage(new User(Api.UserInfo.MainInfo));
+            UserData = new UserDataStorage(Api.UserInfo);
+            UserData.Load(Api.UserInfo);
             Requests = new RequestStorage();
         }
         private void Application_Exit(object sender, ExitEventArgs e)
