@@ -15,6 +15,7 @@ namespace TMClient.Utils
         ModalOpened,
         ModalClosed,
 
+        CloseMainWindow,
         OpenChatPage,
     }
 }

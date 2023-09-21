@@ -58,7 +58,7 @@ namespace TMClient.ViewModel.Auth
                 OnPropertyChanged(nameof(IsLoaded));
             }
         }
-        private bool isLoaded = false;
+        private bool isLoaded = true;
 
         public Visibility LoadingVisibility
         {
@@ -84,6 +84,13 @@ namespace TMClient.ViewModel.Auth
 
         private async Task TryToLoadApi()
         {
+            if (App.IsAutoLogin == false)
+            {
+                IsLoaded = true;
+                return;
+            }
+               
+
             IsLoaded = false;
             var api = await AuthModel.TryGetApi();
             if (api != null)

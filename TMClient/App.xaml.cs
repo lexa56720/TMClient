@@ -24,10 +24,12 @@ namespace TMClient
                     InitAppData();
             }
         }
-        private static Api? api=null!;
+        private static Api? api = null!;
 
         public static Configurator Settings { get; } = new Configurator("config.cfg", true);
 
+        public static bool IsSaveAuth { get; set; } = true;
+        public static bool IsAutoLogin { get; set; } = true;
         internal static UserDataStorage? UserData { get; private set; }
         internal static RequestStorage? Requests { get; private set; }
 
@@ -44,8 +46,13 @@ namespace TMClient
         }
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            if (Api == null)
+            if (Api == null || IsSaveAuth == false)
+            {
+                if (File.Exists(Path.Combine(AuthFolder, "authdata.bin")))
+                    File.Delete(Path.Combine(AuthFolder, "authdata.bin"));
                 return;
+            }
+
 
             var bytes = Api.GetAuthData();
             var protectedBytes = ProtectedData.Protect(bytes, null, DataProtectionScope.CurrentUser);

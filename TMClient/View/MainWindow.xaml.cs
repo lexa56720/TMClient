@@ -10,6 +10,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TMApi;
 using TMClient.Controls;
+using TMClient.Utils;
 using TMClient.ViewModel;
 
 namespace TMClient.View
@@ -27,6 +28,8 @@ namespace TMClient.View
 
             InitializeComponent();
             DataContext = new MainViewModel();
+
+            Messenger.Subscribe(Messages.CloseMainWindow,()=> App.Current.Dispatcher.Invoke(Close));
         }
     }
 }
