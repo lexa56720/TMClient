@@ -18,8 +18,8 @@ namespace TMClient.Types
 
         public Dictionary<int, Chat> Chats { get; set; } = new();
 
-
         public ConcurrentDictionary<int, User> Users { get; set; } = new();
+
 
         [SetsRequiredMembers]
         public UserDataStorage(UserInfo currentUser)
@@ -29,19 +29,22 @@ namespace TMClient.Types
 
         public async Task Load(UserInfo currentUser)
         {
-            await LoadFriends(currentUser);
-            await LoadChats(currentUser);
-        }
-        private async Task LoadFriends(UserInfo currentUser)
-        {
-            var friends = currentUser.Friends.Select(f => new User(f));
+            var friends = LoadFriends(currentUser);
             foreach (var friend in friends)
             {
                 Users.TryAdd(friend.Id, friend);
                 Friends.TryAdd(friend.Id, friend);
             }
+
+            var chats = await LoadChats(currentUser);
+            foreach (var chat in chats)
+                Chats.Add(chat.Id, chat);
         }
-        private async Task LoadChats(UserInfo currentUser)
+        private User[] LoadFriends(UserInfo currentUser)
+        {
+            return currentUser.Friends.Select(f => new User(f)).ToArray();
+        }
+        private async Task<Chat[]> LoadChats(UserInfo currentUser)
         {
             var chats = await App.Api.Chats.GetChat(currentUser.Chats);
             var ids = chats.SelectMany(c => c.MemberIds).Distinct().ToArray();
@@ -53,10 +56,7 @@ namespace TMClient.Types
                 Friends.TryAdd(user.Id, user);
             }
 
-            var convertedChats = await Task.WhenAll(
-                                 chats.Select(async c => new Chat(c, await GetUser(c.MemberIds))));
-            foreach (var chat in convertedChats)
-                Chats.Add(chat.Id, chat);
+            return await Task.WhenAll(chats.Select(async c => new Chat(c, await GetUser(c.MemberIds))));
         }
 
         public async Task<User[]> GetUser(int[] ids)
@@ -64,25 +64,20 @@ namespace TMClient.Types
             ConcurrentBag<User> requestedUsers = new ConcurrentBag<User>();
             var tasks = new List<Task>();
             foreach (var id in ids)
-            {
                 if (!Users.TryGetValue(id, out var user))
-                {
                     tasks.Add(new Task(async () =>
                     {
                         var apiUser = await App.Api.Users.GetUser(id);
                         if (apiUser != null)
                         {
-                            var user = new User(apiUser);
-                            Users.TryAdd(apiUser.Id, user);
-                            requestedUsers.Add(user);
+                            var convertedUser = new User(apiUser);
+                            Users.TryAdd(apiUser.Id, convertedUser);
+                            requestedUsers.Add(convertedUser);
                         }
                     }));
-                }
                 else
-                {
                     requestedUsers.Add(user);
-                }
-            }
+
             await Task.WhenAll(tasks);
             return requestedUsers.ToArray();
         }
@@ -97,6 +92,22 @@ namespace TMClient.Types
                 user = new User(apiUser);
                 Users.TryAdd(user.Id, user);
                 return user;
+            }
+            return null;
+        }
+
+
+        public async Task<Chat?> GetChat(int id)
+        {
+            if (Chats.TryGetValue(id, out var chat) && chat != null)
+                return chat;
+
+            var apiChat = await App.Api.Chats.GetChat(id);
+            if (apiChat != null)
+            {
+                chat = new Chat(apiChat, await GetUser(apiChat.MemberIds));
+                Chats.TryAdd(chat.Id, chat);
+                return chat;
             }
             return null;
         }

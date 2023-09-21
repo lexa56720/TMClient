@@ -38,11 +38,13 @@ namespace TMClient
         public static string AuthFolder => Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/userdata/auth");
 
-        internal static void InitAppData()
+        internal static async Task InitAppData()
         {
             UserData = new UserDataStorage(Api.UserInfo);
-            UserData.Load(Api.UserInfo);
+            await UserData.Load(Api.UserInfo);
+
             Requests = new RequestStorage();
+            await Requests.Load();
         }
         private void Application_Exit(object sender, ExitEventArgs e)
         {

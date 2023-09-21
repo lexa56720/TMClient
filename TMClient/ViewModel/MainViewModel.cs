@@ -99,8 +99,7 @@ namespace TMClient.ViewModel
             App.IsAutoLogin = false;
             Messenger.Send(Messages.CloseMainWindow);
             var authWindow = new MainAuthWindow();
-            authWindow.Show();
-        
+            authWindow.Show();      
         }
     }
 }
