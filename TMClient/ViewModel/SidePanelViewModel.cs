@@ -51,7 +51,8 @@ namespace TMClient.ViewModel
             if (user == null)
                 return;
 
-            var chat = App.UserData.Chats.Values.SingleOrDefault(c => c.Members.Count == 2 && c.Members.Any(m => m.Id == user.Id));
+            var chat = App.UserData.Chats.Values
+                .SingleOrDefault(c => c.Members.Count == 2 && c.Members.Any(m => m.Id == user.Id));
             var userChat = new FriendChat(chat);
             await OpenChat(userChat);
         }
@@ -66,7 +67,13 @@ namespace TMClient.ViewModel
         public SidePanelViewModel()
         {
             for (int i = 0; i < 20; i++)
-                Friends.Add(new User() { Name = "Ffff", IsOnline = true, Login = "fdfasd", Id = 1 });
+                Friends.Add(new User()
+                { 
+                    Name = "Ffff", 
+                    IsOnline = true,
+                    Login = "fdfasd", 
+                    Id = 1 
+                });
         }
 
         private async Task OpenChat(Page page)

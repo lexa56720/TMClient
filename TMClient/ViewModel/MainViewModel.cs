@@ -30,10 +30,11 @@ namespace TMClient.ViewModel
 
         public ICommand ChangeSideBarState => new Command(SwitchSideBarState);
 
-        public ICommand ProfileCommand => new Command(()=>MainFrame=Profile);
+        public ICommand ProfileCommand => new Command(() => MainFrame = Profile);
         public ICommand NotificationCommand => new Command(() => MainFrame = Notifications);
         public ICommand SettingsCommand => new Command(() => MainFrame = Settings);
         public ICommand LogoutCommand => new Command(Logout);
+        public ICommand ChatCommand => new Command(() => MainFrame = ChatPage);
 
 
         public Visibility SideBarState
@@ -70,15 +71,21 @@ namespace TMClient.ViewModel
         private bool isInModalMode;
 
         private SidePanel Panel = new SidePanel();
-        private Settings Settings=new Settings();
+        private Settings Settings = new Settings();
         private Profile Profile = new Profile();
         private Notifications Notifications = new Notifications();
+        private Page ChatPage = new Page();
         public MainViewModel()
         {
-            MainFrame = new ChatView(new Chat() { Id = 0, Name = "намба ван чат" });
+            ChatPage = new ChatView(new Chat() { Id = 0, Name = "намба ван чат" });
+            MainFrame = ChatPage;
             SidePanelFrame = Panel;
 
-            Messenger.Subscribe<Page>(Messages.OpenChatPage, (o,p) => MainFrame = p);
+            Messenger.Subscribe<Page>(Messages.OpenChatPage, (o, p) =>
+            {
+                ChatPage = p;
+                MainFrame = p;
+            });
 
             Messenger.Subscribe(Messages.ModalOpened, () => IsInModalMode = true);
             Messenger.Subscribe(Messages.ModalClosed, () => IsInModalMode = false);
@@ -99,7 +106,7 @@ namespace TMClient.ViewModel
             App.IsAutoLogin = false;
             Messenger.Send(Messages.CloseMainWindow);
             var authWindow = new MainAuthWindow();
-            authWindow.Show();      
+            authWindow.Show();
         }
     }
 }

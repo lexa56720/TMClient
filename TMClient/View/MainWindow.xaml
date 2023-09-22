@@ -50,8 +50,11 @@
 
                     <controls:IconButton Icon="&#xE8D4;"  Orientation="Vertical" FontSize="32" Margin="5" Command="{Binding ProfileCommand}" />
                     <Label Content="Профиль" Visibility="{Binding SideBarState}" Margin="0,-10,0,0" HorizontalAlignment="Center"/>
-
+                   
                     <controls:IconButton Icon="&#xEDAC;" Orientation="Vertical" FontSize="32" Margin="5" Command="{Binding NotificationCommand}" />
+                    <Label Content="Запросы" Visibility="{Binding SideBarState}" Margin="0,-10,0,0" HorizontalAlignment="Center"/>
+
+                    <controls:IconButton Icon="&#xE8BD;" Orientation="Vertical" FontSize="32" Margin="5" Command="{Binding ChatCommand}" />
                     <Label Content="Запросы" Visibility="{Binding SideBarState}" Margin="0,-10,0,0" HorizontalAlignment="Center"/>
                 </StackPanel>
                 <StackPanel VerticalAlignment="Bottom" DockPanel.Dock="Bottom"  >
