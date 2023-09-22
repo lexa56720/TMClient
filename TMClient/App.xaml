@@ -132,7 +132,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <Style x:Key="CaptionButtonStyle" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
@@ -156,7 +156,7 @@
                                                     Duration="0:0:0.2"/>
                                         </Storyboard>
                                     </BeginStoryboard>
-                            
+
                                 </Trigger.EnterActions>
                                 <Trigger.ExitActions>
                                     <BeginStoryboard>
@@ -175,12 +175,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
-        <Style TargetType="controls:IconButton" BasedOn="{StaticResource ResourceKey={x:Type Button}}">
-            
-        </Style>
-            
-        <Style TargetType="Button">
+
+        <Style x:Key="DefaultButton" TargetType="Button">
             <Style.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5" />
@@ -230,8 +226,14 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource ResourceKey=DefaultButton}">
 
-        <Style x:Key="TransperentButton" BasedOn="{StaticResource ResourceKey={x:Type Button}}" TargetType="Button">
+        </Style>
+        <Style TargetType="controls:IconButton" BasedOn="{StaticResource ResourceKey=DefaultButton}">
+
+        </Style>
+
+        <Style x:Key="TransperentButton" BasedOn="{StaticResource ResourceKey=DefaultButton}" TargetType="Button">
             <Setter Property="Control.Background" Value="#00383838" />
             <Style.Triggers>
                 <MultiTrigger>
@@ -278,7 +280,7 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="AcceptButton" BasedOn="{StaticResource ResourceKey={x:Type Button}}" TargetType="Button">
+        <Style x:Key="AcceptButton" BasedOn="{StaticResource ResourceKey=DefaultButton}" TargetType="Button">
             <Setter Property="Control.Background" Value="#4CAF50" />
             <Style.Triggers>
                 <MultiTrigger>
@@ -325,7 +327,7 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="DeclineButton" BasedOn="{StaticResource ResourceKey={x:Type Button}}" TargetType="Button">
+        <Style x:Key="DeclineButton" BasedOn="{StaticResource ResourceKey=DefaultButton}" TargetType="Button">
             <Setter Property="Control.Background" Value="#F44336" />
             <Style.Triggers>
                 <MultiTrigger>

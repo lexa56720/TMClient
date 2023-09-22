@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Resources\config.cfg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
 
