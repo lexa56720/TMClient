@@ -12,24 +12,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TMClient.Controls;
-using TMClient.Utils;
-using TMClient.ViewModel.Auth;
+using TMClient.Types;
+using TMClient.ViewModel.Chats;
 
-namespace TMClient.View.Auth
+namespace TMClient.View
 {
     /// <summary>
-    /// Логика взаимодействия для MainAuthWindow.xaml
+    /// Логика взаимодействия для UserList.xaml
     /// </summary>
-    public partial class MainAuthWindow : ModernWindow
+    public partial class UserList : ModernWindow
     {
-        public MainAuthWindow()
+        public UserList(User[] users)
         {
             InitializeComponent();
-            Title = "Авторизация";
-            Messenger.Subscribe(Messages.CloseAuth, () => Application.Current.Dispatcher.Invoke(Close));
-
-            DataContext = new MainAuthViewModel();
+            Title = "Пользователи";
+            DataContext = new UserListViewModel(users);
         }
-
     }
 }

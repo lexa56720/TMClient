@@ -45,6 +45,7 @@ namespace TMClient.Controls
         {
             CaptionHeight = 34,
             CornerRadius = new CornerRadius(5),
+            ResizeBorderThickness=new Thickness(5),
             GlassFrameThickness = new Thickness(1),
         };
 
@@ -86,7 +87,7 @@ namespace TMClient.Controls
         {
             IconPanel.Children.Add(TitleText);
             TitleText.VerticalAlignment = VerticalAlignment.Center;
-            TitleText.Margin = new Thickness(0, 5, 0, 0);
+            TitleText.Margin = new Thickness(0, 2, 0, 0);
 
             MinimizeButton = new Button()
             {

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using TMClient.Types;
+using TMClient.Utils;
 
 namespace TMClient.ViewModel
 {
@@ -45,7 +46,14 @@ namespace TMClient.ViewModel
 
         private async Task ShowChatMembers(ChatInvite? invite)
         {
-
+            await Messenger.Send(Utils.Messages.ModalOpened);
+            var membersWindow = new View.UserList(invite.Chat.Members.ToArray())
+            {
+                Owner = App.Current.MainWindow,
+                ShowInTaskbar = false
+            };
+            membersWindow.ShowDialog();
+            await Messenger.Send(Utils.Messages.ModalClosed);
         }
         
         public NotificationsViewModel()
