@@ -31,7 +31,7 @@ namespace TMClient
         public static bool IsSaveAuth { get; set; } = true;
         public static bool IsAutoLogin { get; set; } = true;
         internal static UserDataStorage? UserData { get; private set; }
-        internal static RequestStorage? Requests { get; private set; }
+        internal static RequestStorage Requests { get; private set; } = new();
 
         public static string AppFolder => Path.Combine(
            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/");
@@ -43,7 +43,7 @@ namespace TMClient
             UserData = new UserDataStorage(Api.UserInfo);
             await UserData.Load(Api.UserInfo);
 
-            Requests = new RequestStorage();
+            Requests.Clear();
             await Requests.Load();
         }
         private void Application_Exit(object sender, ExitEventArgs e)

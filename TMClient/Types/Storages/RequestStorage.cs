@@ -16,6 +16,7 @@ namespace TMClient.Types
             set
             {
                 friendRequests = value;
+                OnPropertyChanged(nameof(FriendRequests));
             }
         }
         private ObservableCollection<FriendRequest> friendRequests = new();
@@ -31,14 +32,18 @@ namespace TMClient.Types
         }
         private ObservableCollection<ChatInvite> chatInvites = new();
 
-
+        public void Clear()
+        {
+            FriendRequests.Clear();
+            ChatInvites.Clear();
+        }
         public async Task Load()
         {
             var requests = await LoadRequests();
             foreach (var request in requests)
                 FriendRequests.Add(request);
 
-            var invites = await LoadInvites(); 
+            var invites = await LoadInvites();
             foreach (var invite in invites)
                 ChatInvites.Add(invite);
         }

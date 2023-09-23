@@ -3,10 +3,12 @@ using AsyncAwaitBestPractices.MVVM;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using TMClient.Model;
 using TMClient.Types;
 using TMClient.Utils;
 
@@ -14,8 +16,9 @@ namespace TMClient.ViewModel
 {
     class NotificationsViewModel : BaseViewModel
     {
-        public ObservableCollection<FriendRequest> FriendRequests { get; set; } = new();
-        public ObservableCollection<ChatInvite> ChatInvites { get; set; } = new();
+        public ObservableCollection<FriendRequest> FriendRequests => App.Requests.FriendRequests;
+
+        public ObservableCollection<ChatInvite> ChatInvites => App.Requests.ChatInvites;
 
 
         public ICommand AcceptFriendRequest => new AsyncCommand<FriendRequest>(AcceptFriend);
@@ -28,60 +31,59 @@ namespace TMClient.ViewModel
 
         private async Task AcceptFriend(FriendRequest? request)
         {
-
+            if (request != null)
+                await Model.AcceptFriend(request);
         }
         private async Task DeclineFriend(FriendRequest? request)
         {
-           
+            if (request != null)
+                await Model.DeclineFriend(request);
         }
 
         private async Task AcceptInvite(ChatInvite? invite)
         {
-            
+            if (invite != null)
+                await Model.AcceptInvite(invite);
         }
         private async Task DeclineInvite(ChatInvite? invite)
         {
-         
+            if (invite != null)
+                await Model.DeclineInvite(invite);
         }
 
         private async Task ShowChatMembers(ChatInvite? invite)
         {
-            await Messenger.Send(Utils.Messages.ModalOpened);
+            await Messenger.Send(Messages.ModalOpened);
             var membersWindow = new View.UserList(invite.Chat.Members.ToArray())
             {
                 Owner = App.Current.MainWindow,
                 ShowInTaskbar = false
             };
             membersWindow.ShowDialog();
-            await Messenger.Send(Utils.Messages.ModalClosed);
+            await Messenger.Send(Messages.ModalClosed);
         }
-        
+
+        private NotificationsModel Model;
+
         public NotificationsViewModel()
         {
-            for (int i = 0; i < 10; i++)
-            {
-                FriendRequests.Add(new FriendRequest(new User()
-                {
-                    Id = 1,
-                    IsOnline = true,
-                    Login = "ramus",
-                    Name = "Halif"
-                }, 10));
+            Model = new NotificationsModel();
 
-                ChatInvites.Add(new ChatInvite(new User()
-                {
-                    Id = i,
-                    IsOnline = false,
-                    Login = "Ramadan",
-                    Name = "Ivan Kal",
-                }, 
-                new Chat() 
-                { 
-                    Id = 1, 
-                    Name = "BEST CHAT" 
-                },i));
-            }
-            
+            //    ChatInvites.Add(new ChatInvite(new User()
+            //    {
+            //        Id = i,
+            //        IsOnline = false,
+            //        Login = "Ramadan",
+            //        Name = "Ivan Kal",
+            //    },
+            //    new Chat()
+            //    {
+            //        Id = 1,
+            //        Name = "BEST CHAT"
+            //    }, i));
+            //}
+
         }
+
     }
 }
