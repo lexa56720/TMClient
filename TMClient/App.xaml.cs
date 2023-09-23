@@ -25,12 +25,13 @@ namespace TMClient
             }
         }
         private static Api? api = null!;
-
+        public static User? CurrentUser { get; private set; }
         public static Configurator Settings { get; } = new Configurator("config.cfg", true);
 
         public static bool IsSaveAuth { get; set; } = true;
         public static bool IsAutoLogin { get; set; } = true;
-        internal static UserDataStorage? UserData { get; private set; }
+
+        internal static UserDataStorage UserData { get; private set; } = new();
         internal static RequestStorage Requests { get; private set; } = new();
 
         public static string AppFolder => Path.Combine(
@@ -40,11 +41,20 @@ namespace TMClient
 
         internal static async Task InitAppData()
         {
-            UserData = new UserDataStorage(Api.UserInfo);
+            CurrentUser = new User(Api.UserInfo.MainInfo);
+            
             await UserData.Load(Api.UserInfo);
-
-            Requests.Clear();
             await Requests.Load();
+        }
+
+        public static void Logout()
+        {
+            CurrentUser = null!;
+            App.Api = null!;
+            App.IsAutoLogin = false;
+
+            UserData.Clear(); 
+            Requests.Clear();
         }
         private void Application_Exit(object sender, ExitEventArgs e)
         {

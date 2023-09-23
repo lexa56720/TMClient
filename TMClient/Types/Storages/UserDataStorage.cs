@@ -13,18 +13,20 @@ namespace TMClient.Types
 {
     public class UserDataStorage
     {
-        public required User CurrentUser { get; init; }
-        public Dictionary<int, User> Friends { get; set; } = new();
+        public ObservableCollection<User> Friends { get; } = new();
+        public ObservableCollection<Chat> Chats { get;  } = new();
 
-        public Dictionary<int, Chat> Chats { get; set; } = new();
+        public ConcurrentDictionary<int, Chat> CachedChats { get; } = new();
+        public ConcurrentDictionary<int, User> CachedUsers { get; } = new();
 
-        public ConcurrentDictionary<int, User> Users { get; set; } = new();
 
-
-        [SetsRequiredMembers]
-        public UserDataStorage(UserInfo currentUser)
+        public void Clear()
         {
-            CurrentUser = new User(currentUser.MainInfo);
+            Friends.Clear();
+            Chats.Clear();
+
+            CachedChats.Clear();
+            CachedUsers.Clear();
         }
 
         public async Task Load(UserInfo currentUser)
@@ -32,13 +34,16 @@ namespace TMClient.Types
             var friends = LoadFriends(currentUser);
             foreach (var friend in friends)
             {
-                Users.TryAdd(friend.Id, friend);
-                Friends.TryAdd(friend.Id, friend);
+                CachedUsers.TryAdd(friend.Id, friend);
+                Friends.Add(friend);
             }
 
             var chats = await LoadChats(currentUser);
             foreach (var chat in chats)
-                Chats.Add(chat.Id, chat);
+            {
+                CachedChats.TryAdd(chat.Id, chat);
+                Chats.Add(chat);
+            }
         }
         private User[] LoadFriends(UserInfo currentUser)
         {
@@ -51,10 +56,7 @@ namespace TMClient.Types
             var users = (await App.Api.Users.GetUser(ids)).Select(u => new User(u));
 
             foreach (var user in users)
-            {
-                Users.TryAdd(user.Id, user);
-                Friends.TryAdd(user.Id, user);
-            }
+                CachedUsers.TryAdd(user.Id, user);
 
             return await Task.WhenAll(chats.Select(async c => new Chat(c, await GetUser(c.MemberIds))));
         }
@@ -64,14 +66,14 @@ namespace TMClient.Types
             ConcurrentBag<User> requestedUsers = new ConcurrentBag<User>();
             var tasks = new List<Task>();
             foreach (var id in ids)
-                if (!Users.TryGetValue(id, out var user))
+                if (!CachedUsers.TryGetValue(id, out var user))
                     tasks.Add(new Task(async () =>
                     {
                         var apiUser = await App.Api.Users.GetUser(id);
                         if (apiUser != null)
                         {
                             var convertedUser = new User(apiUser);
-                            Users.TryAdd(apiUser.Id, convertedUser);
+                            CachedUsers.TryAdd(apiUser.Id, convertedUser);
                             requestedUsers.Add(convertedUser);
                         }
                     }));
@@ -83,30 +85,29 @@ namespace TMClient.Types
         }
         public async Task<User?> GetUser(int id)
         {
-            if (Users.TryGetValue(id, out var user) && user != null)
+            if (CachedUsers.TryGetValue(id, out var user) && user != null)
                 return user;
 
             var apiUser = await App.Api.Users.GetUser(id);
             if (apiUser != null)
             {
                 user = new User(apiUser);
-                Users.TryAdd(user.Id, user);
+                CachedUsers.TryAdd(user.Id, user);
                 return user;
             }
             return null;
         }
 
-
         public async Task<Chat?> GetChat(int id)
         {
-            if (Chats.TryGetValue(id, out var chat) && chat != null)
+            if (CachedChats.TryGetValue(id, out var chat) && chat != null)
                 return chat;
 
             var apiChat = await App.Api.Chats.GetChat(id);
             if (apiChat != null)
             {
                 chat = new Chat(apiChat, await GetUser(apiChat.MemberIds));
-                Chats.TryAdd(chat.Id, chat);
+                CachedChats.TryAdd(chat.Id, chat);
                 return chat;
             }
             return null;

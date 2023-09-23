@@ -69,7 +69,7 @@ namespace TMClient.ViewModel.Chats
         {
             var message = await Model.SendMessage(new Message()
             {
-                Author = App.UserData.CurrentUser,
+                Author = App.CurrentUser,
                 Text = text,
                 Destionation = Chat,
             });

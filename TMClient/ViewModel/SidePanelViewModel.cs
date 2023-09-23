@@ -15,27 +15,9 @@ namespace TMClient.ViewModel
 {
     class SidePanelViewModel : BaseViewModel
     {
-        public ObservableCollection<User> Friends
-        {
-            get => friends;
-            set
-            {
-                friends = value;
-                OnPropertyChanged(nameof(Friends));
-            }
-        }
-        private ObservableCollection<User> friends = new();
+        public ObservableCollection<User> Friends => App.UserData.Friends;
 
-        public ObservableCollection<Chat> Chats
-        {
-            get => chats;
-            set
-            {
-                chats = value;
-                OnPropertyChanged(nameof(Chats));
-            }
-        }
-        private ObservableCollection<Chat> chats = new();
+        public ObservableCollection<Chat> Chats => App.UserData.Chats;
 
 
         public ICommand AddFriendCommand => new AsyncCommand(AddFriend);
@@ -51,7 +33,7 @@ namespace TMClient.ViewModel
             if (user == null)
                 return;
 
-            var chat = App.UserData.Chats.Values
+            var chat = App.UserData.CachedChats.Values
                 .SingleOrDefault(c => c.Members.Count == 2 && c.Members.Any(m => m.Id == user.Id));
             var userChat = new FriendChat(chat);
             await OpenChat(userChat);
@@ -66,19 +48,12 @@ namespace TMClient.ViewModel
         }
         public SidePanelViewModel()
         {
-            for (int i = 0; i < 20; i++)
-                Friends.Add(new User()
-                { 
-                    Name = "Ffff", 
-                    IsOnline = true,
-                    Login = "fdfasd", 
-                    Id = 1 
-                });
+
         }
 
         private async Task OpenChat(Page page)
         {
-           await Messenger.Send(Messages.OpenChatPage,page);
+            await Messenger.Send(Messages.OpenChatPage, page);
         }
 
         private async Task AddFriend()

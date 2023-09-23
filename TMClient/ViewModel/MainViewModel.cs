@@ -102,8 +102,7 @@ namespace TMClient.ViewModel
 
         private void Logout()
         {
-            App.Api = null;
-            App.IsAutoLogin = false;
+            App.Logout();
             Messenger.Send(Messages.CloseMainWindow);
             var authWindow = new MainAuthWindow();
             authWindow.Show();

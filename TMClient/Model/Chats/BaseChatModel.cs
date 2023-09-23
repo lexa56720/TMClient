@@ -31,7 +31,7 @@ namespace TMClient.Model.Chats
             var result = await App.Api.Messages.SendMessage(message.Text, message.Destionation.Id);
             if (result == null)
                 return null;
-            return new Message(result, App.UserData.CurrentUser);
+            return new Message(result, App.CurrentUser);
         }
 
     }
