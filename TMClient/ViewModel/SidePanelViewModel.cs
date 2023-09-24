@@ -17,7 +17,7 @@ namespace TMClient.ViewModel
     {
         public ObservableCollection<User> Friends => App.UserData.Friends;
 
-        public ObservableCollection<Chat> Chats => App.UserData.Chats;
+        public ObservableCollection<Chat> Chats => App.UserData.MultiUserChats;
 
 
         public ICommand AddFriendCommand => new AsyncCommand(AddFriend);
@@ -33,8 +33,8 @@ namespace TMClient.ViewModel
             if (user == null)
                 return;
 
-            var chat = App.UserData.CachedChats.Values
-                .SingleOrDefault(c => c.Members.Count == 2 && c.Members.Any(m => m.Id == user.Id));
+            var chat = App.UserData.FriendChats
+                .Single(c => c.Members.Any(m => m.Id == user.Id));
             var userChat = new FriendChat(chat);
             await OpenChat(userChat);
         }

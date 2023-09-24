@@ -21,8 +21,10 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                    <Label  Grid.Column="1" FontSize="24" Content="{Binding ChatName}"  HorizontalContentAlignment="Center"  />
-      
+                <StackPanel Grid.Column="1" >
+                    <Label Content="{Binding ChatName}" FontSize="24" HorizontalAlignment="Center" Padding="0"  Margin="0,-5,0,-5" />
+                    <Label Content="{Binding FriendLogin, Converter={StaticResource LoginConverter}}" Padding="0"  HorizontalAlignment="Center" FontSize="16" Margin="0,0,0,-5" />
+                </StackPanel>
 
                 <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
                     <controls:IconButton Icon="&#xE8F8;" Margin="5" Style="{StaticResource TransperentButton}"

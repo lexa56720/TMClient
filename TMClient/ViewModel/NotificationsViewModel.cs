@@ -32,23 +32,35 @@ namespace TMClient.ViewModel
         private async Task AcceptFriend(FriendRequest? request)
         {
             if (request != null)
+            {
                 await Model.AcceptFriend(request);
+                FriendRequests.Remove(request);
+            }
         }
         private async Task DeclineFriend(FriendRequest? request)
         {
             if (request != null)
+            {
                 await Model.DeclineFriend(request);
+                FriendRequests.Remove(request);
+            }
         }
 
         private async Task AcceptInvite(ChatInvite? invite)
         {
             if (invite != null)
+            {
                 await Model.AcceptInvite(invite);
+                ChatInvites.Remove(invite);
+            }
         }
         private async Task DeclineInvite(ChatInvite? invite)
         {
             if (invite != null)
+            {
                 await Model.DeclineInvite(invite);
+                ChatInvites.Remove(invite);
+            }
         }
 
         private async Task ShowChatMembers(ChatInvite? invite)

@@ -10,9 +10,22 @@ namespace TMClient.ViewModel.Chats
 {
     internal class FriendChatViewModel : BaseChatViewModel<FriendChatModel>
     {
+        public string FriendLogin
+        {
+            get => friendLogin;
+            set
+            {
+                friendLogin = value;
+                OnPropertyChanged(nameof(FriendLogin));
+            }
+        }
+        private string friendLogin;
+
         public FriendChatViewModel(Chat chat) : base(chat)
         {
-            ChatName = Chat.Members.Single(m => m.Id != App.Api.Id).Name;
+            var friend = Chat.Members.Single(m => m.Id != App.Api.Id);
+            ChatName = friend.Name;
+            FriendLogin = friend.Login;
         }
 
         protected override FriendChatModel GetModel(Chat chat)

@@ -14,7 +14,9 @@ namespace TMClient.Types
     public class UserDataStorage
     {
         public ObservableCollection<User> Friends { get; } = new();
-        public ObservableCollection<Chat> Chats { get;  } = new();
+
+        public ObservableCollection<Chat> FriendChats { get; } = new();
+        public ObservableCollection<Chat> MultiUserChats { get; } = new();
 
         public ConcurrentDictionary<int, Chat> CachedChats { get; } = new();
         public ConcurrentDictionary<int, User> CachedUsers { get; } = new();
@@ -23,7 +25,8 @@ namespace TMClient.Types
         public void Clear()
         {
             Friends.Clear();
-            Chats.Clear();
+            MultiUserChats.Clear();
+            FriendChats.Clear();
 
             CachedChats.Clear();
             CachedUsers.Clear();
@@ -38,27 +41,36 @@ namespace TMClient.Types
                 Friends.Add(friend);
             }
 
-            var chats = await LoadChats(currentUser);
-            foreach (var chat in chats)
+            var chats = await LoadChats();
+            foreach (var dialogue in chats.Item1)
+            {
+                CachedChats.TryAdd(dialogue.Id, dialogue);
+                FriendChats.Add(dialogue);
+            }
+            foreach (var chat in chats.Item2)
             {
                 CachedChats.TryAdd(chat.Id, chat);
-                Chats.Add(chat);
+                FriendChats.Add(chat);
             }
         }
         private User[] LoadFriends(UserInfo currentUser)
         {
             return currentUser.Friends.Select(f => new User(f)).ToArray();
         }
-        private async Task<Chat[]> LoadChats(UserInfo currentUser)
+        private async Task<(Chat[], Chat[])> LoadChats()
         {
-            var chats = await App.Api.Chats.GetChat(currentUser.Chats);
-            var ids = chats.SelectMany(c => c.MemberIds).Distinct().ToArray();
+            var dialogues = await App.Api.Chats.GetAllDialogues();
+            var multiuserChats = await App.Api.Chats.GetAllNonDialogues();
+
+
+            var ids = dialogues.Concat(multiuserChats).SelectMany(c => c.MemberIds).Distinct().ToArray();
             var users = (await App.Api.Users.GetUser(ids)).Select(u => new User(u));
 
             foreach (var user in users)
                 CachedUsers.TryAdd(user.Id, user);
 
-            return await Task.WhenAll(chats.Select(async c => new Chat(c, await GetUser(c.MemberIds))));
+            return (await Task.WhenAll(dialogues.Select(async c => new Chat(c, await GetUser(c.MemberIds)))),
+               await Task.WhenAll(multiuserChats.Select(async c => new Chat(c, await GetUser(c.MemberIds)))));
         }
 
         public async Task<User[]> GetUser(int[] ids)
