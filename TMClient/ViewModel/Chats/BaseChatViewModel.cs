@@ -61,8 +61,11 @@ namespace TMClient.ViewModel.Chats
 
         public async Task LoadMessages()
         {
-            if (Messages.Any())
-                await Model.GetHistory(Messages.Last().InnerMessages.Last());
+            if (!Messages.Any())
+                return;
+
+            var messages= await Model.GetHistory(Messages.Last().InnerMessages.First());
+            AddMessageToStart(messages);
         }
 
         public async Task SendMessage(string text)
@@ -83,9 +86,7 @@ namespace TMClient.ViewModel.Chats
 
         }
 
-
-
-        protected void AddMessage(Message message)
+        protected void AddMessageToEnd(Message message)
         {
             var last = Messages.LastOrDefault();
             if (last != null && last.Author.Id == message.Author.Id)
@@ -93,10 +94,10 @@ namespace TMClient.ViewModel.Chats
             else
                 Messages.Add(new MessageControl(message));
         }
-        protected void AddMessage(Message[] messages)
+        protected void AddMessageToEnd(Message[] messages)
         {
             for (int i = 0; i < messages.Length; i++)
-                AddMessage(messages[i]);
+                AddMessageToEnd(messages[i]);
         }
 
         protected void AddMessageToStart(Message message)

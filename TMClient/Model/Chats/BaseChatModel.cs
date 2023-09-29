@@ -18,12 +18,19 @@ namespace TMClient.Model.Chats
 
         public async Task<Message[]> GetHistory(Message lastMessage)
         {
-            throw new NotImplementedException();
+            var messages = await App.Api.Messages.GetMessages(Chat.Id, lastMessage.Id);
+            var tasks = messages.Select(
+                async m => new Message(m, await App.UserData.GetUser(m.AuthorId)));
+
+            return await Task.WhenAll(tasks);
         }
         public async Task<Message[]> GetHistory(int offset)
         {
-            throw new NotImplementedException();
+            var messages = await App.Api.Messages.GetMessages(Chat.Id, 20, offset);
+            var tasks = messages.Select(
+                async m => new Message(m, await App.UserData.GetUser(m.AuthorId)));
 
+           return await Task.WhenAll(tasks);
         }
 
         public async Task<Message?> SendMessage(Message message)
