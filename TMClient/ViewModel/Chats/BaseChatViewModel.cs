@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Interop;
+using System.Windows.Threading;
 using TMClient.Controls;
 using TMClient.Model.Chats;
 using TMClient.Types;
@@ -16,25 +18,16 @@ namespace TMClient.ViewModel.Chats
     {
         public int Id { get; private set; }
         protected Chat Chat { get; }
-        public ObservableCollection<MessageControl> Messages { get; set; } = new();
-
-        public string MessageText
+        public ObservableCollection<MessageControl> Messages
         {
-            get => messageText;
+            get => messages;
             set
             {
-                messageText = value;
-                OnPropertyChanged(nameof(MessageText));
+                messages = value;
+                OnPropertyChanged(nameof(Messages));
             }
         }
-        private string messageText;
-
-        public ICommand LoadHistory => new AsyncCommand(LoadMessages);
-
-        public ICommand Send => new AsyncCommand<string>(SendMessage);
-        public ICommand Attach => new AsyncCommand(AttachFile);
-
-
+        private ObservableCollection<MessageControl> messages = new();
         public string ChatName
         {
             get => chatName;
@@ -46,6 +39,22 @@ namespace TMClient.ViewModel.Chats
         }
         private string chatName = string.Empty;
 
+        public string MessageText
+        {
+            get => messageText;
+            set
+            {
+                messageText = value;
+                OnPropertyChanged(nameof(MessageText));
+            }
+        }
+        private string messageText = string.Empty;
+
+
+        public ICommand LoadHistory => new AsyncCommand(LoadMessages);
+        public ICommand Send => new AsyncCommand<string>(SendMessage);
+        public ICommand Attach => new AsyncCommand(AttachFile);
+
         protected T Model { get; private set; }
 
         public BaseChatViewModel(Chat chat)
@@ -55,21 +64,30 @@ namespace TMClient.ViewModel.Chats
             Id = chat.Id;
 
             Model = GetModel(chat);
+
         }
+
 
         protected abstract T GetModel(Chat chat);
 
         public async Task LoadMessages()
         {
             if (!Messages.Any())
+            {
+                AddMessageToStart(await Model.GetHistory(0));
                 return;
+            }
 
-            var messages= await Model.GetHistory(Messages.Last().InnerMessages.First());
+
+            var messages = await Model.GetHistory(Messages.First().InnerMessages.First());
             AddMessageToStart(messages);
         }
 
-        public async Task SendMessage(string text)
+        public async Task SendMessage(string? text)
         {
+            if (string.IsNullOrEmpty(text))
+                return;
+
             var message = await Model.SendMessage(new Message()
             {
                 Author = App.CurrentUser,
@@ -77,7 +95,7 @@ namespace TMClient.ViewModel.Chats
                 Destionation = Chat,
             });
             if (message != null)
-                Messages.Add(new MessageControl(message));
+                AddMessageToEnd(message);
             MessageText = string.Empty;
         }
 
@@ -89,7 +107,7 @@ namespace TMClient.ViewModel.Chats
         protected void AddMessageToEnd(Message message)
         {
             var last = Messages.LastOrDefault();
-            if (last != null && last.Author.Id == message.Author.Id)
+            if (last != null && IsUnionable(last, message))
                 last.UnionToEnd(message);
             else
                 Messages.Add(new MessageControl(message));
@@ -103,7 +121,7 @@ namespace TMClient.ViewModel.Chats
         protected void AddMessageToStart(Message message)
         {
             var first = Messages.FirstOrDefault();
-            if (first != null && first.Author.Id == message.Author.Id)
+            if (first != null && IsUnionable(first, message))
                 first.UnionToStart(message);
             else
                 Messages.Insert(0, new MessageControl(message));
@@ -112,6 +130,13 @@ namespace TMClient.ViewModel.Chats
         {
             for (int i = 0; i < messages.Length; i++)
                 AddMessageToStart(messages[i]);
+        }
+
+        private bool IsUnionable(MessageControl oldMessage, Message newMessage)
+        {
+            return oldMessage.Author.Id == newMessage.Author.Id &&
+                oldMessage.InnerMessages.First().SendTime - newMessage.SendTime < TimeSpan.FromMinutes(5) &&
+                oldMessage.InnerMessages.Count < 10;
         }
     }
 }

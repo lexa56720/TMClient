@@ -55,7 +55,8 @@
                         </Border>
 
 
-                        <ListView  x:Name="FriendList" Grid.Row="1" ItemsSource="{Binding Friends}"  ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="1"  >
+                        <ListView  x:Name="FriendList" Grid.Row="1" SelectionMode="Single"
+                                   ItemsSource="{Binding Friends}"  ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="1"  >
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
@@ -64,7 +65,8 @@
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Grid.Column="0" >
                                             <Label Content="{Binding Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,-5,0,-5" />
-                                            <Label Content="{Binding Login, Converter={StaticResource LoginConverter}}" Padding="0"  HorizontalAlignment="Left" FontSize="16" Margin="0,0,0,-5" />
+                                            <Label Content="{Binding Login, Converter={StaticResource LoginConverter}}" Padding="0" 
+                                                   HorizontalAlignment="Left" FontSize="16" Margin="0,0,0,-5" />
                                         </StackPanel>
                                     </Grid>
                                 </DataTemplate>
@@ -72,6 +74,7 @@
                             <b:Interaction.Triggers>
                                 <b:EventTrigger EventName="SelectionChanged">
                                     <b:InvokeCommandAction Command="{Binding FriendSelected}" CommandParameter="{Binding SelectedItem, ElementName=FriendList}"/>
+                                    <b:SetDataStoreValueAction/>
                                 </b:EventTrigger>
                             </b:Interaction.Triggers>
                         </ListView>

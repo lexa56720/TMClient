@@ -20,8 +20,6 @@ namespace TMClient
             set
             {
                 api = value;
-                if (api != null)
-                    InitAppData();
             }
         }
         private static Api? api = null!;
@@ -39,7 +37,7 @@ namespace TMClient
         public static string AuthFolder => Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/userdata/auth");
 
-        internal static async Task InitAppData()
+        public static async Task InitAppData()
         {
             CurrentUser = new User(Api.UserInfo.MainInfo);
             

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TMClient.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"  Loaded="ChatLoaded">
     <Grid   >
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -14,8 +14,16 @@
 
         <Border  CornerRadius="5">
             <Grid>
-                <local:ExtendeListView Background="#202020" ReachTop="{Binding LoadMore, RelativeSource={RelativeSource AncestorType={x:Type local:ChatControl}}}" ItemsSource="{Binding Messages}" HorizontalContentAlignment="Stretch"
-                                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" />
+                <local:ExtendeListView Background="#202020" 
+                                       ReachTop="{Binding LoadMore, RelativeSource={RelativeSource AncestorType={x:Type local:ChatControl}}}"
+                                       ItemsSource="{Binding Messages}" HorizontalContentAlignment="Stretch"
+                                       ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <local:ExtendeListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
+                            <Setter Property="Focusable" Value="false"/>
+                        </Style>
+                    </local:ExtendeListView.ItemContainerStyle>
+                </local:ExtendeListView>
             </Grid>
         </Border>
 

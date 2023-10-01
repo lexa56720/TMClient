@@ -32,7 +32,8 @@
 
                 </StackPanel>
             </Grid>
-            <controls:ChatControl LoadMore="{Binding LoadHistory}" AttachCommand="{Binding Attach}" SendCommand="{Binding Send}" Grid.Row="1" ItemsSource="{Binding Messages}"  />
+            <controls:ChatControl LoadMore="{Binding LoadHistory}" AttachCommand="{Binding Attach}" WrittenText="{Binding MessageText}" 
+                                  SendCommand="{Binding Send}" Grid.Row="1" ItemsSource="{Binding Messages}"  />
         </Grid>
     </Border>
 </Page>

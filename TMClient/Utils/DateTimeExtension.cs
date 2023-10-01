@@ -10,7 +10,6 @@ namespace TMClient.Utils
     {
         static public string ToText(this DateTime time)
         {
-
             var now = DateTime.Now;
 
             time = time.ToLocalTime();

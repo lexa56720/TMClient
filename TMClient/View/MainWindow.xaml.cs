@@ -20,16 +20,22 @@ namespace TMClient.View
     /// </summary>
     public partial class MainWindow : ModernWindow
     {
-        public MainWindow(Api? api)
+        private MainWindow()
         {
-            if (api == null)
-                Environment.Exit(53);
-            App.Api=api;
-
             InitializeComponent();
             DataContext = new MainViewModel();
 
-            Messenger.Subscribe(Messages.CloseMainWindow,()=> App.Current.Dispatcher.Invoke(Close));
+            Messenger.Subscribe(Messages.CloseMainWindow, () => App.Current.Dispatcher.Invoke(Close));
+        }
+
+        public static async Task<MainWindow> GetInstance(Api? api)
+        {
+            if (api == null)
+                Environment.Exit(53);
+            App.Api = api;
+            await App.InitAppData();
+
+            return new MainWindow();
         }
     }
 }

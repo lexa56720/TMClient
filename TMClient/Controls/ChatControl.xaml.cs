@@ -56,7 +56,7 @@ namespace TMClient.Controls
 
         public ICommand SendCommand
         {
-            get { return (ICommand)GetValue(SendCommandProperty);  }
+            get { return (ICommand)GetValue(SendCommandProperty); }
             set { SetValue(SendCommandProperty, value); }
         }
 
@@ -76,10 +76,10 @@ namespace TMClient.Controls
 
         public static readonly DependencyProperty WrittenTextProperty =
         DependencyProperty.Register(
-           nameof (WrittenText),
+           nameof(WrittenText),
            typeof(string),
            typeof(ChatControl),
-           new FrameworkPropertyMetadata(string.Empty,FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+           new FrameworkPropertyMetadata(string.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public string WrittenText
         {
             get { return (string)GetValue(WrittenTextProperty); }
@@ -89,6 +89,16 @@ namespace TMClient.Controls
         public ChatControl()
         {
             InitializeComponent();
+        }
+
+        private bool IsFirstTimeLoad = true;
+        private void ChatLoaded(object sender, EventArgs e)
+        {
+            if (LoadMore.CanExecute(null) && IsFirstTimeLoad)
+            {
+                IsFirstTimeLoad = false;
+                LoadMore.Execute(null);
+            }            
         }
     }
 }
