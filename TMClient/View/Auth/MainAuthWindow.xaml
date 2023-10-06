@@ -7,8 +7,14 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+    WindowStyle="None" 
         Title="MainAuthWindow" Height="600" Width="700" HorizontalAlignment="Center"
-        VerticalAlignment="Center"  Background="{StaticResource BackgroundBrush}">
+        VerticalAlignment="Center"  >
+
+    <controls:ModernWindow.Background>
+        <SolidColorBrush Opacity="0.8" Color="{StaticResource BackgroundColor}"/>
+    </controls:ModernWindow.Background>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding WindowLoaded}"/>
@@ -43,7 +49,7 @@
             </Frame.Style>
         </Frame>
         <fa:ImageAwesome Grid.Row="0" Icon="Refresh" Margin="200" Visibility="{Binding LoadingVisibility}" Foreground="White" Spin="True" SpinDuration="10" />
-        <Button  Grid.Row="1" Command="{Binding Switch}"  IsEnabled="{Binding IsLoaded}" >
+        <Button  Grid.Row="1" Command="{Binding Switch}"  IsEnabled="{Binding IsLoaded}" Margin="-5" >
             <Button.Style  >
                 <Style TargetType="Button" BasedOn="{StaticResource ResourceKey={x:Type Button}}">
                     <Style.Triggers>

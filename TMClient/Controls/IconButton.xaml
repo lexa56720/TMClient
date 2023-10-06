@@ -11,11 +11,13 @@
 
         <TextBlock Text="{Binding Icon}" 
                    FontSize="{Binding FontSize}"
+                   Foreground="{Binding Foreground}"
                    Margin="0,0,0,0" TextAlignment="Center" VerticalAlignment="Center" 
                    FontFamily="{StaticResource SegoeIcons}" />
 
         <TextBlock Text="{Binding Text}"
                    FontSize="{Binding FontSize}"
+                   Foreground="{Binding Foreground}"
                    Margin="0,0,0,0" Visibility="{Binding TextVisibility}"  
                    TextAlignment="Center" VerticalAlignment="Center"/>
     </StackPanel>
