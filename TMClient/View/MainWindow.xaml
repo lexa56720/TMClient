@@ -5,7 +5,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TMClient.View" Background="{StaticResource BackgroundLightBrush}"
+        xmlns:local="clr-namespace:TMClient.View"
+    AllowsTransparency="True"
+    WindowStyle="None" 
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" 
         Title="MainWindow" Height="700" Width="900" MinHeight="400" MinWidth="600">
     <controls:ModernWindow.Style>
@@ -29,10 +31,15 @@
         </Style>
     </controls:ModernWindow.Style>
 
-    <Grid>
-            <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+    <controls:ModernWindow.Background>
+        <SolidColorBrush Opacity="0.5" Color="{StaticResource BackgroundLightColor}"/>
+    </controls:ModernWindow.Background>
 
+
+    <Grid Background="Transparent" >
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -41,27 +48,33 @@
             <ColumnDefinition Width="6*"/>
         </Grid.ColumnDefinitions>
 
+        <Rectangle Grid.Column="1" Grid.ColumnSpan="3" Fill="{StaticResource BackgroundBrush}" />
 
-        <Border  Grid.Column="0" Background="{StaticResource BackgroundLightBrush}" CornerRadius="0,5,5,0">
+        <Border  Grid.Column="0"  CornerRadius="0,5,5,0">
             <DockPanel VerticalAlignment="Stretch" >
                 <StackPanel DockPanel.Dock="Top">
                     <controls:IconButton Icon="&#xE700;" Style="{StaticResource TransperentButton}" Orientation="Vertical"
                                      Command="{Binding ChangeSideBarState}" HorizontalAlignment="Stretch" FontSize="32" Margin="5"/>
 
-                    <controls:IconButton Icon="&#xE8D4;"  Orientation="Vertical" FontSize="32" Margin="5" Command="{Binding ProfileCommand}" />
+                    <controls:IconButton Icon="&#xE8D4;"  Style="{StaticResource TransperentButton}" Orientation="Vertical"
+                                         FontSize="32" Margin="5" Command="{Binding ProfileCommand}" />
                     <Label Content="Профиль" Visibility="{Binding SideBarState}" Margin="0,-10,0,0" HorizontalAlignment="Center"/>
                    
-                    <controls:IconButton Icon="&#xEDAC;" Orientation="Vertical" FontSize="32" Margin="5" Command="{Binding NotificationCommand}" />
+                    <controls:IconButton Style="{StaticResource TransperentButton}" Icon="&#xEDAC;" Orientation="Vertical"
+                                         FontSize="32" Margin="5" Command="{Binding NotificationCommand}" />
                     <Label Content="Запросы" Visibility="{Binding SideBarState}" Margin="0,-10,0,0" HorizontalAlignment="Center"/>
 
-                    <controls:IconButton Icon="&#xE8BD;" Orientation="Vertical" FontSize="32" Margin="5" Command="{Binding ChatCommand}" />
+                    <controls:IconButton Icon="&#xE8BD;" Style="{StaticResource TransperentButton}" Orientation="Vertical"
+                                         FontSize="32" Margin="5" Command="{Binding ChatCommand}" />
                     <Label Content="Сообщения" Visibility="{Binding SideBarState}" Margin="0,-10,0,0" HorizontalAlignment="Center"/>
                 </StackPanel>
                 <StackPanel VerticalAlignment="Bottom" DockPanel.Dock="Bottom"  >
-                    <controls:IconButton Icon="&#xE713;" Orientation="Vertical" Command="{Binding SettingsCommand}" FontSize="32" Margin="5" />
+                    <controls:IconButton Icon="&#xE713;" Style="{StaticResource TransperentButton}" Orientation="Vertical"
+                                         Command="{Binding SettingsCommand}" FontSize="32" Margin="5" />
                     <Label Content="Параметры" Visibility="{Binding SideBarState}" FontSize="12" Margin="0,-10,0,0" HorizontalAlignment="Center"/>
 
-                    <controls:IconButton Icon="&#xF3b1;" Orientation="Vertical" Command="{Binding LogoutCommand}" FontSize="32" Margin="5" />
+                    <controls:IconButton Icon="&#xF3b1;" Style="{StaticResource TransperentButton}" Orientation="Vertical"
+                                         Command="{Binding LogoutCommand}" FontSize="32" Margin="5" />
                     <Label Content="Выйти" Visibility="{Binding SideBarState}" FontSize="12" Margin="0,-10,0,0" HorizontalAlignment="Center"/>
                 </StackPanel>
             </DockPanel>
@@ -69,10 +82,9 @@
 
         <Frame Padding="0,0,0,5" Grid.Row="0"  Grid.Column="1" Background="Transparent"  Content="{Binding SidePanelFrame}" />
 
-        <GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="2"  Width="8" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
-        
+        <GridSplitter  Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Width="8" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
+      
         <Frame Padding="0,0,5,5" Grid.Row="0" Grid.Column="3"  Content="{Binding MainFrame}" Background="Transparent"/>
-
 
     </Grid>
 </controls:ModernWindow>

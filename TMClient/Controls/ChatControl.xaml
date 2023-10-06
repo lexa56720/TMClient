@@ -27,7 +27,7 @@
             </Grid>
         </Border>
 
-        <DockPanel  HorizontalAlignment="Stretch" Grid.Row="1" Margin="5,10,5,10">
+        <DockPanel  HorizontalAlignment="Stretch" Grid.Row="1" Margin="-5,0,-5,-5">
 
             <local:IconButton DockPanel.Dock="Right" Icon="&#xE724;" FontSize="32" VerticalAlignment="Bottom" Margin="5" 
                               Command="{Binding SendCommand,RelativeSource={RelativeSource AncestorType={x:Type local:ChatControl}}}"
@@ -37,7 +37,8 @@
                               Command="{Binding AttachCommand,RelativeSource={RelativeSource AncestorType={x:Type local:ChatControl}}}" />
             
             <TextBox x:Name="MessageBox" DockPanel.Dock="Left" TextWrapping="Wrap" HorizontalAlignment="Stretch" MaxLength="256" 
-              FontSize="24" MaxLines="10" Style="{StaticResource DarkTextBox}" Text="{Binding WrittenText,RelativeSource={RelativeSource AncestorType={x:Type local:ChatControl}}}" VerticalScrollBarVisibility="Auto" AcceptsReturn="True" />
+              FontSize="24" MaxLines="10" Style="{StaticResource DarkTextBox}" Text="{Binding WrittenText,RelativeSource={RelativeSource AncestorType={x:Type local:ChatControl}}}"
+                     VerticalScrollBarVisibility="Auto" AcceptsReturn="True" />
         </DockPanel>
     </Grid>
 </UserControl>

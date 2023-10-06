@@ -8,7 +8,7 @@
       d:DesignHeight="800" d:DesignWidth="300"
       Title="SidePanel">
 
-    <Grid Background="{StaticResource BackgroundLightBrush}">
+    <Grid Background="{StaticResource BackgroundBrush}" >
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="12*"/>
@@ -29,9 +29,9 @@
         </Border>
 
 
-        <Border Grid.Row="1" Background="Transparent" Margin="0">
+        <Border Grid.Row="1" Background="{StaticResource BackgroundBrush}" Margin="0">
 
-            <Grid Background="{StaticResource BackgroundLightBrush}">
+            <Grid Background="{StaticResource BackgroundBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
@@ -56,7 +56,7 @@
 
 
                         <ListView  x:Name="FriendList" Grid.Row="1" SelectionMode="Single"
-                                   ItemsSource="{Binding Friends}"  ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="1"  >
+                                   ItemsSource="{Binding Friends}"  ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="5,0,0,5"  >
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
@@ -83,7 +83,7 @@
 
                 </Border>
 
-                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,5,0,5"  Height="8"  VerticalAlignment="Center"/>
+                <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Margin="5,5,0,0"  Height="8"  VerticalAlignment="Center"/>
 
                 <Border  Grid.Row="2" Background="{StaticResource BackgroundBrush}" CornerRadius="5" >
                     <Grid>
@@ -99,7 +99,8 @@
                             </StackPanel>
                         </Border>
 
-                        <ListView  x:Name="ChatList" Grid.Row="1" ItemsSource="{Binding Chats}" ScrollViewer.VerticalScrollBarVisibility="Visible"  Margin="1" >
+                        <ListView  x:Name="ChatList" Grid.Row="1" ItemsSource="{Binding Chats}"
+                                   ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="5,0,0,0" >
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>

@@ -1,17 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Shell;
 using TMClient.Utils;
 
 namespace TMClient.Controls
 {
+    internal enum AccentState
+    {
+        ACCENT_DISABLED = 1,
+        ACCENT_ENABLE_GRADIENT = 0,
+        ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
+        ACCENT_ENABLE_BLURBEHIND = 3,
+        ACCENT_INVALID_STATE = 4
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct AccentPolicy
+    {
+        public AccentState AccentState;
+        public int AccentFlags;
+        public int GradientColor;
+        public int AnimationId;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct WindowCompositionAttributeData
+    {
+        public WindowCompositionAttribute Attribute;
+        public IntPtr Data;
+        public int SizeOfData;
+    }
+
+    internal enum WindowCompositionAttribute
+    {
+        // ...
+        WCA_ACCENT_POLICY = 19
+        // ...
+    }
     public class ModernWindow : Window
     {
         private UserControl AppContent = new UserControl();
@@ -46,7 +80,7 @@ namespace TMClient.Controls
             CaptionHeight = 34,
             CornerRadius = new CornerRadius(5),
             ResizeBorderThickness=new Thickness(5),
-            GlassFrameThickness = new Thickness(1),
+            GlassFrameThickness = new Thickness(2),
         };
 
         public ModernWindow()
@@ -58,6 +92,7 @@ namespace TMClient.Controls
         private void EventSetup()
         {
             this.StateChanged += MainWindowStateChangeRaised;
+            Loaded += Window_Loaded;
         }
 
         private void InitializeComponent()
@@ -154,6 +189,42 @@ namespace TMClient.Controls
 
                 Content = MainBorder;
             }
+        }
+        [DllImport("user32.dll")]
+        internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            EnableBlur();
+        }
+
+        internal void EnableBlur()
+        {
+            var windowHelper = new WindowInteropHelper(this);
+
+            var accent = new AccentPolicy();
+            accent.AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND;
+
+            var accentStructSize = Marshal.SizeOf(accent);
+
+            var accentPtr = Marshal.AllocHGlobal(accentStructSize);
+            Marshal.StructureToPtr(accent, accentPtr, false);
+
+            var data = new WindowCompositionAttributeData();
+            data.Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY;
+            data.SizeOfData = accentStructSize;
+            data.Data = accentPtr;
+
+            SetWindowCompositionAttribute(windowHelper.Handle, ref data);
+
+            Marshal.FreeHGlobal(accentPtr);
+        }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            DragMove();
         }
     }
 }
