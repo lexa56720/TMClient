@@ -46,8 +46,35 @@ namespace TMClient.Controls
         WCA_ACCENT_POLICY = 19
         // ...
     }
+
+    // The enum flag for DwmSetWindowAttribute's second parameter, which tells the function what attribute to set.
+    // Copied from dwmapi.h
+    public enum DWMWINDOWATTRIBUTE
+    {
+        DWMWA_WINDOW_CORNER_PREFERENCE = 33
+    }
+
+    // The DWM_WINDOW_CORNER_PREFERENCE enum for DwmSetWindowAttribute's third parameter, which tells the function
+    // what value of the enum to set.
+    // Copied from dwmapi.h
+    public enum DWM_WINDOW_CORNER_PREFERENCE
+    {
+        DWMWCP_DEFAULT = 0,
+        DWMWCP_DONOTROUND = 1,
+        DWMWCP_ROUND = 2,
+        DWMWCP_ROUNDSMALL = 3
+    }
     public class ModernWindow : Window
     {
+        [DllImport("user32.dll")]
+        internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+
+        [DllImport("dwmapi.dll", CharSet = CharSet.Unicode, PreserveSig = false)]
+        internal static extern void DwmSetWindowAttribute(IntPtr hwnd,
+                                                  DWMWINDOWATTRIBUTE attribute,
+                                                  ref DWM_WINDOW_CORNER_PREFERENCE pvAttribute,
+                                                  uint cbAttribute);
+
         private UserControl AppContent = new UserControl();
         private Grid MainGrid = new Grid();
         private Border MainBorder = new Border();
@@ -80,7 +107,8 @@ namespace TMClient.Controls
             CaptionHeight = 34,
             CornerRadius = new CornerRadius(5),
             ResizeBorderThickness=new Thickness(5),
-            GlassFrameThickness = new Thickness(2),
+            GlassFrameThickness = new Thickness(0),
+            UseAeroCaptionButtons=false,
         };
 
         public ModernWindow()
@@ -190,13 +218,17 @@ namespace TMClient.Controls
                 Content = MainBorder;
             }
         }
-        [DllImport("user32.dll")]
-        internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+
 
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             EnableBlur();
+
+            IntPtr hWnd = new WindowInteropHelper(GetWindow(this)).EnsureHandle();
+            var attribute = DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE;
+            var preference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUND;
+            DwmSetWindowAttribute(hWnd, attribute, ref preference, sizeof(uint));
         }
 
         internal void EnableBlur()
