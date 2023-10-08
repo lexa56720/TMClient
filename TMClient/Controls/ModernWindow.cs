@@ -51,7 +51,8 @@ namespace TMClient.Controls
     // Copied from dwmapi.h
     public enum DWMWINDOWATTRIBUTE
     {
-        DWMWA_WINDOW_CORNER_PREFERENCE = 33
+        DWMWA_WINDOW_CORNER_PREFERENCE = 33,
+        DWMWA_BORDER_COLOR=34,
     }
 
     // The DWM_WINDOW_CORNER_PREFERENCE enum for DwmSetWindowAttribute's third parameter, which tells the function
@@ -70,10 +71,8 @@ namespace TMClient.Controls
         internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
         [DllImport("dwmapi.dll", CharSet = CharSet.Unicode, PreserveSig = false)]
-        internal static extern void DwmSetWindowAttribute(IntPtr hwnd,
-                                                  DWMWINDOWATTRIBUTE attribute,
-                                                  ref DWM_WINDOW_CORNER_PREFERENCE pvAttribute,
-                                                  uint cbAttribute);
+        internal static extern void DwmSetWindowAttribute(IntPtr hwnd,DWMWINDOWATTRIBUTE attribute,ref uint pvAttribute, uint cbAttribute);
+
 
         private UserControl AppContent = new UserControl();
         private Grid MainGrid = new Grid();
@@ -119,7 +118,7 @@ namespace TMClient.Controls
 
         private void EventSetup()
         {
-            this.StateChanged += MainWindowStateChangeRaised;
+            StateChanged += MainWindowStateChangeRaised;
             Loaded += Window_Loaded;
         }
 
@@ -145,7 +144,6 @@ namespace TMClient.Controls
             SetupTitle();
             Content = MainBorder;
         }
-
         private void SetupTitle()
         {
             IconPanel.Children.Add(TitleText);
@@ -192,7 +190,6 @@ namespace TMClient.Controls
             WindowButtons.Orientation = Orientation.Horizontal;
             WindowButtons.HorizontalAlignment = HorizontalAlignment.Right;
         }
-
         private void MainWindowStateChangeRaised(object? sender, EventArgs e)
         {
             if (WindowState == WindowState.Maximized)
@@ -220,18 +217,27 @@ namespace TMClient.Controls
         }
 
 
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             EnableBlur();
-
+            EnableRoundCorners();
+            EnableBorderless();
+        }
+        private void EnableBorderless()
+        {
             IntPtr hWnd = new WindowInteropHelper(GetWindow(this)).EnsureHandle();
-            var attribute = DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE;
-            var preference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUND;
+            var attribute = DWMWINDOWATTRIBUTE.DWMWA_BORDER_COLOR;
+            var preference = 0xFFFFFFFE;
             DwmSetWindowAttribute(hWnd, attribute, ref preference, sizeof(uint));
         }
-
-        internal void EnableBlur()
+        private void EnableRoundCorners()
+        {
+            IntPtr hWnd = new WindowInteropHelper(GetWindow(this)).EnsureHandle();
+            var attribute = DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE;
+            var preference = (uint)DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUND;
+            DwmSetWindowAttribute(hWnd, attribute, ref preference, sizeof(uint));
+        }
+        private void EnableBlur()
         {
             var windowHelper = new WindowInteropHelper(this);
 
@@ -243,10 +249,12 @@ namespace TMClient.Controls
             var accentPtr = Marshal.AllocHGlobal(accentStructSize);
             Marshal.StructureToPtr(accent, accentPtr, false);
 
-            var data = new WindowCompositionAttributeData();
-            data.Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY;
-            data.SizeOfData = accentStructSize;
-            data.Data = accentPtr;
+            var data = new WindowCompositionAttributeData
+            {
+                Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY,
+                SizeOfData = accentStructSize,
+                Data = accentPtr
+            };
 
             SetWindowCompositionAttribute(windowHelper.Handle, ref data);
 

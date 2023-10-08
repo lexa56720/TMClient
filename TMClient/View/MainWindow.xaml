@@ -51,11 +51,11 @@
 
             <Rectangle Grid.Column="2" Grid.ColumnSpan="4" Fill="{StaticResource BackgroundBrush}" Margin="-10,0,0,-10" />
 
-        <Border  Grid.Column="0"  CornerRadius="0,5,5,0">
+        <Border  Grid.Column="0"  CornerRadius="0,5,5,0" >
             <DockPanel VerticalAlignment="Stretch" >
                 <StackPanel DockPanel.Dock="Top">
                     <controls:IconButton Icon="&#xE700;" Style="{StaticResource TransperentButton}" Orientation="Vertical" 
-                                     Command="{Binding ChangeSideBarState}" HorizontalAlignment="Stretch" FontSize="32" Margin="5"/>
+                                         Command="{Binding ChangeSideBarState}" HorizontalAlignment="Stretch" FontSize="32" Margin="5"/>
 
                     <controls:IconButton Icon="&#xE8D4;"  Style="{StaticResource TransperentButton}" Orientation="Vertical" 
                                          FontSize="32" Margin="5" Command="{Binding ProfileCommand}" Foreground="#2ECC71" />
@@ -81,7 +81,7 @@
             </DockPanel>
         </Border>
 
-        <Frame Padding="0,0,0,0" Grid.Row="0"  Grid.Column="1" Background="Transparent"  Content="{Binding SidePanelFrame}" />
+        <Frame Padding="0" Grid.Row="0"  Grid.Column="1" Background="Transparent"  Content="{Binding SidePanelFrame}" />
 
         <GridSplitter  Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Width="8" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
       
