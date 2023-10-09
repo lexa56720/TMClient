@@ -114,6 +114,7 @@ namespace TMClient.Controls
         {
             InitializeComponent();
             EventSetup();
+            MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
         }
 
         private void EventSetup()
@@ -161,7 +162,11 @@ namespace TMClient.Controls
                 Content = "\uE739",
                 Visibility = Visibility.Visible,
                 Style = (Style)FindResource("CaptionButtonStyle"),
-                Command = new Command((o) => SystemCommands.MaximizeWindow(this))
+                Command = new Command((o) => 
+                { 
+                    MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+                    SystemCommands.MaximizeWindow(this);
+                    })
             };
             RestoreButton = new IconButton()
             {
@@ -200,6 +205,7 @@ namespace TMClient.Controls
             }
             else
             {
+             
                 MainBorder.BorderThickness = new Thickness(0);
                 RestoreButton.Visibility = Visibility.Collapsed;
                 MaximizeButton.Visibility = Visibility.Visible;
@@ -241,8 +247,10 @@ namespace TMClient.Controls
         {
             var windowHelper = new WindowInteropHelper(this);
 
-            var accent = new AccentPolicy();
-            accent.AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND;
+            var accent = new AccentPolicy
+            {
+                AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND
+            };
 
             var accentStructSize = Marshal.SizeOf(accent);
 

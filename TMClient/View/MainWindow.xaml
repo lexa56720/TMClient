@@ -33,7 +33,7 @@
     </controls:ModernWindow.Style>
 
     <controls:ModernWindow.Background>
-        <SolidColorBrush Opacity="0.8" Color="{StaticResource BackgroundLightColor}"/>
+        <SolidColorBrush Opacity="0.7" Color="{StaticResource BackgroundLightColor}"/>
     </controls:ModernWindow.Background>
 
 

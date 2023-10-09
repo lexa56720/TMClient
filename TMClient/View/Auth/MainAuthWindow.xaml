@@ -8,12 +8,12 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         AllowsTransparency="True"
-    WindowStyle="None" 
+        WindowStyle="None" 
         Title="MainAuthWindow" Height="600" Width="700" HorizontalAlignment="Center"
         VerticalAlignment="Center"  >
 
     <controls:ModernWindow.Background>
-        <SolidColorBrush Opacity="0.8" Color="{StaticResource BackgroundColor}"/>
+        <SolidColorBrush Opacity="0.8" Color="{StaticResource BackgroundLightColor}"/>
     </controls:ModernWindow.Background>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -27,6 +27,9 @@
         </Grid.RowDefinitions>
 
         <Frame Grid.Row="0"  Content="{Binding EnteringFrame}" IsEnabled="{Binding IsLoaded}">
+            <Frame.Background>
+                <SolidColorBrush Opacity="0.3" Color="{StaticResource BackgroundColor}"/>
+            </Frame.Background>
             <Frame.Style>
                 <Style TargetType="Frame" BasedOn="{StaticResource ResourceKey={x:Type Frame}}">
                     <Style.Triggers>

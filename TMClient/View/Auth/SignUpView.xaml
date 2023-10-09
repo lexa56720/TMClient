@@ -37,8 +37,8 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel  Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="1">
-            <Label Margin="0" Content="Данные для регистрации:" VerticalAlignment="Top" VerticalContentAlignment="Top" Padding="0" HorizontalAlignment="Center" FontSize="28" />
-            <TextBlock FontSize="20" Text="Ошибка!" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#F44336" Visibility="{Binding ErrorVisibility}" />
+            <Label Margin="0" Content="Данные для регистрации:" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" HorizontalAlignment="Center" FontSize="28" />
+            <TextBlock FontSize="20" Text="Ошибка!" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="#F44336" Visibility="{Binding ErrorVisibility}" />
         </StackPanel>
 
         <Label  Padding="5,2,5,5"   FontSize="20" VerticalContentAlignment="Center" Content="Имя пользователя:"  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"   HorizontalAlignment="Left"  />
