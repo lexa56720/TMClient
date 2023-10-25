@@ -61,7 +61,7 @@
                                          FontSize="32" Margin="5" Command="{Binding ProfileCommand}" Foreground="#2ECC71" />
                     <Label Content="Профиль" Visibility="{Binding SideBarState}" Margin="0,-10,0,0" HorizontalAlignment="Center"/>
 
-                    <controls:IconButton Style="{StaticResource TransperentButton}" Icon="&#xEDAC;" Orientation="Vertical" 
+                    <controls:IconButton Style="{StaticResource TransperentButton}" Icon="&#xEDAC;" Orientation="Vertical"
                                          FontSize="32" Margin="5" Command="{Binding NotificationCommand}" Foreground="#F1C40F" />
                     <Label Content="Запросы" Visibility="{Binding SideBarState}" Margin="0,-10,0,0" HorizontalAlignment="Center"/>
 

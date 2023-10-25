@@ -66,7 +66,6 @@ namespace TMClient.Controls
         private string icon = string.Empty;
 
 
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public IconButton()
         {
@@ -88,6 +87,7 @@ namespace TMClient.Controls
             ((IconButton)d).TextPropertyChanged((string)e.NewValue);
         }
 
+        public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));

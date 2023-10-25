@@ -10,9 +10,9 @@
     <Application.Resources>
 
 
-         <u:LoginConverter x:Key="LoginConverter"></u:LoginConverter>
-        
-         <Color x:Key="OwnMessageColor">#1976D2</Color>
+        <u:LoginConverter x:Key="LoginConverter"></u:LoginConverter>
+
+        <Color x:Key="OwnMessageColor">#1976D2</Color>
         <SolidColorBrush x:Key="OwnMessageBrush" Color="{StaticResource OwnMessageColor}"/>
 
         <Color x:Key="UserMessageColor">#424242</Color>
@@ -56,7 +56,7 @@
         <Color x:Key="RedColor">#F44336</Color>
 
         <Color x:Key="GreenColor">#4CAF50</Color>
-        
+
         <FontFamily x:Key="SegoeIcons">./Resources/Fonts/#Segoe Fluent Icons</FontFamily>
         <FontFamily x:Key="SegoeUI">./Resources/Fonts/#{StaticResource SegoeUI}</FontFamily>
 
@@ -234,7 +234,7 @@
         </Style>
 
         <Style x:Key="TransperentButton" BasedOn="{StaticResource ResourceKey=DefaultButton}" TargetType="Button">
-            <Setter Property="Control.Background" Value="#00383838" />
+            <Setter Property="Background" Value="#00383838" />
             <Style.Triggers>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>
@@ -244,7 +244,7 @@
                         <BeginStoryboard>
                             <Storyboard >
                                 <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
-                                    To="#383838"
+                                    To="#80383838"
                                     AutoReverse="False"
                                     FillBehavior="HoldEnd" 
                                     Duration="0:0:0.2"/>
@@ -267,7 +267,7 @@
                     <BeginStoryboard>
                         <Storyboard>
                             <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
-                            To="{StaticResource InteractColor}"
+                            To="#80545454"
                             AutoReverse="True"
                             FillBehavior="Stop" 
                             Duration="0:0:0.2"/>
