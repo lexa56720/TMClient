@@ -56,7 +56,8 @@ namespace TMClient.Model.Auth
             var ip = IPAddress.Parse(App.Settings.ConfigData["server-ip"]);
             var authPort = App.Settings.GetValue<int>("auth-port");
             var apiPort = App.Settings.GetValue<int>("api-port");
-            return new ApiProvider(ip, authPort, apiPort);
+            var longPollPort = App.Settings.GetValue<int>("long-poll-port");
+            return new ApiProvider(ip, authPort, apiPort,longPollPort);
         }
     }
 }

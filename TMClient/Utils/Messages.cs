@@ -17,5 +17,7 @@ namespace TMClient.Utils
 
         CloseMainWindow,
         OpenChatPage,
+
+        NewMessagesArived,
     }
 }

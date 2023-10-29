@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Windows;
 using TMApi;
 using TMClient.Types;
+using TMClient.Types.Storages;
 
 namespace TMClient
 {
@@ -31,16 +32,17 @@ namespace TMClient
 
         internal static UserDataStorage UserData { get; private set; } = new();
         internal static RequestStorage Requests { get; private set; } = new();
-
+        internal static UpdateStorage? Updates { get; private set; }
         public static string AppFolder => Path.Combine(
-           Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/");
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/");
         public static string AuthFolder => Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/userdata/auth");
 
         public static async Task InitAppData()
         {
             CurrentUser = new User(Api.UserInfo.MainInfo);
-            
+
+            Updates = new UpdateStorage();
             await UserData.Load(Api.UserInfo);
             await Requests.Load();
         }
@@ -51,7 +53,7 @@ namespace TMClient
             App.Api = null!;
             App.IsAutoLogin = false;
 
-            UserData.Clear(); 
+            UserData.Clear();
             Requests.Clear();
         }
         private void Application_Exit(object sender, ExitEventArgs e)

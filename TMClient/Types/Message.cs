@@ -23,6 +23,8 @@ namespace TMClient.Types
         }
         private User author = null!;
 
+        public required Chat Destionation { get; init; }
+
         public required string Text
         {
             get => text;
@@ -46,19 +48,20 @@ namespace TMClient.Types
         private DateTime sendTime;
 
         [SetsRequiredMembers]
-        public Message(ApiTypes.Communication.Messages.Message message,User user)
+        public Message(ApiTypes.Communication.Messages.Message message,User author,Chat destination)
         {
             Id=message.Id;
-            Author=user;
+            Author=author;
             Text=message.Text;
             SendTime=message.SendTime;
+            Destionation = destination;
         }
         public Message()
         {
 
         }
 
-        public required Chat Destionation { get; init; }
+
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

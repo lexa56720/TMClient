@@ -70,11 +70,11 @@ namespace TMClient.ViewModel
         }
         private bool isInModalMode;
 
-        private SidePanel Panel = new SidePanel();
-        private Settings Settings = new Settings();
-        private Profile Profile = new Profile();
-        private Notifications Notifications = new Notifications();
-        private Page ChatPage = new Page();
+        private SidePanel Panel = new();
+        private Settings Settings = new();
+        private Profile Profile = new();
+        private Notifications Notifications = new();
+        private Page ChatPage = new();
         public MainViewModel()
         {
             ChatPage = new ChatView(new Chat() { Id = 0, Name = "намба ван чат" });

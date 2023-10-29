@@ -11,6 +11,7 @@ using System.Windows.Threading;
 using TMClient.Controls;
 using TMClient.Model.Chats;
 using TMClient.Types;
+using TMClient.Utils;
 
 namespace TMClient.ViewModel.Chats
 {
@@ -64,7 +65,7 @@ namespace TMClient.ViewModel.Chats
             Id = chat.Id;
 
             Model = GetModel(chat);
-
+            Messenger.Subscribe<Message[]>(Utils.Messages.NewMessagesArived, UpdateMessages);
         }
 
 
@@ -102,6 +103,14 @@ namespace TMClient.ViewModel.Chats
         public async Task AttachFile()
         {
 
+        }
+
+
+        protected void UpdateMessages(object? sender, Message[] messages)
+        {
+            App.Current.Dispatcher.Invoke(()=>
+                     AddMessageToEnd(messages.Where(m => m.Destionation.Id == Chat.Id)
+                                             .ToArray()));    
         }
 
         protected void AddMessageToEnd(Message message)
