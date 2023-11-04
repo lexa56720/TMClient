@@ -13,7 +13,7 @@
         VerticalAlignment="Center"  >
 
     <controls:ModernWindow.Background>
-        <SolidColorBrush Opacity="0.8" Color="{StaticResource BackgroundLightColor}"/>
+        <SolidColorBrush Opacity="0.3" Color="{StaticResource BackgroundLightColor}"/>
     </controls:ModernWindow.Background>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">

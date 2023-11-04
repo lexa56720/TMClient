@@ -43,7 +43,7 @@ namespace TMClient.ViewModel.Auth
 
         public ICommand Switch => new Command(SwitchPages);
 
-        public ICommand WindowLoaded => new AsyncCommand(TryToLoadApi);
+       // public ICommand WindowLoaded => new AsyncCommand(TryToLoadApi);
 
         public bool IsLoaded
         {
@@ -69,7 +69,7 @@ namespace TMClient.ViewModel.Auth
                 OnPropertyChanged(nameof(LoadingVisibility));
             }
         }
-        private Visibility loadingVisibility = Visibility.Visible;
+        private Visibility loadingVisibility = Visibility.Hidden;
 
 
         public MainAuthViewModel()

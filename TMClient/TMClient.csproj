@@ -38,6 +38,9 @@
     <Reference Include="ApiTypes">
       <HintPath>Lib\ApiTypes.dll</HintPath>
     </Reference>
+    <Reference Include="CSDTP">
+      <HintPath>Lib\CSDTP.dll</HintPath>
+    </Reference>
     <Reference Include="TMApi">
       <HintPath>Lib\TMApi.dll</HintPath>
     </Reference>
