@@ -66,7 +66,7 @@ namespace TMClient
             }
 
 
-            var bytes = Api.GetAuthData();
+            var bytes = Api.SerializeAuthData();
             var protectedBytes = ProtectedData.Protect(bytes, null, DataProtectionScope.CurrentUser);
             Directory.CreateDirectory(AuthFolder);
             using var fs = File.Create(Path.Combine(AuthFolder, "authdata.bin"));

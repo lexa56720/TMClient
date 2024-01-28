@@ -37,7 +37,7 @@ namespace TMClient.Model.Auth
                        {
                            unprotectedBytes = ProtectedData.Unprotect(bytes, null, DataProtectionScope.CurrentUser);
                        }).WaitAsync(TimeSpan.FromSeconds(2));
-                    return await ApiProvider.Load(unprotectedBytes);
+                    return await ApiProvider.DeserializeAuthData(unprotectedBytes);
 
                 }
                 catch
