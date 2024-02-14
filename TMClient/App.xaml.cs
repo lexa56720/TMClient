@@ -1,4 +1,5 @@
 ﻿using ApiTypes.Shared;
+using AutoSerializer;
 using System.Configuration;
 using System.Data;
 using System.IO;
@@ -38,6 +39,11 @@ namespace TMClient
         public static string AuthFolder => Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/userdata/auth");
 
+        public App()
+        {
+            Serializer.SerializerProvider = new ApiTypes.SerializerProvider();
+
+        }
         public static async Task InitAppData()
         {
             CurrentUser = new User(Api.UserInfo.MainInfo);
