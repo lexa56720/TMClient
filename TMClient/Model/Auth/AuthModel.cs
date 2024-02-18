@@ -32,7 +32,7 @@ namespace TMClient.Model.Auth
                 var bytes = await File.ReadAllBytesAsync(path);
                 try
                 {
-                    byte[] unprotectedBytes=Array.Empty<byte>();
+                    byte[] unprotectedBytes = Array.Empty<byte>();
                     await Task.Run(() =>
                        {
                            unprotectedBytes = ProtectedData.Unprotect(bytes, null, DataProtectionScope.CurrentUser);
@@ -57,7 +57,8 @@ namespace TMClient.Model.Auth
             var authPort = App.Settings.GetValue<int>("auth-port");
             var apiPort = App.Settings.GetValue<int>("api-port");
             var longPollPort = App.Settings.GetValue<int>("long-poll-port");
-            return new ApiProvider(ip, authPort, apiPort,longPollPort);
+            var longPollPeriod = TimeSpan.FromMinutes(App.Settings.GetValue<int>("long-poll-period-minutes"));
+            return new ApiProvider(ip, authPort, apiPort, longPollPort, longPollPeriod);
         }
     }
 }

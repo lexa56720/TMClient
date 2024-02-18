@@ -47,6 +47,9 @@
     <Reference Include="Open.Nat">
       <HintPath>Lib\Open.Nat.dll</HintPath>
     </Reference>
+    <Reference Include="PerformanceUtils">
+      <HintPath>Lib\PerformanceUtils.dll</HintPath>
+    </Reference>
     <Reference Include="TMApi">
       <HintPath>Lib\TMApi.dll</HintPath>
     </Reference>

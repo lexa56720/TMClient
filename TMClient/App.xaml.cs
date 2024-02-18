@@ -39,11 +39,6 @@ namespace TMClient
         public static string AuthFolder => Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/userdata/auth");
 
-        public App()
-        {
-            Serializer.SerializerProvider = new ApiTypes.SerializerProvider();
-
-        }
         public static async Task InitAppData()
         {
             CurrentUser = new User(Api.UserInfo.MainInfo);
@@ -56,8 +51,8 @@ namespace TMClient
         public static void Logout()
         {
             CurrentUser = null!;
-            App.Api = null!;
-            App.IsAutoLogin = false;
+            Api = null!;
+            IsAutoLogin = false;
 
             UserData.Clear();
             Requests.Clear();
@@ -70,7 +65,6 @@ namespace TMClient
                     File.Delete(Path.Combine(AuthFolder, "authdata.bin"));
                 return;
             }
-
 
             var bytes = Api.SerializeAuthData();
             var protectedBytes = ProtectedData.Protect(bytes, null, DataProtectionScope.CurrentUser);

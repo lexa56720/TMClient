@@ -13,26 +13,17 @@ namespace TMClient.Types.Storages
     {
         public UpdateStorage()
         {
-            App.Api.UpdateArrived += UpdateArrived;
-            App.Api.StartLongPolling();
+            App.Api.LongPolling.Start();
+            App.Api.LongPolling.NewMessages += async (o, ids) => 
+            { 
+                await NotifyAboutMessages(await App.Api.Messages.GetMessages(ids));
+            };
         }
 
-        
-
-        private void UpdateArrived(object? sender, Notification e)
-        {
-            Task.Run(async () =>
-            {
-                if (e.MessagesIds.Any())
-                    await NotifyAboutMessages(await App.Api.Messages.GetMessages(e.MessagesIds));
-            });
-        }
-
-
-        private async Task NotifyAboutMessages(ApiTypes.Communication.Messages.Message[] messages)
+        private async Task NotifyAboutMessages(ApiMessage[] messages)
         {
             if (messages != null && messages.Any())
-                await Messenger.Send(Messages.NewMessagesArived, 
+                await Messenger.Send(Messages.NewMessagesArived,
                                      await ApiConverter.Convert(App.UserData, messages));
         }
     }
