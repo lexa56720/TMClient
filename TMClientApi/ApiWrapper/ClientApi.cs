@@ -3,22 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMClientApi.InternalApi;
 
-namespace TMClientApi.InternalApi
+namespace TMClientApi.ApiWrapper
 {
     public class ClientApi : IApi
     {
-        public IUsersApi Users => throw new NotImplementedException();
+        public IUsersApi Users => users;
+        private ClientUsersApi users;
 
-        public IMessagesApi Messages => throw new NotImplementedException();
+        public IMessagesApi Messages => messages;
+        private ClientMessagesApi messages;
+
+        public IFriendsApi Friends => friends;
+        private ClientFriendsApi friends;
 
         public IAuthApi Auth => throw new NotImplementedException();
-
         public IChatsApi Chats => throw new NotImplementedException();
 
-        public IFriendsApi Friends => throw new NotImplementedException();
-
-        private ClientApiConverter Converter { get; set; }
+        private ApiConverter Converter { get; set; }
         private CacheManager Cache { get; set; }
 
         public ClientApi()

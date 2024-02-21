@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMApi.ApiRequests.Chats;
+using TMApi.ApiRequests.Users;
 using TMClientApi.Types;
 
 namespace TMClientApi.InternalApi
@@ -14,6 +16,13 @@ namespace TMClientApi.InternalApi
 
         private LifeTimeDictionary<int, Chat> CachedChats = new();
 
+        private readonly TimeSpan userLifetime;
+        private readonly TimeSpan chatLifetime;
+        public CacheManager(TimeSpan userLifetime, TimeSpan chatLifetime)
+        {
+            this.userLifetime = userLifetime;
+            this.chatLifetime = chatLifetime;
+        }
 
         public void Clear()
         {
@@ -21,41 +30,75 @@ namespace TMClientApi.InternalApi
             CachedChats.Clear();
         }
 
-        public async ValueTask<User?> GetUser(int userId)
+        public User? GetUser(int userId)
         {
             CachedUsers.TryGetValue(userId, out var user);
             return user;
         }
-        public async ValueTask<Chat?> GetChat(int chatId)
+        public Chat? GetChat(int chatId)
         {
             CachedChats.TryGetValue(chatId, out var chat);
             return chat;
         }
-
-        public bool UpdateCache(User user, TimeSpan lifetime)
+        public bool TryGetUser(int userId, out User? user)
         {
-            if (!CachedUsers.TryGetValue(user.Id, out var cachedUser))
-                return false;
-
-            cachedUser.Update(user);
-            return CachedUsers.UpdateLifetime(user.Id, lifetime);
+            return CachedUsers.TryGetValue(userId, out user);
         }
-        public bool UpdateCache(Chat chat, TimeSpan lifetime)
+        public bool TryGetChat(int chatId, out Chat? chat)
         {
-            if (!CachedChats.TryGetValue(chat.Id, out var cachedChat))
-                return false;
+            return CachedChats.TryGetValue(chatId, out chat);
 
-            cachedChat.Update(chat);
-            return CachedChats.UpdateLifetime(chat.Id, lifetime);
+        }
+        public bool UpdateCache(params User[] users)
+        {
+            bool isSuccessful = true;
+            foreach (var user in users)
+            {
+                if (!CachedUsers.TryGetValue(user.Id, out var cachedUser))
+                    isSuccessful = false;
+
+                cachedUser.Update(user);
+                if (!CachedUsers.UpdateLifetime(user.Id, userLifetime))
+                    isSuccessful = false;
+            }
+            return isSuccessful;
+        }
+        public bool UpdateCache(params Chat[] chats)
+        {
+            bool isSuccessful = true;
+            foreach (var chat in chats)
+            {
+                if (!CachedChats.TryGetValue(chat.Id, out var cachedChat))
+                    return false;
+
+                cachedChat.Update(chat);
+                if (!CachedChats.UpdateLifetime(chat.Id, chatLifetime))
+                    isSuccessful = false;
+            }
+            return isSuccessful;
         }
 
-        public bool AddToCache(User user, TimeSpan lifetime)
+
+
+        public bool AddToCache(params User[] users)
         {
-            return CachedUsers.TryAdd(user.Id, user, lifetime);
+            bool isSuccessful = true;
+            foreach (var user in users)
+            {
+                if (!CachedUsers.TryAdd(user.Id, user, userLifetime))
+                    isSuccessful = false;
+            }
+            return isSuccessful;
         }
-        public bool AddToCache(Chat chat, TimeSpan lifetime)
+        public bool AddToCache(params Chat[] chats)
         {
-            return CachedChats.TryAdd(chat.Id, chat, lifetime);
+            bool isSuccessful = true;
+            foreach (var chat in chats)
+            {
+                if (!CachedChats.TryAdd(chat.Id, chat, chatLifetime))
+                    isSuccessful = false;
+            }
+            return isSuccessful;
         }
     }
 }

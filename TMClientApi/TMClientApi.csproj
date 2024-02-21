@@ -7,11 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="InternalApi\mzrn5cfl.ldv~" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="ApiTypes">
       <HintPath>..\TMClient\Lib\ApiTypes.dll</HintPath>
     </Reference>
     <Reference Include="PerformanceUtils">
       <HintPath>..\TMClient\Lib\PerformanceUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="TMApi">
+      <HintPath>..\TMClient\Lib\TMApi.dll</HintPath>
     </Reference>
   </ItemGroup>
 

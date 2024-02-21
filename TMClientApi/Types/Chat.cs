@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMApi.ApiRequests.Users;
 
 namespace TMClientApi.Types
 {
@@ -46,13 +47,12 @@ namespace TMClientApi.Types
         }
         private Message? lastMessage;
 
-        public ObservableCollection<User> Members { get; }
+        public ObservableCollection<User> Members { get; } = new();
 
-        public Chat(int id, string name, User[] users)
+        public Chat(int id, string name)
         {
             Id = id;
             Name = name;
-            Members = new ObservableCollection<User>(users);
         }
         private void OnPropertyChanged(string propertyName)
         {
