@@ -15,10 +15,7 @@ namespace TMClient.ViewModel
     {
         public ObservableCollection<User> Users { get; set; } = new();
 
-
         public ICommand SearchCommand => new AsyncCommand<string>(Search);
-
-
 
         public ICommand AddFriend => new AsyncCommand<User>(SendFriendRequest);
 

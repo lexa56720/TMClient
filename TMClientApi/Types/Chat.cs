@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TMClient.Types
+namespace TMClientApi.Types
 {
     public class Chat : INotifyPropertyChanged
     {
-        public required int Id { get; init; }
+        public int Id { get; }
 
-        public required string Name
+        public string Name
         {
             get => name;
             set
@@ -46,23 +46,30 @@ namespace TMClient.Types
         }
         private Message? lastMessage;
 
-        public ObservableCollection<User> Members { get; set; } = new();
+        public ObservableCollection<User> Members { get; }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        [SetsRequiredMembers]
-        public Chat(ApiChat chat, User[] users)
+        public Chat(int id, string name, User[] users)
         {
-            Id = chat.Id;
-            Name = chat.Name;
+            Id = id;
+            Name = name;
             Members = new ObservableCollection<User>(users);
-        }
-        public Chat()
-        {
         }
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        internal void Update(Chat chat)
+        {
+            Name = chat.name;
+            WritingUser = chat.WritingUser;
+            LastMessage = chat.LastMessage;
+
+            Members.Clear();
+            foreach (var member in chat.Members)
+                Members.Add(member);
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

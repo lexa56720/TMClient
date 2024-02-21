@@ -53,7 +53,6 @@ namespace TMClient
             CurrentUser = null!;
             Api = null!;
             IsAutoLogin = false;
-
             UserData.Clear();
             Requests.Clear();
         }

@@ -24,7 +24,6 @@ namespace TMClient.View
     public partial class FriendRequest : ModernWindow
     {
 
-
         public FriendRequest()
         {
             Title = "Добавить друга";

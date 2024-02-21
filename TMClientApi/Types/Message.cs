@@ -7,25 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TMClient.Types
+namespace TMClientApi.Types
 {
     public class Message : INotifyPropertyChanged
     {
-        public int Id { get; init; }
-        public required User Author
-        {
-            get => author;
-            set
-            {
-                author = value;
-                OnPropertyChanged(nameof(Author));
-            }
-        }
-        private User author = null!;
+        public int Id { get; }
 
-        public required Chat Destionation { get; init; }
-
-        public required string Text
+        public string Text
         {
             get => text;
             set
@@ -47,21 +35,27 @@ namespace TMClient.Types
         }
         private DateTime sendTime;
 
-        [SetsRequiredMembers]
-        public Message(ApiMessage message,User author,Chat destination)
+        public User Author
         {
-            Id=message.Id;
-            Author=author;
-            Text=message.Text;
-            SendTime=message.SendTime;
+            get => author;
+            set
+            {
+                author = value;
+                OnPropertyChanged(nameof(Author));
+            }
+        }
+        private User author = null!;
+
+        public Chat Destionation { get; }
+
+        public Message(int id, string text, DateTime sendTime, User author, Chat destination)
+        {
+            Id = id;
+            Text = text;
+            SendTime = sendTime;
+            Author = author;
             Destionation = destination;
         }
-        public Message()
-        {
-
-        }
-
-
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -69,6 +63,5 @@ namespace TMClient.Types
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

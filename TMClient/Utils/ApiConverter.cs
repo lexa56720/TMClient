@@ -12,8 +12,6 @@ using TMApi.ApiRequests.Messages;
 
 namespace TMClient.Utils
 {
-
-
     static class ApiConverter
     {
         public static async ValueTask<Message[]> Convert(UserDataStorage storage, params ApiMessage[] messages)

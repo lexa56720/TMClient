@@ -9,9 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using TMApi;
 using TMApi.ApiRequests.Friends;
+using TMClient.Types;
 using TMClient.Utils;
 
-namespace TMClient.Types
+namespace TMClientApi.Storages
 {
     public class UserDataStorage
     {
@@ -114,7 +115,7 @@ namespace TMClient.Types
                 else
                     result.Add(chat);
 
-            var converted = await ApiConverter.Convert(this,await App.Api.Chats.GetChat(requestedChats.ToArray()));
+            var converted = await ApiConverter.Convert(this, await App.Api.Chats.GetChat(requestedChats.ToArray()));
             converted.AsParallel().ForAll(c => CachedChats.TryAdd(c.Id, c));
 
             result.AddRange(converted);

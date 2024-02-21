@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TMClient.Types
+namespace TMClientApi.Types
 {
     public class User : INotifyPropertyChanged
     {
-        public required int Id { get; init; }
+        public int Id { get; }
 
-        public required string Name
+        public string Name
         {
             get => name;
             set
@@ -24,7 +24,7 @@ namespace TMClient.Types
         }
         private string name = string.Empty;
 
-        public required string Login
+        public string Login
         {
             get => login;
             set
@@ -35,7 +35,7 @@ namespace TMClient.Types
         }
         private string login = string.Empty;
 
-        public required bool IsOnline
+        public bool IsOnline
         {
             get => isOnline;
             set
@@ -46,17 +46,19 @@ namespace TMClient.Types
         }
         private bool isOnline = false;
 
-
-        [SetsRequiredMembers]
-        public User(ApiUser user)
+        public User(int id, string name, string login, bool isOnline)
         {
-            Id = user.Id;
+            Id = id;
+            Name = name;
+            Login = login;
+            IsOnline = isOnline;
+        }
+
+        public void Update(User user)
+        {
+            IsOnline = user.IsOnline;
             Name = user.Name;
             Login = user.Login;
-            IsOnline = user.IsOnline;
-        }
-        public User()
-        {
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
