@@ -14,6 +14,8 @@ namespace TMClientApi.Types
     {
         public int Id { get; }
 
+        public bool IsDialogue { get; }
+
         public string Name
         {
             get => name;
@@ -22,7 +24,7 @@ namespace TMClientApi.Types
                 name = value;
                 OnPropertyChanged(nameof(Name));
             }
-        }
+        }   
         private string name = string.Empty;
 
         public User? WritingUser
@@ -49,10 +51,11 @@ namespace TMClientApi.Types
 
         public ObservableCollection<User> Members { get; } = new();
 
-        public Chat(int id, string name)
+        public Chat(int id, string name,bool isDialogue)
         {
             Id = id;
             Name = name;
+            IsDialogue = isDialogue;
         }
         private void OnPropertyChanged(string propertyName)
         {

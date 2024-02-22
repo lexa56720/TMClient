@@ -87,6 +87,8 @@ namespace TMClientApi.InternalApi
             {
                 if (!CachedUsers.TryAdd(user.Id, user, userLifetime))
                     isSuccessful = false;
+                else
+                    UpdateCache(user);
             }
             return isSuccessful;
         }
@@ -97,6 +99,8 @@ namespace TMClientApi.InternalApi
             {
                 if (!CachedChats.TryAdd(chat.Id, chat, chatLifetime))
                     isSuccessful = false;
+                else
+                    UpdateCache(chat);
             }
             return isSuccessful;
         }

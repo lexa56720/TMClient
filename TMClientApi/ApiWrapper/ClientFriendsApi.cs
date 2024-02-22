@@ -21,12 +21,15 @@ namespace TMClientApi.ApiWrapper
 
         public async Task<FriendRequest[]> GetAllRequests()
         {
-            return await Converter.Convert(await Api.Friends.GetAllRequests());
+            var requestIds = await Api.Friends.GetAllRequests();
+            return await GetFriendRequest(requestIds);
         }
 
         public async Task<FriendRequest?> GetFriendRequest(int requestId)
         {
             var request = await Api.Friends.GetFriendRequest(requestId);
+            if(request==null)
+                return null;
             return await Converter.Convert(request);
         }
 

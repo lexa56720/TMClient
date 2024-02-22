@@ -9,6 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using ApiTypes.Communication.Chats;
 using TMClientApi.Types;
+using ApiTypes.Communication.Auth;
+using ApiTypes.Communication.Users;
+using System.Collections.ObjectModel;
+using TMApi.ApiRequests.Friends;
 
 namespace TMClientApi.InternalApi
 {
@@ -18,16 +22,20 @@ namespace TMClientApi.InternalApi
 
         public IMessagesApi Messages { get; }
 
-        public IAuthApi Auth { get; }
-
         public IChatsApi Chats { get; }
 
         public IFriendsApi Friends { get; }
 
 
+        public ObservableCollection<Chat> Dialogs { get; }
+        public ObservableCollection<Chat> MultiuserChats { get; }
+        public ObservableCollection<User> FriendList { get; }
+        public ObservableCollection<FriendRequest> FriendRequests { get; }
+        public ObservableCollection<ChatInvite> ChatInvites { get; }
+
+        public UserInfo CurrentUser { get; }
 
         public Task Save(string path);
-        public static abstract IApi Load(string path);
     }
 
     public interface IFriendsApi
@@ -44,17 +52,12 @@ namespace TMClientApi.InternalApi
         public Task<Chat?> CreateChat(string name, int[] membersId);
         public ValueTask<Chat?> GetChat(int chatId);
         public ValueTask<Chat[]> GetChat(int[] chatIds);
+        public Task<Chat[]> GetAllChats();
         public Task<bool> SendChatInvite(int chatId, int toUserId);
         public Task<ChatInvite?> GetChatInvite(int inviteId);
         public Task<ChatInvite[]> GetChatInvite(int[] inviteId);
-        public Task<int[]> GetAllInvites(int userId);
+        public Task<ChatInvite[]> GetAllInvites(int userId);
         public Task<bool> SendChatInviteResponse(int inviteId, bool isAccepted);
-        public ValueTask<Chat[]> GetAllDialogues();
-        public ValueTask<Chat[]> GetAllNonDialogues();
-    }
-
-    public interface IAuthApi
-    {
     }
 
     public interface IMessagesApi
@@ -62,7 +65,6 @@ namespace TMClientApi.InternalApi
         public Task<Message[]> GetMessages(int chatId, int count, int offset);
         public Task<Message[]> GetMessages(int chatId, int fromMessageId);
         public Task<Message[]> GetMessages(params int[] messagesId);
-
         public Task<Message?> SendMessage(string text, int destinationId);
     }
 

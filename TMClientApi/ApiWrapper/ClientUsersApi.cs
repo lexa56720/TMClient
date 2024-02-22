@@ -70,7 +70,7 @@ namespace TMClientApi.ApiWrapper
             Cache.AddToCache(converted);
             result.AddRange(converted);
 
-            return userIds.Select(userIds => converted.First(c => c.Id == userIds)).ToArray();
+            return userIds.Select(userId => converted.First(c => c.Id == userId)).ToArray();
         }
     }
 }

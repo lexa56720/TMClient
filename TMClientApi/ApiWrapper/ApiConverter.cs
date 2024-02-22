@@ -1,6 +1,7 @@
 ﻿global using ApiMessage = ApiTypes.Communication.Messages.Message;
 global using ApiUser = ApiTypes.Communication.Users.User;
 global using ApiChat = ApiTypes.Communication.Chats.Chat;
+global using ApiChatInvite = ApiTypes.Communication.Chats.ChatInvite;
 global using ApiFriendRequest = ApiTypes.Communication.Friends.FriendRequest;
 global using Chat = TMClientApi.Types.Chat;
 global using ChatInvite = TMClientApi.Types.ChatInvite;
@@ -10,6 +11,7 @@ using TMClientApi.Types;
 using TMClientApi.InternalApi;
 using System;
 using TMApi.ApiRequests.Users;
+using TMApi.ApiRequests.Chats;
 
 namespace TMClientApi.ApiWrapper
 {
@@ -18,10 +20,10 @@ namespace TMClientApi.ApiWrapper
         private readonly IChatsApi ChatApi;
         private readonly IUsersApi UserApi;
 
-        public ApiConverter(IChatsApi chatsApi, IUsersApi usersApi)
+        public ApiConverter(IApi api)
         {
-            ChatApi = chatsApi;
-            UserApi = usersApi;
+            ChatApi = api.Chats;
+            UserApi = api.Users;
         }
 
         public User Convert(ApiUser user)
@@ -36,15 +38,25 @@ namespace TMClientApi.ApiWrapper
             return result;
         }
 
-        public Chat Convert(ApiChat chat)
+        public async Task<Chat> Convert(ApiChat chat)
         {
-            return new Chat(chat.Id, chat.Name);
+            var result = new Chat(chat.Id, chat.Name, chat.IsDialogue);
+            var members = await UserApi.GetUser(chat.MemberIds);
+            foreach (var member in members)
+                result.Members.Add(member);
+            return result;
         }
-        public Chat[] Convert(ApiChat[] chats)
+        public async Task<Chat[]> Convert(ApiChat[] chats)
         {
             var result = new Chat[chats.Length];
+            var members = chats.SelectMany(c => c.MemberIds).ToArray();
+            var convertedMembers = await UserApi.GetUser(members);
             for (int i = 0; i < result.Length; i++)
-                result[i] = Convert(chats[i]);
+            {
+                result[i] = new Chat(chats[i].Id, chats[i].Name, chats[i].IsDialogue);
+                for (int j = 0; j < chats[i].MemberIds.Length; j++)
+                    result[i].Members.Add(convertedMembers[j]);
+            }
             return result;
         }
 
@@ -52,7 +64,7 @@ namespace TMClientApi.ApiWrapper
         {
             return new Message(message.Id, message.Text, message.SendTime, author, chat);
         }
-        public async ValueTask<Message?> Convert(ApiMessage message)
+        public async Task<Message?> Convert(ApiMessage message)
         {
             if (message == null)
                 return null;
@@ -64,7 +76,7 @@ namespace TMClientApi.ApiWrapper
 
             return Convert(message, user, chat);
         }
-        public async ValueTask<Message[]> Convert(ApiMessage[] messages)
+        public async Task<Message[]> Convert(ApiMessage[] messages)
         {
             var chats = await ChatApi.GetChat(messages.Select(m => m.DestinationId).ToArray());
             var authors = await UserApi.GetUser(messages.Select(m => m.AuthorId).ToArray());
@@ -76,25 +88,49 @@ namespace TMClientApi.ApiWrapper
             return result;
         }
 
-
-        public async ValueTask<FriendRequest?> Convert(ApiFriendRequest request)
+        public async Task<FriendRequest?> Convert(ApiFriendRequest request)
         {
             var user = await UserApi.GetUser(request.Id);
-            if (user == null) return null;
+            if (user == null)
+                return null;
             return Convert(request, user);
         }
         public FriendRequest Convert(ApiFriendRequest request, User user)
         {
             return new FriendRequest(request.Id, user);
         }
-        public async ValueTask<FriendRequest[]> Convert(ApiFriendRequest[] requests)
+        public async Task<FriendRequest[]> Convert(ApiFriendRequest[] requests)
         {
-            var users = await UserApi.GetUser(requests.Select(r=>r.FromId).ToArray());
+            var users = await UserApi.GetUser(requests.Select(r => r.FromId).ToArray());
             var result = new FriendRequest[requests.Length];
             for (int i = 0; i < requests.Length; i++)
             {
-                result[i]= Convert(requests[i], users[i]);
+                result[i] = Convert(requests[i], users[i]);
             }
+            return result;
+        }
+
+        public async Task<ChatInvite?> Convert(ApiChatInvite invite)
+        {
+            var user = await UserApi.GetUser(invite.FromUserId);
+            var chat = await ChatApi.GetChat(invite.ChatId);
+
+
+            if (user == null || chat == null)
+                return null;
+
+            return new ChatInvite(invite.Id, user, chat);
+        }
+
+        public async Task<ChatInvite[]> Convert(ApiChatInvite[] invites)
+        {
+            var users = await UserApi.GetUser(invites.Select(i => i.FromUserId).ToArray());
+            var chats = await ChatApi.GetChat(invites.Select(i => i.ChatId).ToArray());
+            var result = new ChatInvite[invites.Length];
+
+            for (int i = 0; i < invites.Length; i++)
+                result[i] = new ChatInvite(invites[i].Id, users[i], chats[i]);
+
             return result;
         }
     }
