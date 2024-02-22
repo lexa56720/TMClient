@@ -3,17 +3,17 @@ global using ApiUser = ApiTypes.Communication.Users.User;
 global using ApiChat = ApiTypes.Communication.Chats.Chat;
 global using ApiChatInvite = ApiTypes.Communication.Chats.ChatInvite;
 global using ApiFriendRequest = ApiTypes.Communication.Friends.FriendRequest;
-global using Chat = TMClientApi.Types.Chat;
-global using ChatInvite = TMClientApi.Types.ChatInvite;
-global using FriendRequest = TMClientApi.Types.FriendRequest;
-global using User = TMClientApi.Types.User;
-using TMClientApi.Types;
-using TMClientApi.InternalApi;
+global using Chat = ApiWrapper.Types.Chat;
+global using ChatInvite = ApiWrapper.Types.ChatInvite;
+global using FriendRequest = ApiWrapper.Types.FriendRequest;
+global using User = ApiWrapper.Types.User;
+using ApiWrapper.Types;
+using ApiWrapper.Interfaces;
 using System;
 using TMApi.ApiRequests.Users;
 using TMApi.ApiRequests.Chats;
 
-namespace TMClientApi.ApiWrapper
+namespace ApiWrapper.ApiWrapper
 {
     internal class ApiConverter
     {

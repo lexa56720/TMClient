@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TMApi.ApiRequests;
-using TMClientApi.InternalApi;
-using TMClientApi.Types;
+using ApiWrapper.Interfaces;
+using ApiWrapper.Types;
 
-namespace TMClientApi.ApiWrapper
+namespace ApiWrapper.ApiWrapper.Wrapper
 {
     internal class LongPollManager : IDisposable
     {

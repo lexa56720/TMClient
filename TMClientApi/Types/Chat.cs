@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TMApi.ApiRequests.Users;
 
-namespace TMClientApi.Types
+namespace ApiWrapper.Types
 {
     public class Chat : INotifyPropertyChanged
     {

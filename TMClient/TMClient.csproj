@@ -35,6 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TMClientApi\ClientApiWrapper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="ApiTypes">
       <HintPath>Lib\ApiTypes.dll</HintPath>
     </Reference>

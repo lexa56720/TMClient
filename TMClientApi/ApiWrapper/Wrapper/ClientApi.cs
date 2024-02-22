@@ -9,9 +9,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TMApi;
 using TMApi.ApiRequests.Friends;
-using TMClientApi.InternalApi;
+using ApiWrapper.Interfaces;
 
-namespace TMClientApi.ApiWrapper
+namespace ApiWrapper.ApiWrapper.Wrapper
 {
     public class ClientApi : IApi
     {
@@ -55,7 +55,7 @@ namespace TMClientApi.ApiWrapper
             messages = new ClientMessagesApi(api, Converter);
             friends = new ClientFriendsApi(api, Converter);
 
-            LongPollManager = new LongPollManager(api.LongPolling,this);
+            LongPollManager = new LongPollManager(api.LongPolling, this);
 
             Api = api;
         }
@@ -63,13 +63,13 @@ namespace TMClientApi.ApiWrapper
 
         public void Dispose()
         {
-            if(!IsDisposed)
+            if (!IsDisposed)
             {
                 LongPollManager.Dispose();
                 Api.Dispose();
-                Cache.Clear();            
+                Cache.Clear();
                 IsDisposed = true;
-            }   
+            }
         }
 
 

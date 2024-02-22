@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TMApi.ApiRequests.Chats;
 using TMApi.ApiRequests.Users;
-using TMClientApi.Types;
+using ApiWrapper.Types;
 
-namespace TMClientApi.InternalApi
+namespace ApiWrapper.ApiWrapper
 {
     internal class CacheManager
     {

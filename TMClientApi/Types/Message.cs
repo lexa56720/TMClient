@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TMClientApi.Types
+namespace ApiWrapper.Types
 {
     public class Message : INotifyPropertyChanged
     {

@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TMApi;
 using TMApi.ApiRequests.Users;
-using TMClientApi.InternalApi;
+using ApiWrapper.Interfaces;
 
-namespace TMClientApi.ApiWrapper
+namespace ApiWrapper.ApiWrapper.Wrapper
 {
     internal class ClientChatsApi : IChatsApi
     {

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TMApi;
-using TMClientApi.InternalApi;
-using TMClientApi.Types;
+using ApiWrapper.Interfaces;
+using ApiWrapper.Types;
 
-namespace TMClientApi.ApiWrapper
+namespace ApiWrapper.ApiWrapper.Wrapper
 {
     internal class ClientFriendsApi : IFriendsApi
     {
@@ -28,7 +28,7 @@ namespace TMClientApi.ApiWrapper
         public async Task<FriendRequest?> GetFriendRequest(int requestId)
         {
             var request = await Api.Friends.GetFriendRequest(requestId);
-            if(request==null)
+            if (request == null)
                 return null;
             return await Converter.Convert(request);
         }

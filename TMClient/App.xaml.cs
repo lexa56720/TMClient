@@ -1,4 +1,5 @@
 ﻿using ApiTypes.Shared;
+using ApiWrapper.Interfaces;
 using AutoSerializer;
 using System.Configuration;
 using System.Data;
@@ -6,8 +7,6 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Windows;
 using TMApi;
-using TMClient.Types;
-using TMClient.Types.Storages;
 
 namespace TMClient
 {
@@ -16,7 +15,7 @@ namespace TMClient
     /// </summary>
     public partial class App : Application
     {
-        public static Api Api
+        public static IApi Api
         {
             get => api;
             set
@@ -24,16 +23,12 @@ namespace TMClient
                 api = value;
             }
         }
-        private static Api? api = null!;
-        public static User? CurrentUser { get; private set; }
+        private static IApi? api = null!;
         public static Configurator Settings { get; } = new Configurator("config.cfg", true);
 
         public static bool IsSaveAuth { get; set; } = true;
         public static bool IsAutoLogin { get; set; } = true;
 
-        internal static UserDataStorage UserData { get; private set; } = new();
-        internal static RequestStorage Requests { get; private set; } = new();
-        internal static UpdateStorage? Updates { get; private set; }
         public static string AppFolder => Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/");
         public static string AuthFolder => Path.Combine(

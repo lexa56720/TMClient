@@ -6,9 +6,10 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using TMApi;
-using TMClientApi.InternalApi;
+using ApiWrapper.ApiWrapper.Wrapper;
+using ApiWrapper.Interfaces;
 
-namespace TMClientApi.ApiWrapper
+namespace ApiWrapper.ApiWrapper
 {
     public class ApiFactory
     {
