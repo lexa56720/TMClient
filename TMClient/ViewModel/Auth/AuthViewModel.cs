@@ -1,15 +1,10 @@
-﻿using AsyncAwaitBestPractices.MVVM;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ApiWrapper.Interfaces;
+using AsyncAwaitBestPractices.MVVM;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using TMClient.Model.Auth;
 using TMClient.Utils;
-using TMClient.View;
 
 namespace TMClient.ViewModel.Auth
 {
@@ -51,10 +46,14 @@ namespace TMClient.ViewModel.Auth
             IsNotBusy = false;
 
             var password = passwordBox.Password;
-            var api = await SignInModel.SignIn(Login, password);
+            IApi? api = await SignInModel.SignIn(Login, password);
             passwordBox.Password = string.Empty;
             if (api != null)
+            {  
                 await OpenMainWindow(api);
+                return;
+            }
+             
 
             ErrorVisibility = Visibility.Visible;
             IsNotBusy = true;

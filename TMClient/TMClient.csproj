@@ -54,15 +54,16 @@
     <Reference Include="PerformanceUtils">
       <HintPath>Lib\PerformanceUtils.dll</HintPath>
     </Reference>
-    <Reference Include="TMApi">
-      <HintPath>Lib\TMApi.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Resources\AppIcon.png" />
     <Resource Include="Resources\Fonts\SegoeIcons.ttf" />
     <Resource Include="Resources\Fonts\segoeui.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="ApiWrapper.Types" />
   </ItemGroup>
 
 </Project>

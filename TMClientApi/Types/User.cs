@@ -1,11 +1,5 @@
-﻿using ApiTypes.Communication.Users;
-using System;
-using System.Collections.Generic;
+﻿using ApiTypes.Communication.Chats;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ApiWrapper.Types
 {
@@ -56,6 +50,8 @@ namespace ApiWrapper.Types
 
         public void Update(User user)
         {
+            if (user == this)
+                return;
             IsOnline = user.IsOnline;
             Name = user.Name;
             Login = user.Login;

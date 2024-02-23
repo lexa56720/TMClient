@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ApiWrapper.ApiWrapper;
+using ApiWrapper.Interfaces;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using TMApi;
 
 namespace TMClient.Model.Auth
 {
     internal class AuthModel
     {
-        public static ApiProvider ApiProvider
+        public static ApiFactory ApiProvider
         {
             get
             {
@@ -21,44 +16,29 @@ namespace TMClient.Model.Auth
                 return apiProvider;
             }
         }
-        private static ApiProvider apiProvider = null!;
+        private static ApiFactory apiProvider = null!;
 
 
-        public static async Task<Api?> TryGetApi()
+        public static async Task<IApi?> TryGetApi()
         {
-            var path = Path.Combine(App.AuthFolder, "authdata.bin");
-            if (File.Exists(path))
-            {
-                var bytes = await File.ReadAllBytesAsync(path);
-                try
-                {
-                    byte[] unprotectedBytes = Array.Empty<byte>();
-                    await Task.Run(() =>
-                       {
-                           unprotectedBytes = ProtectedData.Unprotect(bytes, null, DataProtectionScope.CurrentUser);
-                       }).WaitAsync(TimeSpan.FromSeconds(2));
-                    return await ApiProvider.DeserializeAuthData(unprotectedBytes);
-
-                }
-                catch
-                {
-                    return null;
-                }
-            }
-            return null;
+            var path = Path.Combine(App.AuthPath, "authdata.bin");
+            return await ApiProvider.Load(path);
         }
         public static async Task Update()
         {
             App.Settings.GetValue<int>("version");
         }
-        private static ApiProvider GetApiProvider()
+        private static ApiFactory GetApiProvider()
         {
             var ip = IPAddress.Parse(App.Settings.ConfigData["server-ip"]);
             var authPort = App.Settings.GetValue<int>("auth-port");
             var apiPort = App.Settings.GetValue<int>("api-port");
+            var cachedUserLifetime = TimeSpan.FromMinutes(App.Settings.GetValue<int>("cached-user-lifetime-minutes"));
+            var cachedChatLifetime = TimeSpan.FromMinutes(App.Settings.GetValue<int>("cached-chat-lifetime-minutes"));
             var longPollPort = App.Settings.GetValue<int>("long-poll-port");
             var longPollPeriod = TimeSpan.FromMinutes(App.Settings.GetValue<int>("long-poll-period-minutes"));
-            return new ApiProvider(ip, authPort, apiPort, longPollPort, longPollPeriod);
+            return new ApiFactory(ip, authPort, apiPort, cachedUserLifetime,
+                                  cachedChatLifetime, longPollPort, longPollPeriod,SynchronizationContext.Current);
         }
     }
 }

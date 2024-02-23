@@ -1,12 +1,4 @@
 ﻿using PerformanceUtils.Collections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMApi.ApiRequests.Chats;
-using TMApi.ApiRequests.Users;
-using ApiWrapper.Types;
 
 namespace ApiWrapper.ApiWrapper
 {
@@ -55,7 +47,10 @@ namespace ApiWrapper.ApiWrapper
             foreach (var user in users)
             {
                 if (!CachedUsers.TryGetValue(user.Id, out var cachedUser))
+                {
                     isSuccessful = false;
+                    continue;
+                }
 
                 cachedUser.Update(user);
                 if (!CachedUsers.UpdateLifetime(user.Id, userLifetime))
@@ -69,7 +64,10 @@ namespace ApiWrapper.ApiWrapper
             foreach (var chat in chats)
             {
                 if (!CachedChats.TryGetValue(chat.Id, out var cachedChat))
-                    return false;
+                {
+                    isSuccessful = false;
+                    continue;
+                }
 
                 cachedChat.Update(chat);
                 if (!CachedChats.UpdateLifetime(chat.Id, chatLifetime))
@@ -85,10 +83,11 @@ namespace ApiWrapper.ApiWrapper
             bool isSuccessful = true;
             foreach (var user in users)
             {
-                if (!CachedUsers.TryAdd(user.Id, user, userLifetime))
-                    isSuccessful = false;
-                else
-                    UpdateCache(user);
+                if (CachedUsers.TryAdd(user.Id, user, userLifetime))
+                    continue;
+
+                isSuccessful = false;
+                UpdateCache(user);
             }
             return isSuccessful;
         }
@@ -97,10 +96,11 @@ namespace ApiWrapper.ApiWrapper
             bool isSuccessful = true;
             foreach (var chat in chats)
             {
-                if (!CachedChats.TryAdd(chat.Id, chat, chatLifetime))
-                    isSuccessful = false;
-                else
-                    UpdateCache(chat);
+                if (CachedChats.TryAdd(chat.Id, chat, chatLifetime))
+                    continue;
+
+                isSuccessful = false;
+                UpdateCache(chat);
             }
             return isSuccessful;
         }

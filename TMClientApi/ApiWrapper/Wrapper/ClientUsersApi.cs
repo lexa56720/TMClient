@@ -1,12 +1,6 @@
 ﻿using ApiTypes.Communication.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TMApi;
 using ApiWrapper.Interfaces;
-using ApiWrapper.Types;
 
 namespace ApiWrapper.ApiWrapper.Wrapper
 {
@@ -15,9 +9,9 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         private Api Api { get; }
         private ApiConverter Converter { get; }
         private CacheManager Cache { get; }
-        private UserInfo CurrentUser { get; }
+        private User CurrentUser { get; }
 
-        internal ClientUsersApi(Api api, ApiConverter converter, CacheManager cacheManager, UserInfo currentUser)
+        internal ClientUsersApi(Api api, ApiConverter converter, CacheManager cacheManager, User currentUser)
         {
             Api = api;
             Converter = converter;
@@ -29,7 +23,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         {
             if (await Api.Users.ChangeName(name))
             {
-                CurrentUser.MainInfo.Name = name;
+                CurrentUser.Name = name;
                 return true;
             }
             return false;
@@ -49,7 +43,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
                 var apiUser = await Api.Users.GetUser(userId);
                 if (apiUser == null)
                     return null;
-                user = Converter.Convert(apiUser);
+                user = ApiConverter.Convert(apiUser);
                 Cache.AddToCache(user);
             }
             return user;
@@ -62,7 +56,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             for (int i = 0; i < userIds.Length; i++)
             {
                 if (Cache.TryGetUser(userIds[i], out var user))
-                    result[i] = user;
+                    result.Add(user);
                 else
                     requestedUsers.Add(userIds[i]);
             }
@@ -70,7 +64,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             Cache.AddToCache(converted);
             result.AddRange(converted);
 
-            return userIds.Select(userId => converted.First(c => c.Id == userId)).ToArray();
+            return userIds.Select(userId => result.First(c => c.Id == userId)).ToArray();
         }
     }
 }

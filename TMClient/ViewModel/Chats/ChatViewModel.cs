@@ -1,12 +1,7 @@
-﻿using AsyncAwaitBestPractices.MVVM;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ApiWrapper.Types;
+using AsyncAwaitBestPractices.MVVM;
 using System.Windows.Input;
 using TMClient.Model.Chats;
-using TMClient.Types;
 using TMClient.Utils;
 
 namespace TMClient.ViewModel.Chats

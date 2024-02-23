@@ -1,25 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMApi;
-using TMClient.Types;
-
-namespace TMClient.Model
+﻿namespace TMClient.Model
 {
-    class FriendRequestModel
+    class FriendRequestModel: BaseModel
     {
         public async Task<User[]> SearchByName(string name)
         {
-            var users = await App.Api.Users.GetByName(name);
-
-            return users.Select(u => new User(u)).ToArray();
+            return await Api.Users.GetByName(name);
         }
 
         public async Task SendRequest(User user)
         {
-            await App.Api.Friends.SendFriendRequest(user.Id);
+            await Api.Friends.SendFriendRequest(user.Id);
         }
     }
 }

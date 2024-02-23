@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using TMApi;
+﻿using ApiWrapper.Interfaces;
 
 namespace TMClient.Model.Auth
 {
     internal class SignInModel
     {
-        public static async Task<Api?> SignIn(string login, string password)
+        public static async Task<IApi?> SignIn(string login, string password)
         {
             var provider = AuthModel.ApiProvider;
-            return await provider.GetApiLogin(login, password);
+            return await provider.CreateByLogin(login, password);
         }
     }
 }

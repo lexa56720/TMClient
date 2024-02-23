@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMClient.Types;
-using TMClient.Utils;
+﻿using System.Text;
 
 namespace TMClient.Model.Chats
 {
-    internal abstract class BaseChatModel
+    internal abstract class BaseChatModel: BaseModel
     {
         protected Chat Chat { get; }
 
@@ -19,21 +13,17 @@ namespace TMClient.Model.Chats
 
         public async Task<Message[]> GetHistory(Message lastMessage)
         {
-            var messages = await App.Api.Messages.GetMessages(Chat.Id, lastMessage.Id);
-            return await ApiConverter.Convert(App.UserData, messages);
+            return await Api.Messages.GetMessages(Chat.Id, lastMessage.Id);
+   
         }
         public async Task<Message[]> GetHistory(int offset)
         {
-            var messages = await App.Api.Messages.GetMessages(Chat.Id, 20, offset);
-            return await ApiConverter.Convert(App.UserData, messages);
+            return await Api.Messages.GetMessages(Chat.Id, 20, offset);
         }
 
         public async Task<Message?> SendMessage(Message message)
         {
-            var result = await App.Api.Messages.SendMessage(message.Text, message.Destionation.Id);
-            if (result == null)
-                return null;
-            return new Message(result, App.CurrentUser,message.Destionation);
+            return await Api.Messages.SendMessage(message.Text, message.Destionation.Id);
         }
 
     }

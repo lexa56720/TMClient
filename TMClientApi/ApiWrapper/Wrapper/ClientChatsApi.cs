@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMApi;
-using TMApi.ApiRequests.Users;
+﻿using TMApi;
 using ApiWrapper.Interfaces;
 
 namespace ApiWrapper.ApiWrapper.Wrapper
@@ -63,7 +57,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             for (int i = 0; i < chatIds.Length; i++)
             {
                 if (Cache.TryGetChat(chatIds[i], out var chat))
-                    result[i] = chat;
+                    result.Add(chat);
                 else
                     requestedChats.Add(chatIds[i]);
             }
@@ -71,7 +65,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             Cache.AddToCache(converted);
             result.AddRange(converted);
 
-            return chatIds.Select(chatId => converted.First(c => c.Id == chatId)).ToArray();
+            return chatIds.Select(chatId => result.First(c => c.Id == chatId)).ToArray();
         }
 
         public async Task<ChatInvite?> GetChatInvite(int inviteId)

@@ -1,10 +1,5 @@
-﻿using AsyncAwaitBestPractices.MVVM;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ApiWrapper.Interfaces;
+using AsyncAwaitBestPractices.MVVM;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -43,7 +38,7 @@ namespace TMClient.ViewModel.Auth
 
         public ICommand Switch => new Command(SwitchPages);
 
-       // public ICommand WindowLoaded => new AsyncCommand(TryToLoadApi);
+        public ICommand WindowLoaded => new AsyncCommand(TryToLoadApi);
 
         public bool IsLoaded
         {
@@ -90,9 +85,8 @@ namespace TMClient.ViewModel.Auth
                 return;
             }
                
-
             IsLoaded = false;
-            var api = await AuthModel.TryGetApi();
+            IApi? api = await AuthModel.TryGetApi();
             if (api != null)
             {
                 IsLoaded = true;

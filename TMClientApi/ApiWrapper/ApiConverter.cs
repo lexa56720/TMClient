@@ -9,24 +9,21 @@ global using FriendRequest = ApiWrapper.Types.FriendRequest;
 global using User = ApiWrapper.Types.User;
 using ApiWrapper.Types;
 using ApiWrapper.Interfaces;
-using System;
-using TMApi.ApiRequests.Users;
-using TMApi.ApiRequests.Chats;
 
 namespace ApiWrapper.ApiWrapper
 {
     internal class ApiConverter
     {
-        private readonly IChatsApi ChatApi;
-        private readonly IUsersApi UserApi;
+        private IChatsApi ChatApi => Api.Chats;
+        private IUsersApi UserApi => Api.Users;
+        private readonly IApi Api;
 
         public ApiConverter(IApi api)
         {
-            ChatApi = api.Chats;
-            UserApi = api.Users;
+            Api = api;
         }
 
-        public User Convert(ApiUser user)
+        public static User Convert(ApiUser user)
         {
             return new User(user.Id, user.Name, user.Login, user.IsOnline);
         }
@@ -60,7 +57,7 @@ namespace ApiWrapper.ApiWrapper
             return result;
         }
 
-        public Message Convert(ApiMessage message, User author, Chat chat)
+        public static Message Convert(ApiMessage message, User author, Chat chat)
         {
             return new Message(message.Id, message.Text, message.SendTime, author, chat);
         }
@@ -95,7 +92,7 @@ namespace ApiWrapper.ApiWrapper
                 return null;
             return Convert(request, user);
         }
-        public FriendRequest Convert(ApiFriendRequest request, User user)
+        public static FriendRequest Convert(ApiFriendRequest request, User user)
         {
             return new FriendRequest(request.Id, user);
         }

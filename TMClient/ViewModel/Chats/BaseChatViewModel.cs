@@ -1,16 +1,8 @@
 ﻿using AsyncAwaitBestPractices.MVVM;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Threading;
 using TMClient.Controls;
 using TMClient.Model.Chats;
-using TMClient.Types;
 using TMClient.Utils;
 
 namespace TMClient.ViewModel.Chats
@@ -91,7 +83,7 @@ namespace TMClient.ViewModel.Chats
 
             var message = await Model.SendMessage(new Message()
             {
-                Author = App.CurrentUser,
+                Author = CurrentUser.Info,
                 Text = text,
                 Destionation = Chat,
             });
@@ -108,9 +100,9 @@ namespace TMClient.ViewModel.Chats
 
         protected void UpdateMessages(object? sender, Message[] messages)
         {
-            App.Current.Dispatcher.Invoke(()=>
+            App.Current.Dispatcher.Invoke(() =>
                      AddMessageToEnd(messages.Where(m => m.Destionation.Id == Chat.Id)
-                                             .ToArray()));    
+                                             .ToArray()));
         }
 
         protected void AddMessageToEnd(Message message)
@@ -119,7 +111,7 @@ namespace TMClient.ViewModel.Chats
             if (last != null && IsUnionable(last, message))
                 last.UnionToEnd(message);
             else
-                Messages.Add(new MessageControl(message));
+                Messages.Add(new MessageControl(message, CurrentUser));
         }
         protected void AddMessageToEnd(Message[] messages)
         {
@@ -133,7 +125,7 @@ namespace TMClient.ViewModel.Chats
             if (first != null && IsUnionable(first, message))
                 first.UnionToStart(message);
             else
-                Messages.Insert(0, new MessageControl(message));
+                Messages.Insert(0, new MessageControl(message, CurrentUser));
         }
         protected void AddMessageToStart(Message[] messages)
         {

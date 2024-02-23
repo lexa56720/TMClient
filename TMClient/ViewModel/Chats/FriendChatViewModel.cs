@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMClient.Model.Chats;
-using TMClient.Types;
+﻿using TMClient.Model.Chats;
 
 namespace TMClient.ViewModel.Chats
 {
@@ -23,7 +17,7 @@ namespace TMClient.ViewModel.Chats
 
         public FriendChatViewModel(Chat chat) : base(chat)
         {
-            var friend = Chat.Members.Single(m => m.Id != App.Api.Id);
+            var friend = Chat.Members.Single(m => m.Id != CurrentUser.Info.Id);
             ChatName = friend.Name;
             FriendLogin = friend.Login;
         }

@@ -1,7 +1,4 @@
-﻿using TMApi.ApiRequests.Messages;
-using static System.Net.Mime.MediaTypeNames;
-
-namespace TMClient.Utils
+﻿namespace TMClient.Utils
 {
     public static class Messenger
     {

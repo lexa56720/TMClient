@@ -1,24 +1,17 @@
 ﻿
 using AsyncAwaitBestPractices.MVVM;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using TMClient.Model;
-using TMClient.Types;
 using TMClient.Utils;
 
 namespace TMClient.ViewModel
 {
     class NotificationsViewModel : BaseViewModel
     {
-        public ObservableCollection<FriendRequest> FriendRequests => App.Requests.FriendRequests;
+        public ObservableCollection<FriendRequest> FriendRequests => CurrentUser.FriendRequests;
 
-        public ObservableCollection<ChatInvite> ChatInvites => App.Requests.ChatInvites;
+        public ObservableCollection<ChatInvite> ChatInvites => CurrentUser.ChatInvites;
 
 
         public ICommand AcceptFriendRequest => new AsyncCommand<FriendRequest>(AcceptFriend);

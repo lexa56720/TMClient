@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ApiWrapper.Interfaces;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TMClient.ViewModel
 {
     internal abstract class BaseViewModel : INotifyPropertyChanged
     {
+        public static IUserInfo CurrentUser { protected get; set; } = null!;
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public void OnPropertyChanged(string propertyName)

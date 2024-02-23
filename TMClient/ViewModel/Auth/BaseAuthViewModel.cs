@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMApi;
+﻿using ApiWrapper.Interfaces;
 using TMClient.Utils;
 using TMClient.View;
 
@@ -12,9 +7,10 @@ namespace TMClient.ViewModel.Auth
     internal abstract class BaseAuthViewModel:BaseViewModel
     {
 
-        protected async Task OpenMainWindow(Api api)
+        protected async Task OpenMainWindow(IApi api)
         {    
-            var mainWindow =await MainWindow.GetInstance(api);
+            await Messenger.Send(Messages.AuthCompleted, api);
+            var mainWindow =new MainWindow();
             mainWindow.Show();
             await Messenger.Send(Messages.CloseAuth);
             return;

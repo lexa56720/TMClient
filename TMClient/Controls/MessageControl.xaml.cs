@@ -1,21 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ApiWrapper.Interfaces;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using TMApi.ApiRequests.Messages;
-using TMClient.Types;
 using TMClient.Utils;
 
 namespace TMClient.Controls
@@ -39,7 +25,7 @@ namespace TMClient.Controls
 
         public required string Text
         {
-            get 
+            get
             {
                 return string.Join(Environment.NewLine, Messages.Select(m => m.Text));
             }
@@ -67,11 +53,11 @@ namespace TMClient.Controls
         public event PropertyChangedEventHandler? PropertyChanged;
 
         [SetsRequiredMembers]
-        public MessageControl(Message message)
-        {         
+        public MessageControl(Message message, IUserInfo currentUser)
+        {
             Messages.Add(message);
-            Author= message.Author; 
-            IsOwn = message.Author.Id == App.Api.Id;
+            Author = message.Author;
+            IsOwn = message.Author.Id == currentUser.Info.Id;
             Text = message.Text;
             Time = message.SendTime.ToText();
 
@@ -96,8 +82,8 @@ namespace TMClient.Controls
 
         public void UnionToStart(Message message)
         {
-            Messages.Insert(0,message);
-            Time=message.SendTime.ToText();
+            Messages.Insert(0, message);
+            Time = message.SendTime.ToText();
             OnPropertyChanged(nameof(Text));
         }
     }

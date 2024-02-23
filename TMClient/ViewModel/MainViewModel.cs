@@ -1,14 +1,7 @@
-﻿using ApiTypes.Communication.LongPolling;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ApiWrapper.Types;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Threading;
-using TMClient.Types;
 using TMClient.Utils;
 using TMClient.View;
 using TMClient.View.Auth;
@@ -77,7 +70,7 @@ namespace TMClient.ViewModel
         private Page ChatPage = new();
         public MainViewModel()
         {
-            ChatPage = new ChatView(new Chat() { Id = 0, Name = "намба ван чат" });
+            ChatPage = new ChatView(new Chat(0, "намба ван чат",false));
             MainFrame = ChatPage;
             SidePanelFrame = Panel;
 

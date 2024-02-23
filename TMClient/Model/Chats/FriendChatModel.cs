@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMClient.Types;
-
-namespace TMClient.Model.Chats
+﻿namespace TMClient.Model.Chats
 {
     internal class FriendChatModel : BaseChatModel
     {

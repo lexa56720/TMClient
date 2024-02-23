@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TMApi.ApiRequests.Users;
 
 namespace ApiWrapper.Types
 {
@@ -64,6 +57,8 @@ namespace ApiWrapper.Types
 
         internal void Update(Chat chat)
         {
+            if (chat == this)
+                return;
             Name = chat.name;
             WritingUser = chat.WritingUser;
             LastMessage = chat.LastMessage;

@@ -1,17 +1,11 @@
-﻿using ApiTypes.Communication.Messages;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ApiWrapper.Types
 {
     public class Message : INotifyPropertyChanged
     {
-        public int Id { get; }
+        public int Id { get; init; }
 
         public string Text
         {
@@ -33,9 +27,9 @@ namespace ApiWrapper.Types
                 OnPropertyChanged(nameof(SendTime));
             }
         }
-        private DateTime sendTime;
+        private DateTime sendTime = DateTime.UtcNow;
 
-        public User Author
+        public required User Author
         {
             get => author;
             set
@@ -46,7 +40,8 @@ namespace ApiWrapper.Types
         }
         private User author = null!;
 
-        public Chat Destionation { get; }
+        public required Chat Destionation { get; init; }
+        [SetsRequiredMembers]
 
         public Message(int id, string text, DateTime sendTime, User author, Chat destination)
         {
@@ -55,6 +50,10 @@ namespace ApiWrapper.Types
             SendTime = sendTime;
             Author = author;
             Destionation = destination;
+        }
+
+        public Message()
+        {
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
