@@ -1,5 +1,6 @@
 ﻿using TMApi;
 using ApiWrapper.Interfaces;
+using TMApi.ApiRequests.Chats;
 
 namespace ApiWrapper.ApiWrapper.Wrapper
 {
@@ -52,6 +53,8 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         public async ValueTask<Chat[]> GetChat(int[] chatIds)
         {
+            if (chatIds == null)
+                return [];
             var result = new List<Chat>(chatIds.Length);
             var requestedChats = new List<int>();
             for (int i = 0; i < chatIds.Length; i++)
@@ -78,6 +81,8 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         public async Task<ChatInvite[]> GetChatInvite(int[] inviteIds)
         {
+            if (inviteIds == null)
+                return [];
             var invites = await Api.Chats.GetChatInvite(inviteIds);
             return await Converter.Convert(invites);
         }

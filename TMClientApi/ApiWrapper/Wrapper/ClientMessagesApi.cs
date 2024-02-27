@@ -26,6 +26,8 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         public async Task<Message[]> GetMessages(params int[] messagesId)
         {
+            if (messagesId == null)
+                return [];
             return await Converter.Convert(await Api.Messages.GetMessages(messagesId));
         }
 

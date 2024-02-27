@@ -1,6 +1,7 @@
 ﻿using ApiTypes.Communication.Users;
 using TMApi;
 using ApiWrapper.Interfaces;
+using TMApi.ApiRequests.Messages;
 
 namespace ApiWrapper.ApiWrapper.Wrapper
 {
@@ -51,6 +52,8 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         public async ValueTask<User[]> GetUser(int[] userIds)
         {
+            if (userIds == null)
+                return [];
             var result = new List<User>(userIds.Length);
             var requestedUsers = new List<int>();
             for (int i = 0; i < userIds.Length; i++)
