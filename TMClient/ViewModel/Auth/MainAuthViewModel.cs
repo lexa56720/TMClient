@@ -24,7 +24,7 @@ namespace TMClient.ViewModel.Auth
 
         private readonly Page Registration;
         private readonly Page Auth;
-        private readonly Page Settings = new Settings();
+        private readonly Page Settings;
         public bool IsLoginPage
         {
             get => isLoginPage;
@@ -76,10 +76,12 @@ namespace TMClient.ViewModel.Auth
         }
         private Visibility loadingVisibility = Visibility.Hidden;
 
+        private Page? PreviousPage;
         public MainAuthViewModel(Func<IApi?, bool> returnApi) : base(returnApi)
         {
             Registration = new SignUpView(returnApi);
             Auth = new AuthView(returnApi);
+            Settings = new Settings(OpenPreviousPage);
 
             EnteringFrame = Auth;
             Messenger.Subscribe(Messages.OpenSettingsPage,
@@ -101,9 +103,16 @@ namespace TMClient.ViewModel.Auth
             }
         }
 
+        private void OpenPreviousPage()
+        {
+            SwitchPageVisibility = Visibility.Visible;
+            if (PreviousPage != null)
+                EnteringFrame = PreviousPage;
+        }
         private void OpenSettings()
         {
             SwitchPageVisibility = Visibility.Hidden;
+            PreviousPage = EnteringFrame;
             EnteringFrame = Settings;
         }
 

@@ -8,6 +8,11 @@ namespace TMClient.View
     /// </summary>
     public partial class Settings : Page
     {
+        public Settings(Action openPreviousPage)
+        {
+            InitializeComponent();
+            DataContext = new SettingsViewModel(openPreviousPage);
+        }
         public Settings()
         {
             InitializeComponent();

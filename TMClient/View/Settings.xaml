@@ -11,7 +11,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -25,26 +25,30 @@
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
+        <controls:IconButton Style="{StaticResource TransperentButton}" Command="{Binding BackNavigation}" Icon="&#xE72b;"
+                          Visibility="{Binding BackNavigationVisibility}" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="15" FontSize="24" />
+
         <Label Content="Настройки" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="24" />
 
         <Label   Grid.Row="1" Grid.Column="1" Content="Адрес сервера" FontSize="16" />
-        <TextBox Grid.Row="1" Grid.Column="2"/>
+        <TextBox Grid.Row="1" Grid.Column="2" FontSize="24"/>
 
         <Label   Grid.Row="2" Grid.Column="1" Content="Порт авторизации" FontSize="16" />
-        <TextBox Grid.Row="2" Grid.Column="2"/>
+        <TextBox Grid.Row="2" Grid.Column="2" FontSize="24"/>
 
         <Label   Grid.Row="3" Grid.Column="1" Content="Порт запросов" FontSize="16" />
-        <TextBox Grid.Row="3" Grid.Column="2"/>
+        <TextBox Grid.Row="3" Grid.Column="2" FontSize="24"/>
 
         <Label   Grid.Row="4" Grid.Column="1" Content="Порт уведомлений" FontSize="16" />
-        <TextBox Grid.Row="4" Grid.Column="2"/>
+        <TextBox Grid.Row="4" Grid.Column="2" FontSize="24"/>
 
         <Label   Grid.Row="5" Grid.Column="1" Content="Время жизни кэша пользователей" FontSize="16" />
-        <TextBox Grid.Row="5" Grid.Column="2"/>
+        <TextBox Grid.Row="5" Grid.Column="2" FontSize="24"/>
 
         <Label   Grid.Row="6" Grid.Column="1" Content="Время жизни кэша чатов" FontSize="16" />
-        <TextBox Grid.Row="6" Grid.Column="2"/>
+        <TextBox Grid.Row="6" Grid.Column="2" FontSize="24"/>
 
-        <controls:IconButton Style="{StaticResource AcceptButton}" Icon="&#xE74e;" HorizontalContentAlignment="Center" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Margin="15" FontSize="24" Text="Сохранить" />
+        <controls:IconButton Style="{StaticResource AcceptButton}" Icon="&#xE74e;" HorizontalContentAlignment="Center" 
+                             Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Margin="50,30,50,0" FontSize="24" Text="Сохранить" />
     </Grid>
 </Page>
