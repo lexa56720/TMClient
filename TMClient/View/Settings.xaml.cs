@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using TMClient.ViewModel;
 
 namespace TMClient.View
 {
@@ -10,6 +11,7 @@ namespace TMClient.View
         public Settings()
         {
             InitializeComponent();
+            DataContext = new SettingsViewModel();
         }
     }
 }

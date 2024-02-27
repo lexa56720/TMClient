@@ -24,7 +24,7 @@ namespace TMClient.ViewModel.Auth
 
         private readonly Page Registration;
         private readonly Page Auth;
-
+        private readonly Page Settings = new Settings();
         public bool IsLoginPage
         {
             get => isLoginPage;
@@ -36,9 +36,19 @@ namespace TMClient.ViewModel.Auth
         }
         private bool isLoginPage = true;
 
-        public ICommand Switch => new Command(SwitchPages);
-
+        public ICommand SwitchPage => new Command(SwitchPages);
         public ICommand WindowLoaded => new AsyncCommand(TryToLoadApi);
+
+        public Visibility SwitchPageVisibility
+        {
+            get => switchPageVisibility;
+            set
+            {
+                switchPageVisibility = value;
+                OnPropertyChanged(nameof(SwitchPageVisibility));
+            }
+        }
+        private Visibility switchPageVisibility;
 
         public bool IsLoaded
         {
@@ -72,6 +82,8 @@ namespace TMClient.ViewModel.Auth
             Auth = new AuthView(returnApi);
 
             EnteringFrame = Auth;
+            Messenger.Subscribe(Messages.OpenSettingsPage,
+                () => Application.Current.Dispatcher.Invoke(OpenSettings));
 
             Messenger.Subscribe(Messages.AuthLoadingStart,
                 () => Application.Current.Dispatcher.Invoke(() => IsLoaded = false));
@@ -81,14 +93,19 @@ namespace TMClient.ViewModel.Auth
         }
 
         private async Task TryToLoadApi()
-        {       
+        {
             if (Preferences.Default.IsSaveAuth != false)
             {
                 IApi? api = await AuthModel.TryGetApi();
                 ReturnApi.Invoke(api);
-            }    
+            }
         }
 
+        private void OpenSettings()
+        {
+            SwitchPageVisibility = Visibility.Hidden;
+            EnteringFrame = Settings;
+        }
 
         private void SwitchPages()
         {

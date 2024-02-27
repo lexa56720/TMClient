@@ -48,7 +48,6 @@ namespace TMClient.Controls
             {
                 icon = value;
                 OnPropertyChanged(nameof(Icon));
-
             }
         }
         private string icon = string.Empty;

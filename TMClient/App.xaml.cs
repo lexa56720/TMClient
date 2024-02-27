@@ -59,6 +59,10 @@ namespace TMClient
                 Current.MainWindow = mainWindow;
                 mainWindow.Show();
             }
+            else
+            {
+                Shutdown();
+            }
         }
         public void Logout()
         {

@@ -30,6 +30,7 @@ namespace TMClient.ViewModel.Auth
         }
         private bool isNotBusy = true;
         public ICommand SignUpCommand => new AsyncCommand<PasswordBox>(SignUp, o => IsNotBusy);
+        public ICommand OpenSettings => new AsyncCommand(()=>Messenger.Send(Messages.OpenSettingsPage));
 
         public Visibility ErrorVisibility
         {

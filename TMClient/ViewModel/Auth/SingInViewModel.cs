@@ -11,7 +11,7 @@ namespace TMClient.ViewModel.Auth
     class SingInViewModel(Func<IApi?, bool> returnApi) : BaseAuthViewModel(returnApi)
     {
         public ICommand SignInCommand => new AsyncCommand<PasswordBox>(SignIn, (o) => IsNotBusy);
-
+        public ICommand OpenSettings => new AsyncCommand(() => Messenger.Send(Messages.OpenSettingsPage));
         public bool IsNotBusy
         {
             get => isNotBusy;

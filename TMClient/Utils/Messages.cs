@@ -10,6 +10,8 @@
 
         CloseMainWindow,
         OpenChatPage,
+        OpenSettingsPage,
+
 
         NewMessagesArived,
 
