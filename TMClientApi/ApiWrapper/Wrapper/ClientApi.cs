@@ -4,23 +4,37 @@ using System.Security.Cryptography;
 using TMApi;
 using ApiWrapper.Interfaces;
 using ApiWrapper.Interfaces;
+using ApiWrapper.Types;
 
 namespace ApiWrapper.ApiWrapper.Wrapper
 {
     public class ClientApi : IApi, IUserInfo
     {
         public User Info { get; private set; }
+
+        public event EventHandler<Message[]> NewMessages
+        {
+            add
+            {
+                LongPollManager.NewMessages += value;
+            }
+            remove
+            {
+                LongPollManager.NewMessages -= value;
+            }
+        }
+
         public IUsersApi Users => users;
-        private ClientUsersApi users;
+        private readonly ClientUsersApi users;
 
         public IMessagesApi Messages => messages;
-        private ClientMessagesApi messages;
+        private readonly ClientMessagesApi messages;
 
         public IFriendsApi Friends => friends;
-        private ClientFriendsApi friends;
+        private readonly ClientFriendsApi friends;
 
         public IChatsApi Chats => chats;
-        private ClientChatsApi chats;
+        private readonly ClientChatsApi chats;
 
         public ObservableCollection<Chat> Dialogs { get; private set; } = new();
         public ObservableCollection<Chat> MultiuserChats { get; private set; } = new();
@@ -42,6 +56,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             Info = ApiConverter.Convert(api.UserInfo.MainInfo);
 
             Cache = new CacheManager(userLifetime, chatLifetime);
+            Cache.AddToCache(Info);
             Converter = new ApiConverter(this);
 
             chats = new ClientChatsApi(api, Converter, Cache);
@@ -91,8 +106,6 @@ namespace ApiWrapper.ApiWrapper.Wrapper
                 IsDisposed = true;
             }
         }
-
-
 
         public async Task Save(string path)
         {

@@ -19,11 +19,22 @@ namespace TMClient
             get => api;
             set
             {
+                if (api != null)
+                    api.NewMessages -= NewMessages;
+                if (value != null)
+                    value.NewMessages += NewMessages;
+
                 api = value;
                 BaseModel.Api = value;
                 BaseViewModel.CurrentUser = value;
             }
         }
+
+        private static void NewMessages(object? sender, Message[] e)
+        {
+            Messenger.Send(Messages.NewMessagesArived, e);
+        }
+
         private static IApi? api = null;
         public static Configurator Settings { get; } = new Configurator("config.cfg", true);
 
@@ -33,7 +44,7 @@ namespace TMClient
         public static string AuthPath { get; private set; } = string.Empty;
 
         public App()
-        {        
+        {
             AuthPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/userdata/auth/authdata.bin");
 

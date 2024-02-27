@@ -10,7 +10,6 @@ namespace TMClient.ViewModel.Auth
 {
     class AuthViewModel : BaseAuthViewModel
     {
-
         public ICommand SignInCommand => new AsyncCommand<PasswordBox>(SignIn, (o) => IsNotBusy);
 
         public bool IsNotBusy

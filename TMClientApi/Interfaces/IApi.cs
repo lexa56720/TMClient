@@ -1,4 +1,5 @@
 ﻿using ApiTypes.Communication.Users;
+using ApiWrapper.Types;
 using System.Collections.ObjectModel;
 
 namespace ApiWrapper.Interfaces
@@ -13,7 +14,7 @@ namespace ApiWrapper.Interfaces
 
         public IFriendsApi Friends { get; }
 
-
+        public event EventHandler<Message[]> NewMessages;
 
         public Task Save(string path);
     }
