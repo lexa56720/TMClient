@@ -1,7 +1,9 @@
-﻿using ApiWrapper.Types;
+﻿using ApiWrapper.Interfaces;
+using ApiWrapper.Types;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using TMClient.Model;
 using TMClient.Utils;
 using TMClient.View;
 using TMClient.View.Auth;
@@ -70,6 +72,8 @@ namespace TMClient.ViewModel
         private Page ChatPage = new();
         public MainViewModel()
         {
+
+
             ChatPage = new ChatView(new Chat(0, "намба ван чат",false));
             MainFrame = ChatPage;
             SidePanelFrame = Panel;
@@ -95,10 +99,9 @@ namespace TMClient.ViewModel
 
         private void Logout()
         {
-            App.Logout();
+          
             Messenger.Send(Messages.CloseMainWindow);
-            var authWindow = new MainAuthWindow();
-            authWindow.Show();
+            ((App)App.Current).Logout();
         }
     }
 }

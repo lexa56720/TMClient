@@ -22,8 +22,8 @@ namespace TMClient.ViewModel.Auth
         }
         private Page enteringFrame = null!;
 
-        private Page Registration { get; } = new SignUpView();
-        private Page Auth { get; } = new AuthView();
+        private readonly Page Registration;
+        private readonly Page Auth;
 
         public bool IsLoginPage
         {
@@ -66,35 +66,27 @@ namespace TMClient.ViewModel.Auth
         }
         private Visibility loadingVisibility = Visibility.Hidden;
 
-
-        public MainAuthViewModel()
+        public MainAuthViewModel(Func<IApi?, bool> returnApi) : base(returnApi)
         {
+            Registration = new SignUpView(returnApi);
+            Auth = new AuthView(returnApi);
+
             EnteringFrame = Auth;
 
             Messenger.Subscribe(Messages.AuthLoadingStart,
                 () => Application.Current.Dispatcher.Invoke(() => IsLoaded = false));
+
             Messenger.Subscribe(Messages.AuthLoadingFinish,
                 () => Application.Current.Dispatcher.Invoke(() => IsLoaded = true));
         }
 
         private async Task TryToLoadApi()
-        {
-            if (App.IsAutoLogin == false)
+        {       
+            if (Preferences.Default.IsSaveAuth != false)
             {
-                IsLoaded = true;
-                return;
-            }
-               
-            IsLoaded = false;
-            IApi? api = await AuthModel.TryGetApi();
-            if (api != null)
-            {
-                IsLoaded = true;
-                await OpenMainWindow(api);
-                return;
-            }
-
-            IsLoaded = true;
+                IApi? api = await AuthModel.TryGetApi();
+                ReturnApi.Invoke(api);
+            }    
         }
 
 

@@ -6,14 +6,11 @@ namespace TMClient.ViewModel.Auth
 {
     internal abstract class BaseAuthViewModel:BaseViewModel
     {
+        protected readonly Func<IApi?,bool> ReturnApi;
 
-        protected async Task OpenMainWindow(IApi api)
-        {    
-            await Messenger.Send(Messages.AuthCompleted, api);
-            var mainWindow =new MainWindow();
-            mainWindow.Show();
-            await Messenger.Send(Messages.CloseAuth);
-            return;
+        public BaseAuthViewModel(Func<IApi?, bool> returnApi)
+        {
+            ReturnApi = returnApi;
         }
     }
 }

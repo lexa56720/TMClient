@@ -5,8 +5,8 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:u="clr-namespace:TMClient.Utils"
              xmlns:controls="clr-namespace:TMClient.Controls"
-             StartupUri="View/Auth/MainAuthWindow.xaml"
-             Exit="Application_Exit">
+             Startup="ApplicationStart"
+             Exit="ApplicationExit">
     <Application.Resources>
 
 

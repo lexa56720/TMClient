@@ -8,9 +8,8 @@ using TMClient.Utils;
 
 namespace TMClient.ViewModel.Auth
 {
-    class SignUpViewModel : BaseAuthViewModel
+    class SignUpViewModel(Func<IApi?, bool> returnApi) : BaseAuthViewModel(returnApi)
     {
-
         public string UserName { get; set; } = string.Empty;
 
         public string Login { get; set; } = string.Empty;
@@ -49,16 +48,13 @@ namespace TMClient.ViewModel.Auth
             var password = passwordBox.Password;
 
             IApi? api = await SignUpModel.Registration(UserName, Login, password);
-            passwordBox.Password = string.Empty;
-            if (api != null)
+
+            if (!ReturnApi(api))
             {
-                await OpenMainWindow(api);
-                return;
+                ErrorVisibility = Visibility.Visible;
+                IsNotBusy = true;
             }
-
-
-            ErrorVisibility = Visibility.Visible;
-            IsNotBusy = true;
+            passwordBox.Password = string.Empty;
         }
     }
 }

@@ -1,10 +1,13 @@
 ﻿using ApiTypes.Shared;
 using ApiWrapper.ApiWrapper.Wrapper;
 using ApiWrapper.Interfaces;
+using System.Configuration.Provider;
 using System.IO;
 using System.Windows;
 using TMClient.Model;
 using TMClient.Utils;
+using TMClient.View;
+using TMClient.View.Auth;
 using TMClient.ViewModel;
 
 namespace TMClient
@@ -14,7 +17,7 @@ namespace TMClient
     /// </summary>
     public partial class App : Application
     {
-        private static IApi? Api
+        private IApi? Api
         {
             get => api;
             set
@@ -25,51 +28,55 @@ namespace TMClient
                     value.NewMessages += NewMessages;
 
                 api = value;
-                BaseModel.Api = value;
-                BaseViewModel.CurrentUser = value;
             }
         }
-
+        private IApi? api = null;
         private static void NewMessages(object? sender, Message[] e)
         {
             Messenger.Send(Messages.NewMessagesArived, e);
         }
 
-        private static IApi? api = null;
-        public static Configurator Settings { get; } = new Configurator("config.cfg", true);
-
-        public static bool IsSaveAuth { get; set; } = true;
-        public static bool IsAutoLogin { get; set; } = true;
-        public static string AppFolder { get; private set; } = string.Empty;
-        public static string AuthPath { get; private set; } = string.Empty;
-
         public App()
         {
-            AuthPath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/userdata/auth/authdata.bin");
+            Preferences.Default.AuthPath = Path.Combine(
+                       Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/userdata/auth/authdata.bin");
 
-            AppFolder = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/");
+            Preferences.Default.AppFolder = Path.Combine(
+                       Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/");
 
-            Messenger.Subscribe<IApi>(Messages.AuthCompleted, (o, e) => Api = e);
+            Messenger.Subscribe(Messages.Logout, Logout);
         }
+        private void ApplicationStart(object sender, StartupEventArgs e)
+        {
+            Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-        public static void Logout()
+            var dialog = new MainAuthWindow();
+
+            if (dialog.ShowDialog() == true)
+            {
+                var mainWindow = new MainWindow(dialog.Api);
+                Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+                Current.MainWindow = mainWindow;
+                mainWindow.Show();
+            }
+        }
+        public void Logout()
         {
             Api?.Dispose();
             Api = null;
-            IsAutoLogin = false;
+            ApplicationStart(this,null);
         }
-        private async void Application_Exit(object sender, ExitEventArgs e)
+        private async void ApplicationExit(object sender, ExitEventArgs e)
         {
-            if (Api == null || IsSaveAuth == false)
+            if (Api == null || Preferences.Default.IsSaveAuth == false)
             {
-                if (File.Exists(AuthPath))
-                    File.Delete(AuthPath);
+                if (File.Exists(Preferences.Default.AuthPath))
+                    File.Delete(Preferences.Default.AuthPath);
             }
             else
             {
-                await Api.Save(AuthPath);
+                Preferences.Default.Save();
+                await Api.Save(Preferences.Default.AuthPath);
             }
         }
     }

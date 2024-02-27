@@ -98,13 +98,13 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         public void Dispose()
         {
-            if (!IsDisposed)
-            {
-                LongPollManager.Dispose();
-                Api.Dispose();
-                Cache.Clear();
-                IsDisposed = true;
-            }
+            if (IsDisposed)
+                return;
+
+            LongPollManager.Dispose();
+            Api.Dispose();
+            Cache.Clear();
+            IsDisposed = true;
         }
 
         public async Task Save(string path)

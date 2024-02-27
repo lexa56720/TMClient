@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using ApiWrapper.Interfaces;
+using System.Windows.Controls;
 using TMClient.ViewModel.Auth;
 
 namespace TMClient.View
@@ -8,10 +9,10 @@ namespace TMClient.View
     /// </summary>
     public partial class SignUpView : Page
     {
-        public SignUpView()
+        public SignUpView(Func<IApi?, bool> returnApi)
         {
             InitializeComponent();
-            DataContext = new SignUpViewModel();
+            DataContext = new SignUpViewModel(returnApi);
         }
     }
 }

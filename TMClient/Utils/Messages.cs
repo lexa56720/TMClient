@@ -2,10 +2,8 @@
 {
     public enum Messages
     {
-        CloseAuth,
         AuthLoadingStart,
         AuthLoadingFinish,
-        AuthCompleted,
 
         ModalOpened,
         ModalClosed,
@@ -14,5 +12,7 @@
         OpenChatPage,
 
         NewMessagesArived,
+
+        Logout,
     }
 }

@@ -8,7 +8,7 @@ using TMClient.Utils;
 
 namespace TMClient.ViewModel.Auth
 {
-    class AuthViewModel : BaseAuthViewModel
+    class SingInViewModel(Func<IApi?, bool> returnApi) : BaseAuthViewModel(returnApi)
     {
         public ICommand SignInCommand => new AsyncCommand<PasswordBox>(SignIn, (o) => IsNotBusy);
 
@@ -39,24 +39,21 @@ namespace TMClient.ViewModel.Auth
         }
         private Visibility errorVisibility = Visibility.Collapsed;
 
-
         private async Task SignIn(PasswordBox? passwordBox)
         {
             IsNotBusy = false;
 
             var password = passwordBox.Password;
             IApi? api = await SignInModel.SignIn(Login, password);
-            passwordBox.Password = string.Empty;
-            if (api != null)
-            {  
-                await OpenMainWindow(api);
-                return;
+
+
+            if (!ReturnApi(api))
+            {
+                ErrorVisibility = Visibility.Visible;
+                IsNotBusy = true;
             }
-             
-
-            ErrorVisibility = Visibility.Visible;
-            IsNotBusy = true;
+    
+            passwordBox.Password = string.Empty;
         }
-
     }
 }
