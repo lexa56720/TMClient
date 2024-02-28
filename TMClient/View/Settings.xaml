@@ -39,7 +39,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
@@ -54,8 +54,8 @@
 
         <Label Content="Настройки" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="24" />
 
-        <Label   Grid.Row="1" Grid.Column="1" Content="Адрес сервера:" FontSize="16"/>
-        <TextBox Grid.Row="1" Grid.Column="2" FontSize="24"  x:Name="Ip">
+        <TextBlock   Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Right" Text="Адрес сервера:" FontSize="16" />
+        <TextBox Grid.Row="1" Grid.Column="2" FontSize="24"  x:Name="Ip"  MaxHeight="35">
             <TextBox.Text>
                 <Binding Path="ServerAddress" NotifyOnValidationError="True" >
                     <Binding.ValidationRules>
@@ -65,8 +65,8 @@
             </TextBox.Text>
         </TextBox>
 
-        <Label   Grid.Row="2" Grid.Column="1" Content="Порт авторизации:" FontSize="16" />
-        <TextBox Grid.Row="2" Grid.Column="2" FontSize="24"  x:Name="Auth">
+        <TextBlock  Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Right" Text="Порт авторизации:" FontSize="16" />
+        <TextBox Grid.Row="2" Grid.Column="2" FontSize="24"  x:Name="Auth" MaxHeight="35">
             <TextBox.Text>
                 <Binding Path="AuthPort" NotifyOnValidationError="True" >
                     <Binding.ValidationRules>
@@ -76,8 +76,8 @@
             </TextBox.Text>
         </TextBox>
 
-        <Label   Grid.Row="3" Grid.Column="1" Content="Порт запросов:" FontSize="16" />
-        <TextBox  Grid.Row="3" Grid.Column="2" FontSize="24" x:Name="Api">
+        <TextBlock   Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Right" Text="Порт запросов:" FontSize="16" />
+        <TextBox  Grid.Row="3" Grid.Column="2" FontSize="24" x:Name="Api" MaxHeight="35">
             <TextBox.Text>
                 <Binding Path="ApiPort" NotifyOnValidationError="True" >
                     <Binding.ValidationRules>
@@ -87,8 +87,8 @@
             </TextBox.Text>
         </TextBox>
 
-        <Label   Grid.Row="4" Grid.Column="1" Content="Порт уведомлений:" FontSize="16" />
-        <TextBox Grid.Row="4" Grid.Column="2" FontSize="24" x:Name="Notification">
+        <TextBlock   Grid.Row="4" Grid.Column="1" Text="Порт уведомлений:" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Right" FontSize="16" />
+        <TextBox Grid.Row="4" Grid.Column="2" FontSize="24" x:Name="Notification" MaxHeight="35">
             <TextBox.Text>
                 <Binding Path="NotificationPort" NotifyOnValidationError="True" >
                     <Binding.ValidationRules>
@@ -98,8 +98,8 @@
             </TextBox.Text>
         </TextBox>
 
-        <TextBlock   Grid.Row="5" Grid.Column="1" TextWrapping="Wrap" TextAlignment="Right" Text="Время жизни кэша пользователей (мин):" FontSize="16" />
-        <TextBox Grid.Row="5" Grid.Column="2" FontSize="24"  x:Name="UserCache">
+        <TextBlock   Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Right" Text="Время жизни кэша пользователей (мин):" FontSize="16" />
+        <TextBox Grid.Row="5" Grid.Column="2" FontSize="24"  x:Name="UserCache" MaxHeight="35">
             <TextBox.Text>
                 <Binding Path="CachedUserLifeTime" NotifyOnValidationError="True" >
                     <Binding.ValidationRules>
@@ -109,8 +109,8 @@
             </TextBox.Text>
         </TextBox>
 
-        <Label   Grid.Row="6" Grid.Column="1" Content="Время жизни кэша чатов (мин):" FontSize="16" />
-        <TextBox Grid.Row="6" Grid.Column="2" FontSize="24"  x:Name="ChatCache">
+        <TextBlock    Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Right" Text="Время жизни кэша чатов (мин):" FontSize="16" />
+        <TextBox Grid.Row="6" Grid.Column="2" FontSize="24"  x:Name="ChatCache" MaxHeight="35">
             <TextBox.Text>
                 <Binding Path="CachedChatLifeTime" NotifyOnValidationError="True" >
                     <Binding.ValidationRules>

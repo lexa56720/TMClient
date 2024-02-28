@@ -6,8 +6,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TMClient.View"
-    AllowsTransparency="True"
-    WindowStyle="None" 
+        AllowsTransparency="True"
+        WindowStyle="None" 
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" 
         Title="MainWindow" Height="700" Width="900" MinHeight="400" MinWidth="600">
 
@@ -38,7 +38,7 @@
 
 
     <Grid Background="Transparent" >
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -49,7 +49,7 @@
             <ColumnDefinition Width="6*"/>
         </Grid.ColumnDefinitions>
 
-            <Rectangle Grid.Column="2" Grid.ColumnSpan="4" Fill="{StaticResource BackgroundBrush}" Margin="-10,0,0,-10" />
+        <Rectangle Grid.Column="2" Grid.ColumnSpan="4" Fill="{StaticResource BackgroundBrush}" Margin="-10,0,0,-10" />
 
         <Border  Grid.Column="0"  CornerRadius="0,5,5,0" >
             <DockPanel VerticalAlignment="Stretch" >
@@ -84,7 +84,7 @@
         <Frame Padding="0" Grid.Row="0"  Grid.Column="1" Background="Transparent"  Content="{Binding SidePanelFrame}" />
 
         <GridSplitter  Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Width="8" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
-      
+
         <Frame Padding="0,0,5,5" Grid.Row="0" Grid.Column="3"  Content="{Binding MainFrame}" Background="Transparent"/>
 
     </Grid>

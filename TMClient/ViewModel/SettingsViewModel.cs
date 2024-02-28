@@ -165,7 +165,7 @@ namespace TMClient.ViewModel
             if (int.TryParse(AuthPort, out var auth))
                 Preferences.Default.AuthPort = auth;
 
-            if (int.TryParse(AuthPort, out var api))
+            if (int.TryParse(ApiPort, out var api))
                 Preferences.Default.ApiPort = api;
 
             if (int.TryParse(NotificationPort, out var longPoll))
