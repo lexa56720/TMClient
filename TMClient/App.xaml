@@ -56,7 +56,9 @@
         <Color x:Key="RedColor">#F44336</Color>
 
         <Color x:Key="GreenColor">#4CAF50</Color>
+        <Color x:Key="TransperentGreenColor">#004CAF50</Color>
 
+        
         <FontFamily x:Key="SegoeIcons">./Resources/Fonts/#Segoe Fluent Icons</FontFamily>
         <FontFamily x:Key="SegoeUI">./Resources/Fonts/#{StaticResource SegoeUI}</FontFamily>
 
@@ -404,7 +406,7 @@
             <Setter Property="Padding" Value="5" />
         </Style>
 
-        <Style TargetType="TextBox">
+        <Style x:Key="DefaultTextBox" TargetType="TextBox">
             <Setter Property="Control.FontFamily" Value="{StaticResource SegoeUI}" />
             <Setter Property="Margin" Value="5" />
             <Setter Property="BorderThickness" Value="0"/>
@@ -443,6 +445,8 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="controls:TextBoxRegex"  BasedOn="{StaticResource ResourceKey=DefaultTextBox}"/>
+        <Style TargetType="TextBox"  BasedOn="{StaticResource ResourceKey=DefaultTextBox}"/>
 
         <Style x:Key="DarkTextBox" TargetType="TextBox">
             <Setter Property="Control.FontFamily" Value="{StaticResource SegoeUI}" />

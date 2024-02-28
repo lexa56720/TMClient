@@ -55,7 +55,7 @@
         <fa:ImageAwesome Grid.Row="0" Icon="Refresh" Margin="200" Visibility="{Binding LoadingVisibility}" Foreground="White" Spin="True" SpinDuration="10" />
 
         <Button  Grid.Row="1" Command="{Binding SwitchPage}"  IsEnabled="{Binding IsLoaded}" Margin="-5" Visibility="{Binding SwitchPageVisibility}" >
-            <Button.Style  >
+            <Button.Style>
                 <Style TargetType="Button" BasedOn="{StaticResource ResourceKey={x:Type Button}}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsLoginPage}" Value="True">

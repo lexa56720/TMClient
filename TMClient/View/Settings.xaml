@@ -3,15 +3,39 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:TMClient.View" xmlns:controls="clr-namespace:TMClient.Controls"
+      xmlns:controls="clr-namespace:TMClient.Controls"
+      xmlns:local="clr-namespace:TMClient.View" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Настройки">
-    <Grid>
+    
+    <Page.Resources>
+        <Storyboard x:Key="Succsses" TargetProperty="Background.(SolidColorBrush.Color)" TargetName="SettingsGrid">
+            <ColorAnimation 
+                    From="#004CAF50"
+                    To="#224CAF50"  
+                    AutoReverse="True" 
+                    Duration="0:0:0.4"/>
+        </Storyboard>
+    </Page.Resources>
+    
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding PageLoaded}" />
+        </i:EventTrigger>
+        
+        <i:DataTrigger Binding="{Binding SuccessSave, Mode=OneWay}" Value="True">
+            <i:ControlStoryboardAction Storyboard="{StaticResource Succsses}"     
+                               ControlStoryboardOption="Play"/>
+        </i:DataTrigger>
+        
+    </i:Interaction.Triggers>
+    
+    <Grid x:Name="SettingsGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="4*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -25,30 +49,122 @@
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
-        <controls:IconButton Style="{StaticResource TransperentButton}" Command="{Binding BackNavigation}" Icon="&#xE72b;"
-                          Visibility="{Binding BackNavigationVisibility}" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="0" Margin="15" FontSize="24" />
+        <controls:IconButton Style="{StaticResource TransperentButton}" Command="{Binding BackNavigation}" Icon="&#xE72b;" Margin="10" 
+                          Visibility="{Binding BackNavigationVisibility}" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="0" FontSize="24" />
 
         <Label Content="Настройки" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" FontSize="24" />
 
-        <Label   Grid.Row="1" Grid.Column="1" Content="Адрес сервера" FontSize="16" />
-        <TextBox Grid.Row="1" Grid.Column="2" FontSize="24"/>
+        <Label   Grid.Row="1" Grid.Column="1" Content="Адрес сервера:" FontSize="16"/>
+        <TextBox Grid.Row="1" Grid.Column="2" FontSize="24"  x:Name="Ip">
+            <TextBox.Text>
+                <Binding Path="ServerAddress" NotifyOnValidationError="True" >
+                    <Binding.ValidationRules>
+                        <DataErrorValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
-        <Label   Grid.Row="2" Grid.Column="1" Content="Порт авторизации" FontSize="16" />
-        <TextBox Grid.Row="2" Grid.Column="2" FontSize="24"/>
+        <Label   Grid.Row="2" Grid.Column="1" Content="Порт авторизации:" FontSize="16" />
+        <TextBox Grid.Row="2" Grid.Column="2" FontSize="24"  x:Name="Auth">
+            <TextBox.Text>
+                <Binding Path="AuthPort" NotifyOnValidationError="True" >
+                    <Binding.ValidationRules>
+                        <DataErrorValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
-        <Label   Grid.Row="3" Grid.Column="1" Content="Порт запросов" FontSize="16" />
-        <TextBox Grid.Row="3" Grid.Column="2" FontSize="24"/>
+        <Label   Grid.Row="3" Grid.Column="1" Content="Порт запросов:" FontSize="16" />
+        <TextBox  Grid.Row="3" Grid.Column="2" FontSize="24" x:Name="Api">
+            <TextBox.Text>
+                <Binding Path="ApiPort" NotifyOnValidationError="True" >
+                    <Binding.ValidationRules>
+                        <DataErrorValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
-        <Label   Grid.Row="4" Grid.Column="1" Content="Порт уведомлений" FontSize="16" />
-        <TextBox Grid.Row="4" Grid.Column="2" FontSize="24"/>
+        <Label   Grid.Row="4" Grid.Column="1" Content="Порт уведомлений:" FontSize="16" />
+        <TextBox Grid.Row="4" Grid.Column="2" FontSize="24" x:Name="Notification">
+            <TextBox.Text>
+                <Binding Path="NotificationPort" NotifyOnValidationError="True" >
+                    <Binding.ValidationRules>
+                        <DataErrorValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
-        <Label   Grid.Row="5" Grid.Column="1" Content="Время жизни кэша пользователей" FontSize="16" />
-        <TextBox Grid.Row="5" Grid.Column="2" FontSize="24"/>
+        <TextBlock   Grid.Row="5" Grid.Column="1" TextWrapping="Wrap" TextAlignment="Right" Text="Время жизни кэша пользователей (мин):" FontSize="16" />
+        <TextBox Grid.Row="5" Grid.Column="2" FontSize="24"  x:Name="UserCache">
+            <TextBox.Text>
+                <Binding Path="CachedUserLifeTime" NotifyOnValidationError="True" >
+                    <Binding.ValidationRules>
+                        <DataErrorValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
-        <Label   Grid.Row="6" Grid.Column="1" Content="Время жизни кэша чатов" FontSize="16" />
-        <TextBox Grid.Row="6" Grid.Column="2" FontSize="24"/>
+        <Label   Grid.Row="6" Grid.Column="1" Content="Время жизни кэша чатов (мин):" FontSize="16" />
+        <TextBox Grid.Row="6" Grid.Column="2" FontSize="24"  x:Name="ChatCache">
+            <TextBox.Text>
+                <Binding Path="CachedChatLifeTime" NotifyOnValidationError="True" >
+                    <Binding.ValidationRules>
+                        <DataErrorValidationRule/>
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+        </TextBox>
 
-        <controls:IconButton Style="{StaticResource AcceptButton}" Icon="&#xE74e;" HorizontalContentAlignment="Center" 
-                             Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Margin="50,30,50,0" FontSize="24" Text="Сохранить" />
+        <controls:IconButton Icon="&#xE74e;" HorizontalContentAlignment="Center"  Command="{Binding SaveCommand}"
+                             Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Margin="50,30,50,0" FontSize="24" Text="Сохранить">
+            <controls:IconButton.Style>
+                <Style TargetType="controls:IconButton" BasedOn="{StaticResource ResourceKey=AcceptButton}">
+                    <Style.Triggers>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=(Validation.HasError),ElementName=Ip}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError),ElementName=Auth}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError),ElementName=Api}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError),ElementName=Notification}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError),ElementName=UserCache}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError),ElementName=Ip}" Value="False"/>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="IsEnabled" Value="True"/>
+                        </MultiDataTrigger>
+                                       
+                        <DataTrigger Binding="{Binding Path=(Validation.HasError),ElementName=Ip}" Value="True">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Path=(Validation.HasError),ElementName=Auth}" Value="True">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Path=(Validation.HasError),ElementName=Api}" Value="True">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                        
+                        <DataTrigger Binding="{Binding Path=(Validation.HasError),ElementName=Notification}" Value="True">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Path=(Validation.HasError),ElementName=UserCache}" Value="True">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Path=(Validation.HasError),ElementName=ChatCache}" Value="True">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                        
+                    </Style.Triggers>
+                </Style>
+            </controls:IconButton.Style>
+        </controls:IconButton>
     </Grid>
 </Page>
