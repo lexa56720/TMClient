@@ -54,6 +54,7 @@
 
 
         <Color x:Key="RedColor">#F44336</Color>
+        <SolidColorBrush x:Key="RedBrush" Color="{StaticResource RedColor}"/>
 
         <Color x:Key="GreenColor">#4CAF50</Color>
         <Color x:Key="TransperentGreenColor">#004CAF50</Color>

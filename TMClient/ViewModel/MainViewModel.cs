@@ -1,5 +1,6 @@
 ﻿using ApiWrapper.Interfaces;
 using ApiWrapper.Types;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -21,7 +22,7 @@ namespace TMClient.ViewModel
                 OnPropertyChanged(nameof(SidePanelFrame));
             }
         }
-        private Page sidePanelFrame;
+        private Page sidePanelFrame = null!;
 
         public ICommand ChangeSideBarState => new Command(SwitchSideBarState);
 
@@ -31,6 +32,16 @@ namespace TMClient.ViewModel
         public ICommand LogoutCommand => new Command(Logout);
         public ICommand ChatCommand => new Command(() => MainFrame = ChatPage);
 
+        public int NotificationCount
+        {
+            get => notificationCount;
+            set
+            {
+                notificationCount = value;
+                OnPropertyChanged(nameof(NotificationCount));
+            }
+        }
+        private int notificationCount;
 
         public Visibility SideBarState
         {
@@ -52,7 +63,7 @@ namespace TMClient.ViewModel
                 OnPropertyChanged(nameof(MainFrame));
             }
         }
-        private Page mainFrame;
+        private Page mainFrame = null!;
 
         public bool IsInModalMode
         {
@@ -65,16 +76,15 @@ namespace TMClient.ViewModel
         }
         private bool isInModalMode;
 
-        private SidePanel Panel = new();
-        private Settings Settings = new();
-        private Profile Profile = new();
-        private Notifications Notifications = new();
+        private readonly SidePanel Panel = new();
+        private readonly Settings Settings = new();
+        private readonly Profile Profile = new();
+        private readonly Notifications Notifications = new();
         private Page ChatPage = new();
+
         public MainViewModel()
         {
-
-
-            ChatPage = new ChatView(new Chat(0, "намба ван чат",false));
+            ChatPage = new ChatView(new Chat(0, "намба ван чат", false));
             MainFrame = ChatPage;
             SidePanelFrame = Panel;
 
@@ -86,6 +96,24 @@ namespace TMClient.ViewModel
 
             Messenger.Subscribe(Messages.ModalOpened, () => IsInModalMode = true);
             Messenger.Subscribe(Messages.ModalClosed, () => IsInModalMode = false);
+
+            CurrentUser.ChatInvites.CollectionChanged += ChatInvitesChanged;
+            CurrentUser.FriendRequests.CollectionChanged += FriendRequests_CollectionChanged;
+        }
+
+        private void FriendRequests_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            UpdateNotificationCount();
+        }
+
+        private void ChatInvitesChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            UpdateNotificationCount();
+        }
+
+        private void UpdateNotificationCount()
+        {
+            NotificationCount = CurrentUser.ChatInvites.Count + CurrentUser.FriendRequests.Count;
         }
 
         private void SwitchSideBarState()
@@ -99,7 +127,7 @@ namespace TMClient.ViewModel
 
         private void Logout()
         {
-          
+
             Messenger.Send(Messages.CloseMainWindow);
             ((App)App.Current).Logout();
         }

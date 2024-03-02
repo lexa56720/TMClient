@@ -61,7 +61,7 @@ namespace TMClient.Controls
             }
         }
 
-        private ScrollViewer FindScrollViewer(DependencyObject d)
+        private ScrollViewer? FindScrollViewer(DependencyObject d)
         {
             if (d is ScrollViewer)
                 return d as ScrollViewer;
