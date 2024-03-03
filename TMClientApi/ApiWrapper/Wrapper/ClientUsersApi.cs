@@ -52,7 +52,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         public async ValueTask<User[]> GetUser(int[] userIds)
         {
-            if (userIds == null)
+            if (userIds.Length==0)
                 return [];
             var result = new List<User>(userIds.Length);
             var requestedUsers = new List<int>();

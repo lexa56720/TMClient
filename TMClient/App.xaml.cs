@@ -17,24 +17,7 @@ namespace TMClient
     /// </summary>
     public partial class App : Application
     {
-        private IApi? Api
-        {
-            get => api;
-            set
-            {
-                if (api != null)
-                    api.NewMessages -= NewMessages;
-                if (value != null)
-                    value.NewMessages += NewMessages;
-
-                api = value;
-            }
-        }
-        private IApi? api = null;
-        private static void NewMessages(object? sender, Message[] e)
-        {
-            Messenger.Send(Messages.NewMessagesArived, e);
-        }
+        private IApi? Api { get; set; } = null;
 
         public App()
         {
@@ -46,7 +29,7 @@ namespace TMClient
 
             Messenger.Subscribe(Messages.Logout, Logout);
         }
-        private void ApplicationStart(object sender, StartupEventArgs e)
+        private void ApplicationStart(object sender, StartupEventArgs? e)
         {
             Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 

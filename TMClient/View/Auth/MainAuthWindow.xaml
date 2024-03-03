@@ -20,7 +20,7 @@
             <i:InvokeCommandAction Command="{Binding WindowLoaded}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Grid>
+    <Grid >
         <Grid.Background>
             <SolidColorBrush Opacity="0.3" Color="{StaticResource BackgroundColor}"/>
         </Grid.Background>
@@ -29,7 +29,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <Frame Grid.Row="0" Background="Transparent"  Content="{Binding EnteringFrame}" IsEnabled="{Binding IsLoaded}">
+        <Frame Grid.Row="0" Background="Transparent" Margin="5"  Content="{Binding EnteringFrame}" IsEnabled="{Binding IsLoaded}">
 
             <Frame.Style>
                 <Style TargetType="Frame" BasedOn="{StaticResource ResourceKey={x:Type Frame}}">

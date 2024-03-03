@@ -14,8 +14,6 @@ namespace ApiWrapper.Interfaces
 
         public IFriendsApi Friends { get; }
 
-        public event EventHandler<Message[]> NewMessages;
-
         public Task Save(string path);
     }
 }

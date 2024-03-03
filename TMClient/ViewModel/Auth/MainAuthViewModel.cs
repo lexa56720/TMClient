@@ -111,7 +111,7 @@ namespace TMClient.ViewModel.Auth
         }
         private void OpenSettings()
         {
-            SwitchPageVisibility = Visibility.Hidden;
+            SwitchPageVisibility = Visibility.Collapsed;
             PreviousPage = EnteringFrame;
             EnteringFrame = Settings;
         }

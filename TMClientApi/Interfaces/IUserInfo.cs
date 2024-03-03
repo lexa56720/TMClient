@@ -1,4 +1,5 @@
 ﻿using ApiTypes.Communication.Users;
+using ApiWrapper.Types;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,6 +17,7 @@ namespace ApiWrapper.Interfaces
         public ObservableCollection<FriendRequest> FriendRequests { get; }
         public ObservableCollection<ChatInvite> ChatInvites { get; }
 
+        public event EventHandler<Message[]> NewMessages;
         public User Info { get; }
     }
 }

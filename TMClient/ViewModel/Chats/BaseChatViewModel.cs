@@ -57,7 +57,7 @@ namespace TMClient.ViewModel.Chats
             Id = chat.Id;
 
             Model = GetModel(chat);
-            Messenger.Subscribe<Message[]>(Utils.Messages.NewMessagesArived, UpdateMessages);
+            CurrentUser.NewMessages += UpdateMessages;
         }
 
 

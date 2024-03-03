@@ -53,7 +53,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         public async ValueTask<Chat[]> GetChat(int[] chatIds)
         {
-            if (chatIds == null)
+            if (chatIds.Length==0)
                 return [];
             var result = new List<Chat>(chatIds.Length);
             var requestedChats = new List<int>();
@@ -81,7 +81,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         public async Task<ChatInvite[]> GetChatInvite(int[] inviteIds)
         {
-            if (inviteIds == null)
+            if (inviteIds.Length==0)
                 return [];
             var invites = await Api.Chats.GetChatInvite(inviteIds);
             return await Converter.Convert(invites);
