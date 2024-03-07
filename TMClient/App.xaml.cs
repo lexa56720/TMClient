@@ -17,7 +17,7 @@ namespace TMClient
     /// </summary>
     public partial class App : Application
     {
-        private IApi? Api { get; set; } = null;
+        private IApi? Api;
 
         public App()
         {
@@ -37,7 +37,9 @@ namespace TMClient
 
             if (dialog.ShowDialog() == true)
             {
-                var mainWindow = new MainWindow(dialog.Api);
+                Api = dialog.Api;
+
+                var mainWindow = new MainWindow(Api);
                 Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
                 Current.MainWindow = mainWindow;
                 mainWindow.Show();
@@ -51,7 +53,7 @@ namespace TMClient
         {
             Api?.Dispose();
             Api = null;
-            ApplicationStart(this,null);
+            ApplicationStart(this, null);
         }
         private async void ApplicationExit(object sender, ExitEventArgs e)
         {

@@ -1,6 +1,7 @@
 ﻿using TMApi;
 using ApiWrapper.Interfaces;
 using TMApi.ApiRequests.Chats;
+using TMApi.ApiRequests.Users;
 
 namespace ApiWrapper.ApiWrapper.Wrapper
 {
@@ -64,6 +65,8 @@ namespace ApiWrapper.ApiWrapper.Wrapper
                 else
                     requestedChats.Add(chatIds[i]);
             }
+            if (result.Count == chatIds.Length)
+                return result.ToArray();
             var converted = await Converter.Convert(await Api.Chats.GetChat(requestedChats.Distinct().ToArray()));
             Cache.AddToCache(converted);
             result.AddRange(converted);

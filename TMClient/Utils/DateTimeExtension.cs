@@ -17,11 +17,11 @@
                     var difference = now - time;
                     if (difference.TotalHours < 48)
                         return time.ToString("Вчера в HH:mm");
-                    return time.ToString("dd MMMM в HH:mm");
+                    return time.ToString("d MMMM в HH:mm");
 
                 }
             }
-            return time.ToString("dd MMMM yyyy");
+            return time.ToString("d MMMM yyyy");
 
         }
     }
