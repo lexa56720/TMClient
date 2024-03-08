@@ -97,18 +97,6 @@ namespace TMClient {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2")]
-        public int LongPollPeriodMinutes {
-            get {
-                return ((int)(this["LongPollPeriodMinutes"]));
-            }
-            set {
-                this["LongPollPeriodMinutes"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("10")]
         public int CachedUserLifetimeMinutes {
             get {
@@ -140,6 +128,18 @@ namespace TMClient {
             }
             set {
                 this["ServerAddress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int LongPollPeriodMinutes {
+            get {
+                return ((int)(this["LongPollPeriodMinutes"]));
+            }
+            set {
+                this["LongPollPeriodMinutes"] = value;
             }
         }
     }

@@ -8,5 +8,7 @@ namespace ApiWrapper.Interfaces
         public Task<Message[]> GetMessages(int chatId, int fromMessageId);
         public Task<Message[]> GetMessages(params int[] messagesId);
         public Task<Message?> SendMessage(string text, int destinationId);
+
+        public Task<bool> MarkAsReaded(params Message[] messages);
     }
 }

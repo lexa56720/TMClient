@@ -22,7 +22,17 @@ namespace ApiWrapper.ApiWrapper.Wrapper
                 LongPollManager.NewMessages -= value;
             }
         }
-
+        public event EventHandler<int[]> ReadedMessages
+        {
+            add
+            {
+                LongPollManager.ReadedMessages += value;
+            }
+            remove
+            {
+                LongPollManager.ReadedMessages -= value;
+            }
+        }
         public IUsersApi Users => users;
         private readonly ClientUsersApi users;
 

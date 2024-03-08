@@ -14,16 +14,19 @@ namespace TMClient.Model.Chats
         public async Task<Message[]> GetHistory(Message lastMessage)
         {
             return await Api.Messages.GetMessages(Chat.Id, lastMessage.Id);
-   
         }
         public async Task<Message[]> GetHistory(int offset)
         {
             return await Api.Messages.GetMessages(Chat.Id, 20, offset);
         }
-
         public async Task<Message?> SendMessage(Message message)
         {
             return await Api.Messages.SendMessage(message.Text, message.Destionation.Id);
+        }
+
+        public async Task<bool> MarkAsReaded(Message[] messages)
+        {
+            return await Api.Messages.MarkAsReaded(messages);
         }
 
     }

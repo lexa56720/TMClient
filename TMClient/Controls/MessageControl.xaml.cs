@@ -35,6 +35,17 @@ namespace TMClient.Controls
             }
         }
 
+        public required bool IsReaded
+        {
+            get => isReaded;
+            set
+            {
+                isReaded = value;
+                OnPropertyChanged(nameof(IsReaded));
+            }
+        }
+        private bool isReaded;
+
         public required string Time
         {
             get => time;
@@ -47,7 +58,6 @@ namespace TMClient.Controls
         private string time = string.Empty;
 
         private List<Message> Messages { get; init; } = new();
-
         public IReadOnlyCollection<Message> InnerMessages => Messages;
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -60,6 +70,7 @@ namespace TMClient.Controls
             IsOwn = message.Author.Id == currentUser.Info.Id;
             Text = message.Text;
             Time = message.SendTime.ToText();
+            IsReaded = message.IsReaded;
 
             InitializeComponent();
             DataContext = this;

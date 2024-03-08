@@ -1,6 +1,7 @@
 ﻿using TMApi;
 using ApiWrapper.Interfaces;
 using ApiWrapper.Types;
+using TMApi.ApiRequests.Messages;
 
 namespace ApiWrapper.ApiWrapper.Wrapper
 {
@@ -38,6 +39,21 @@ namespace ApiWrapper.ApiWrapper.Wrapper
                 return null;
 
             return await Converter.Convert(message);
+        }
+
+        public async Task<bool> MarkAsReaded(params Message[] messages)
+        {
+            if (messages.Length == 0)
+                return true;
+
+            var ids = messages.Where(m => !m.IsReaded)
+                              .Select(m => m.Id)
+                              .ToArray();
+
+            var result = await Api.Messages.MarkAsReaded(ids);
+            if (result)
+                messages.ToList().ForEach(m => m.IsReaded = true);
+            return result;
         }
     }
 }

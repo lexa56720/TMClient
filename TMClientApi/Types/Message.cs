@@ -29,6 +29,17 @@ namespace ApiWrapper.Types
         }
         private DateTime sendTime = DateTime.UtcNow;
 
+        public required bool IsReaded
+        {
+            get => isReaded;
+            set
+            {
+                isReaded = value;
+                OnPropertyChanged(nameof(IsReaded));
+            }
+        }
+        private bool isReaded;
+
         public required User Author
         {
             get => author;
@@ -43,13 +54,14 @@ namespace ApiWrapper.Types
         public required Chat Destionation { get; init; }
         [SetsRequiredMembers]
 
-        public Message(int id, string text, DateTime sendTime, User author, Chat destination)
+        public Message(int id, string text, DateTime sendTime, User author, Chat destination,bool isReaded)
         {
             Id = id;
             Text = text;
             SendTime = sendTime;
             Author = author;
             Destionation = destination;
+            IsReaded = isReaded;
         }
 
         public Message()

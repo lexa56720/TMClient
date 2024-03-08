@@ -18,6 +18,7 @@ namespace ApiWrapper.Interfaces
         public ObservableCollection<ChatInvite> ChatInvites { get; }
 
         public event EventHandler<Message[]> NewMessages;
+        public event EventHandler<int[]> ReadedMessages;
         public User Info { get; }
     }
 }

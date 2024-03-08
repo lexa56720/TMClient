@@ -7,6 +7,18 @@
              mc:Ignorable="d"  
              d:DesignHeight="450" d:DesignWidth="800" >
     <Grid >
+        <Grid.Style>
+            <Style TargetType="Grid" BasedOn="{StaticResource ResourceKey={x:Type Grid}}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsReaded}" Value="True">
+                        <Setter Property="Background" Value="Transparent"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding IsReaded}" Value="False">
+                        <Setter Property="Background" Value="Red"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="6*" />

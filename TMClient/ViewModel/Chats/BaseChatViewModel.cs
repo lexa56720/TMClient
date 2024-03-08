@@ -43,7 +43,6 @@ namespace TMClient.ViewModel.Chats
         }
         private string messageText = string.Empty;
 
-
         public ICommand LoadHistory => new AsyncCommand(LoadMessages);
         public ICommand Send => new AsyncCommand<string>(SendMessage);
         public ICommand Attach => new AsyncCommand(AttachFile);
@@ -58,21 +57,26 @@ namespace TMClient.ViewModel.Chats
 
             Model = GetModel(chat);
             CurrentUser.NewMessages += UpdateMessages;
+            CurrentUser.ReadedMessages += ReadedMessages;
         }
+
 
 
         protected abstract T GetModel(Chat chat);
 
         public async Task LoadMessages()
         {
-            if (!Messages.Any())
-            {
-                AddMessageToStart(await Model.GetHistory(0));
-                return;
-            }
+            Message[] messages;
+            if (Messages.Any())
+                messages = await Model.GetHistory(Messages.First().InnerMessages.First());
+            else
+                messages = await Model.GetHistory(0);
 
 
-            var messages = await Model.GetHistory(Messages.First().InnerMessages.First());
+            var readedMessages = messages.Where(m => !m.IsReaded && m.Author.Id != CurrentUser.Info.Id)
+                                         .ToArray();
+            await Model.MarkAsReaded(readedMessages);
+
             AddMessageToStart(messages);
         }
 
@@ -86,6 +90,7 @@ namespace TMClient.ViewModel.Chats
                 Author = CurrentUser.Info,
                 Text = text,
                 Destionation = Chat,
+                IsReaded = false,
             });
             if (message != null)
                 AddMessageToEnd(message);
@@ -101,10 +106,45 @@ namespace TMClient.ViewModel.Chats
         protected void UpdateMessages(object? sender, Message[] messages)
         {
             App.Current.Dispatcher.Invoke(() =>
-                     AddMessageToEnd(messages.Where(m => m.Destionation.Id == Chat.Id)
-                                             .ToArray()));
+            {
+                AddMessageToEnd(messages.Where(m => m.Destionation.Id == Chat.Id)
+                                        .ToArray());
+            });
         }
+        private void ReadedMessages(object? sender, int[] e)
+        {
+            var affectedMessages = new List<MessageControl>();
 
+            for (int i = 0; i < Messages.Count; i++)
+            {
+                if (Messages[i].InnerMessages.Any(im => e.Contains(im.Id)))
+                    affectedMessages.Add(affectedMessages[i]);
+            }
+
+            for (int i = 0; i < affectedMessages.Count; i++)
+            {
+                foreach (var innerMessage in affectedMessages[i].InnerMessages)
+                    if (e.Contains(innerMessage.Id))
+                        innerMessage.IsReaded = true;
+            }
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                for (int i = 0; i < affectedMessages.Count; i++)
+                {
+                    if (affectedMessages[i].InnerMessages.All(m => m.IsReaded))
+                        affectedMessages[i].IsReaded = true;
+                    else
+                    {
+                        var splitted = Split(affectedMessages[i]);
+                        var index = Messages.IndexOf(affectedMessages[i]);
+
+                        Messages.RemoveAt(index);
+                        for (int j = 0; j < splitted.Count; j++)
+                            Messages.Insert(index + j, splitted[j]);
+                    }
+                }
+            });
+        }
         protected void AddMessageToEnd(Message message)
         {
             var last = Messages.LastOrDefault();
@@ -133,11 +173,33 @@ namespace TMClient.ViewModel.Chats
                 AddMessageToStart(messages[i]);
         }
 
+        protected List<MessageControl> Split(MessageControl message)
+        {
+            var innerMessages = message.InnerMessages;
+            var result = new List<MessageControl>(innerMessages.Count)
+            {
+                new(innerMessages.First(), CurrentUser)
+            };
+            for (int i = 1; i < innerMessages.Count; i++)
+            {
+                if (IsUnionable(result.Last(), innerMessages.ElementAt(i)))
+                {
+                    result.Last().UnionToEnd(innerMessages.ElementAt(i));
+                }
+                else
+                {
+                    result.Add(new MessageControl(innerMessages.First(), CurrentUser));
+                }
+            }
+            return result;
+        }
+
         private bool IsUnionable(MessageControl oldMessage, Message newMessage)
         {
             return oldMessage.Author.Id == newMessage.Author.Id &&
-                oldMessage.InnerMessages.First().SendTime - newMessage.SendTime < TimeSpan.FromMinutes(5) &&
-                oldMessage.InnerMessages.Count < 10;
+                   oldMessage.IsReaded == newMessage.IsReaded &&
+                   oldMessage.InnerMessages.First().SendTime - newMessage.SendTime < TimeSpan.FromMinutes(5) &&
+                   oldMessage.InnerMessages.Count < 10;
         }
     }
 }

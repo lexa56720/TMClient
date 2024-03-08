@@ -13,6 +13,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         private readonly SynchronizationContext UIContext;
 
         public event EventHandler<Message[]>? NewMessages;
+        public event EventHandler<int[]>? ReadedMessages;
 
         public LongPollManager(LongPolling longPolling, IApi api, SynchronizationContext uiContext)
         {
@@ -21,27 +22,30 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             LongPolling = longPolling;
 
 
-            LongPolling.NewChats += HandleNewChats;
+            longPolling.NewChats += HandleNewChats;
             longPolling.NewMessages += HandleNewMessages;
             longPolling.NewFriendRequests += HandleNewFriendRequests;
             longPolling.FriendsAdded += HandleFriendsAdded;
             longPolling.FriendsRemoved += HandleFriendsRemoved;
+            longPolling.MessagesReaded += HandleReadedMessages;
             longPolling.Start();
         }
         public void Dispose()
         {
-            if (!IsDisposed)
-            {
-                LongPolling.Stop();
-                LongPolling.NewMessages -= HandleNewMessages;
-                LongPolling.NewFriendRequests -= HandleNewFriendRequests;
-                LongPolling.FriendsAdded -= HandleFriendsAdded;
-                LongPolling.FriendsRemoved -= HandleFriendsRemoved;
-                LongPolling.NewChats -= HandleNewChats;
+            if (IsDisposed)
+                return;
 
-                NewMessages = null;
-                IsDisposed = true;
-            }
+            LongPolling.Stop();
+            LongPolling.NewMessages -= HandleNewMessages;
+            LongPolling.NewFriendRequests -= HandleNewFriendRequests;
+            LongPolling.FriendsAdded -= HandleFriendsAdded;
+            LongPolling.FriendsRemoved -= HandleFriendsRemoved;
+            LongPolling.NewChats -= HandleNewChats;
+            LongPolling.MessagesReaded -= HandleReadedMessages;
+
+            NewMessages = null;
+            ReadedMessages = null;
+            IsDisposed = true;
         }
         private async void HandleFriendsRemoved(object? sender, int[] e)
         {
@@ -75,9 +79,11 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         private async void HandleNewMessages(object? sender, int[] e)
         {
-            if (NewMessages == null)
-                return;
-            NewMessages.Invoke(this, await Api.Messages.GetMessages(e));
+            NewMessages?.Invoke(this, await Api.Messages.GetMessages(e));
+        }
+        private void HandleReadedMessages(object? sender, int[] e)
+        {
+            ReadedMessages?.Invoke(this, e);
         }
 
         private async void HandleNewChats(object? sender, int[] e)

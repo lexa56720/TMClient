@@ -59,7 +59,7 @@ namespace ApiWrapper.ApiWrapper
 
         public static Message Convert(ApiMessage message, User author, Chat chat)
         {
-            return new Message(message.Id, message.Text, message.SendTime, author, chat);
+            return new Message(message.Id, message.Text, message.SendTime, author, chat, message.IsReaded);
         }
         public async Task<Message?> Convert(ApiMessage message)
         {

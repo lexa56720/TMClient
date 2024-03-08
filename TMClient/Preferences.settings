@@ -20,9 +20,6 @@
     <Setting Name="ApiPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">6666</Value>
     </Setting>
-    <Setting Name="LongPollPeriodMinutes" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">2</Value>
-    </Setting>
     <Setting Name="CachedUserLifetimeMinutes" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
@@ -31,6 +28,9 @@
     </Setting>
     <Setting Name="ServerAddress" Type="System.String" Scope="User">
       <Value Profile="(Default)">127.0.0.1</Value>
+    </Setting>
+    <Setting Name="LongPollPeriodMinutes" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
     </Setting>
   </Settings>
 </SettingsFile>

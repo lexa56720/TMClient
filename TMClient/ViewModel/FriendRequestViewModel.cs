@@ -29,7 +29,7 @@ namespace TMClient.ViewModel
             var users = await Model.SearchByName(query);
             Users.Clear();
             foreach (var user in users)
-                if (CurrentUser.FriendList.Any(f=>f.Id!=user.Id))
+                if (CurrentUser.FriendList.All(f=>f.Id!=user.Id))
                     Users.Add(user);
         }
     }
