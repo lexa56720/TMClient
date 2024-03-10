@@ -109,7 +109,7 @@ namespace TMClient.ViewModel.Chats
                                               .ToArray();
             await Model.MarkAsReaded(currentChatMessages);
 
-            App.MainThread.Invoke(() => AddMessageToEnd(currentChatMessages));  
+            App.MainThread.Invoke(() => AddMessageToEnd(currentChatMessages));
         }
         private void ReadedMessages(object? sender, int[] e)
         {
@@ -132,16 +132,29 @@ namespace TMClient.ViewModel.Chats
                 for (int i = 0; i < affectedMessages.Count; i++)
                 {
                     if (affectedMessages[i].InnerMessages.All(m => m.IsReaded))
-                        affectedMessages[i].IsReaded = true;
-                    else
                     {
-                        var splitted = Split(affectedMessages[i]);
-                        var index = Messages.IndexOf(affectedMessages[i]);
-
-                        Messages.RemoveAt(index);
-                        for (int j = 0; j < splitted.Count; j++)
-                            Messages.Insert(index + j, splitted[j]);
+                        affectedMessages[i].IsReaded = true;
+                        continue;
                     }
+
+                    var splitted = Split(affectedMessages[i]);
+                    var index = Messages.IndexOf(affectedMessages[i]);
+
+                    Messages.RemoveAt(index);
+                    for (int j = 0; j < splitted.Count; j++)
+                        Messages.Insert(index + j, splitted[j]);
+                }
+
+                for (int i = 0; i < (Messages.Count - 1); i++)
+                {
+                    if (!IsUnionable(Messages[i], Messages[i + 1]))
+                        continue;
+
+                    for (int j = 0; j < Messages[i + 1].InnerMessages.Count; j++)
+                        Messages[i].UnionToEnd(Messages[i + 1].InnerMessages.ElementAt(j));
+
+                    Messages.RemoveAt(i + 1);
+                    i--;
                 }
             });
         }
@@ -198,8 +211,15 @@ namespace TMClient.ViewModel.Chats
         {
             return oldMessage.Author.Id == newMessage.Author.Id &&
                    oldMessage.IsReaded == newMessage.IsReaded &&
-                   oldMessage.InnerMessages.First().SendTime - newMessage.SendTime < TimeSpan.FromMinutes(5) &&
+                  ( oldMessage.InnerMessages.First().SendTime - newMessage.SendTime).Duration() < TimeSpan.FromMinutes(5) &&
                    oldMessage.InnerMessages.Count < 10;
+        }
+        private bool IsUnionable(MessageControl first, MessageControl second)
+        {
+            return first.Author.Id == second.Author.Id &&
+                   first.IsReaded == second.IsReaded &&
+                   (first.InnerMessages.First().SendTime - second.InnerMessages.Last().SendTime).Duration() < TimeSpan.FromMinutes(5) &&
+                   first.InnerMessages.Count + second.InnerMessages.Count < 10;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using PerformanceUtils.Collections;
+using TMApi.ApiRequests.Chats;
 
 namespace ApiWrapper.ApiWrapper
 {
@@ -41,7 +42,23 @@ namespace ApiWrapper.ApiWrapper
             return CachedChats.TryGetValue(chatId, out chat);
 
         }
+        public bool AddToCache(params User[] users)
+        {
+            return AddToCache(userLifetime, users);
+        }
+        public bool AddToCache(params Chat[] chats)
+        {
+            return AddToCache(chatLifetime, chats);
+        }
         public bool UpdateCache(params User[] users)
+        {
+            return UpdateCache(userLifetime, users);
+        }
+        public bool UpdateCache(params Chat[] chats)
+        {
+            return UpdateCache(chatLifetime, chats);
+        }
+        public bool UpdateCache(TimeSpan lifeTime, params User[] users)
         {
             bool isSuccessful = true;
             foreach (var user in users)
@@ -53,12 +70,12 @@ namespace ApiWrapper.ApiWrapper
                 }
 
                 cachedUser.Update(user);
-                if (!CachedUsers.UpdateLifetime(user.Id, userLifetime))
+                if (!CachedUsers.UpdateLifetime(user.Id, lifeTime))
                     isSuccessful = false;
             }
             return isSuccessful;
         }
-        public bool UpdateCache(params Chat[] chats)
+        public bool UpdateCache(TimeSpan lifeTime, params Chat[] chats)
         {
             bool isSuccessful = true;
             foreach (var chat in chats)
@@ -70,15 +87,13 @@ namespace ApiWrapper.ApiWrapper
                 }
 
                 cachedChat.Update(chat);
-                if (!CachedChats.UpdateLifetime(chat.Id, chatLifetime))
+                if (!CachedChats.UpdateLifetime(chat.Id, lifeTime))
                     isSuccessful = false;
             }
             return isSuccessful;
         }
 
-
-
-        public bool AddToCache(params User[] users)
+        public bool AddToCache(TimeSpan lifeTime, params User[] users)
         {
             bool isSuccessful = true;
             foreach (var user in users)
@@ -87,11 +102,11 @@ namespace ApiWrapper.ApiWrapper
                     continue;
 
                 isSuccessful = false;
-                UpdateCache(user);
+                UpdateCache(lifeTime, user);
             }
             return isSuccessful;
         }
-        public bool AddToCache(params Chat[] chats)
+        public bool AddToCache(TimeSpan lifeTime, params Chat[] chats)
         {
             bool isSuccessful = true;
             foreach (var chat in chats)
@@ -100,7 +115,7 @@ namespace ApiWrapper.ApiWrapper
                     continue;
 
                 isSuccessful = false;
-                UpdateCache(chat);
+                UpdateCache(lifeTime, chat);
             }
             return isSuccessful;
         }

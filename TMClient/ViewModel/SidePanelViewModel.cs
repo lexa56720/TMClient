@@ -1,4 +1,5 @@
 ﻿using AsyncAwaitBestPractices.MVVM;
+using ClientApiWrapper.Types;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Controls;
@@ -10,26 +11,20 @@ namespace TMClient.ViewModel
 {
     class SidePanelViewModel : BaseViewModel
     {
-        public ObservableCollection<User> Friends => CurrentUser.FriendList;
-
-        public ObservableCollection<Chat> Chats => CurrentUser.MultiuserChats;
-
-
         public ICommand AddFriendCommand => new AsyncCommand(AddFriend);
         public ICommand CreateChatCommand => new AsyncCommand(CreateChat);
 
 
         public ICommand ChatSelected => new AsyncCommand<Chat>(Selected);
 
-        public ICommand FriendSelected => new AsyncCommand<User>(Selected);
+        public ICommand FriendSelected => new AsyncCommand<Friend>(Selected);
 
-        private async Task Selected(User? user)
+        private async Task Selected(Friend? friend)
         {
-            if (user == null)
+            if (friend == null)
                 return;
 
-            var chat = CurrentUser.Dialogs.Single(c => c.Members.Any(m => m.Id == user.Id));
-            var userChat = new FriendChat(chat);
+            var userChat = new FriendChat(friend);
             await OpenChat(userChat);
         }
         private async Task Selected(Chat? chat)

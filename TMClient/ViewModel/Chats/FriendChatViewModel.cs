@@ -1,30 +1,29 @@
-﻿using TMClient.Model.Chats;
+﻿using AsyncAwaitBestPractices.MVVM;
+using ClientApiWrapper.Types;
+using System.Windows.Input;
+using TMClient.Model.Chats;
 
 namespace TMClient.ViewModel.Chats
 {
     internal class FriendChatViewModel : BaseChatViewModel<FriendChatModel>
     {
-        public string FriendLogin
-        {
-            get => friendLogin;
-            set
-            {
-                friendLogin = value;
-                OnPropertyChanged(nameof(FriendLogin));
-            }
-        }
-        private string friendLogin;
+        public Friend Friend { get; }
 
-        public FriendChatViewModel(Chat chat) : base(chat)
+        public ICommand BlockCommand => new AsyncCommand(Block);
+   
+        public FriendChatViewModel(Friend friend) : base(friend.Dialogue)
         {
-            var friend = Chat.Members.Single(m => m.Id != CurrentUser.Info.Id);
-            ChatName = friend.Name;
-            FriendLogin = friend.Login;
+            Friend = friend;
         }
 
         protected override FriendChatModel GetModel(Chat chat)
         {
             return new FriendChatModel(chat);
+        }
+
+        private async Task Block()
+        {
+            throw new NotImplementedException();
         }
     }
 }

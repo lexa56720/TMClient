@@ -15,6 +15,9 @@
         <Color x:Key="OwnMessageColor">#1976D2</Color>
         <SolidColorBrush x:Key="OwnMessageBrush" Color="{StaticResource OwnMessageColor}"/>
 
+        <Color x:Key="UnreadedMessageColor">#992980B9</Color>
+        <SolidColorBrush x:Key="UnreadedMessageBrush" Color="{StaticResource UnreadedMessageColor}"/>
+
         <Color x:Key="UserMessageColor">#424242</Color>
         <SolidColorBrush x:Key="UserMessageBrush" Color="{StaticResource UserMessageColor}"/>
 
@@ -936,9 +939,9 @@
                     <!-- Trun off default selection-->
                     <ControlTemplate TargetType="{x:Type ListViewItem}">
                         <Border x:Name="Bd" BorderThickness="0"
-                            Margin="3,10,0,0"
+                            Margin="3,0,0,0"
                             Background="{TemplateBinding Background}" 
-                            Padding="5" 
+                            Padding="0" 
                             SnapsToDevicePixels="true" >
                             <ContentPresenter 
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 

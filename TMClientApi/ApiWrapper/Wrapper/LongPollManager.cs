@@ -2,6 +2,7 @@
 using ApiWrapper.Interfaces;
 using ApiWrapper.Types;
 using ApiTypes.Communication.Friends;
+using ClientApiWrapper.Types;
 
 namespace ApiWrapper.ApiWrapper.Wrapper
 {
@@ -25,7 +26,6 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             longPolling.NewChats += HandleNewChats;
             longPolling.NewMessages += HandleNewMessages;
             longPolling.NewFriendRequests += HandleNewFriendRequests;
-            longPolling.FriendsAdded += HandleFriendsAdded;
             longPolling.FriendsRemoved += HandleFriendsRemoved;
             longPolling.MessagesReaded += HandleReadedMessages;
             longPolling.Start();
@@ -38,7 +38,6 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             LongPolling.Stop();
             LongPolling.NewMessages -= HandleNewMessages;
             LongPolling.NewFriendRequests -= HandleNewFriendRequests;
-            LongPolling.FriendsAdded -= HandleFriendsAdded;
             LongPolling.FriendsRemoved -= HandleFriendsRemoved;
             LongPolling.NewChats -= HandleNewChats;
             LongPolling.MessagesReaded -= HandleReadedMessages;
@@ -49,23 +48,14 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         }
         private async void HandleFriendsRemoved(object? sender, int[] e)
         {
-            var friends = await Api.Users.GetUser(e);
+            var friends = Api.FriendList.Where(f => e.Contains(f.Id)).ToArray();
             UIContext.Post(friendsObj =>
             {
-                foreach (var friend in (User[])friendsObj)
+                foreach (var friend in (Friend[])friendsObj)
                     Api.FriendList.Remove(friend);
             }, friends);
         }
 
-        private async void HandleFriendsAdded(object? sender, int[] e)
-        {
-            var friends = await Api.Users.GetUser(e);
-            UIContext.Post(friendsObj =>
-            {
-                foreach (var friend in (User[])friendsObj)
-                    Api.FriendList.Add(friend);
-            }, friends);
-        }
 
         private async void HandleNewFriendRequests(object? sender, int[] e)
         {
@@ -93,7 +83,10 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             {
                 foreach (var chat in (Chat[])chatsObj)
                     if (chat.IsDialogue)
-                        Api.Dialogs.Add(chat);
+                    {
+                        var friend = chat.Members[0].Id == Api.Info.Id ? chat.Members[1] : chat.Members[0];
+                        Api.FriendList.Add(new Friend(friend, chat));
+                    }
                     else
                         Api.MultiuserChats.Add(chat);
             }, chats);

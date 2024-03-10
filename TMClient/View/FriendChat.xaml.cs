@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using ClientApiWrapper.Types;
+using System.Windows.Controls;
 using TMClient.ViewModel.Chats;
 
 namespace TMClient.View
@@ -8,10 +9,10 @@ namespace TMClient.View
     /// </summary>
     public partial class FriendChat : Page
     {
-        public FriendChat(Chat chat)
+        public FriendChat(Friend friend)
         {
             InitializeComponent();
-            DataContext = new FriendChatViewModel(chat);
+            DataContext = new FriendChatViewModel(friend);
         }
     }
 }

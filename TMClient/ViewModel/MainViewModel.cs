@@ -84,7 +84,7 @@ namespace TMClient.ViewModel
 
         public MainViewModel()
         {
-            ChatPage = new ChatView(new Chat(0, "намба ван чат", false));
+            ChatPage = new ChatView(new Chat(0, "намба ван чат",0, false));
             MainFrame = ChatPage;
             SidePanelFrame = Panel;
 

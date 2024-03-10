@@ -4,6 +4,9 @@ using System.Security.Cryptography;
 using TMApi;
 using ApiWrapper.Interfaces;
 using ApiWrapper.Types;
+using TMApi.ApiRequests.Users;
+using ClientApiWrapper.Types;
+using System;
 
 namespace ApiWrapper.ApiWrapper.Wrapper
 {
@@ -45,12 +48,10 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         public IChatsApi Chats => chats;
         private readonly ClientChatsApi chats;
 
-        public ObservableCollection<Chat> Dialogs { get; private set; } = new();
         public ObservableCollection<Chat> MultiuserChats { get; private set; } = new();
-        public ObservableCollection<User> FriendList { get; private set; } = new();
+        public ObservableCollection<Friend> FriendList { get; private set; } = new();
         public ObservableCollection<FriendRequest> FriendRequests { get; private set; } = new();
         public ObservableCollection<ChatInvite> ChatInvites { get; private set; } = new();
-
 
         private ApiConverter Converter { get; set; }
         private CacheManager Cache { get; set; }
@@ -60,7 +61,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         private bool IsDisposed = false;
 
-        private ClientApi(TimeSpan userLifetime, TimeSpan chatLifetime, Api api,SynchronizationContext uiContext)
+        private ClientApi(TimeSpan userLifetime, TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
         {
             Info = ApiConverter.Convert(api.UserInfo.MainInfo);
 
@@ -74,29 +75,30 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             messages = new ClientMessagesApi(api, Converter);
             friends = new ClientFriendsApi(api, Converter);
 
-            LongPollManager = new LongPollManager(api.LongPolling, this,uiContext);
+            LongPollManager = new LongPollManager(api.LongPolling, this, uiContext);
             Api = api;
         }
         internal static async Task<ClientApi?> Init(TimeSpan userLifetime, TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
         {
-            var clientApi = new ClientApi(userLifetime, chatLifetime, api,uiContext);
-
-            var friends = clientApi.Converter.Convert(api.UserInfo.Friends);
-            clientApi.Cache.AddToCache(friends);
-            foreach (var friend in friends)
-                clientApi.FriendList.Add(friend);
+            var clientApi = new ClientApi(userLifetime, chatLifetime, api, uiContext);
 
             var chats = await clientApi.Chats.GetChat(api.UserInfo.Chats);
-            clientApi.Cache.AddToCache(chats);
+            clientApi.Cache.AddToCache(TimeSpan.FromTicks(int.MaxValue), chats);
             foreach (var chat in chats)
-                if (chat.IsDialogue)
-                    clientApi.Dialogs.Add(chat);
-                else
+                if (!chat.IsDialogue)
                     clientApi.MultiuserChats.Add(chat);
 
+
+            var friends = clientApi.Converter.Convert(api.UserInfo.Friends);
+            clientApi.Cache.AddToCache(TimeSpan.FromTicks(int.MaxValue), friends);
+            foreach (var friend in friends)
+                clientApi.FriendList.Add(new Friend(friend, chats.Single(c => c.Members.Any(m => m.Id == friend.Id))));
+
+           
             var requests = await clientApi.Friends.GetFriendRequest(api.UserInfo.FriendRequests);
             foreach (var request in requests)
                 clientApi.FriendRequests.Add(request);
+
 
             var invites = await clientApi.Chats.GetChatInvite(api.UserInfo.ChatInvites);
             foreach (var invite in invites)

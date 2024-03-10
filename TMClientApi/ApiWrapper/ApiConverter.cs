@@ -37,7 +37,7 @@ namespace ApiWrapper.ApiWrapper
 
         public async Task<Chat> Convert(ApiChat chat)
         {
-            var result = new Chat(chat.Id, chat.Name, chat.IsDialogue);
+            var result = new Chat(chat.Id, chat.Name, chat.UnreadCount, chat.IsDialogue);
             var members = await UserApi.GetUser(chat.MemberIds);
             foreach (var member in members)
                 result.Members.Add(member);
@@ -50,7 +50,7 @@ namespace ApiWrapper.ApiWrapper
             var convertedMembers = await UserApi.GetUser(members);
             for (int i = 0; i < result.Length; i++)
             {
-                result[i] = new Chat(chats[i].Id, chats[i].Name, chats[i].IsDialogue);
+                result[i] = new Chat(chats[i].Id, chats[i].Name, chats[i].UnreadCount, chats[i].IsDialogue);
                 for (int j = 0; j < chats[i].MemberIds.Length; j++)
                     result[i].Members.Add(convertedMembers[j]);
             }

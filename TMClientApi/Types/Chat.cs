@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace ApiWrapper.Types
 {
-    public class Chat : INotifyPropertyChanged
+    public class Chat : INotifyPropertyChanged,IDisposable
     {
         public int Id { get; }
 
@@ -17,8 +17,19 @@ namespace ApiWrapper.Types
                 name = value;
                 OnPropertyChanged(nameof(Name));
             }
-        }   
+        }
         private string name = string.Empty;
+
+        public int UnreadedCount
+        {
+            get => unreadedCount;
+            set
+            {
+                unreadedCount = value;
+                OnPropertyChanged(nameof(UnreadedCount));
+            }
+        }
+        private int unreadedCount;
 
         public User? WritingUser
         {
@@ -41,14 +52,24 @@ namespace ApiWrapper.Types
             }
         }
         private Message? lastMessage;
-
         public ObservableCollection<User> Members { get; } = new();
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        public Chat(int id, string name,bool isDialogue)
+        private bool IsDisposed;
+        public Chat(int id, string name,int unreadCount ,bool isDialogue)
         {
             Id = id;
             Name = name;
             IsDialogue = isDialogue;
+            UnreadedCount=unreadCount;
+        }
+        public void Dispose()
+        {
+            if (IsDisposed)
+                return;
+
+            PropertyChanged = null;
+            Members.Clear();
         }
         private void OnPropertyChanged(string propertyName)
         {
@@ -67,7 +88,5 @@ namespace ApiWrapper.Types
             foreach (var member in chat.Members)
                 Members.Add(member);
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }
