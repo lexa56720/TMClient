@@ -103,13 +103,13 @@ namespace TMClient.ViewModel.Chats
         }
 
 
-        protected void UpdateMessages(object? sender, Message[] messages)
+        protected async void UpdateMessages(object? sender, Message[] messages)
         {
-            App.Current.Dispatcher.Invoke(() =>
-            {
-                AddMessageToEnd(messages.Where(m => m.Destionation.Id == Chat.Id)
-                                        .ToArray());
-            });
+            var currentChatMessages = messages.Where(m => m.Destionation.Id == Chat.Id)
+                                              .ToArray();
+            await Model.MarkAsReaded(currentChatMessages);
+
+            App.MainThread.Invoke(() => AddMessageToEnd(currentChatMessages));  
         }
         private void ReadedMessages(object? sender, int[] e)
         {
@@ -118,7 +118,7 @@ namespace TMClient.ViewModel.Chats
             for (int i = 0; i < Messages.Count; i++)
             {
                 if (Messages[i].InnerMessages.Any(im => e.Contains(im.Id)))
-                    affectedMessages.Add(affectedMessages[i]);
+                    affectedMessages.Add(Messages[i]);
             }
 
             for (int i = 0; i < affectedMessages.Count; i++)
@@ -127,7 +127,7 @@ namespace TMClient.ViewModel.Chats
                     if (e.Contains(innerMessage.Id))
                         innerMessage.IsReaded = true;
             }
-            App.Current.Dispatcher.Invoke(() =>
+            App.MainThread.Invoke(() =>
             {
                 for (int i = 0; i < affectedMessages.Count; i++)
                 {

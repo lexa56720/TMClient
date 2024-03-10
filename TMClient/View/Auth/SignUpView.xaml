@@ -42,15 +42,15 @@
         </StackPanel>
 
         <Label  Padding="5,2,5,5"   FontSize="20" VerticalContentAlignment="Center" Content="Имя пользователя:"  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"   HorizontalAlignment="Left"  />
-        <TextBox Margin="15"  FontSize="20" Grid.Row="3" Grid.ColumnSpan="3"  Grid.Column="1" Text="{Binding UserName}" TextWrapping="NoWrap" AcceptsReturn="False"  IsEnabled="{Binding IsNotBusy}"  />
+        <TextBox  Margin="15,5,15,5"  FontSize="28" Grid.Row="3" Grid.ColumnSpan="3"  VerticalAlignment="Top"  Grid.Column="1" Text="{Binding UserName}" TextWrapping="NoWrap" AcceptsReturn="False"  IsEnabled="{Binding IsNotBusy}"  />
 
 
         <Label   Padding="5,2,5,5"   FontSize="20" Content="Логин:" Grid.ColumnSpan="3"  Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" />
-        <TextBox  Padding="5,2,5,5"   Margin="15"  FontSize="20" Grid.Row="5" Grid.ColumnSpan="3"  Grid.Column="1" Text="{Binding Login}"  IsEnabled="{Binding IsNotBusy}" TextWrapping="NoWrap" AcceptsReturn="False"  />
+        <TextBox     Margin="15,5,15,5"  FontSize="28" Grid.Row="5" VerticalAlignment="Top"  Grid.ColumnSpan="3"  Grid.Column="1" Text="{Binding Login}"  IsEnabled="{Binding IsNotBusy}" TextWrapping="NoWrap" AcceptsReturn="False"  />
 
 
         <Label  Padding="5,2,5,5"   FontSize="20" Content="Пароль:" Grid.ColumnSpan="3"  Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" />
-        <PasswordBox x:Name="PasswordBox" FontSize="20" Grid.ColumnSpan="3"  Margin="15"  Grid.Row="7" Grid.Column="1"  IsEnabled="{Binding IsNotBusy}"  />
+        <PasswordBox x:Name="PasswordBox" FontSize="28" Grid.ColumnSpan="3" VerticalAlignment="Top"  Margin="15,5,15,5"  Grid.Row="7" Grid.Column="1"  IsEnabled="{Binding IsNotBusy}"  />
 
         <Button Grid.Row="8" Margin="40,20,40,20" Grid.Column="2" Content="Войти" Grid.ColumnSpan="1" FontSize="32"  IsEnabled="{Binding IsNotBusy}" Command="{Binding SignUpCommand,IsAsync=True}" CommandParameter="{x:Reference Name=PasswordBox}" />
 

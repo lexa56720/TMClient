@@ -4,6 +4,7 @@ using ApiWrapper.Interfaces;
 using System.Configuration.Provider;
 using System.IO;
 using System.Windows;
+using System.Windows.Threading;
 using TMClient.Model;
 using TMClient.Utils;
 using TMClient.View;
@@ -19,6 +20,7 @@ namespace TMClient
     {
         private IApi? Api;
 
+        public static Dispatcher MainThread=>App.Current.Dispatcher;
         public App()
         {
             Preferences.Default.AuthPath = Path.Combine(
