@@ -63,11 +63,11 @@ namespace TMClient.Controls
         public event PropertyChangedEventHandler? PropertyChanged;
 
         [SetsRequiredMembers]
-        public MessageControl(Message message, IUserInfo currentUser)
+        public MessageControl(Message message)
         {
             Messages.Add(message);
             Author = message.Author;
-            IsOwn = message.Author.Id == currentUser.Info.Id;
+            IsOwn = message.IsOwn;
             Text = message.Text;
             Time = message.SendTime.ToText();
             IsReaded = message.IsReaded;

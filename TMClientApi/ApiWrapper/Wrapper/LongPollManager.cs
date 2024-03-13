@@ -78,7 +78,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
                     {
                         message.Destination.LastMessage = message;
                     }
-                    message.Destination.UnreadedCount++;
+                    message.Destination.UnreadCount++;
                 }
             }, messages);
             NewMessages?.Invoke(this, messages);

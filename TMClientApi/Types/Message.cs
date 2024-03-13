@@ -51,10 +51,21 @@ namespace ApiWrapper.Types
         }
         private User author = null!;
 
+        public required bool IsOwn
+        {
+            get => isOwn;
+            set
+            {
+                isOwn = value;
+                OnPropertyChanged(nameof(IsOwn));
+            }
+        }
+        private bool isOwn;
+
         public required Chat Destination { get; init; }
         [SetsRequiredMembers]
 
-        public Message(int id, string text, DateTime sendTime, User author, Chat destination,bool isReaded)
+        public Message(int id, string text, DateTime sendTime, User author, Chat destination, bool isReaded, bool isOwn)
         {
             Id = id;
             Text = text;
@@ -62,6 +73,7 @@ namespace ApiWrapper.Types
             Author = author;
             Destination = destination;
             IsReaded = isReaded;
+            IsOwn = isOwn;
         }
 
         public Message()

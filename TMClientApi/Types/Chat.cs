@@ -20,16 +20,16 @@ namespace ApiWrapper.Types
         }
         private string name = string.Empty;
 
-        public int UnreadedCount
+        public int UnreadCount
         {
-            get => unreadedCount;
+            get => unreadCount;
             set
             {
-                unreadedCount = value;
-                OnPropertyChanged(nameof(UnreadedCount));
+                unreadCount = value;
+                OnPropertyChanged(nameof(UnreadCount));
             }
         }
-        private int unreadedCount;
+        private int unreadCount;
 
         public User? WritingUser
         {
@@ -61,7 +61,7 @@ namespace ApiWrapper.Types
             Id = id;
             Name = name;
             IsDialogue = isDialogue;
-            UnreadedCount=unreadCount;
+            UnreadCount=unreadCount;
         }
         public void Dispose()
         {

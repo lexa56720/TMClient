@@ -1,13 +1,9 @@
-﻿using ApiWrapper.Interfaces;
-using ApiWrapper.Types;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using TMClient.Model;
 using TMClient.Utils;
 using TMClient.View;
-using TMClient.View.Auth;
 
 namespace TMClient.ViewModel
 {
@@ -98,15 +94,16 @@ namespace TMClient.ViewModel
             Messenger.Subscribe(Messages.ModalClosed, () => IsInModalMode = false);
 
             CurrentUser.ChatInvites.CollectionChanged += ChatInvitesChanged;
-            CurrentUser.FriendRequests.CollectionChanged += FriendRequests_CollectionChanged;
+            CurrentUser.FriendRequests.CollectionChanged += FriendRequestsChanged;
+            UpdateNotificationCount();
         }
 
-        private void FriendRequests_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void FriendRequestsChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             UpdateNotificationCount();
         }
 
-        private void ChatInvitesChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void ChatInvitesChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             UpdateNotificationCount();
         }

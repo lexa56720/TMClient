@@ -76,7 +76,7 @@
                                                     <Style TargetType="Border" BasedOn="{StaticResource ResourceKey={x:Type Border}}">
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding Dialogue.LastMessage.IsReaded}" Value="False">
-                                                                <Setter Property="Background" Value="{StaticResource UnreadedMessageBrush}"/>
+                                                                <Setter Property="Background" Value="{StaticResource UnreadMessageBrush}"/>
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding Dialogue.LastMessage}" Value="{x:Null}">
                                                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -92,7 +92,7 @@
                                             </Border>
 
                                         </StackPanel>
-                                        <controls:CountDisplay Grid.Column="1" Count="{Binding Dialogue.UnreadedCount}" Width="30" Height="30" Foreground="{StaticResource RedBrush}" Margin="5" VerticalAlignment="Top"  HorizontalAlignment="Right"  />
+                                        <controls:CountDisplay Grid.Column="1" Count="{Binding Dialogue.UnreadCount}" Width="30" Height="30" Foreground="{StaticResource RedBrush}" Margin="5" VerticalAlignment="Top"  HorizontalAlignment="Right"  />
                                     </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>

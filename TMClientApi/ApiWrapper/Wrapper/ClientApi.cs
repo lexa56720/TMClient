@@ -89,8 +89,8 @@ namespace ApiWrapper.ApiWrapper.Wrapper
                 if (!chats[i].IsDialogue)
                     clientApi.MultiuserChats.Add(chats[i]);
                 chats[i].LastMessage = lastMessages[i];
-                if (lastMessages[i] != null && lastMessages[i].Author.Id == api.UserInfo.MainInfo.Id)
-                    chats[i].UnreadedCount = 0;
+                if (lastMessages[i] != null && lastMessages[i].IsOwn)
+                    chats[i].UnreadCount = 0;
             }
             clientApi.Cache.AddToCache(TimeSpan.FromMilliseconds(int.MaxValue), chats);
 

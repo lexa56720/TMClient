@@ -53,7 +53,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             {
                 convertedMessage.Destination.LastMessage = convertedMessage;
             }       
-            convertedMessage.Destination.UnreadedCount=0;
+            convertedMessage.Destination.UnreadCount=0;
 
             return convertedMessage;
         }
@@ -72,7 +72,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
                 foreach (var message in messages)
                 {
                     message.IsReaded = true;
-                    message.Destination.UnreadedCount--;
+                    message.Destination.UnreadCount--;
                 }
             return result;
         }

@@ -9,6 +9,7 @@ global using FriendRequest = ApiWrapper.Types.FriendRequest;
 global using User = ApiWrapper.Types.User;
 using ApiWrapper.Types;
 using ApiWrapper.Interfaces;
+using TMApi;
 
 namespace ApiWrapper.ApiWrapper
 {
@@ -50,7 +51,7 @@ namespace ApiWrapper.ApiWrapper
             var convertedMembers = await UserApi.GetUser(members);
             for (int chatCount = 0, memberCount = 0; chatCount < result.Length; chatCount++)
             {
-                result[chatCount] = new Chat(chats[chatCount].Id, chats[chatCount].Name, 
+                result[chatCount] = new Chat(chats[chatCount].Id, chats[chatCount].Name,
                                              chats[chatCount].UnreadCount, chats[chatCount].IsDialogue);
 
                 for (int j = 0; j < chats[chatCount].MemberIds.Length; j++, memberCount++)
@@ -59,9 +60,10 @@ namespace ApiWrapper.ApiWrapper
             return result;
         }
 
-        public static Message Convert(ApiMessage message, User author, Chat chat)
+        public Message Convert(ApiMessage message, User author, Chat chat)
         {
-            return new Message(message.Id, message.Text, message.SendTime, author, chat, message.IsReaded);
+            return new Message(message.Id, message.Text, message.SendTime,author, chat,
+                               message.IsReaded, author.Id == Api.Info.Id ? true : false);
         }
         public async Task<Message?> Convert(ApiMessage message)
         {
@@ -94,7 +96,7 @@ namespace ApiWrapper.ApiWrapper
                 return null;
             return Convert(request, user);
         }
-        public static FriendRequest Convert(ApiFriendRequest request, User user)
+        public FriendRequest Convert(ApiFriendRequest request, User user)
         {
             return new FriendRequest(request.Id, user);
         }
@@ -104,7 +106,7 @@ namespace ApiWrapper.ApiWrapper
             var result = new FriendRequest[requests.Length];
             for (int i = 0; i < requests.Length; i++)
                 result[i] = Convert(requests[i], users[i]);
-  
+
             return result;
         }
 

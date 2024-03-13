@@ -84,7 +84,7 @@ namespace TMClient.ViewModel.Chats
                 messages = await Model.GetHistory(0);
 
 
-            var readedMessages = messages.Where(m => !m.IsReaded && m.Author.Id != CurrentUser.Info.Id)
+            var readedMessages = messages.Where(m => !m.IsReaded && !m.IsOwn)
                                          .ToArray();
             await Model.MarkAsReaded(readedMessages);
 
@@ -104,6 +104,7 @@ namespace TMClient.ViewModel.Chats
                 Text = text,
                 Destination = Chat,
                 IsReaded = false,
+                IsOwn = true
             });
 
             if (message != null)
@@ -111,7 +112,7 @@ namespace TMClient.ViewModel.Chats
 
 
             ReadMessages(null,Messages.SelectMany(m => m.InnerMessages)
-                                      .Where(m => !m.IsReaded && m.Author.Id != CurrentUser.Info.Id)
+                                      .Where(m => !m.IsReaded && !m.IsOwn)
                                       .Select(m => m.Id)
                                       .ToArray());
         }
@@ -183,7 +184,7 @@ namespace TMClient.ViewModel.Chats
             if (last != null && IsUnionable(last, message))
                 last.UnionToEnd(message);
             else
-                Messages.Add(new MessageControl(message, CurrentUser));
+                Messages.Add(new MessageControl(message));
         }
         protected void AddMessageToEnd(Message[] messages)
         {
@@ -197,7 +198,7 @@ namespace TMClient.ViewModel.Chats
             if (first != null && IsUnionable(first, message))
                 first.UnionToStart(message);
             else
-                Messages.Insert(0, new MessageControl(message, CurrentUser));
+                Messages.Insert(0, new MessageControl(message));
         }
         protected void AddMessageToStart(Message[] messages)
         {
@@ -210,7 +211,7 @@ namespace TMClient.ViewModel.Chats
             var innerMessages = message.InnerMessages;
             var result = new List<MessageControl>(innerMessages.Count)
             {
-                new(innerMessages.First(), CurrentUser)
+                new(innerMessages.First())
             };
             for (int i = 1; i < innerMessages.Count; i++)
             {
@@ -220,7 +221,7 @@ namespace TMClient.ViewModel.Chats
                 }
                 else
                 {
-                    result.Add(new MessageControl(innerMessages.First(), CurrentUser));
+                    result.Add(new MessageControl(innerMessages.First()));
                 }
             }
             return result;

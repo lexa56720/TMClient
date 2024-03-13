@@ -15,7 +15,7 @@
                         <Setter Property="Background" Value="Transparent"/>
                     </DataTrigger>
                     <DataTrigger Binding="{Binding IsReaded}" Value="False">
-                        <Setter Property="Background" Value="{StaticResource UnreadedMessageBrush}"/>
+                        <Setter Property="Background" Value="{StaticResource UnreadMessageBrush}"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
