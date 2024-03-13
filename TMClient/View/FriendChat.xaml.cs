@@ -1,5 +1,4 @@
-﻿using ClientApiWrapper.Types;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using TMClient.ViewModel.Chats;
 
 namespace TMClient.View

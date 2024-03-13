@@ -1,5 +1,4 @@
 ﻿using AsyncAwaitBestPractices.MVVM;
-using ClientApiWrapper.Types;
 using System.Windows.Input;
 using TMClient.Model.Chats;
 

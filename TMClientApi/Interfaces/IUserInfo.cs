@@ -1,6 +1,5 @@
 ﻿using ApiTypes.Communication.Users;
 using ApiWrapper.Types;
-using ClientApiWrapper.Types;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

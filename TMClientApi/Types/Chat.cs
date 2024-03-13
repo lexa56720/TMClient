@@ -68,8 +68,8 @@ namespace ApiWrapper.Types
             if (IsDisposed)
                 return;
 
-            PropertyChanged = null;
-            Members.Clear();
+            Members.Clear();         
+            IsDisposed = true;
         }
         private void OnPropertyChanged(string propertyName)
         {

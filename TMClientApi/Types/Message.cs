@@ -63,8 +63,10 @@ namespace ApiWrapper.Types
         private bool isOwn;
 
         public required Chat Destination { get; init; }
-        [SetsRequiredMembers]
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        [SetsRequiredMembers]
         public Message(int id, string text, DateTime sendTime, User author, Chat destination, bool isReaded, bool isOwn)
         {
             Id = id;
@@ -75,12 +77,9 @@ namespace ApiWrapper.Types
             IsReaded = isReaded;
             IsOwn = isOwn;
         }
-
         public Message()
         {
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)
         {

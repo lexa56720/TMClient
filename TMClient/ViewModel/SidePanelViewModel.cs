@@ -1,5 +1,4 @@
 ﻿using AsyncAwaitBestPractices.MVVM;
-using ClientApiWrapper.Types;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Controls;

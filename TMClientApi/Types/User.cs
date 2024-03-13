@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace ApiWrapper.Types
 {
-    public class User : INotifyPropertyChanged, IDisposable
+    public class User : INotifyPropertyChanged
     {
         public int Id { get; }
 
@@ -52,13 +52,6 @@ namespace ApiWrapper.Types
             IsOnline = isOnline;
         }
 
-        public void Dispose()
-        {
-            if (IsDisposed)
-                return;
-            PropertyChanged = null;
-        }
-
         public void Update(User user)
         {
             if (user == this)
@@ -72,6 +65,5 @@ namespace ApiWrapper.Types
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

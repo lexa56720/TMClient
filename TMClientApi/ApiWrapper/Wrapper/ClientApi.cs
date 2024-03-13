@@ -5,8 +5,8 @@ using TMApi;
 using ApiWrapper.Interfaces;
 using ApiWrapper.Types;
 using TMApi.ApiRequests.Users;
-using ClientApiWrapper.Types;
 using System;
+using ApiWrapper.Wrapper;
 
 namespace ApiWrapper.ApiWrapper.Wrapper
 {
@@ -82,36 +82,50 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         {
             var clientApi = new ClientApi(userLifetime, chatLifetime, api, uiContext);
 
-            var chats = await clientApi.Chats.GetChat(api.UserInfo.Chats);
-            var lastMessages = await clientApi.Messages.GetLastMessages(api.UserInfo.Chats);
+            var chats = await InitChats(clientApi, api.UserInfo.Chats);
+            clientApi.Cache.AddToCache(TimeSpan.FromMilliseconds(int.MaxValue), chats);
+
+            var friends = InitFriends(clientApi, api.UserInfo.Friends, chats);
+            clientApi.Cache.AddToCache(TimeSpan.FromMilliseconds(int.MaxValue), friends);
+
+            await InitRequests(clientApi, api.UserInfo.FriendRequests);
+
+            await InitInvites(clientApi, api.UserInfo.ChatInvites);
+
+            return clientApi;
+        }
+        private static async Task<Chat[]> InitChats(ClientApi api, int[] chatIds)
+        {
+            var chats = await api.Chats.GetChat(chatIds);
+            var lastMessages = await api.Messages.GetLastMessages(chatIds);
             for (int i = 0; i < chats.Length; i++)
             {
                 if (!chats[i].IsDialogue)
-                    clientApi.MultiuserChats.Add(chats[i]);
+                    api.MultiuserChats.Add(chats[i]);
                 chats[i].LastMessage = lastMessages[i];
                 if (lastMessages[i] != null && lastMessages[i].IsOwn)
                     chats[i].UnreadCount = 0;
             }
-            clientApi.Cache.AddToCache(TimeSpan.FromMilliseconds(int.MaxValue), chats);
-
-
-            var friends = clientApi.Converter.Convert(api.UserInfo.Friends);
-            foreach (var friend in friends)
-                clientApi.FriendList.Add(new Friend(friend, chats.Single(c => c.Members.Any(m => m.Id == friend.Id))));
-            clientApi.Cache.AddToCache(TimeSpan.FromMilliseconds(int.MaxValue), friends);
-
-
-            var requests = await clientApi.Friends.GetFriendRequest(api.UserInfo.FriendRequests);
-            foreach (var request in requests)
-                clientApi.FriendRequests.Add(request);
-
-
-            var invites = await clientApi.Chats.GetChatInvite(api.UserInfo.ChatInvites);
-            foreach (var invite in invites)
-                clientApi.ChatInvites.Add(invite);
-
-            return clientApi;
+            return chats;
         }
+        private static User[] InitFriends(ClientApi api, ApiUser[] apiFriends, Chat[] chats)
+        {
+            var friends = api.Converter.Convert(apiFriends);
+            foreach (var friend in friends)
+                api.FriendList.Add(new Friend(friend, chats.Single(c => c.Members.Any(m => m.Id == friend.Id))));
+            return friends;
+        }
+        private static async Task InitRequests(ClientApi api, int[] requestIds)
+        {
+            var requests = await api.Friends.GetFriendRequest(requestIds);
+            api.FriendRequests = new ObservableCollection<FriendRequest>(requests);
+        }
+        private static async Task InitInvites(ClientApi api, int[] invitesIds)
+        {
+            var invites = await api.Chats.GetChatInvite(invitesIds);
+            api.ChatInvites = new ObservableCollection<ChatInvite>(invites);
+        }
+
 
         public void Dispose()
         {

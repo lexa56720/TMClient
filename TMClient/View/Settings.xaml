@@ -51,93 +51,94 @@
         <Label Content="Настройки" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" FontSize="24" />
 
 
-        <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="-5,-5,-5,5" >
-            <StackPanel>
+        <Border CornerRadius="5" Grid.Row="1" Background="{StaticResource BackgroundDarkBrush}" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,0,5">
 
+            <ScrollViewer>
                 <StackPanel>
-                    <TextBlock    VerticalAlignment="Center" TextWrapping="Wrap" Text="Адрес сервера:" FontSize="16" />
-                    <TextBox Grid.Row="1" Grid.Column="2" FontSize="24"  x:Name="Ip">
-                        <TextBox.Text>
-                            <Binding Path="ServerAddress" NotifyOnValidationError="True" >
-                                <Binding.ValidationRules>
-                                    <DataErrorValidationRule/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
+                    <StackPanel>
+                        <TextBlock VerticalAlignment="Center" TextWrapping="Wrap" Text="Адрес сервера:" FontSize="16" />
+                        <TextBox Grid.Row="1" Grid.Column="2" FontSize="24"  x:Name="Ip">
+                            <TextBox.Text>
+                                <Binding Path="ServerAddress" NotifyOnValidationError="True" >
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock  VerticalAlignment="Center" TextWrapping="Wrap" Text="Порт авторизации:" FontSize="16" />
+                        <TextBox  FontSize="24"  x:Name="Auth">
+                            <TextBox.Text>
+                                <Binding Path="AuthPort" NotifyOnValidationError="True" >
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+
+
+                    <StackPanel>
+                        <TextBlock   VerticalAlignment="Center" TextWrapping="Wrap" Text="Порт запросов:" FontSize="16" />
+                        <TextBox  FontSize="24" x:Name="Api">
+                            <TextBox.Text>
+                                <Binding Path="ApiPort" NotifyOnValidationError="True" >
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+
+
+                    <StackPanel>
+                        <TextBlock   Text="Порт уведомлений:" VerticalAlignment="Center" TextWrapping="Wrap"  FontSize="16" />
+                        <TextBox  FontSize="24" x:Name="Notification">
+                            <TextBox.Text>
+                                <Binding Path="NotificationPort" NotifyOnValidationError="True" >
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+
+
+                    <StackPanel>
+                        <TextBlock   VerticalAlignment="Center" TextWrapping="Wrap" Text="Время жизни кэша пользователей (мин):" FontSize="16" />
+                        <TextBox  FontSize="24"  x:Name="UserCache">
+                            <TextBox.Text>
+                                <Binding Path="CachedUserLifeTime" NotifyOnValidationError="True" >
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock  VerticalAlignment="Center" TextWrapping="Wrap"  Text="Время жизни кэша чатов (мин):" FontSize="16" />
+                        <TextBox  FontSize="24"  x:Name="ChatCache" >
+                            <TextBox.Text>
+                                <Binding Path="CachedChatLifeTime" NotifyOnValidationError="True" >
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                    </StackPanel>
+
                 </StackPanel>
-
-                <StackPanel>
-                    <TextBlock  VerticalAlignment="Center" TextWrapping="Wrap" Text="Порт авторизации:" FontSize="16" />
-                    <TextBox  FontSize="24"  x:Name="Auth">
-                        <TextBox.Text>
-                            <Binding Path="AuthPort" NotifyOnValidationError="True" >
-                                <Binding.ValidationRules>
-                                    <DataErrorValidationRule/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
-                </StackPanel>
-
-
-                <StackPanel>
-                    <TextBlock   VerticalAlignment="Center" TextWrapping="Wrap" Text="Порт запросов:" FontSize="16" />
-                    <TextBox  FontSize="24" x:Name="Api">
-                        <TextBox.Text>
-                            <Binding Path="ApiPort" NotifyOnValidationError="True" >
-                                <Binding.ValidationRules>
-                                    <DataErrorValidationRule/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
-                </StackPanel>
-
-
-                <StackPanel>
-                    <TextBlock   Text="Порт уведомлений:" VerticalAlignment="Center" TextWrapping="Wrap"  FontSize="16" />
-                    <TextBox  FontSize="24" x:Name="Notification">
-                        <TextBox.Text>
-                            <Binding Path="NotificationPort" NotifyOnValidationError="True" >
-                                <Binding.ValidationRules>
-                                    <DataErrorValidationRule/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
-                </StackPanel>
-
-
-                <StackPanel>
-                    <TextBlock   VerticalAlignment="Center" TextWrapping="Wrap" Text="Время жизни кэша пользователей (мин):" FontSize="16" />
-                    <TextBox  FontSize="24"  x:Name="UserCache">
-                        <TextBox.Text>
-                            <Binding Path="CachedUserLifeTime" NotifyOnValidationError="True" >
-                                <Binding.ValidationRules>
-                                    <DataErrorValidationRule/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
-                </StackPanel>
-
-                <StackPanel>
-                    <TextBlock  VerticalAlignment="Center" TextWrapping="Wrap"  Text="Время жизни кэша чатов (мин):" FontSize="16" />
-                    <TextBox  FontSize="24"  x:Name="ChatCache" >
-                        <TextBox.Text>
-                            <Binding Path="CachedChatLifeTime" NotifyOnValidationError="True" >
-                                <Binding.ValidationRules>
-                                    <DataErrorValidationRule/>
-                                </Binding.ValidationRules>
-                            </Binding>
-                        </TextBox.Text>
-                    </TextBox>
-                </StackPanel>
-
-            </StackPanel>
-        </ScrollViewer>
-
+            </ScrollViewer>
+        </Border>
         <controls:IconButton Icon="&#xE74e;" HorizontalContentAlignment="Center"  Command="{Binding SaveCommand}"
                              Grid.Row="7" Grid.Column="1"  Margin="50,0,50,0" FontSize="24" Text="Сохранить">
             <controls:IconButton.Style>

@@ -2,9 +2,8 @@
 using ApiWrapper.Interfaces;
 using ApiWrapper.Types;
 using ApiTypes.Communication.Friends;
-using ClientApiWrapper.Types;
 
-namespace ApiWrapper.ApiWrapper.Wrapper
+namespace ApiWrapper.Wrapper
 {
     internal class LongPollManager : IDisposable
     {

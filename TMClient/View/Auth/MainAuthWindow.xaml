@@ -20,19 +20,11 @@
             <i:InvokeCommandAction Command="{Binding WindowLoaded}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Grid >
-        <Grid.Background>
-            <SolidColorBrush Opacity="0.3" Color="{StaticResource BackgroundColor}"/>
-        </Grid.Background>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="15*"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
 
-        <Frame Grid.Row="0" Background="Transparent" Margin="5"  Content="{Binding EnteringFrame}" IsEnabled="{Binding IsLoaded}">
-
-            <Frame.Style>
-                <Style TargetType="Frame" BasedOn="{StaticResource ResourceKey={x:Type Frame}}">
+    <Grid>
+        <Grid>
+            <Grid.Style>
+                <Style TargetType="Grid" BasedOn="{StaticResource ResourceKey={x:Type Grid}}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding LoadingVisibility}" Value="Visible">
                             <Setter Property="Effect">
@@ -50,23 +42,34 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
-            </Frame.Style>
-        </Frame>
-        <fa:ImageAwesome Grid.Row="0" Icon="Refresh" Margin="200" Visibility="{Binding LoadingVisibility}" Foreground="White" Spin="True" SpinDuration="10" />
+            </Grid.Style>
+            
+            <Grid.Background>
+                <SolidColorBrush Opacity="0.3" Color="{StaticResource BackgroundColor}"/>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="15*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
 
-        <Button  Grid.Row="1" Command="{Binding SwitchPage}"  IsEnabled="{Binding IsLoaded}" Margin="-5" Visibility="{Binding SwitchPageVisibility}" >
-            <Button.Style>
-                <Style TargetType="Button" BasedOn="{StaticResource ResourceKey={x:Type Button}}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsLoginPage}" Value="True">
-                            <Setter Property="Content" Value="Зарегистрировать новый аккаунт"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding IsLoginPage}" Value="False">
-                            <Setter Property="Content" Value="Войти в существующий аккаунт"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Button.Style>
-        </Button>
+            <Frame Grid.Row="0" Background="Transparent" Margin="5"  Content="{Binding EnteringFrame}" IsEnabled="{Binding IsLoaded}"/>
+
+            <Button  Grid.Row="1" Command="{Binding SwitchPage}"  IsEnabled="{Binding IsLoaded}" Margin="-5" Visibility="{Binding SwitchPageVisibility}" >
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource ResourceKey={x:Type Button}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsLoginPage}" Value="True">
+                                <Setter Property="Content" Value="Зарегистрировать новый аккаунт"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsLoginPage}" Value="False">
+                                <Setter Property="Content" Value="Войти в существующий аккаунт"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+
+        <fa:ImageAwesome Grid.Row="0" Icon="Refresh" Margin="200" Visibility="{Binding LoadingVisibility}" Foreground="White" Spin="True" SpinDuration="10" />
     </Grid>
 </controls:ModernWindow>
