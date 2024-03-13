@@ -3,10 +3,19 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:TMClient.View" xmlns:controls="clr-namespace:TMClient.Controls"
+      xmlns:local="clr-namespace:TMClient.View" xmlns:controls="clr-namespace:TMClient.Controls" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ChatView">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="GotFocus">
+            <i:InvokeCommandAction Command="{Binding PageLoadedCommand}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="LostFocus">
+            <i:InvokeCommandAction Command="{Binding PageUnloadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <Border Background="{StaticResource BackgroundBrush}" CornerRadius="5">
         <Grid  >

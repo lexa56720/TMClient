@@ -16,7 +16,6 @@ namespace TMClient.ViewModel
 
 
         public ICommand ChatSelected => new AsyncCommand<Chat>(Selected);
-
         public ICommand FriendSelected => new AsyncCommand<Friend>(Selected);
 
         private async Task Selected(Friend? friend)

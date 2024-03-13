@@ -42,11 +42,9 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             LongPolling.NewChats -= HandleNewChats;
             LongPolling.MessagesReaded -= HandleReadedMessages;
 
-            NewMessages = null;
-            ReadedMessages = null;
             IsDisposed = true;
         }
-        private async void HandleFriendsRemoved(object? sender, int[] e)
+        private void HandleFriendsRemoved(object? sender, int[] e)
         {
             var friends = Api.FriendList.Where(f => e.Contains(f.Id)).ToArray();
             UIContext.Post(friendsObj =>
@@ -69,7 +67,21 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         private async void HandleNewMessages(object? sender, int[] e)
         {
-            NewMessages?.Invoke(this, await Api.Messages.GetMessages(e));
+            var messages = await Api.Messages.GetMessages(e);
+
+            UIContext.Post(messagesObj =>
+            {
+                foreach (var message in (Message[])messagesObj)
+                {
+                    if (message.Destination.LastMessage == null ||
+                        message.SendTime > message.Destination.LastMessage.SendTime)
+                    {
+                        message.Destination.LastMessage = message;
+                    }
+                    message.Destination.UnreadedCount++;
+                }
+            }, messages);
+            NewMessages?.Invoke(this, messages);
         }
         private void HandleReadedMessages(object? sender, int[] e)
         {

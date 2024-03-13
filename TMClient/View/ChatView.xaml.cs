@@ -11,8 +11,8 @@ namespace TMClient.View
     {
         public ChatView(Chat chat)
         {
-            InitializeComponent();
             DataContext = new ChatViewModel(chat);
+            InitializeComponent();
         }
     }
 }

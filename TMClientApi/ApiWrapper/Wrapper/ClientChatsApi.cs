@@ -67,6 +67,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             }
             if (result.Count == chatIds.Length)
                 return result.ToArray();
+
             var converted = await Converter.Convert(await Api.Chats.GetChat(requestedChats.Distinct().ToArray()));
             Cache.AddToCache(converted);
             result.AddRange(converted);

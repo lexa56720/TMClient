@@ -38,7 +38,19 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             if (message == null)
                 return null;
 
-            return await Converter.Convert(message);
+            var convertedMessage = await Converter.Convert(message);
+            if (convertedMessage == null)
+                return null;
+
+            if (convertedMessage.Destination.LastMessage == null ||
+                convertedMessage.SendTime > convertedMessage.Destination.LastMessage.SendTime)
+            {
+                convertedMessage.Destination.LastMessage = convertedMessage;
+            }
+         
+            convertedMessage.Destination.UnreadedCount=0;
+
+            return convertedMessage;
         }
 
         public async Task<bool> MarkAsReaded(params Message[] messages)
@@ -52,7 +64,11 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
             var result = await Api.Messages.MarkAsReaded(ids);
             if (result)
-                messages.ToList().ForEach(m => m.IsReaded = true);
+                foreach (var message in messages)
+                {
+                    message.IsReaded = true;
+                    message.Destination.UnreadedCount--;
+                }
             return result;
         }
     }

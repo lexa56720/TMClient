@@ -26,7 +26,7 @@ namespace TMClient.View.Auth
 
             DialogResult = true;
             Api = api;
-            Application.Current.Dispatcher.Invoke(Close);
+            Close();
             return true;
         }
     }

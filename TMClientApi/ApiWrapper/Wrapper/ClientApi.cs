@@ -83,14 +83,14 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             var clientApi = new ClientApi(userLifetime, chatLifetime, api, uiContext);
 
             var chats = await clientApi.Chats.GetChat(api.UserInfo.Chats);
-            clientApi.Cache.AddToCache(TimeSpan.FromTicks(int.MaxValue), chats);
+            clientApi.Cache.AddToCache(TimeSpan.FromMilliseconds(int.MaxValue), chats);
             foreach (var chat in chats)
                 if (!chat.IsDialogue)
                     clientApi.MultiuserChats.Add(chat);
 
 
             var friends = clientApi.Converter.Convert(api.UserInfo.Friends);
-            clientApi.Cache.AddToCache(TimeSpan.FromTicks(int.MaxValue), friends);
+            clientApi.Cache.AddToCache(TimeSpan.FromMilliseconds(int.MaxValue), friends);
             foreach (var friend in friends)
                 clientApi.FriendList.Add(new Friend(friend, chats.Single(c => c.Members.Any(m => m.Id == friend.Id))));
 

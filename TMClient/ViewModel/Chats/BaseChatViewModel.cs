@@ -47,6 +47,11 @@ namespace TMClient.ViewModel.Chats
         public ICommand Send => new AsyncCommand<string>(SendMessage);
         public ICommand Attach => new AsyncCommand(AttachFile);
 
+        public ICommand PageLoadedCommand => new Command(PageLoaded);
+        public ICommand PageUnloadedCommand => new Command(PageUnloaded);
+
+
+
         protected T Model { get; private set; }
 
         public BaseChatViewModel(Chat chat)
@@ -56,13 +61,19 @@ namespace TMClient.ViewModel.Chats
             Id = chat.Id;
 
             Model = GetModel(chat);
+        }
+
+        protected abstract T GetModel(Chat chat);
+        private void PageLoaded(object? obj)
+        {
             CurrentUser.NewMessages += UpdateMessages;
             CurrentUser.ReadedMessages += ReadedMessages;
         }
-
-
-
-        protected abstract T GetModel(Chat chat);
+        private void PageUnloaded(object? obj)
+        {
+            CurrentUser.NewMessages -= UpdateMessages;
+            CurrentUser.ReadedMessages -= ReadedMessages;
+        }
 
         public async Task LoadMessages()
         {
@@ -82,6 +93,8 @@ namespace TMClient.ViewModel.Chats
 
         public async Task SendMessage(string? text)
         {
+            MessageText = string.Empty;
+
             if (string.IsNullOrEmpty(text))
                 return;
 
@@ -89,12 +102,19 @@ namespace TMClient.ViewModel.Chats
             {
                 Author = CurrentUser.Info,
                 Text = text,
-                Destionation = Chat,
+                Destination = Chat,
                 IsReaded = false,
             });
+
+
+            Messages.Where(m => !m.IsReaded)
+                    .SelectMany(m => m.InnerMessages)
+                    .ToList()
+                    .ForEach(m => m.IsReaded = true);
+
+
             if (message != null)
                 AddMessageToEnd(message);
-            MessageText = string.Empty;
         }
 
         public async Task AttachFile()
@@ -105,7 +125,7 @@ namespace TMClient.ViewModel.Chats
 
         protected async void UpdateMessages(object? sender, Message[] messages)
         {
-            var currentChatMessages = messages.Where(m => m.Destionation.Id == Chat.Id)
+            var currentChatMessages = messages.Where(m => m.Destination.Id == Chat.Id)
                                               .ToArray();
             await Model.MarkAsReaded(currentChatMessages);
 
@@ -211,14 +231,14 @@ namespace TMClient.ViewModel.Chats
         {
             return oldMessage.Author.Id == newMessage.Author.Id &&
                    oldMessage.IsReaded == newMessage.IsReaded &&
-                  ( oldMessage.InnerMessages.First().SendTime - newMessage.SendTime).Duration() < TimeSpan.FromMinutes(5) &&
+                  (oldMessage.InnerMessages.First().SendTime - newMessage.SendTime).Duration() < TimeSpan.FromMinutes(5) &&
                    oldMessage.InnerMessages.Count < 10;
         }
         private bool IsUnionable(MessageControl first, MessageControl second)
         {
             return first.Author.Id == second.Author.Id &&
                    first.IsReaded == second.IsReaded &&
-                   (first.InnerMessages.First().SendTime - second.InnerMessages.Last().SendTime).Duration() < TimeSpan.FromMinutes(5) &&
+                  (first.InnerMessages.First().SendTime - second.InnerMessages.Last().SendTime).Duration() < TimeSpan.FromMinutes(5) &&
                    first.InnerMessages.Count + second.InnerMessages.Count < 10;
         }
     }

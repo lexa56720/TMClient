@@ -21,12 +21,13 @@ namespace TMClient.Model.Chats
         }
         public async Task<Message?> SendMessage(Message message)
         {
-            return await Api.Messages.SendMessage(message.Text, message.Destionation.Id);
+            return await Api.Messages.SendMessage(message.Text, message.Destination.Id);
         }
 
         public async Task<bool> MarkAsReaded(Message[] messages)
         {
-            return await Api.Messages.MarkAsReaded(messages);
+            return await Api.Messages.MarkAsReaded(messages.Where(m=>!m.IsReaded)
+                                                           .ToArray());
         }
 
     }

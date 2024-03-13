@@ -51,7 +51,7 @@ namespace ApiWrapper.Types
         }
         private User author = null!;
 
-        public required Chat Destionation { get; init; }
+        public required Chat Destination { get; init; }
         [SetsRequiredMembers]
 
         public Message(int id, string text, DateTime sendTime, User author, Chat destination,bool isReaded)
@@ -60,7 +60,7 @@ namespace ApiWrapper.Types
             Text = text;
             SendTime = sendTime;
             Author = author;
-            Destionation = destination;
+            Destination = destination;
             IsReaded = isReaded;
         }
 

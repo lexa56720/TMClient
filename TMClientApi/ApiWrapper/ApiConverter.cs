@@ -48,11 +48,13 @@ namespace ApiWrapper.ApiWrapper
             var result = new Chat[chats.Length];
             var members = chats.SelectMany(c => c.MemberIds).ToArray();
             var convertedMembers = await UserApi.GetUser(members);
-            for (int i = 0; i < result.Length; i++)
+            for (int chatCount = 0, memberCount = 0; chatCount < result.Length; chatCount++)
             {
-                result[i] = new Chat(chats[i].Id, chats[i].Name, chats[i].UnreadCount, chats[i].IsDialogue);
-                for (int j = 0; j < chats[i].MemberIds.Length; j++)
-                    result[i].Members.Add(convertedMembers[j]);
+                result[chatCount] = new Chat(chats[chatCount].Id, chats[chatCount].Name, 
+                                             chats[chatCount].UnreadCount, chats[chatCount].IsDialogue);
+
+                for (int j = 0; j < chats[chatCount].MemberIds.Length; j++, memberCount++)
+                    result[chatCount].Members.Add(convertedMembers[memberCount]);
             }
             return result;
         }
@@ -101,9 +103,8 @@ namespace ApiWrapper.ApiWrapper
             var users = await UserApi.GetUser(requests.Select(r => r.FromId).ToArray());
             var result = new FriendRequest[requests.Length];
             for (int i = 0; i < requests.Length; i++)
-            {
                 result[i] = Convert(requests[i], users[i]);
-            }
+  
             return result;
         }
 
@@ -111,7 +112,6 @@ namespace ApiWrapper.ApiWrapper
         {
             var user = await UserApi.GetUser(invite.FromUserId);
             var chat = await ChatApi.GetChat(invite.ChatId);
-
 
             if (user == null || chat == null)
                 return null;
