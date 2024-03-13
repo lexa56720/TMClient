@@ -22,7 +22,6 @@
                 }
             }
             return time.ToString("d MMMM yyyy");
-
         }
     }
 }

@@ -67,12 +67,12 @@ namespace TMClient.ViewModel.Chats
         private void PageLoaded(object? obj)
         {
             CurrentUser.NewMessages += UpdateMessages;
-            CurrentUser.ReadedMessages += ReadedMessages;
+            CurrentUser.ReadedMessages += ReadMessages;
         }
         private void PageUnloaded(object? obj)
         {
             CurrentUser.NewMessages -= UpdateMessages;
-            CurrentUser.ReadedMessages -= ReadedMessages;
+            CurrentUser.ReadedMessages -= ReadMessages;
         }
 
         public async Task LoadMessages()
@@ -106,15 +106,14 @@ namespace TMClient.ViewModel.Chats
                 IsReaded = false,
             });
 
-
-            Messages.Where(m => !m.IsReaded)
-                    .SelectMany(m => m.InnerMessages)
-                    .ToList()
-                    .ForEach(m => m.IsReaded = true);
-
-
             if (message != null)
                 AddMessageToEnd(message);
+
+
+            ReadMessages(null,Messages.SelectMany(m => m.InnerMessages)
+                                      .Where(m => !m.IsReaded && m.Author.Id != CurrentUser.Info.Id)
+                                      .Select(m => m.Id)
+                                      .ToArray());
         }
 
         public async Task AttachFile()
@@ -131,7 +130,7 @@ namespace TMClient.ViewModel.Chats
 
             App.MainThread.Invoke(() => AddMessageToEnd(currentChatMessages));
         }
-        private void ReadedMessages(object? sender, int[] e)
+        private void ReadMessages(object? sender, int[] e)
         {
             var affectedMessages = new List<MessageControl>();
 

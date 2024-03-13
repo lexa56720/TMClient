@@ -11,7 +11,9 @@
 
 
         <u:LoginConverter x:Key="LoginConverter"></u:LoginConverter>
-
+        <u:SubLoginConverter x:Key="SubLoginConverter"></u:SubLoginConverter>
+        <u:DateTimeConverter x:Key="DateTimeConverter"></u:DateTimeConverter>
+        
         <Color x:Key="OwnMessageColor">#1976D2</Color>
         <SolidColorBrush x:Key="OwnMessageBrush" Color="{StaticResource OwnMessageColor}"/>
 

@@ -9,10 +9,10 @@
       Title="ChatView">
 
     <i:Interaction.Triggers>
-        <i:EventTrigger EventName="GotFocus">
+        <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding PageLoadedCommand}" />
         </i:EventTrigger>
-        <i:EventTrigger EventName="LostFocus">
+        <i:EventTrigger EventName="Unloaded">
             <i:InvokeCommandAction Command="{Binding PageUnloadedCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>

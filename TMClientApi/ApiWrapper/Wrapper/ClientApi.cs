@@ -83,18 +83,24 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             var clientApi = new ClientApi(userLifetime, chatLifetime, api, uiContext);
 
             var chats = await clientApi.Chats.GetChat(api.UserInfo.Chats);
+            var lastMessages = await clientApi.Messages.GetLastMessages(api.UserInfo.Chats);
+            for (int i = 0; i < chats.Length; i++)
+            {
+                if (!chats[i].IsDialogue)
+                    clientApi.MultiuserChats.Add(chats[i]);
+                chats[i].LastMessage = lastMessages[i];
+                if (lastMessages[i] != null && lastMessages[i].Author.Id == api.UserInfo.MainInfo.Id)
+                    chats[i].UnreadedCount = 0;
+            }
             clientApi.Cache.AddToCache(TimeSpan.FromMilliseconds(int.MaxValue), chats);
-            foreach (var chat in chats)
-                if (!chat.IsDialogue)
-                    clientApi.MultiuserChats.Add(chat);
 
 
             var friends = clientApi.Converter.Convert(api.UserInfo.Friends);
-            clientApi.Cache.AddToCache(TimeSpan.FromMilliseconds(int.MaxValue), friends);
             foreach (var friend in friends)
                 clientApi.FriendList.Add(new Friend(friend, chats.Single(c => c.Members.Any(m => m.Id == friend.Id))));
+            clientApi.Cache.AddToCache(TimeSpan.FromMilliseconds(int.MaxValue), friends);
 
-           
+
             var requests = await clientApi.Friends.GetFriendRequest(api.UserInfo.FriendRequests);
             foreach (var request in requests)
                 clientApi.FriendRequests.Add(request);

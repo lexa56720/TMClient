@@ -85,6 +85,14 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         }
         private void HandleReadedMessages(object? sender, int[] e)
         {
+            var messages = Api.MultiuserChats.Union(Api.FriendList.Select(f => f.Dialogue))
+                                             .Where(c => c.LastMessage != null && e.Contains(c.LastMessage.Id))
+                                             .Select(m => m.LastMessage);
+
+
+            foreach (var message in messages)
+                message.IsReaded = true;
+
             ReadedMessages?.Invoke(this, e);
         }
 

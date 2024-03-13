@@ -31,7 +31,13 @@ namespace ApiWrapper.ApiWrapper.Wrapper
                 return [];
             return await Converter.Convert(await Api.Messages.GetMessages(messagesId));
         }
-
+        public async Task<Message?[]> GetLastMessages(params int[] chatIds)
+        {
+            var messages = await Api.Messages.GetMessagesForChats(chatIds);
+            var converted = await Converter.Convert(messages);
+            return chatIds.Select(id => converted.FirstOrDefault(m => m.Destination.Id == id))
+                          .ToArray();
+        }
         public async Task<Message?> SendMessage(string text, int destinationId)
         {
             var message = await Api.Messages.SendMessage(text, destinationId);
@@ -46,8 +52,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
                 convertedMessage.SendTime > convertedMessage.Destination.LastMessage.SendTime)
             {
                 convertedMessage.Destination.LastMessage = convertedMessage;
-            }
-         
+            }       
             convertedMessage.Destination.UnreadedCount=0;
 
             return convertedMessage;

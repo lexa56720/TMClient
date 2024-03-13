@@ -55,7 +55,7 @@
                         </Border>
 
 
-                        <ListView  x:Name="FriendList" Grid.Row="1" SelectionMode="Single"
+                        <ListView  x:Name="FriendList" Grid.Row="1" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                    ItemsSource="{Binding CurrentUser.FriendList}"  ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="5,0,0,5"  >
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem"  BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
@@ -65,14 +65,34 @@
                             </ListView.ItemContainerStyle>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid  HorizontalAlignment="Stretch" Margin="0,5,5,5">
+                                    <Grid  HorizontalAlignment="Stretch" Margin="0,0,0,0">
 
-                                        <StackPanel Grid.Column="0" >
-                                            <Label Content="{Binding Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,-5,0,-5" />
-                                            <Label Content="{Binding Login, Converter={StaticResource LoginConverter}}" Padding="0" 
-                                                   HorizontalAlignment="Left" FontSize="16" Margin="0,0,0,-5" />
+                                        <StackPanel Grid.Column="0" Orientation="Vertical" >
+                                            <Label Content="{Binding Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,0,0,-15" />
+                                            <Label Content="{Binding Login, Converter={StaticResource SubLoginConverter}}" FontSize="16"  Padding="0" HorizontalAlignment="Left" Margin="0,0,0,0" />
+
+                                            <Border CornerRadius="5" Margin="2" >
+                                                <Border.Style>
+                                                    <Style TargetType="Border" BasedOn="{StaticResource ResourceKey={x:Type Border}}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Dialogue.LastMessage.IsReaded}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource UnreadedMessageBrush}"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Dialogue.LastMessage}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Dialogue.LastMessage.Text}" TextTrimming="CharacterEllipsis" 
+                                                           MaxWidth="{Binding (ListViewItem.ActualWidth),RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"/>
+                                                    <TextBlock HorizontalAlignment="Right" Margin="-5,-10,0,-5" Text="{Binding Dialogue.LastMessage.SendTime,Converter={StaticResource DateTimeConverter}}" FontSize="12"/>
+                                                </StackPanel>
+                                            </Border>
+
                                         </StackPanel>
-                                        <controls:CountDisplay  Grid.Column="1" Count="{Binding Dialogue.UnreadedCount}" Width="30" Height="30" Foreground="{StaticResource RedBrush}"  HorizontalAlignment="Right"  />
+                                        <controls:CountDisplay Grid.Column="1" Count="{Binding Dialogue.UnreadedCount}" Width="30" Height="30" Foreground="{StaticResource RedBrush}" Margin="5" VerticalAlignment="Top"  HorizontalAlignment="Right"  />
                                     </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
