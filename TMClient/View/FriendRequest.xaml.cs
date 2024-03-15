@@ -14,6 +14,7 @@ namespace TMClient.View
             Title = "Добавить друга";
             InitializeComponent();
             DataContext = new FriendRequestViewModel();
+
         }
     }
 }

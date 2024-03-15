@@ -54,7 +54,6 @@
                             </StackPanel>
                         </Border>
 
-
                         <ListView  x:Name="FriendList" Grid.Row="1" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                    ItemsSource="{Binding CurrentUser.FriendList}"  ScrollViewer.VerticalScrollBarVisibility="Visible" Margin="5,0,0,5"  >
                             <ListView.ItemContainerStyle>
@@ -71,7 +70,7 @@
                                             <Label Content="{Binding Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,0,0,-15" />
                                             <Label Content="{Binding Login, Converter={StaticResource SubLoginConverter}}" FontSize="16"  Padding="0" HorizontalAlignment="Left" Margin="0,0,0,0" />
 
-                                            <Border CornerRadius="5" Margin="2" >
+                                            <Border CornerRadius="0,0,5,5" >
                                                 <Border.Style>
                                                     <Style TargetType="Border" BasedOn="{StaticResource ResourceKey={x:Type Border}}">
                                                         <Style.Triggers>
@@ -87,7 +86,7 @@
                                                 <StackPanel>
                                                     <TextBlock Text="{Binding Dialogue.LastMessage.Text}" TextTrimming="CharacterEllipsis" 
                                                            MaxWidth="{Binding (ListViewItem.ActualWidth),RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"/>
-                                                    <TextBlock HorizontalAlignment="Right" Margin="-5,-10,0,-5" Text="{Binding Dialogue.LastMessage.SendTime,Converter={StaticResource DateTimeConverter}}" FontSize="12"/>
+                                                    <TextBlock HorizontalAlignment="Right" TextTrimming="CharacterEllipsis" Margin="-5,-10,0,-5" Text="{Binding Dialogue.LastMessage.SendTime,Converter={StaticResource DateTimeConverter}}" FontSize="12"/>
                                                 </StackPanel>
                                             </Border>
 

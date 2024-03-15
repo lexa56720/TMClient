@@ -59,12 +59,16 @@ namespace TMClient.ViewModel
         private async Task CreateChat()
         {
             await Messenger.Send(Messages.ModalOpened);
-            var friendSearchWindow = new View.FriendRequest
+            var mainwindow = App.Current.MainWindow;
+            var chatCreationWindow = new ChatCreationWindow
             {
-                Owner = App.Current.MainWindow,
+                Owner = mainwindow,
                 ShowInTaskbar = false
             };
-            friendSearchWindow.ShowDialog();
+            if (chatCreationWindow.ShowDialog()==true)
+            {
+               var a= chatCreationWindow.Chat;
+            }
             await Messenger.Send(Messages.ModalClosed);
         }
     }

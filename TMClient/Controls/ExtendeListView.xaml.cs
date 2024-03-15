@@ -23,7 +23,6 @@ namespace TMClient.Controls
                 }
             }
         }
-
         private ScrollViewer? scrollViewer;
 
 

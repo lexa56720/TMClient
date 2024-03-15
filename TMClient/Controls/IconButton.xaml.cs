@@ -31,6 +31,8 @@ namespace TMClient.Controls
             }
         }
         private Orientation orientation = Orientation.Horizontal;
+
+
         public string Text
         {
             get { return (string)GetValue(TextProperty); }
@@ -38,27 +40,35 @@ namespace TMClient.Controls
         }
 
         public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(IconButton),
+            DependencyProperty.Register(nameof(Text), typeof(string), typeof(IconButton),
             new PropertyMetadata(string.Empty, TextPropertyChanged));
 
+
+        public static readonly DependencyProperty IconProperty =
+            DependencyProperty.Register(nameof(Icon), typeof(string), typeof(IconButton),
+            new PropertyMetadata(string.Empty, IconPropertyChanged));
         public string Icon
         {
-            get => icon;
-            set
-            {
-                icon = value;
-                OnPropertyChanged(nameof(Icon));
-            }
+            get { return (string)GetValue(IconProperty); }
+            set { SetValue(IconProperty, value); }
         }
-        private string icon = string.Empty;
 
-
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public IconButton()
         {
             InitializeComponent();
         }
 
+        private void IconPropertyChanged(string text)
+        {
+            OnPropertyChanged(nameof(Icon));
+        }
+
+        private static void IconPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((IconButton)d).IconPropertyChanged((string)e.NewValue);
+        }
 
         private void TextPropertyChanged(string text)
         {
@@ -74,7 +84,6 @@ namespace TMClient.Controls
             ((IconButton)d).TextPropertyChanged((string)e.NewValue);
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));

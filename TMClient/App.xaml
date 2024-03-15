@@ -13,11 +13,11 @@
         <u:LoginConverter x:Key="LoginConverter"></u:LoginConverter>
         <u:SubLoginConverter x:Key="SubLoginConverter"></u:SubLoginConverter>
         <u:DateTimeConverter x:Key="DateTimeConverter"></u:DateTimeConverter>
-        
-        <Color x:Key="OwnMessageColor">#1976D2</Color>
+
+        <Color x:Key="OwnMessageColor">#3498DB</Color>
         <SolidColorBrush x:Key="OwnMessageBrush" Color="{StaticResource OwnMessageColor}"/>
 
-        <Color x:Key="UnreadMessageColor">#992980B9</Color>
+        <Color x:Key="UnreadMessageColor">#2C3E50</Color>
         <SolidColorBrush x:Key="UnreadMessageBrush" Color="{StaticResource UnreadMessageColor}"/>
 
         <Color x:Key="UserMessageColor">#424242</Color>
