@@ -124,7 +124,8 @@ namespace TMClient.ViewModel
 
         private void Logout()
         {
-
+            CurrentUser.ChatInvites.CollectionChanged -= ChatInvitesChanged;
+            CurrentUser.FriendRequests.CollectionChanged -= FriendRequestsChanged;
             Messenger.Send(Messages.CloseMainWindow);
             ((App)App.Current).Logout();
         }

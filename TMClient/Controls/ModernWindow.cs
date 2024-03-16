@@ -113,6 +113,12 @@ namespace TMClient.Controls
             MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
         }
 
+        protected override void OnClosed(EventArgs e)
+        {
+            StateChanged -= MainWindowStateChangeRaised;
+            Loaded -= Window_Loaded;
+            base.OnClosed(e);
+        }
         private void EventSetup()
         {
             StateChanged += MainWindowStateChangeRaised;

@@ -48,14 +48,14 @@ namespace TMClient.ViewModel.Auth
         {
             var password = passwordBox.Password;
 
-            if (!Model.IsLoginValid(Login) || !Model.IsPasswordValid(password))
+            if (!Model.IsLoginValid(Login))
             {
                 ErrorVisibility = Visibility.Visible;
                 return;
             }
 
             IsBusy = true;
-            IApi? api = await Model.SignIn(Login, "fdsfds");
+            IApi? api = await Model.SignIn(Login, password);
             if (!ReturnApi(api))
             {
                 ErrorVisibility = Visibility.Visible;
