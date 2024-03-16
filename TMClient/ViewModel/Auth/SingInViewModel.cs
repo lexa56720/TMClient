@@ -1,5 +1,6 @@
 ﻿using ApiWrapper.Interfaces;
 using AsyncAwaitBestPractices.MVVM;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,22 +11,23 @@ namespace TMClient.ViewModel.Auth
 {
     class SingInViewModel(Func<IApi?, bool> returnApi) : BaseAuthViewModel(returnApi)
     {
-        public ICommand SignInCommand => new AsyncCommand<PasswordBox>(SignIn, (o) => IsNotBusy);
+        public ICommand SignInCommand => new AsyncCommand<PasswordBox>(SignIn, (o) => !IsBusy);
         public ICommand OpenSettings => new AsyncCommand(() => Messenger.Send(Messages.OpenSettingsPage));
-        public bool IsNotBusy
+        public bool IsBusy
         {
-            get => isNotBusy;
+            get => isBusy;
             set
             {
+                isBusy = value;
+                OnPropertyChanged(nameof(IsBusy));
+
                 if (value)
-                    Messenger.Send(Messages.AuthLoadingFinish);
+                    Messenger.Send(Messages.AuthLoadingStart, true);
                 else
-                    Messenger.Send(Messages.AuthLoadingStart);
-                isNotBusy = value;
-                OnPropertyChanged(nameof(IsNotBusy));
+                    Messenger.Send(Messages.AuthLoadingFinish, true);
             }
         }
-        private bool isNotBusy = true;
+        private bool isBusy = false;
         public string Login { get; set; } = string.Empty;
 
         public Visibility ErrorVisibility
@@ -39,20 +41,27 @@ namespace TMClient.ViewModel.Auth
         }
         private Visibility errorVisibility = Visibility.Collapsed;
 
+
+        private readonly SignInModel Model = new();
+
         private async Task SignIn(PasswordBox? passwordBox)
         {
-            IsNotBusy = false;
-
             var password = passwordBox.Password;
-            IApi? api = await SignInModel.SignIn(Login, password);
 
+            if (!Model.IsLoginValid(Login) || !Model.IsPasswordValid(password))
+            {
+                ErrorVisibility = Visibility.Visible;
+                return;
+            }
 
+            IsBusy = true;
+            IApi? api = await Model.SignIn(Login, "fdsfds");
             if (!ReturnApi(api))
             {
                 ErrorVisibility = Visibility.Visible;
-                IsNotBusy = true;
+                IsBusy = false;
             }
-    
+
             passwordBox.Password = string.Empty;
         }
     }

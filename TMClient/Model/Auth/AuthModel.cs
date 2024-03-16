@@ -7,7 +7,7 @@ namespace TMClient.Model.Auth
 {
     internal class AuthModel
     {
-        public static ApiFactory ApiProvider
+        protected ApiFactory ApiProvider
         {
             get
             {
@@ -18,7 +18,7 @@ namespace TMClient.Model.Auth
         private static ApiFactory apiProvider = null!;
 
 
-        public static async Task<IApi?> TryGetApi()
+        public async Task<IApi?> TryGetApi()
         {
             return await ApiProvider.Load(Preferences.Default.AuthPath);
         }
@@ -31,9 +31,20 @@ namespace TMClient.Model.Auth
             var longPollPeriod = TimeSpan.FromMinutes(Preferences.Default.LongPollPeriodMinutes);
             var cachedUserLifetime = TimeSpan.FromMinutes(Preferences.Default.CachedUserLifetimeMinutes);
             var cachedChatLifetime = TimeSpan.FromMinutes(Preferences.Default.CachedChatLifetimeMinutes);
-              
-            return new ApiFactory(ip, authPort, apiPort, cachedUserLifetime,cachedChatLifetime, 
-                                  longPollPort, longPollPeriod,SynchronizationContext.Current);
+
+            return new ApiFactory(ip, authPort, apiPort, cachedUserLifetime, cachedChatLifetime,
+                                  longPollPort, longPollPeriod, SynchronizationContext.Current);
+        }
+
+
+        public bool IsLoginValid(string login)
+        {
+            return ApiTypes.Shared.DataConstraints.IsLoginLegal(login);
+        }
+
+        public bool IsPasswordValid(string pass)
+        {
+            return ApiTypes.Shared.DataConstraints.IsPasswordLegal(pass);
         }
     }
 }

@@ -60,7 +60,7 @@ namespace TMClient.ViewModel.Auth
                 OnPropertyChanged(nameof(BackNavigationVisibility));
             }
         }
-        private Visibility backNavigationVisibility;
+        private Visibility backNavigationVisibility=Visibility.Hidden;
 
 
         public bool IsLoaded
@@ -90,6 +90,8 @@ namespace TMClient.ViewModel.Auth
         private Visibility loadingVisibility = Visibility.Hidden;
 
         private Page? PreviousPage;
+
+        private readonly AuthModel Model = new();
         public MainAuthViewModel(Func<IApi?, bool> returnApi) : base(returnApi)
         {
             Registration = new SignUpView(returnApi);
@@ -97,21 +99,18 @@ namespace TMClient.ViewModel.Auth
             Settings = new Settings();
 
             EnteringFrame = Auth;
-            Messenger.Subscribe(Messages.OpenSettingsPage,
-                () => Application.Current.Dispatcher.Invoke(OpenSettings));
+            Messenger.Subscribe(Messages.OpenSettingsPage,OpenSettings);
 
-            Messenger.Subscribe(Messages.AuthLoadingStart,
-                () => Application.Current.Dispatcher.Invoke(() => IsLoaded = false));
+            Messenger.Subscribe(Messages.AuthLoadingStart, () => IsLoaded = false);
 
-            Messenger.Subscribe(Messages.AuthLoadingFinish,
-                () => Application.Current.Dispatcher.Invoke(() => IsLoaded = true));
+            Messenger.Subscribe(Messages.AuthLoadingFinish,() => IsLoaded = true);
         }
 
         private async Task TryToLoadApi()
         {
             if (Preferences.Default.IsSaveAuth != false)
             {
-                IApi? api = await AuthModel.TryGetApi();
+                IApi? api = await Model.TryGetApi();
                 ReturnApi.Invoke(api);
             }
         }

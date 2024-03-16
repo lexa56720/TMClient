@@ -1,5 +1,6 @@
 ﻿using ApiWrapper.Interfaces;
 using AsyncAwaitBestPractices.MVVM;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -8,29 +9,29 @@ using TMClient.Utils;
 
 namespace TMClient.ViewModel.Auth
 {
-    class SignUpViewModel(Func<IApi?, bool> returnApi) : BaseAuthViewModel(returnApi)
+    class SignUpViewModel(Func<IApi?, bool> returnApi) : BaseAuthViewModel(returnApi),IDataErrorInfo
     {
         public string UserName { get; set; } = string.Empty;
 
         public string Login { get; set; } = string.Empty;
 
-        public bool IsNotBusy
+        public bool IsBusy
         {
-            get => isNotBusy;
+            get => isBusy;
             set
             {
-                if (value)
-                    Messenger.Send(Messages.AuthLoadingFinish);
-                else
-                    Messenger.Send(Messages.AuthLoadingStart);
+                isBusy = value;
+                OnPropertyChanged(nameof(IsBusy));
 
-                isNotBusy = value;
-                OnPropertyChanged(nameof(IsNotBusy));
+                if (value)
+                    Messenger.Send(Messages.AuthLoadingStart, true);
+                else
+                    Messenger.Send(Messages.AuthLoadingFinish, true);
             }
         }
-        private bool isNotBusy = true;
-        public ICommand SignUpCommand => new AsyncCommand<PasswordBox>(SignUp, o => IsNotBusy);
-        public ICommand OpenSettings => new AsyncCommand(()=>Messenger.Send(Messages.OpenSettingsPage));
+        private bool isBusy = false;
+        public ICommand SignUpCommand => new AsyncCommand<PasswordBox>(SignUp, o => !IsBusy);
+        public ICommand OpenSettings => new AsyncCommand(() => Messenger.Send(Messages.OpenSettingsPage));
 
         public Visibility ErrorVisibility
         {
@@ -43,17 +44,45 @@ namespace TMClient.ViewModel.Auth
         }
         private Visibility errorVisibility = Visibility.Collapsed;
 
-        private async Task SignUp(PasswordBox? passwordBox)
-        {
-            IsNotBusy = false;
-            var password = passwordBox.Password;
 
-            IApi? api = await SignUpModel.Registration(UserName, Login, password);
+        public string Error => throw new NotImplementedException();
+
+        public string this[string columnName]
+        {
+            get
+            {
+                switch (columnName)
+                {
+                    case "Login":
+                        if (Login != string.Empty && !Model.IsLoginValid(Login))
+                            return "Логин не соответствует требованиям";
+                        break;
+                    case "UserName":
+                        if (UserName != string.Empty && !Model.IsNameValid(UserName))
+                            return "Логин не соответствует требованиям";
+                        break;
+                }
+                return string.Empty;
+            }
+        }
+
+        private readonly SignUpModel Model = new();
+        private async Task SignUp(PasswordBox? passwordBox)
+        {    
+            var password = passwordBox.Password;
+            if (!Model.IsLoginValid(Login) || !Model.IsPasswordValid(password))
+            {
+                ErrorVisibility = Visibility.Visible;
+                return;
+            }
+
+            IsBusy = true;
+            IApi? api = await Model.Registration(UserName, Login, password);
 
             if (!ReturnApi(api))
             {
                 ErrorVisibility = Visibility.Visible;
-                IsNotBusy = true;
+                IsBusy = false;
             }
             passwordBox.Password = string.Empty;
         }

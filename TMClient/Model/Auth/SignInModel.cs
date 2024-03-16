@@ -2,12 +2,11 @@
 
 namespace TMClient.Model.Auth
 {
-    internal class SignInModel
+    internal class SignInModel : AuthModel
     {
-        public static async Task<IApi?> SignIn(string login, string password)
+        public async Task<IApi?> SignIn(string login, string password)
         {
-            var provider = AuthModel.ApiProvider;
-            return await provider.CreateByLogin(login, password);
+            return await ApiProvider.CreateByLogin(login, password);
         }
     }
 }

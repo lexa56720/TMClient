@@ -2,12 +2,17 @@
 
 namespace TMClient.Model.Auth
 {
-    internal class SignUpModel
+    internal class SignUpModel:AuthModel
     {
-        public static async Task<IApi?> Registration(string name, string login, string password)
+        public async Task<IApi?> Registration(string name, string login, string password)
         {
-            var provider = AuthModel.ApiProvider;
-            return await provider.CreateByRegistration(name, login, password);
+            return await ApiProvider.CreateByRegistration(name, login, password);
+        }
+
+
+        public bool IsNameValid(string name)
+        {
+            return ApiTypes.Shared.DataConstraints.IsNameLegal(name);
         }
     }
 }

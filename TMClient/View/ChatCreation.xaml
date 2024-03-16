@@ -46,7 +46,7 @@
             </Grid.ColumnDefinitions>
             <controls:ExtendedTextBox Grid.Column="0" FontSize="20" Placeholder="Название чата" MaxLines="1" >
                 <controls:ExtendedTextBox.Text>
-                    <Binding Path="Name">
+                    <Binding Path="Name" NotifyOnValidationError="True">
                         <Binding.ValidationRules>
                             <DataErrorValidationRule/>
                         </Binding.ValidationRules>
