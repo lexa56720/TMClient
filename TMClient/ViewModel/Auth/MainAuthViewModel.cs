@@ -38,6 +38,7 @@ namespace TMClient.ViewModel.Auth
 
         public ICommand SwitchPage => new Command(SwitchPages);
         public ICommand WindowLoaded => new AsyncCommand(TryToLoadApi);
+        public ICommand BackNavigation => new Command(OpenPreviousPage);
 
         public Visibility SwitchPageVisibility
         {
@@ -49,6 +50,18 @@ namespace TMClient.ViewModel.Auth
             }
         }
         private Visibility switchPageVisibility;
+
+        public Visibility BackNavigationVisibility
+        {
+            get => backNavigationVisibility;
+            set
+            {
+                backNavigationVisibility = value;
+                OnPropertyChanged(nameof(BackNavigationVisibility));
+            }
+        }
+        private Visibility backNavigationVisibility;
+
 
         public bool IsLoaded
         {
@@ -81,7 +94,7 @@ namespace TMClient.ViewModel.Auth
         {
             Registration = new SignUpView(returnApi);
             Auth = new AuthView(returnApi);
-            Settings = new Settings(OpenPreviousPage);
+            Settings = new Settings();
 
             EnteringFrame = Auth;
             Messenger.Subscribe(Messages.OpenSettingsPage,
@@ -105,12 +118,14 @@ namespace TMClient.ViewModel.Auth
 
         private void OpenPreviousPage()
         {
+            BackNavigationVisibility = Visibility.Collapsed;
             SwitchPageVisibility = Visibility.Visible;
             if (PreviousPage != null)
                 EnteringFrame = PreviousPage;
         }
         private void OpenSettings()
         {
+            BackNavigationVisibility=Visibility.Visible;
             SwitchPageVisibility = Visibility.Collapsed;
             PreviousPage = EnteringFrame;
             EnteringFrame = Settings;

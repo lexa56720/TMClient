@@ -2,6 +2,7 @@
 using ApiWrapper.Interfaces;
 using ApiWrapper.Types;
 using ApiTypes.Communication.Friends;
+using ApiWrapper.ApiWrapper;
 
 namespace ApiWrapper.Wrapper
 {
@@ -10,14 +11,16 @@ namespace ApiWrapper.Wrapper
         private bool IsDisposed;
         private readonly LongPolling LongPolling;
         private readonly IApi Api;
+        private readonly CacheManager Cache;
         private readonly SynchronizationContext UIContext;
 
         public event EventHandler<Message[]>? NewMessages;
         public event EventHandler<int[]>? ReadedMessages;
 
-        public LongPollManager(LongPolling longPolling, IApi api, SynchronizationContext uiContext)
+        public LongPollManager(LongPolling longPolling, IApi api,CacheManager cache, SynchronizationContext uiContext)
         {
             Api = api;
+            Cache = cache;
             UIContext = uiContext;
             LongPolling = longPolling;
 
@@ -101,6 +104,7 @@ namespace ApiWrapper.Wrapper
             UIContext.Post(chatsObj =>
             {
                 foreach (var chat in (Chat[])chatsObj)
+                {
                     if (chat.IsDialogue)
                     {
                         var friend = chat.Members[0].Id == Api.Info.Id ? chat.Members[1] : chat.Members[0];
@@ -108,6 +112,9 @@ namespace ApiWrapper.Wrapper
                     }
                     else
                         Api.MultiuserChats.Add(chat);
+                    Cache.AddToCache(TimeSpan.FromMilliseconds(int.MaxValue),chat);
+                }
+             
             }, chats);
         }
     }

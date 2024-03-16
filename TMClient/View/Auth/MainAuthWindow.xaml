@@ -52,6 +52,8 @@
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
+
+
             <Frame Grid.Row="0" Background="Transparent" Margin="5"  Content="{Binding EnteringFrame}" IsEnabled="{Binding IsLoaded}"/>
 
             <Button  Grid.Row="1" Command="{Binding SwitchPage}"  IsEnabled="{Binding IsLoaded}" Margin="-5" Visibility="{Binding SwitchPageVisibility}" >
@@ -68,6 +70,10 @@
                     </Style>
                 </Button.Style>
             </Button>
+
+
+            <controls:IconButton Style="{StaticResource TransperentButton}" Command="{Binding BackNavigation}" Icon="&#xE72b;" Margin="5" 
+                          Visibility="{Binding BackNavigationVisibility}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" FontSize="24" />
         </Grid>
 
         <fa:ImageAwesome Grid.Row="0" Icon="Refresh" Margin="200" Visibility="{Binding LoadingVisibility}" Foreground="White" Spin="True" SpinDuration="10" />

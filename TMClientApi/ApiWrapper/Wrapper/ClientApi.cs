@@ -75,7 +75,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             messages = new ClientMessagesApi(api, Converter);
             friends = new ClientFriendsApi(api, Converter);
 
-            LongPollManager = new LongPollManager(api.LongPolling, this, uiContext);
+            LongPollManager = new LongPollManager(api.LongPolling, this,Cache, uiContext);
             Api = api;
         }
         internal static async Task<ClientApi?> Init(TimeSpan userLifetime, TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)

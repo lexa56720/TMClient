@@ -38,15 +38,13 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
 
             <RowDefinition Height="5*"/>
 
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <controls:IconButton Style="{StaticResource TransperentButton}" Command="{Binding BackNavigation}" Icon="&#xE72b;" Margin="10" 
-                          Visibility="{Binding BackNavigationVisibility}" HorizontalContentAlignment="Center" Grid.Row="0" Grid.Column="0" FontSize="24" />
 
         <Label Content="Настройки" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" FontSize="24" />
 

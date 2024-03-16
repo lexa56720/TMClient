@@ -14,10 +14,6 @@ namespace TMClient.ViewModel
 {
     internal partial class SettingsViewModel : BaseViewModel, IDataErrorInfo
     {
-
-        public Visibility BackNavigationVisibility => BackNavigation == null ? Visibility.Collapsed : Visibility.Visible;
-        public ICommand? BackNavigation { get; set; }
-
         public ICommand PageLoaded => new Command(LoadSettings);
         public ICommand SaveCommand => new Command(Save);
 
@@ -140,14 +136,9 @@ namespace TMClient.ViewModel
             }
         }
 
-        public SettingsViewModel(Action openPreviousPage)
-        {
-            BackNavigation = new Command(openPreviousPage);
-        }
         public SettingsViewModel()
         {
         }
-
         private void LoadSettings()
         {
             ServerAddress = Preferences.Default.ServerAddress;
