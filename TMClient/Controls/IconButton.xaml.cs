@@ -21,6 +21,52 @@ namespace TMClient.Controls
         }
         private Visibility textVisibility = Visibility.Collapsed;
 
+
+        public Visibility IconFirstVisibility
+        {
+            get => iconFirstVisibility;
+            set
+            {
+                iconFirstVisibility = value;
+                OnPropertyChanged(nameof(IconFirstVisibility));
+            }
+
+        }
+        private Visibility iconFirstVisibility = Visibility.Visible;
+
+        public Visibility TextFirstVisibility
+        {
+            get => textFirstVisibility;
+            set
+            {
+                textFirstVisibility = value;
+                OnPropertyChanged(nameof(TextFirstVisibility));
+            }
+
+        }
+        private Visibility textFirstVisibility = Visibility.Collapsed;
+
+        public bool IsIconFirst
+        {
+            get => isIconFirst;
+            set
+            {
+                isIconFirst = value;
+                OnPropertyChanged(nameof(IsIconFirst));
+                if(isIconFirst)
+                {
+                    IconFirstVisibility = Visibility.Visible;
+                    TextFirstVisibility = Visibility.Hidden;
+                }
+                else
+                {
+                    IconFirstVisibility = Visibility.Hidden;
+                    TextFirstVisibility = Visibility.Visible;
+                }
+            }
+        }
+        private bool isIconFirst=true;
+
         public Orientation Orientation
         {
             get => orientation;
@@ -31,7 +77,6 @@ namespace TMClient.Controls
             }
         }
         private Orientation orientation = Orientation.Horizontal;
-
 
         public string Text
         {

@@ -112,7 +112,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         {
             var friends = api.Converter.Convert(apiFriends);
             foreach (var friend in friends)
-                api.FriendList.Add(new Friend(friend, chats.Single(c => c.Members.Any(m => m.Id == friend.Id))));
+                api.FriendList.Add(new Friend(friend, chats.Single(c => c.IsDialogue && c.Members.Any(m => m.Id == friend.Id))));
             return friends;
         }
         private static async Task InitRequests(ClientApi api, int[] requestIds)

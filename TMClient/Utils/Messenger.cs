@@ -70,8 +70,16 @@
         }
 
 
-        public static Task Send(string text)
+        public static Task Send(string text, bool inSameThread)
         {
+            if (inSameThread)
+            {
+                if (Events.TryGetValue(text, out var value) && value.Type == null)
+                {
+                    value.Delegates.ForEach(x => ((Action)x)());
+                }
+                return Task.CompletedTask;
+            }
             return Task.Run(() =>
             {
                 if (Events.TryGetValue(text, out var value) && value.Type == null)
@@ -80,8 +88,16 @@
                     .ForAll(x => ((Action)x)());
             });
         }
-        public static Task Send<T>(string text, T message, object? sender = null)
+        public static Task Send<T>(string text, T message,bool inSameThread ,object? sender = null)
         {
+            if (inSameThread)
+            {
+                if (Events.TryGetValue(text, out var value) && value.Type != null && value.Type.Equals(typeof(T)))
+                {
+                    value.Delegates.ForEach(x => ((EventHandler<T>)x)(sender, message));
+                }
+                return Task.CompletedTask;
+            }
             return Task.Run(() =>
             {
                 if (Events.TryGetValue(text, out var value) && value.Type != null && value.Type.Equals(typeof(T)))
@@ -90,13 +106,13 @@
                     .ForAll(x => ((EventHandler<T>)x)(sender, message));
             });
         }
-        public static Task Send(Messages message)
+        public static Task Send(Messages message, bool inSameThread = false)
         {
-            return Send(message.ToString());
+            return Send(message.ToString(), inSameThread);
         }
-        public static Task Send<T>(Messages message, T messageObj, object? sender = null)
+        public static Task Send<T>(Messages message, T messageObj, bool inSameThread = false, object? sender = null)
         {
-            return Send(message.ToString(), messageObj, sender);
+            return Send(message.ToString(), messageObj, inSameThread, sender);
         }
     }
 }

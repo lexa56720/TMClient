@@ -26,7 +26,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             if (converted == null)
                 return null;
 
-            Cache.AddToCache(converted);
+            Cache.AddToCache(TimeSpan.FromMilliseconds(int.MaxValue),converted);         
             return converted;
         }
 

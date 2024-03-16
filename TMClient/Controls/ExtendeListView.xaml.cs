@@ -1,4 +1,5 @@
-﻿using System.Collections.Specialized;
+﻿using System.Collections;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -34,12 +35,12 @@ namespace TMClient.Controls
            new PropertyMetadata(null));
         public ICommand ReachTop
         {
-            get 
-            { 
+            get
+            {
                 return (ICommand)GetValue(ReachTopProperty);
             }
-            set 
-            { 
+            set
+            {
                 SetValue(ReachTopProperty, value);
             }
         }
@@ -47,12 +48,22 @@ namespace TMClient.Controls
         public ExtendeListView()
         {
             InitializeComponent();
+
             ScrollViewer = FindScrollViewer(this);
         }
 
+
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            ScrollViewer?.ScrollToVerticalOffset(ScrollViewer.VerticalOffset + e.ExtentHeightChange);
+            if(Math.Abs(e.VerticalOffset-((ScrollViewer)e.Source).ScrollableHeight)<150)
+            {
+                if (e.ExtentHeightChange < 0)
+                    ScrollViewer?.ScrollToVerticalOffset(ScrollViewer.VerticalOffset - e.ExtentHeightChange*2);
+                else
+                    ScrollViewer?.ScrollToVerticalOffset(ScrollViewer.VerticalOffset + e.ExtentHeightChange);
+            }
+            else
+                ScrollViewer?.ScrollToVerticalOffset(ScrollViewer.VerticalOffset + e.ExtentHeightChange);
             if (e.VerticalOffset == 0)
             {
                 if (ReachTop != null && ReachTop.CanExecute(null))

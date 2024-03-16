@@ -1,4 +1,5 @@
-﻿using AsyncAwaitBestPractices.MVVM;
+﻿using ApiWrapper.Types;
+using AsyncAwaitBestPractices.MVVM;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows.Controls;
@@ -10,29 +11,55 @@ namespace TMClient.ViewModel
 {
     class SidePanelViewModel : BaseViewModel
     {
+
         public ICommand AddFriendCommand => new AsyncCommand(AddFriend);
         public ICommand CreateChatCommand => new AsyncCommand(CreateChat);
 
 
-        public ICommand ChatSelected => new AsyncCommand<Chat>(Selected);
-        public ICommand FriendSelected => new AsyncCommand<Friend>(Selected);
-
-        private async Task Selected(Friend? friend)
+        public string SearchQuery
         {
-            if (friend == null)
-                return;
-
-            var userChat = new FriendChat(friend);
-            await OpenChat(userChat);
+            get => searchQuery;
+            set
+            {
+                searchQuery = value;
+                OnPropertyChanged(nameof(SearchQuery));
+            }
         }
-        private async Task Selected(Chat? chat)
+        private string searchQuery;
+
+        public Friend? SelectedFriend
         {
-            if (chat == null)
-                return;
-
-            var chatPage = new ChatView(chat);
-            await OpenChat(chatPage);
+            get => selectedFriend;
+            set
+            {
+                selectedFriend = value;
+                OnPropertyChanged(nameof(SelectedFriend));
+                if (value != null)
+                {
+                    SelectedChat = null;
+                    OpenChat(new FriendChat(value));
+                }
+            }
         }
+        private Friend? selectedFriend;
+
+        public Chat? SelectedChat
+        {
+            get => selectedChat;
+            set
+            {
+                selectedChat = value;
+                OnPropertyChanged(nameof(SelectedChat));
+
+                if (value != null)
+                {
+                    SelectedFriend = null;
+                    OpenChat(new ChatView(value));
+                }
+            }
+        }
+        private Chat? selectedChat;
+
         public SidePanelViewModel()
         {
 
@@ -40,12 +67,12 @@ namespace TMClient.ViewModel
 
         private async Task OpenChat(Page page)
         {
-            await Messenger.Send(Messages.OpenChatPage, page);
+            await Messenger.Send(Messages.OpenChatPage, page,true);
         }
 
         private async Task AddFriend()
         {
-            await Messenger.Send(Messages.ModalOpened);
+            await Messenger.Send(Messages.ModalOpened, true);
             var mainwindow = App.Current.MainWindow;
             var friendSearchWindow = new View.FriendRequest
             {
@@ -53,23 +80,20 @@ namespace TMClient.ViewModel
                 ShowInTaskbar = false
             };
             friendSearchWindow.ShowDialog();
-            await Messenger.Send(Messages.ModalClosed);
+            await Messenger.Send(Messages.ModalClosed, true);
 
         }
         private async Task CreateChat()
         {
-            await Messenger.Send(Messages.ModalOpened);
+            await Messenger.Send(Messages.ModalOpened, true);
             var mainwindow = App.Current.MainWindow;
             var chatCreationWindow = new ChatCreationWindow
             {
                 Owner = mainwindow,
                 ShowInTaskbar = false
             };
-            if (chatCreationWindow.ShowDialog()==true)
-            {
-               var a= chatCreationWindow.Chat;
-            }
-            await Messenger.Send(Messages.ModalClosed);
+            chatCreationWindow.ShowDialog();
+            await Messenger.Send(Messages.ModalClosed, true);
         }
     }
 }

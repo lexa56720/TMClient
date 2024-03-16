@@ -9,7 +9,7 @@ namespace TMClient.Model
 {
     class ChatCreationModel : BaseModel
     {
-        public async Task<Chat> CreateChat(IEnumerable<User> users, string name)
+        public async Task<Chat?> CreateChat(IEnumerable<User> users, string name)
         {
             var result = await Api.Chats.CreateChat(name, users.Select(u => u.Id).ToArray());
             return result;

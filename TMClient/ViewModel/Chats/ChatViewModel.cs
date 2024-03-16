@@ -45,14 +45,15 @@ namespace TMClient.ViewModel.Chats
         }
         private async Task ShowMembers()
         {
-            await Messenger.Send(Utils.Messages.ModalOpened);
+            await Messenger.Send(Utils.Messages.ModalOpened, true);
+            var mainWindow = App.Current.MainWindow;
             var membersWindow= new View.UserList(Chat.Members.ToArray())
             {
-                Owner = App.Current.MainWindow,
+                Owner = mainWindow,
                 ShowInTaskbar = false
             };
             membersWindow.ShowDialog();
-            await Messenger.Send(Utils.Messages.ModalClosed);
+            await Messenger.Send(Utils.Messages.ModalClosed,true);
         }
     }
 }

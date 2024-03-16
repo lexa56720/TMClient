@@ -25,6 +25,8 @@ namespace ApiWrapper.Types
             get => unreadCount;
             set
             {
+                if (value < 0)
+                    value = 0;
                 unreadCount = value;
                 OnPropertyChanged(nameof(UnreadCount));
             }

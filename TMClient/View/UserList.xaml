@@ -13,6 +13,13 @@
                 <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="Focusable" Value="False"/>
+                    <Setter Property="Margin" Value="0,0,0,5"/>
+                    <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+                        </Trigger>
+                    </Style.Triggers>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
@@ -24,7 +31,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.Column="0" >
+                            <StackPanel Grid.Column="0" Margin="0,5,0,5" >
                                 <Label Content="{Binding Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,-5,0,-5" />
                                 <Label Content="{Binding Login, Converter={StaticResource LoginConverter}}" Padding="0"  HorizontalAlignment="Left" FontSize="16" Margin="0,0,0,-5" />
                             </StackPanel>

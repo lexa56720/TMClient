@@ -44,7 +44,15 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <controls:ExtendedTextBox Grid.Column="0" FontSize="20" Placeholder="Название чата" Text="{Binding Name}" MaxLines="1" />
+            <controls:ExtendedTextBox Grid.Column="0" FontSize="20" Placeholder="Название чата" MaxLines="1" >
+                <controls:ExtendedTextBox.Text>
+                    <Binding Path="Name">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </controls:ExtendedTextBox.Text>
+            </controls:ExtendedTextBox>
 
             <controls:IconButton Grid.Column="1" Text="Создать" Margin="5" Icon="&#xEd0e;" Style="{StaticResource AcceptButton}"
                                  Command="{Binding CreateCommand, IsAsync=True}"/>

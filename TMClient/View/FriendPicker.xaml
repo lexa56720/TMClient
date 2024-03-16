@@ -74,8 +74,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <controls:IconButton Margin="5"  Grid.Row="2" Orientation="Horizontal" Text="Подтвердить" FontSize="24" IsEnabled="{Binding IsCanSumbit}" 
-                             HorizontalAlignment="Center" Style="{StaticResource AcceptButton}" Foreground="{StaticResource ForegroundBrush}" Icon="&#xe8fb;"
+        <controls:IconButton Margin="5"  Grid.Row="2" Orientation="Horizontal" Text="Продолжить" FontSize="24" IsEnabled="{Binding IsCanSumbit}" 
+                             HorizontalAlignment="Center" Style="{StaticResource AcceptButton}" IsIconFirst="False" Foreground="{StaticResource ForegroundBrush}" Icon="&#xe72a;"
                              Command="{Binding ConfirmCommand}"/>
     </Grid>
 </Page>

@@ -10,7 +10,7 @@ namespace TMClient.ViewModel.Chats
     internal abstract class BaseChatViewModel<T> : BaseViewModel where T : BaseChatModel
     {
         public int Id { get; private set; }
-        protected Chat Chat { get; }
+        public Chat Chat { get; private set; }
         public ObservableCollection<MessageControl> Messages
         {
             get => messages;
@@ -21,17 +21,6 @@ namespace TMClient.ViewModel.Chats
             }
         }
         private ObservableCollection<MessageControl> messages = new();
-        public string ChatName
-        {
-            get => chatName;
-            set
-            {
-                chatName = value;
-                OnPropertyChanged(nameof(ChatName));
-            }
-        }
-        private string chatName = string.Empty;
-
         public string MessageText
         {
             get => messageText;
@@ -56,7 +45,7 @@ namespace TMClient.ViewModel.Chats
 
         public BaseChatViewModel(Chat chat)
         {
-            ChatName = chat.Name;
+            chat.UnreadCount = 0;
             Chat = chat;
             Id = chat.Id;
 

@@ -31,9 +31,9 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="1" >
-                    <Label FontSize="24" Content="{Binding ChatName}" Padding="5,0,5,5"  HorizontalContentAlignment="Center"  />
-                    <controls:IconButton   Icon="&#xE716;" Text="{Binding MemberCount, StringFormat={}{0} участников}" Style="{StaticResource TransperentButton}"
-                                       HorizontalAlignment="Center"   FontSize="14" Margin="0,-13,0,2" Padding="0"  HorizontalContentAlignment="Center"
+                    <Label FontSize="24" Content="{Binding Chat.Name}" Padding="0"  HorizontalContentAlignment="Center" Margin="0,-5,0,-5"  />
+                    <controls:IconButton   Icon="&#xE716;" Text="{Binding Chat.Members.Count, StringFormat={}{0} участников}" Style="{StaticResource TransperentButton}"
+                                       HorizontalAlignment="Center"   FontSize="14" Margin="0,0,0,0" Padding="0"  HorizontalContentAlignment="Center"
                                        Command="{Binding ShowMembersCommand}"/>
                 </StackPanel>
 

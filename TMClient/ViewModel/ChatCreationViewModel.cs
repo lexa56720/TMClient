@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ using TMClient.Model;
 
 namespace TMClient.ViewModel
 {
-    internal class ChatCreationViewModel : BaseViewModel
+    internal class ChatCreationViewModel : BaseViewModel, IDataErrorInfo
     {
         public ObservableCollection<User> Users { get; set; }
 
@@ -30,7 +31,21 @@ namespace TMClient.ViewModel
         private readonly Action<Chat?> dialogCompleted;
 
         public ICommand CreateCommand => new AsyncCommand(Confirm);
-
+        public string Error => throw new NotImplementedException();
+        public string this[string columnName]
+        {
+            get
+            {
+                switch (columnName)
+                {
+                    case "ChatName":
+                        if (!Model.IsValidName(Name))
+                            return "chat name error";
+                        break;
+                }
+                return string.Empty;
+            }
+        }
         public ChatCreationViewModel(User[] users, Action<Chat?> dialogCompleted)
         {
             Users = new ObservableCollection<User>(users);
