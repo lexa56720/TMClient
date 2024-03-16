@@ -48,7 +48,7 @@
                                 <Label Content="{Binding Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,-5,0,-5" />
                                 <Label Content="{Binding Login, Converter={StaticResource LoginConverter}}" Padding="0"  HorizontalAlignment="Left" FontSize="16" Margin="0,0,0,-5" />
                             </StackPanel>
-                            <controls:IconButton Style="{StaticResource AcceptButton}" Grid.Column="1" Text="Добавить" Icon="&#xE710;" HorizontalAlignment="Right"
+                            <controls:IconButton Style="{StaticResource AcceptButton}" Grid.Column="1" Text="Добавить" Icon="&#xE8fa;" HorizontalAlignment="Right"
                                     Command="{Binding Path=DataContext.AddFriend, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FriendRequest}}}" CommandParameter="{Binding .}">
                                
                                 <b:Interaction.Triggers>

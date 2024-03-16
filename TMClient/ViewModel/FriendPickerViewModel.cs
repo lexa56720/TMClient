@@ -16,54 +16,11 @@ using TMClient.Utils;
 namespace TMClient.ViewModel
 {
 
-    internal class UserRequest : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public bool IsRequested
-        {
-            get => isRequested;
-            set
-            {
-                isRequested = value;
-                OnPropertyChanged(nameof(IsRequested));
-            }
-        }
-        private bool isRequested;
-        public Visibility Visibility
-        {
-            get => visibility;
-            set
-            {
-                visibility = value;
-                OnPropertyChanged(nameof(Visibility));
-            }
-        }
-        private Visibility visibility;
-        public User User
-        {
-            get => user;
-            set
-            {
-                user = value;
-                OnPropertyChanged(nameof(User));
-            }
-        }
-        private User user = null!;
 
-        public UserRequest(User user)
-        {
-            User = user;
-        }
 
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-    }
     internal class FriendPickerViewModel : BaseViewModel
     {
-        public ObservableCollection<UserRequest> Users { get; set; }
+        public ObservableCollection<UserContainer> Users { get; set; }
 
         public bool IsCanSumbit
         {
@@ -91,7 +48,7 @@ namespace TMClient.ViewModel
 
         private void Select(object? obj)
         {
-            if (obj is UserRequest user)
+            if (obj is UserContainer user)
                 user.IsRequested = !user.IsRequested;
 
             IsCanSumbit = Users.Where(u => u.IsRequested).Count() > 1;
@@ -101,10 +58,10 @@ namespace TMClient.ViewModel
         private readonly Action<User[]> ReturnValue;
         public FriendPickerViewModel(Action<User[]> returnValue)
         {
-            var requests = new UserRequest[CurrentUser.FriendList.Count];
+            var requests = new UserContainer[CurrentUser.FriendList.Count];
             for (var i = 0; i < requests.Length; i++)
-                requests[i] = new UserRequest(CurrentUser.FriendList[i]);
-            Users = new ObservableCollection<UserRequest>(requests);
+                requests[i] = new UserContainer(CurrentUser.FriendList[i]);
+            Users = new ObservableCollection<UserContainer>(requests);
             ReturnValue = returnValue;
         }
         private void Confirm()
