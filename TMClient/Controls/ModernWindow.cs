@@ -23,7 +23,8 @@ namespace TMClient.Controls
             ACCENT_ENABLE_GRADIENT = 0,
             ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
             ACCENT_ENABLE_BLURBEHIND = 3,
-            ACCENT_INVALID_STATE = 4
+            ACCENT_ENABLE_ACRYLICBLURBEHIND = 4,
+            ACCENT_INVALID_STATE = 5
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -251,7 +252,7 @@ namespace TMClient.Controls
 
             var accent = new AccentPolicy
             {
-                AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND
+                AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND,
             };
 
             var accentStructSize = Marshal.SizeOf(accent);

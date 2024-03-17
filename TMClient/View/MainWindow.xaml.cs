@@ -18,9 +18,8 @@ namespace TMClient.View
             BaseViewModel.CurrentUser = api;
             BaseModel.Api = api;
 
-            InitializeComponent();
             DataContext = new MainViewModel();
-            Messenger.Subscribe(Messages.CloseMainWindow, () => App.Current.Dispatcher.Invoke(Close));
+            Messenger.Subscribe(Messages.CloseMainWindow, () => App.MainThread.Invoke(Close));
         }
 
     }

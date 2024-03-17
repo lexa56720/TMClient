@@ -13,7 +13,25 @@ namespace TMClient.Utils
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((DateTime)value).ToText();
+            var time = (DateTime)value;
+            var now = DateTime.Now;
+
+            time = time.ToLocalTime();
+
+            if (now.Year == time.Year)
+            {
+                if (now.DayOfYear == time.DayOfYear)
+                    return "Сегодня в " + time.ToShortTimeString();
+                else
+                {
+                    var difference = now - time;
+                    if (difference.TotalHours < 48)
+                        return time.ToString("Вчера в HH:mm");
+                    return time.ToString("d MMMM в HH:mm");
+
+                }
+            }
+            return time.ToString("d MMMM yyyy");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

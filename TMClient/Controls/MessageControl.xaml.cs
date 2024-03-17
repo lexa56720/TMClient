@@ -46,7 +46,7 @@ namespace TMClient.Controls
         }
         private bool isReaded;
 
-        public required string Time
+        public required DateTime Time
         {
             get => time;
             set
@@ -55,7 +55,7 @@ namespace TMClient.Controls
                 OnPropertyChanged(nameof(Time));
             }
         }
-        private string time = string.Empty;
+        private DateTime time;
 
         private List<Message> Messages { get; init; } = new();
         public IReadOnlyCollection<Message> InnerMessages => Messages;
@@ -69,7 +69,7 @@ namespace TMClient.Controls
             Author = message.Author;
             IsOwn = message.IsOwn;
             Text = message.Text;
-            Time = message.SendTime.ToText();
+            Time = message.SendTime;
             IsReaded = message.IsReaded;
 
             InitializeComponent();
@@ -94,7 +94,7 @@ namespace TMClient.Controls
         public void UnionToStart(Message message)
         {
             Messages.Insert(0, message);
-            Time = message.SendTime.ToText();
+            Time = message.SendTime;
             OnPropertyChanged(nameof(Text));
         }
     }
