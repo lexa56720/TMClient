@@ -4,6 +4,7 @@ using ApiWrapper.Types;
 using ApiTypes.Communication.Friends;
 using ApiWrapper.ApiWrapper;
 using TMApi.ApiRequests.Friends;
+using ApiTypes.Communication.Chats;
 
 namespace ApiWrapper.Wrapper
 {
@@ -18,7 +19,7 @@ namespace ApiWrapper.Wrapper
         public event EventHandler<Message[]>? NewMessages;
         public event EventHandler<int[]>? ReadedMessages;
 
-        public LongPollManager(LongPolling longPolling, IApi api,CacheManager cache, SynchronizationContext uiContext)
+        public LongPollManager(LongPolling longPolling, IApi api, CacheManager cache, SynchronizationContext uiContext)
         {
             Api = api;
             Cache = cache;
@@ -132,17 +133,24 @@ namespace ApiWrapper.Wrapper
             {
                 foreach (var chat in (Chat[])chatsObj)
                 {
-                    if (chat.IsDialogue)
-                    {
-                        var friend = chat.Members[0].Id == Api.Info.Id ? chat.Members[1] : chat.Members[0];
-                        Api.FriendList.Add(new Friend(friend, chat));
-                    }
-                    else
-                        Api.MultiuserChats.Add(chat);
-                    Cache.AddToCache(TimeSpan.MaxValue, chat);
+                    if (Cache.AddToCache(TimeSpan.MaxValue, chat))
+                        AddToCollections(chat);
+                    else if (Cache.TryGetChat(chat.Id, out var updatedChat))
+                        AddToCollections(updatedChat);
                 }
-             
+
             }, chats);
+        }
+
+        private void AddToCollections(Chat chat)
+        {
+            if (chat.IsDialogue)
+            {
+                var friend = chat.Members[0].Id == Api.Info.Id ? chat.Members[1] : chat.Members[0];
+                Api.FriendList.Add(new Friend(friend, chat));
+            }
+            else
+                Api.MultiuserChats.Add(chat);
         }
     }
 }

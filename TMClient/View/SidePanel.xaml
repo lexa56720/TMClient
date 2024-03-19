@@ -60,7 +60,7 @@
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem"  BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                    <Setter Property="Margin" Value="0,0,0,5" />
+                                    <Setter Property="Margin" Value="0,0,0,10" />
                                 </Style>
                             </ListView.ItemContainerStyle>
                             <ListView.ItemTemplate>
@@ -125,7 +125,7 @@
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem"  BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                    <Setter Property="Margin" Value="0,0,0,5" />
+                                    <Setter Property="Margin" Value="0,0,0,10" />
                                 </Style>
                             </ListView.ItemContainerStyle>
                             <ListView.ItemTemplate>

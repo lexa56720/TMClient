@@ -103,7 +103,6 @@ namespace ApiWrapper.ApiWrapper
                     continue;
 
                 isSuccessful = false;
-                UpdateCache(lifeTime, user);
             }
             return isSuccessful;
         }
@@ -116,7 +115,6 @@ namespace ApiWrapper.ApiWrapper
                     continue;
 
                 isSuccessful = false;
-                UpdateCache(lifeTime, chat);
             }
             AddToCache(lifeTime, chats.SelectMany(c => c.Members).DistinctBy(c => c.Id).ToArray());
             return isSuccessful;
