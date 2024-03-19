@@ -75,7 +75,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             messages = new ClientMessagesApi(api, Converter);
             friends = new ClientFriendsApi(api, Converter);
 
-            LongPollManager = new LongPollManager(api.LongPolling, this,Cache, uiContext);
+            LongPollManager = new LongPollManager(api.LongPolling, this, Cache, uiContext);
             Api = api;
         }
         internal static async Task<ClientApi?> Init(TimeSpan userLifetime, TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
@@ -83,10 +83,11 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             var clientApi = new ClientApi(userLifetime, chatLifetime, api, uiContext);
 
             var chats = await InitChats(clientApi, api.UserInfo.Chats);
-            clientApi.Cache.AddToCache(TimeSpan.FromMilliseconds(int.MaxValue), chats);
+            clientApi.Cache.AddToCache(TimeSpan.MaxValue, chats);
+            clientApi.Cache.AddToCache(TimeSpan.MaxValue, chats.SelectMany(c => c.Members).ToArray());
 
             var friends = InitFriends(clientApi, api.UserInfo.Friends, chats);
-            clientApi.Cache.AddToCache(TimeSpan.FromMilliseconds(int.MaxValue), friends);
+            clientApi.Cache.AddToCache(TimeSpan.MaxValue, friends);
 
             await InitRequests(clientApi, api.UserInfo.FriendRequests);
 
@@ -98,6 +99,9 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         {
             var chats = await api.Chats.GetChat(chatIds);
             var lastMessages = await api.Messages.GetLastMessages(chatIds);
+            if (lastMessages == null)
+                return [];
+
             for (int i = 0; i < chats.Length; i++)
             {
                 if (!chats[i].IsDialogue)

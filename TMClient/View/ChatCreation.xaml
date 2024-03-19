@@ -54,7 +54,7 @@
                 </controls:ExtendedTextBox.Text>
             </controls:ExtendedTextBox>
 
-            <controls:IconButton Grid.Column="1" Text="Создать" Margin="5" Icon="&#xEd0e;" Style="{StaticResource AcceptButton}"
+            <controls:IconButton Grid.Column="1" Text="Создать" Margin="5" Icon="&#xEd0e;" Style="{StaticResource DefaultButton}"
                                  Command="{Binding CreateCommand, IsAsync=True}"/>
         </Grid>
     </Grid>

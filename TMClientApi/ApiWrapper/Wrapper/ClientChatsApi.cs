@@ -26,7 +26,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             if (converted == null)
                 return null;
 
-            Cache.AddToCache(TimeSpan.FromMilliseconds(int.MaxValue),converted);         
+            Cache.AddToCache(TimeSpan.MaxValue, converted);         
             return converted;
         }
 
@@ -47,6 +47,8 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             if (Cache.TryGetChat(chatId, out var chat))
                 return chat;
             var requestedChat = await Api.Chats.GetChat(chatId);
+            if (requestedChat == null)
+                return null;
             chat = await Converter.Convert(requestedChat);
             Cache.AddToCache(chat);
             return chat;

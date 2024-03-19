@@ -1,4 +1,5 @@
 ﻿using PerformanceUtils.Collections;
+using System.Diagnostics.CodeAnalysis;
 using TMApi.ApiRequests.Chats;
 
 namespace ApiWrapper.ApiWrapper
@@ -33,11 +34,11 @@ namespace ApiWrapper.ApiWrapper
             CachedChats.TryGetValue(chatId, out var chat);
             return chat;
         }
-        public bool TryGetUser(int userId, out User? user)
+        public bool TryGetUser(int userId, [MaybeNullWhen(false)] out User user)
         {
             return CachedUsers.TryGetValue(userId, out user);
         }
-        public bool TryGetChat(int chatId, out Chat? chat)
+        public bool TryGetChat(int chatId, [MaybeNullWhen(false)] out Chat chat)
         {
             return CachedChats.TryGetValue(chatId, out chat);
 

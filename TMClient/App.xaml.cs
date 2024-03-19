@@ -33,17 +33,16 @@ namespace TMClient
         }
         private void ApplicationStart(object sender, StartupEventArgs? e)
         {
-            Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
             var dialog = new MainAuthWindow();
 
             if (dialog.ShowDialog() == true)
             {
                 Api = dialog.Api;
-
+                ShutdownMode = ShutdownMode.OnMainWindowClose;
                 var mainWindow = new MainWindow(Api);
-                Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
-                Current.MainWindow = mainWindow;
+                MainWindow = mainWindow;
                 mainWindow.Show();
             }
             else

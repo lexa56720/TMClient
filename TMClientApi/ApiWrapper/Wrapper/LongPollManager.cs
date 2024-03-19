@@ -3,6 +3,7 @@ using ApiWrapper.Interfaces;
 using ApiWrapper.Types;
 using ApiTypes.Communication.Friends;
 using ApiWrapper.ApiWrapper;
+using TMApi.ApiRequests.Friends;
 
 namespace ApiWrapper.Wrapper
 {
@@ -26,12 +27,17 @@ namespace ApiWrapper.Wrapper
 
 
             longPolling.NewChats += HandleNewChats;
+            longPolling.RemovedChats += HandleRemovedChats;
+            longPolling.RelatedUsersChanged += HandleRelatedUsersChanged;
+
+            longPolling.ChatsChanged += HandleChatChanged;
             longPolling.NewMessages += HandleNewMessages;
             longPolling.NewFriendRequests += HandleNewFriendRequests;
             longPolling.FriendsRemoved += HandleFriendsRemoved;
             longPolling.MessagesReaded += HandleReadedMessages;
             longPolling.Start();
         }
+
         public void Dispose()
         {
             if (IsDisposed)
@@ -43,9 +49,30 @@ namespace ApiWrapper.Wrapper
             LongPolling.FriendsRemoved -= HandleFriendsRemoved;
             LongPolling.NewChats -= HandleNewChats;
             LongPolling.MessagesReaded -= HandleReadedMessages;
+            LongPolling.RemovedChats -= HandleRemovedChats;
+            LongPolling.ChatsChanged -= HandleChatChanged;
+            LongPolling.RelatedUsersChanged -= HandleRelatedUsersChanged;
 
             IsDisposed = true;
         }
+        private async void HandleRelatedUsersChanged(object? sender, int[] e)
+        {
+            var users = await Api.Users.GetUser(e);
+            UIContext.Post(usersObj =>
+            {
+                Cache.UpdateCache((User[])usersObj);
+            }, users);
+        }
+
+        private void HandleChatChanged(object? sender, int[] e)
+        {
+            throw new NotImplementedException();
+        }
+        private void HandleRemovedChats(object? sender, int[] e)
+        {
+            throw new NotImplementedException();
+        }
+
         private void HandleFriendsRemoved(object? sender, int[] e)
         {
             var friends = Api.FriendList.Where(f => e.Contains(f.Id)).ToArray();
@@ -112,7 +139,7 @@ namespace ApiWrapper.Wrapper
                     }
                     else
                         Api.MultiuserChats.Add(chat);
-                    Cache.AddToCache(TimeSpan.FromMilliseconds(int.MaxValue),chat);
+                    Cache.AddToCache(TimeSpan.MaxValue, chat);
                 }
              
             }, chats);

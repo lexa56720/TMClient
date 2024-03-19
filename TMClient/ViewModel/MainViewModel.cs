@@ -127,6 +127,7 @@ namespace TMClient.ViewModel
             CurrentUser.ChatInvites.CollectionChanged -= ChatInvitesChanged;
             CurrentUser.FriendRequests.CollectionChanged -= FriendRequestsChanged;
             Messenger.Send(Messages.CloseMainWindow);
+            Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             ((App)Application.Current).Logout();
         }
     }
