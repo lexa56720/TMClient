@@ -5,6 +5,8 @@ using ApiTypes.Communication.Friends;
 using ApiWrapper.ApiWrapper;
 using TMApi.ApiRequests.Friends;
 using ApiTypes.Communication.Chats;
+using ApiWrapper.ApiWrapper.Wrapper;
+using TMApi.ApiRequests.Chats;
 
 namespace ApiWrapper.Wrapper
 {
@@ -12,14 +14,14 @@ namespace ApiWrapper.Wrapper
     {
         private bool IsDisposed;
         private readonly LongPolling LongPolling;
-        private readonly IApi Api;
+        private readonly ClientApi Api;
         private readonly CacheManager Cache;
         private readonly SynchronizationContext UIContext;
 
         public event EventHandler<Message[]>? NewMessages;
         public event EventHandler<int[]>? ReadedMessages;
 
-        public LongPollManager(LongPolling longPolling, IApi api, CacheManager cache, SynchronizationContext uiContext)
+        public LongPollManager(LongPolling longPolling, ClientApi api, CacheManager cache, SynchronizationContext uiContext)
         {
             Api = api;
             Cache = cache;
@@ -58,16 +60,20 @@ namespace ApiWrapper.Wrapper
         }
         private async void HandleRelatedUsersChanged(object? sender, int[] e)
         {
-            var users = await Api.Users.GetUser(e);
+            var users = await Api.users.GetUserIgnoringCache(e);
             UIContext.Post(usersObj =>
             {
                 Cache.UpdateCache((User[])usersObj);
             }, users);
         }
 
-        private void HandleChatChanged(object? sender, int[] e)
+        private async void HandleChatChanged(object? sender, int[] e)
         {
-            throw new NotImplementedException();
+            var chats = await Api.chats.GetChatIgnoringCache(e);
+            UIContext.Post(chatsObj =>
+            {
+                Cache.UpdateCache((Chat[])chatsObj);
+            }, chats);
         }
         private void HandleRemovedChats(object? sender, int[] e)
         {
@@ -119,7 +125,6 @@ namespace ApiWrapper.Wrapper
                                              .Where(c => c.LastMessage != null && e.Contains(c.LastMessage.Id))
                                              .Select(m => m.LastMessage);
 
-
             foreach (var message in messages)
                 message.IsReaded = true;
 
@@ -146,7 +151,12 @@ namespace ApiWrapper.Wrapper
         {
             if (chat.IsDialogue)
             {
-                var friend = chat.Members[0].Id == Api.Info.Id ? chat.Members[1] : chat.Members[0];
+                User friend;
+                if (chat.Members[0].Id == Api.Info.Id)
+                    friend = chat.Members[1];
+                else
+                    friend = chat.Members[0];
+
                 Api.FriendList.Add(new Friend(friend, chat));
             }
             else

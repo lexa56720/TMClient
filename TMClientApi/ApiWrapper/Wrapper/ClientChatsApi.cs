@@ -26,7 +26,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             if (converted == null)
                 return null;
 
-            Cache.AddToCache(TimeSpan.MaxValue, converted);         
+            Cache.AddToCache(TimeSpan.MaxValue, converted);
             return converted;
         }
 
@@ -56,7 +56,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         public async ValueTask<Chat[]> GetChat(int[] chatIds)
         {
-            if (chatIds.Length==0)
+            if (chatIds.Length == 0)
                 return [];
             var result = new List<Chat>(chatIds.Length);
             var requestedChats = new List<int>();
@@ -87,20 +87,26 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         public async Task<ChatInvite[]> GetChatInvite(int[] inviteIds)
         {
-            if (inviteIds.Length==0)
+            if (inviteIds.Length == 0)
                 return [];
             var invites = await Api.Chats.GetChatInvite(inviteIds);
             return await Converter.Convert(invites);
         }
 
-        public async Task<bool> SendChatInvite(int chatId, int toUserId)
+        public async Task<bool> SendChatInvite(int chatId, params int[] toUserIds)
         {
-            return await Api.Chats.SendChatInvite(chatId, toUserId);
+            return await Api.Chats.SendChatInvite(chatId, toUserIds);
         }
 
         public async Task<bool> SendChatInviteResponse(int inviteId, bool isAccepted)
         {
             return await Api.Chats.SendChatInviteResponse(inviteId, isAccepted);
+        }
+
+        internal async Task<Chat[]> GetChatIgnoringCache(int[] chatIds)
+        {
+            var result = await Converter.Convert(await Api.Chats.GetChat(chatIds.Distinct().ToArray()));
+            return chatIds.Select(chatId => result.First(c => c.Id == chatId)).ToArray();
         }
     }
 }

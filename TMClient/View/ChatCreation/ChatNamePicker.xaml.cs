@@ -20,12 +20,12 @@ namespace TMClient.View
     /// <summary>
     /// Логика взаимодействия для ChatCreation.xaml
     /// </summary>
-    public partial class ChatCreation : Page
+    public partial class ChatNamePicker : Page
     {
         public Chat? Chat { get; private set; }
-        public ChatCreation(User[] users,Action<Chat?> dialogCompleted)
+        public ChatNamePicker(User[] users,Action<Chat?> dialogCompleted)
         {
-            DataContext = new ChatCreationViewModel(users, dialogCompleted);
+            DataContext = new ChatNamePickerViewModel(users, dialogCompleted);
             InitializeComponent();
         }
 

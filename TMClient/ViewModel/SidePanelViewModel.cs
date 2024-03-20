@@ -50,7 +50,6 @@ namespace TMClient.ViewModel
             {
                 selectedChat = value;
                 OnPropertyChanged(nameof(SelectedChat));
-
                 if (value != null)
                 {
                     SelectedFriend = null;

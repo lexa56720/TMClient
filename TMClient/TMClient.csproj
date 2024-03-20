@@ -9,13 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="View\Новая папка\**" />
-    <EmbeddedResource Remove="View\Новая папка\**" />
-    <None Remove="View\Новая папка\**" />
-    <Page Remove="View\Новая папка\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Resources\AppIcon.png" />
     <None Remove="Resources\config.cfg" />
     <None Remove="Resources\Fonts\SegoeIcons.ttf" />

@@ -52,7 +52,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         public async ValueTask<User[]> GetUser(int[] userIds)
         {
-            if (userIds.Length==0)
+            if (userIds.Length == 0)
                 return [];
             var result = new List<User>(userIds.Length);
             var requestedUsers = new List<int>();
@@ -70,6 +70,13 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             Cache.AddToCache(converted);
             result.AddRange(converted);
 
+            return userIds.Select(userId => result.First(c => c.Id == userId)).ToArray();
+        }
+
+
+        internal async Task<User[]> GetUserIgnoringCache(int[] userIds)
+        {
+            var result = Converter.Convert(await Api.Users.GetUser(userIds.Distinct().ToArray()));
             return userIds.Select(userId => result.First(c => c.Id == userId)).ToArray();
         }
     }

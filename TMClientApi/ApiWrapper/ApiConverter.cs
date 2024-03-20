@@ -9,7 +9,6 @@ global using FriendRequest = ApiWrapper.Types.FriendRequest;
 global using User = ApiWrapper.Types.User;
 using ApiWrapper.Types;
 using ApiWrapper.Interfaces;
-using TMApi;
 
 namespace ApiWrapper.ApiWrapper
 {

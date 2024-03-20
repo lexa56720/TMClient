@@ -11,7 +11,7 @@ using TMClient.Model;
 
 namespace TMClient.ViewModel
 {
-    internal class ChatCreationViewModel : BaseViewModel, IDataErrorInfo
+    internal class ChatNamePickerViewModel : BaseViewModel, IDataErrorInfo
     {
         public ObservableCollection<User> Users { get; set; }
 
@@ -46,7 +46,7 @@ namespace TMClient.ViewModel
                 return string.Empty;
             }
         }
-        public ChatCreationViewModel(User[] users, Action<Chat?> dialogCompleted)
+        public ChatNamePickerViewModel(User[] users, Action<Chat?> dialogCompleted)
         {
             Users = new ObservableCollection<User>(users);
             this.dialogCompleted = dialogCompleted;

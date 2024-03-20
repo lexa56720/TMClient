@@ -15,9 +15,6 @@ using TMClient.Utils;
 
 namespace TMClient.ViewModel
 {
-
-
-
     internal class FriendPickerViewModel : BaseViewModel
     {
         public ObservableCollection<UserContainer> Users { get; set; }
@@ -37,9 +34,9 @@ namespace TMClient.ViewModel
         {
             get => query;
             set
-            {
-                Search(value);
-                query = value;
+            {            
+                query = value; 
+                Search(Query);
             }
         }
         private string query = string.Empty;
@@ -70,9 +67,9 @@ namespace TMClient.ViewModel
                              .Select(r => r.User)
                              .ToArray());
         }
-        private void Search(object? obj)
+        private void Search(string query)
         {
-            if (obj is not string query || string.IsNullOrEmpty(query))
+            if (string.IsNullOrEmpty(query))
             {
                 Users.ToList().ForEach(u => u.Visibility = Visibility.Visible);
                 return;

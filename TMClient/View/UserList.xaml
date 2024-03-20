@@ -37,7 +37,7 @@
                                 <Label Content="{Binding User.Login, Converter={StaticResource LoginConverter}}" Padding="0"  HorizontalAlignment="Left" FontSize="16" Margin="0,0,0,-5" />
                             </StackPanel>
 
-                            <controls:IconButton  Grid.Column="1" HorizontalAlignment="Right" Margin="0,5,5,5" Text="Добавить в друзья" Icon="&#xE8fa;" IsIconFirst="False"
+                            <controls:IconButton  Grid.Column="1" HorizontalAlignment="Right" Margin="0,5,5,5" IsIconFirst="False"
                                     Command="{Binding Path=DataContext.AddFriend, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserList}}}" CommandParameter="{Binding .}"
                                      Visibility="{Binding Visibility}" IsEnabled="{Binding IsRequested,Converter={StaticResource BooleanInverter}}">
 
@@ -47,6 +47,10 @@
                                             <DataTrigger Binding="{Binding IsRequested}" Value="true">
                                                 <Setter Property="Text" Value="Запрос отправлен"/>
                                                 <Setter Property="Icon" Value="&#xE73e;"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsRequested}" Value="false">
+                                                <Setter Property="Text" Value="Дружить"/>
+                                                <Setter Property="Icon" Value="&#xE8fa;"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>

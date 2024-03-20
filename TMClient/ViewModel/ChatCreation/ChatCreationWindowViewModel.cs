@@ -52,7 +52,7 @@ namespace TMClient.ViewModel
         private void NextPage(User[] users)
         {
             NavigationVisibility = Visibility.Visible;
-            CurrentPage = new ChatCreation(users, DialogCompleted);
+            CurrentPage = new ChatNamePicker(users, DialogCompleted);
         }
 
         private void BackNavigation()

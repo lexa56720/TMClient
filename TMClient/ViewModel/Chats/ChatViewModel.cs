@@ -3,6 +3,7 @@ using AsyncAwaitBestPractices.MVVM;
 using System.Windows.Input;
 using TMClient.Model.Chats;
 using TMClient.Utils;
+using TMClient.View;
 
 namespace TMClient.ViewModel.Chats
 {
@@ -41,13 +42,21 @@ namespace TMClient.ViewModel.Chats
         }
         private async Task InviteToChat()
         {
-            throw new NotImplementedException();
+            await Messenger.Send(Utils.Messages.ModalOpened, true);
+            var mainWindow = App.Current.MainWindow;
+            var membersWindow = new InvitingWindow(Chat)
+            {
+                Owner = mainWindow,
+                ShowInTaskbar = false
+            };
+            membersWindow.ShowDialog();
+            await Messenger.Send(Utils.Messages.ModalClosed, true);
         }
         private async Task ShowMembers()
         {
             await Messenger.Send(Utils.Messages.ModalOpened, true);
             var mainWindow = App.Current.MainWindow;
-            var membersWindow= new View.UserList(Chat.Members.ToArray())
+            var membersWindow= new UserList(Chat.Members.ToArray())
             {
                 Owner = mainWindow,
                 ShowInTaskbar = false

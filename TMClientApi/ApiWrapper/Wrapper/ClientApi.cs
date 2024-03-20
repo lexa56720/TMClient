@@ -37,7 +37,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             }
         }
         public IUsersApi Users => users;
-        private readonly ClientUsersApi users;
+        internal readonly ClientUsersApi users;
 
         public IMessagesApi Messages => messages;
         private readonly ClientMessagesApi messages;
@@ -46,7 +46,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         private readonly ClientFriendsApi friends;
 
         public IChatsApi Chats => chats;
-        private readonly ClientChatsApi chats;
+        internal readonly ClientChatsApi chats;
 
         public ObservableCollection<Chat> MultiuserChats { get; private set; } = new();
         public ObservableCollection<Friend> FriendList { get; private set; } = new();
@@ -83,15 +83,17 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             var clientApi = new ClientApi(userLifetime, chatLifetime, api, uiContext);
 
             var chats = await InitChats(clientApi, api.UserInfo.Chats);
-            clientApi.Cache.AddToCache(TimeSpan.MaxValue, chats);
-            clientApi.Cache.AddToCache(TimeSpan.MaxValue, chats.SelectMany(c => c.Members).ToArray());
+            clientApi.Cache.AddOrUpdateCache(TimeSpan.MaxValue, chats);
 
             var friends = InitFriends(clientApi, api.UserInfo.Friends, chats);
-            clientApi.Cache.AddToCache(TimeSpan.MaxValue, friends);
+            clientApi.Cache.AddOrUpdateCache(TimeSpan.MaxValue, friends);
 
-            await InitRequests(clientApi, api.UserInfo.FriendRequests);
+            var requests = await InitRequests(clientApi, api.UserInfo.FriendRequests);
+            clientApi.Cache.AddOrUpdateCache(TimeSpan.MaxValue, requests.Select(r => r.From).ToArray());
 
-            await InitInvites(clientApi, api.UserInfo.ChatInvites);
+            var invites = await InitInvites(clientApi, api.UserInfo.ChatInvites);
+            clientApi.Cache.AddOrUpdateCache(TimeSpan.MaxValue, invites.Select(i => i.Chat).ToArray());
+            clientApi.Cache.AddOrUpdateCache(TimeSpan.MaxValue, invites.Select(i => i.Inviter).ToArray());
 
             return clientApi;
         }
@@ -119,15 +121,17 @@ namespace ApiWrapper.ApiWrapper.Wrapper
                 api.FriendList.Add(new Friend(friend, chats.Single(c => c.IsDialogue && c.Members.Any(m => m.Id == friend.Id))));
             return friends;
         }
-        private static async Task InitRequests(ClientApi api, int[] requestIds)
+        private static async Task<FriendRequest[]> InitRequests(ClientApi api, int[] requestIds)
         {
             var requests = await api.Friends.GetFriendRequest(requestIds);
             api.FriendRequests = new ObservableCollection<FriendRequest>(requests);
+            return requests.ToArray();
         }
-        private static async Task InitInvites(ClientApi api, int[] invitesIds)
+        private static async Task<ChatInvite[]> InitInvites(ClientApi api, int[] invitesIds)
         {
             var invites = await api.Chats.GetChatInvite(invitesIds);
             api.ChatInvites = new ObservableCollection<ChatInvite>(invites);
+            return invites.ToArray();
         }
 
 

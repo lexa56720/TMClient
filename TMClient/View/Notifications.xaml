@@ -26,6 +26,7 @@
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Margin" Value="0,0,0,5"/>
                             <Setter Property="Focusable" Value="false"/>
                         </Style>
                     </ListView.ItemContainerStyle>
@@ -73,6 +74,7 @@
                         <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                             <Setter Property="Focusable" Value="false"/>
+                            <Setter Property="Margin" Value="0,0,0,5"/>
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
