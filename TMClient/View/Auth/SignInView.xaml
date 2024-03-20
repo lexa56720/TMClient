@@ -39,11 +39,11 @@
 
         <Label  FontSize="20" Content="Пароль:" Grid.ColumnSpan="3"  Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
         <PasswordBox x:Name="PasswordBox" FontSize="28" Grid.ColumnSpan="3"  VerticalAlignment="Top"   Margin="15,5,15,5" Grid.Row="5" Grid.Column="1" IsEnabled="{Binding IsBusy,Converter={StaticResource BooleanInverter}}" />
-        <controls:IconButton  Icon="&#xE8d7;" Grid.Row="6" Margin="40" Grid.Column="2" Text="Войти" Grid.ColumnSpan="1" FontSize="32" IsEnabled="{Binding IsBusy,Converter={StaticResource BooleanInverter}}" 
+        <controls:IconButton  Icon="&#xE8d7;" Grid.Row="6" Margin="0,40,0,40" Grid.Column="2" Text="Войти" Grid.ColumnSpan="1" FontSize="32" IsEnabled="{Binding IsBusy,Converter={StaticResource BooleanInverter}}" 
                 Command="{Binding SignInCommand,IsAsync=True}" CommandParameter="{x:Reference Name=PasswordBox}" />
 
         <controls:IconButton Icon="&#xE713;" Style="{StaticResource TransperentButton}" Orientation="Vertical" VerticalAlignment="Center" Grid.Column="3" Grid.Row="6"
-                                             Command="{Binding OpenSettings}" FontSize="32" Margin="5" HorizontalAlignment="Center" Foreground="#9B59B6"  />
+                                             Command="{Binding OpenSettings}" FontSize="32" Margin="5" HorizontalAlignment="Center"  />
 
     </Grid>
 </Page>

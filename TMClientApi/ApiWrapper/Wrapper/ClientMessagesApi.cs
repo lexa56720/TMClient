@@ -34,7 +34,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         public async Task<Message?[]> GetLastMessages(params int[] chatIds)
         {
             var messages = await Api.Messages.GetMessagesForChats(chatIds);
-            var converted = await Converter.Convert(messages);
+            var converted = await Converter.Convert(messages.Where(m=>m!=null).ToArray());
             return chatIds.Select(id => converted.FirstOrDefault(m => m.Destination.Id == id))
                           .ToArray();
         }

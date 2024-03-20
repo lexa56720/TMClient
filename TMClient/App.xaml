@@ -64,6 +64,12 @@
         <SolidColorBrush x:Key="RedBrush" Color="{StaticResource RedColor}"/>
 
         <Color x:Key="GreenColor">#4CAF50</Color>
+        <SolidColorBrush x:Key="GreenBrush" Color="{StaticResource GreenColor}"/>
+
+
+        <Color x:Key="OrangeColor">#4CAF50</Color>
+        <SolidColorBrush x:Key="OrangeBrush" Color="{StaticResource OrangeColor}"/>
+
         <Color x:Key="TransperentGreenColor">#004CAF50</Color>
 
         
@@ -242,6 +248,7 @@
         <Style TargetType="controls:IconButton" BasedOn="{StaticResource ResourceKey=DefaultButton}">
 
         </Style>
+        
 
         <Style x:Key="TransperentButton" BasedOn="{StaticResource ResourceKey=DefaultButton}" TargetType="Button">
             <Setter Property="Background" Value="#00383838" />
@@ -325,6 +332,53 @@
                         <Storyboard>
                             <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
                             To="#2E7D32"
+                            AutoReverse="True"
+                            FillBehavior="Stop" 
+                            Duration="0:0:0.2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="OrangeButton" BasedOn="{StaticResource ResourceKey=DefaultButton}" TargetType="Button">
+            <Setter Property="Control.Background" Value="#E67E22" />
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True" />
+                    </MultiTrigger.Conditions>
+                    <MultiTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard >
+                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
+                                    To="#F39C12"
+                                    AutoReverse="False"
+                                    FillBehavior="HoldEnd" 
+                                    Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </MultiTrigger.EnterActions>
+                    <MultiTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard >
+                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
+                                    To="#E67E22"
+                                    AutoReverse="False"
+                                    FillBehavior="HoldEnd" 
+                                    Duration="0:0:0.3"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </MultiTrigger.ExitActions>
+                </MultiTrigger>
+                <EventTrigger RoutedEvent="Button.Click">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
+                            To="#D35400"
                             AutoReverse="True"
                             FillBehavior="Stop" 
                             Duration="0:0:0.2"/>

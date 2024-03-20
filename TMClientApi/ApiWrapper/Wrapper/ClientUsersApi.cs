@@ -67,6 +67,8 @@ namespace ApiWrapper.ApiWrapper.Wrapper
                 return result.ToArray();
 
             var converted = Converter.Convert(await Api.Users.GetUser(requestedUsers.Distinct().ToArray()));
+            if (converted.Length == 0)
+                return [];
             Cache.AddToCache(converted);
             result.AddRange(converted);
 
