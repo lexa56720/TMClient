@@ -11,10 +11,8 @@ namespace TMClient.ViewModel
 {
     class SidePanelViewModel : BaseViewModel
     {
-
         public ICommand AddFriendCommand => new AsyncCommand(AddFriend);
         public ICommand CreateChatCommand => new AsyncCommand(CreateChat);
-
 
         public string SearchQuery
         {

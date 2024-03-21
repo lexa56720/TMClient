@@ -83,8 +83,7 @@ namespace ApiWrapper.ApiWrapper
                                          await Api.Users.GetUser(message.TargetId),
                                          message.Kind,
                                          chat,
-                                         message.IsReaded,
-                                         author.Id == Api.Info.Id);
+                                         Api.Info);
                 if (systemMessage.Target != null)
                     Cache.AddOrUpdateCache(TimeSpan.MaxValue, systemMessage.Target);
                 return systemMessage;

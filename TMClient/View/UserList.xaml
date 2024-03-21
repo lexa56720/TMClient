@@ -5,11 +5,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TMClient.View" xmlns:b="http://schemas.microsoft.com/xaml/behaviors" WindowStartupLocation="CenterOwner"
-        mc:Ignorable="d" Background="{StaticResource BackgroundLightBrush}"
-        Title="UserList" MinHeight="400" MinWidth="300" Width="400" Height="500">
+        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None"
+        Title="UserList" MinHeight="200" MinWidth="450" Width="400" >
+
+
+    <controls:ModernWindow.Background>
+        <SolidColorBrush Opacity="0.3" Color="{StaticResource BackgroundColor}"/>
+    </controls:ModernWindow.Background>
     <Grid>
         <ListView Grid.Row="2" ItemsSource="{Binding Users}" ScrollViewer.VerticalScrollBarVisibility="Visible"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -37,7 +42,7 @@
                                 <Label Content="{Binding User.Login, Converter={StaticResource LoginConverter}}" Padding="0"  HorizontalAlignment="Left" FontSize="16" Margin="0,0,0,-5" />
                             </StackPanel>
 
-                            <controls:IconButton  Grid.Column="1" HorizontalAlignment="Right" Margin="0,5,5,5" IsIconFirst="False"
+                            <controls:IconButton  Grid.Column="1" HorizontalAlignment="Right" Margin="0" IsIconFirst="False"
                                     Command="{Binding Path=DataContext.AddFriend, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserList}}}" CommandParameter="{Binding .}"
                                      Visibility="{Binding Visibility}" IsEnabled="{Binding IsRequested,Converter={StaticResource BooleanInverter}}">
 

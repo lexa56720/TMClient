@@ -6,8 +6,183 @@
              xmlns:local="clr-namespace:TMClient.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Text="{Binding Message.Text}"/>
+    <Grid HorizontalAlignment="Center" Margin="0,0,0,5">
+        <StackPanel Orientation="Horizontal">
 
+            <local:UserMention User="{Binding Message.Author}">
+                <local:UserMention.Style>
+                    <Style TargetType="local:UserMention">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </local:UserMention.Style>
+            </local:UserMention>
+
+            <TextBlock>
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}">
+                        <Style.Triggers>
+                            
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="True"/>
+                                    <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="UserInvite"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="Вы пригласили"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="True"/>
+                                    <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="UserEnter"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="Вы вошли в чат"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="True"/>
+                                    <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="UserEnter"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="вы покинули чат"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="True"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="UserInvite"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="пригласил Вас"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="True"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="UserEnter"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="вошёл в чат"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="True"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="UserEnter"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="покинул чат"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="UserInvite"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="пригласил"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="UserEnter"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="вошёл в чат"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="UserEnter"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="покинул чат"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            
+            <local:UserMention User="{Binding Message.Target}">
+                <local:UserMention.Style>
+                    <Style TargetType="local:UserMention">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Message.IsTargetAreCurrentUser}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </local:UserMention.Style>
+            </local:UserMention>
+
+            <TextBlock>
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock" BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}">
+                        <Style.Triggers>
+
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.Kind}" Value="UserInvite"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Setter Property="Text" Value="в чат"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.Kind}" Value="UserEnter"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                    <Setter Property="Text" Value=""/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.Kind}" Value="UserLeave"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Visibility" Value="Hidden"/>
+                                    <Setter Property="Text" Value=""/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.Kind}" Value="UserKicked"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Setter Property="Text" Value="из чата"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+
+        </StackPanel>
     </Grid>
 </local:MessageBaseControl>

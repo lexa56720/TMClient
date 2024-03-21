@@ -9,6 +9,7 @@ using TMApi.ApiRequests.Security;
 using ApiTypes.Communication.Messages;
 using System.Diagnostics.CodeAnalysis;
 using System.ComponentModel;
+using TMApi;
 
 namespace ClientApiWrapper.Types
 {
@@ -19,31 +20,19 @@ namespace ClientApiWrapper.Types
         public ActionKind Kind { get; init; }
         public User? Target { get; init; }
 
+        public bool IsExecutorAreCurrentUser { get; set; }
+        public bool IsTargetAreCurrentUser { get; set; }
+
         [SetsRequiredMembers]
-        public SystemMessage(int id, DateTime sendTime, User author, User? target, ActionKind action, Chat destination, bool isReaded, bool isOwn)
-                           : base(id, GetMessageText(author, target, action), sendTime, author, destination, isReaded, isOwn)
+        public SystemMessage(int id, DateTime sendTime, User author, User? target, ActionKind action, Chat destination, User currentUser)
+                           : base(id, string.Empty, sendTime, author, destination, true, author.Id == currentUser.Id)
         {
+            Kind = action;
             Target = target;
+            IsExecutorAreCurrentUser = IsOwn;
             if (Target != null)
-                Target.PropertyChanged += MessageChanged;
-            Author.PropertyChanged += MessageChanged;
+                IsTargetAreCurrentUser = Target.Id == currentUser.Id;
         }
-
-        private void MessageChanged(object? sender, PropertyChangedEventArgs e)
-        {
-            Text = GetMessageText(Author, Target, Kind);
-        }
-
-        private static string GetMessageText(User executor, User? target, ActionKind action)
-        {
-            return action switch
-            {
-                ActionKind.UserInvite => $"{executor.Name} пригласил {target?.Name} в чат",
-                ActionKind.UserEnter => $"{executor.Name} вошёл в чат",
-                ActionKind.UserLeave => $"{executor.Name} покинул чат",
-                ActionKind.UserKicked => $"{executor.Name} выгнал {target?.Name} из чата",
-                _ => "ничего не произошло...",
-            };
-        }
+    
     }
 }
