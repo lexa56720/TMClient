@@ -83,7 +83,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
                 return [];
             Cache.AddToCache(converted);
             result.AddRange(converted);
-            await AssingLastMessages(result);
+            await AssingLastMessages(converted);
             return chatIds.Select(chatId => result.First(c => c.Id == chatId)).ToArray();
         }
 

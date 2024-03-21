@@ -8,6 +8,7 @@ using ApiTypes.Communication.Chats;
 using ApiWrapper.ApiWrapper.Wrapper;
 using TMApi.ApiRequests.Chats;
 using ClientApiWrapper.Types;
+using TMApi.ApiRequests.Users;
 
 namespace ApiWrapper.Wrapper
 {
@@ -33,7 +34,7 @@ namespace ApiWrapper.Wrapper
             longPolling.NewChats += HandleNewChats;
             longPolling.RemovedChats += HandleRemovedChats;
             longPolling.RelatedUsersChanged += HandleRelatedUsersChanged;
-
+            longPolling.NewChatInivites += HandleNewChatInivites;
             longPolling.ChatsChanged += HandleChatChanged;
             longPolling.NewMessages += HandleNewMessages;
             longPolling.NewFriendRequests += HandleNewFriendRequests;
@@ -52,6 +53,7 @@ namespace ApiWrapper.Wrapper
             LongPolling.NewFriendRequests -= HandleNewFriendRequests;
             LongPolling.FriendsRemoved -= HandleFriendsRemoved;
             LongPolling.NewChats -= HandleNewChats;
+            LongPolling.NewChatInivites -= HandleNewChatInivites;
             LongPolling.MessagesReaded -= HandleReadedMessages;
             LongPolling.RemovedChats -= HandleRemovedChats;
             LongPolling.ChatsChanged -= HandleChatChanged;
@@ -59,6 +61,18 @@ namespace ApiWrapper.Wrapper
 
             IsDisposed = true;
         }
+
+
+        private async void HandleNewChatInivites(object? sender, int[] e)
+        {
+            var invites = await Api.Chats.GetChatInvite(e);
+            UIContext.Post(invitesObj =>
+            {
+                foreach (var inivite in (ChatInvite[])invitesObj)
+                    Api.ChatInvites.Add(inivite);
+            }, invites);
+        }
+
         private async void HandleRelatedUsersChanged(object? sender, int[] e)
         {
             var users = await Api.users.GetUserIgnoringCache(e);
