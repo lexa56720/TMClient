@@ -8,7 +8,8 @@ namespace ApiWrapper.Interfaces
         public Task<Message[]> GetMessages(int chatId, int fromMessageId);
         public Task<Message[]> GetMessages(params int[] messageIds);
 
-        public Task<Message?[]> GetLastMessages(params int[] chatIds);
+        public Task<Message?[]> GetLastMessages( int[] chatIds);
+        public Task<Message?> GetLastMessages(int chatId);
 
         public Task<Message?> SendMessage(string text, int destinationId);
 

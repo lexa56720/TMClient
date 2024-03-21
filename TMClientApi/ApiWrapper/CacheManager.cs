@@ -84,6 +84,7 @@ namespace ApiWrapper.ApiWrapper
                 if (!CachedChats.UpdateLifetime(chat.Id, lifeTime))
                     isSuccessful = false;
             }
+            AddOrUpdateCache(lifeTime, chats.SelectMany(c => c.Members).DistinctBy(c => c.Id).ToArray());
             return isSuccessful;
         }
 
@@ -92,7 +93,7 @@ namespace ApiWrapper.ApiWrapper
             bool isSuccessful = true;
             foreach (var user in users)
             {
-                if (CachedUsers.TryAdd(user.Id, user, UserLifetime))
+                if (CachedUsers.TryAdd(user.Id, user, lifeTime))
                     continue;
 
                 isSuccessful = false;
@@ -137,7 +138,7 @@ namespace ApiWrapper.ApiWrapper
                 isSuccessful = false;
                 UpdateCache(lifeTime, chat);
             }
-            AddToCache(lifeTime, chats.SelectMany(c => c.Members).DistinctBy(c => c.Id).ToArray());
+            AddOrUpdateCache(lifeTime, chats.SelectMany(c => c.Members).DistinctBy(c => c.Id).ToArray());
             return isSuccessful;
         }
 

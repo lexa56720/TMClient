@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using ApiTypes.Communication.Messages;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 
 namespace ApiWrapper.Types
@@ -6,6 +7,9 @@ namespace ApiWrapper.Types
     public class Message : INotifyPropertyChanged
     {
         public int Id { get; init; }
+
+
+        public virtual bool IsSystem=>false;
 
         public string Text
         {

@@ -17,26 +17,43 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         }
         public async Task<Message[]> GetMessages(int chatId, int count, int offset)
         {
-            return await Converter.Convert(await Api.Messages.GetMessages(chatId, count, offset));
+            var messages = await Api.Messages.GetMessages(chatId, count, offset);
+            if (messages.Length == 0)
+                return [];
+            return await Converter.Convert(messages);
         }
 
         public async Task<Message[]> GetMessages(int chatId, int fromMessageId)
         {
-            return await Converter.Convert(await Api.Messages.GetMessages(chatId, fromMessageId));
+            var messages = await Api.Messages.GetMessages(chatId, fromMessageId);
+            if (messages.Length == 0)
+                return [];
+            return await Converter.Convert(messages);
         }
 
         public async Task<Message[]> GetMessages(params int[] messagesId)
         {
-            if (messagesId == null)
+            var messages = await Api.Messages.GetMessages(messagesId);
+            if (messages.Length == 0)
                 return [];
-            return await Converter.Convert(await Api.Messages.GetMessages(messagesId));
+            return await Converter.Convert(messages);
         }
         public async Task<Message?[]> GetLastMessages(params int[] chatIds)
         {
             var messages = await Api.Messages.GetMessagesForChats(chatIds);
-            var converted = await Converter.Convert(messages.Where(m=>m!=null).ToArray());
+            if (messages.Length == 0)
+                return [];
+            var converted = await Converter.Convert(messages.Where(m => m != null).ToArray());
             return chatIds.Select(id => converted.FirstOrDefault(m => m.Destination.Id == id))
                           .ToArray();
+        }
+        public async Task<Message?> GetLastMessages(int chatId)
+        {
+            var messages = await Api.Messages.GetMessagesForChats(chatId);
+            if (messages.Length == 0 || messages == null)
+                return null;
+            var converted = await Converter.Convert(messages.Where(m => m != null).ToArray());
+            return converted.FirstOrDefault();
         }
         public async Task<Message?> SendMessage(string text, int destinationId)
         {
@@ -52,8 +69,8 @@ namespace ApiWrapper.ApiWrapper.Wrapper
                 convertedMessage.SendTime > convertedMessage.Destination.LastMessage.SendTime)
             {
                 convertedMessage.Destination.LastMessage = convertedMessage;
-            }       
-            convertedMessage.Destination.UnreadCount=0;
+            }
+            convertedMessage.Destination.UnreadCount = 0;
 
             return convertedMessage;
         }

@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows.Controls;
+using TMClient.Model;
 using TMClient.Utils;
 
 namespace TMClient.Controls
@@ -9,10 +10,10 @@ namespace TMClient.Controls
     /// <summary>
     /// Логика взаимодействия для MessageControl.xaml
     /// </summary>
-    public partial class MessageControl : UserControl, INotifyPropertyChanged
+    public partial class MessageControl : MessageBaseControl, INotifyPropertyChanged
     {
-        public required User Author { get; init; }
-        public required bool IsOwn
+        public override required User Author { get; init; }
+        public override required bool IsOwn
         {
             get => isOwn;
             set
@@ -22,8 +23,7 @@ namespace TMClient.Controls
             }
         }
         private bool isOwn;
-
-        public required string Text
+        public override required string Text
         {
             get
             {
@@ -35,7 +35,7 @@ namespace TMClient.Controls
             }
         }
 
-        public required bool IsReaded
+        public override required bool IsReaded
         {
             get => isReaded;
             set
@@ -46,7 +46,7 @@ namespace TMClient.Controls
         }
         private bool isReaded;
 
-        public required DateTime Time
+        public override required DateTime Time
         {
             get => time;
             set
@@ -58,9 +58,8 @@ namespace TMClient.Controls
         private DateTime time;
 
         private List<Message> Messages { get; init; } = new();
-        public IReadOnlyCollection<Message> InnerMessages => Messages;
+        public override IReadOnlyCollection<Message> InnerMessages => Messages;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         [SetsRequiredMembers]
         public MessageControl(Message message)
@@ -80,18 +79,32 @@ namespace TMClient.Controls
             InitializeComponent();
             DataContext = this;
         }
-        private void OnPropertyChanged(string propertyName)
+
+
+        public override bool IsCanUnion(Message newMessage)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            return !newMessage.IsSystem &&
+                   Author.Id == newMessage.Author.Id &&
+                   IsReaded == newMessage.IsReaded &&
+                  (InnerMessages.First().SendTime - newMessage.SendTime).Duration() < TimeSpan.FromMinutes(5) &&
+                   InnerMessages.Count < 10;
+        }
+        public override bool IsCanUnion(MessageBaseControl second)
+        {
+            return second is not SystemMessageControl &&
+                   Author.Id == second.Author.Id &&
+                   IsReaded == second.IsReaded &&
+                  (InnerMessages.First().SendTime - second.InnerMessages.Last().SendTime).Duration() < TimeSpan.FromMinutes(5) &&
+                   InnerMessages.Count + second.InnerMessages.Count < 10;
         }
 
-        public void UnionToEnd(Message message)
+        public override void UnionToEnd(Message message)
         {
             Messages.Add(message);
             OnPropertyChanged(nameof(Text));
         }
 
-        public void UnionToStart(Message message)
+        public override void UnionToStart(Message message)
         {
             Messages.Insert(0, message);
             Time = message.SendTime;

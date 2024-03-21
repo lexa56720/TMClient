@@ -3,8 +3,8 @@
     public interface IChatsApi
     {
         public Task<Chat?> CreateChat(string name, int[] membersId);
-        public ValueTask<Chat?> GetChat(int chatId);
-        public ValueTask<Chat[]> GetChat(int[] chatIds);
+        public Task<Chat?> GetChat(int chatId);
+        public Task<Chat[]> GetChat(int[] chatIds);
         public Task<Chat[]> GetAllChats();
         public Task<bool> SendChatInvite(int chatId,params int[] toUserId);
         public Task<ChatInvite?> GetChatInvite(int inviteId);

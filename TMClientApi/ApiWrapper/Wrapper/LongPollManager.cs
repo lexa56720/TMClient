@@ -7,6 +7,7 @@ using TMApi.ApiRequests.Friends;
 using ApiTypes.Communication.Chats;
 using ApiWrapper.ApiWrapper.Wrapper;
 using TMApi.ApiRequests.Chats;
+using ClientApiWrapper.Types;
 
 namespace ApiWrapper.Wrapper
 {
@@ -63,7 +64,7 @@ namespace ApiWrapper.Wrapper
             var users = await Api.users.GetUserIgnoringCache(e);
             UIContext.Post(usersObj =>
             {
-                Cache.UpdateCache((User[])usersObj);
+                Cache.AddOrUpdateCache(TimeSpan.MaxValue, (User[])usersObj);
             }, users);
         }
 
@@ -72,7 +73,7 @@ namespace ApiWrapper.Wrapper
             var chats = await Api.chats.GetChatIgnoringCache(e);
             UIContext.Post(chatsObj =>
             {
-                Cache.UpdateCache((Chat[])chatsObj);
+                Cache.AddOrUpdateCache(TimeSpan.MaxValue, (Chat[])chatsObj);
             }, chats);
         }
         private void HandleRemovedChats(object? sender, int[] e)
@@ -98,6 +99,7 @@ namespace ApiWrapper.Wrapper
             {
                 foreach (var request in (FriendRequest[])requestObj)
                     Api.FriendRequests.Add(request);
+                Cache.AddOrUpdateCache(friendRequests.Select(f => f.From).ToArray());
             }, friendRequests);
         }
 
@@ -109,6 +111,9 @@ namespace ApiWrapper.Wrapper
             {
                 foreach (var message in (Message[])messagesObj)
                 {
+                    if (message is SystemMessage)
+                        continue;
+
                     if (message.Destination.LastMessage == null ||
                         message.SendTime > message.Destination.LastMessage.SendTime)
                     {
@@ -143,7 +148,6 @@ namespace ApiWrapper.Wrapper
                     else if (Cache.TryGetChat(chat.Id, out var updatedChat))
                         AddToCollections(updatedChat);
                 }
-
             }, chats);
         }
 

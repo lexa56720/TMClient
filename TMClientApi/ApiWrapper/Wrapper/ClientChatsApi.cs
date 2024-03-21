@@ -7,12 +7,15 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 {
     internal class ClientChatsApi : IChatsApi
     {
+        private readonly IMessagesApi MessagesApi;
+
         private Api Api { get; }
         private ApiConverter Converter { get; }
         private CacheManager Cache { get; }
-        internal ClientChatsApi(Api api, ApiConverter converter, CacheManager cacheManager)
+        internal ClientChatsApi(Api api, IMessagesApi messagesApi, ApiConverter converter, CacheManager cacheManager)
         {
             Api = api;
+            MessagesApi = messagesApi;
             Converter = converter;
             Cache = cacheManager;
         }
@@ -42,7 +45,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             return await GetChatInvite(inviteIds);
         }
 
-        public async ValueTask<Chat?> GetChat(int chatId)
+        public async Task<Chat?> GetChat(int chatId)
         {
             if (Cache.TryGetChat(chatId, out var chat))
                 return chat;
@@ -50,11 +53,16 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             if (requestedChat == null)
                 return null;
             chat = await Converter.Convert(requestedChat);
+
+            chat.LastMessage = await MessagesApi.GetLastMessages(chatId);
+            if (chat.LastMessage != null && chat.LastMessage.IsOwn)
+                chat.UnreadCount = 0;
+
             Cache.AddToCache(chat);
             return chat;
         }
 
-        public async ValueTask<Chat[]> GetChat(int[] chatIds)
+        public async Task<Chat[]> GetChat(int[] chatIds)
         {
             if (chatIds.Length == 0)
                 return [];
@@ -70,13 +78,26 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             if (result.Count == chatIds.Length)
                 return result.ToArray();
 
-            var converted = await Converter.Convert(await Api.Chats.GetChat(requestedChats.Distinct().ToArray()));
+            var converted = await Converter.Convert(await Api.Chats.GetChat(requestedChats.ToArray()));
             if (converted.Length == 0)
                 return [];
             Cache.AddToCache(converted);
             result.AddRange(converted);
-
+            await AssingLastMessages(result);
             return chatIds.Select(chatId => result.First(c => c.Id == chatId)).ToArray();
+        }
+
+        private async Task AssingLastMessages(IList<Chat> chats)
+        {
+            var lastMessages = await MessagesApi.GetLastMessages(chats.Select(c => c.Id).ToArray());
+            if (lastMessages == null)
+                return;
+            for (int i = 0; i < chats.Count; i++)
+            {
+                chats[i].LastMessage = lastMessages[i];
+                if (lastMessages[i] != null && lastMessages[i].IsOwn)
+                    chats[i].UnreadCount = 0;
+            }
         }
 
         public async Task<ChatInvite?> GetChatInvite(int inviteId)
@@ -107,8 +128,14 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         internal async Task<Chat[]> GetChatIgnoringCache(int[] chatIds)
         {
-            var result = await Converter.Convert(await Api.Chats.GetChat(chatIds.Distinct().ToArray()));
-            return chatIds.Select(chatId => result.First(c => c.Id == chatId)).ToArray();
+            var chats = await Api.Chats.GetChat(chatIds);
+            if (chats.Length == 0)
+                return [];
+
+            var result = await Converter.Convert(chats);
+
+            await AssingLastMessages(result);
+            return result;
         }
     }
 }

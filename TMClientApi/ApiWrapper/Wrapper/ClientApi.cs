@@ -67,15 +67,16 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
             Cache = new CacheManager(userLifetime, chatLifetime);
             Cache.AddToCache(Info);
-            Converter = new ApiConverter(this);
 
-            chats = new ClientChatsApi(api, Converter, Cache);
+            Converter = new ApiConverter(this, Cache);
+
             users = new ClientUsersApi(api, Converter, Cache, Info);
-
             messages = new ClientMessagesApi(api, Converter);
+            chats = new ClientChatsApi(api, Messages, Converter, Cache);
             friends = new ClientFriendsApi(api, Converter);
 
             LongPollManager = new LongPollManager(api.LongPolling, this, Cache, uiContext);
+
             Api = api;
         }
         internal static async Task<ClientApi?> Init(TimeSpan userLifetime, TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
@@ -108,9 +109,6 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             {
                 if (!chats[i].IsDialogue)
                     api.MultiuserChats.Add(chats[i]);
-                chats[i].LastMessage = lastMessages[i];
-                if (lastMessages[i] != null && lastMessages[i].IsOwn)
-                    chats[i].UnreadCount = 0;
             }
             return chats;
         }

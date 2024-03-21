@@ -29,9 +29,9 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         public async Task<FriendRequest[]> GetFriendRequest(int[] requestIds)
         {
-            if (requestIds.Length==0)
-                return [];
             var requests = await Api.Friends.GetFriendRequest(requestIds);
+            if (requests.Length == 0)
+                return [];
             return await Converter.Convert(requests);
         }
 

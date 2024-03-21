@@ -9,6 +9,7 @@ global using FriendRequest = ApiWrapper.Types.FriendRequest;
 global using User = ApiWrapper.Types.User;
 using ApiWrapper.Types;
 using ApiWrapper.Interfaces;
+using ClientApiWrapper.Types;
 
 namespace ApiWrapper.ApiWrapper
 {
@@ -17,10 +18,12 @@ namespace ApiWrapper.ApiWrapper
         private IChatsApi ChatApi => Api.Chats;
         private IUsersApi UserApi => Api.Users;
         private readonly IApi Api;
+        private readonly CacheManager Cache;
 
-        public ApiConverter(IApi api)
+        public ApiConverter(IApi api, CacheManager cache)
         {
             Api = api;
+            Cache = cache;
         }
 
         public static User Convert(ApiUser user)
@@ -59,10 +62,33 @@ namespace ApiWrapper.ApiWrapper
             return result;
         }
 
-        public Message Convert(ApiMessage message, User author, Chat chat)
+        public async ValueTask<Message> Convert(ApiMessage message, User author, Chat chat)
         {
-            return new Message(message.Id, message.Text, message.SendTime,author, chat,
-                               message.IsReaded, author.Id == Api.Info.Id ? true : false);
+            Cache.AddOrUpdateCache(TimeSpan.MaxValue, author);
+            if (message.Kind == ApiTypes.Communication.Messages.ActionKind.None)
+            {
+                return new Message(message.Id,
+                                   message.Text,
+                                   message.SendTime,
+                                   author,
+                                   chat,
+                                   message.IsReaded,
+                                   author.Id == Api.Info.Id);
+            }
+            else
+            {
+                var systemMessage = new SystemMessage(message.Id,
+                                         message.SendTime,
+                                         author,
+                                         await Api.Users.GetUser(message.TargetId),
+                                         message.Kind,
+                                         chat,
+                                         message.IsReaded,
+                                         author.Id == Api.Info.Id);
+                if (systemMessage.Target != null)
+                    Cache.AddOrUpdateCache(TimeSpan.MaxValue, systemMessage.Target);
+                return systemMessage;
+            }
         }
         public async Task<Message?> Convert(ApiMessage message)
         {
@@ -74,7 +100,7 @@ namespace ApiWrapper.ApiWrapper
             if (chat == null || user == null)
                 return null;
 
-            return Convert(message, user, chat);
+            return await Convert(message, user, chat);
         }
         public async Task<Message[]> Convert(ApiMessage[] messages)
         {
@@ -83,7 +109,7 @@ namespace ApiWrapper.ApiWrapper
             var result = new Message[messages.Length];
 
             for (int i = 0; i < messages.Length; i++)
-                result[i] = Convert(messages[i], authors[i], chats[i]);
+                result[i] = await Convert(messages[i], authors[i], chats[i]);
 
             return result;
         }
