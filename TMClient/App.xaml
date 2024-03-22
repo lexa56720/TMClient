@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:TMClient"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:u="clr-namespace:TMClient.Utils"
+                xmlns:v="clr-namespace:TMClient.Utils.Validations"
              xmlns:controls="clr-namespace:TMClient.Controls"
              Startup="ApplicationStart"
              Exit="ApplicationExit">
@@ -15,7 +16,13 @@
         <u:DateTimeConverter x:Key="DateTimeConverter"></u:DateTimeConverter>
         <u:BooleanInverter x:Key="BooleanInverter"></u:BooleanInverter>
 
-       
+
+        <v:NameRule x:Key="NameRule"></v:NameRule>
+        <v:ChatNameRule x:Key="ChatNameRule"></v:ChatNameRule>
+        <v:LoginRule x:Key="LoginRule"></v:LoginRule>
+        <v:MessageRule x:Key="MessageRule"></v:MessageRule>
+
+
         <Color x:Key="OwnMessageColor">#3498DB</Color>
         <SolidColorBrush x:Key="OwnMessageBrush" Color="{StaticResource OwnMessageColor}"/>
 
@@ -475,12 +482,27 @@
             <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Background" Value="{StaticResource InteractiveBrush}" />
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <DockPanel LastChildFill="True">
+                            <Border BorderBrush="{StaticResource RedBrush}" CornerRadius="5" BorderThickness="2">
+                                <AdornedElementPlaceholder Name="adornerPlaceholder"/>
+                            </Border>
+                        </DockPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
             <Style.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5" />
                 </Style>
             </Style.Resources>
             <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" 
+                         Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
+                </Trigger>
                 <Trigger Property="IsFocused" Value="True">
                     <Trigger.EnterActions>
                         <BeginStoryboard>

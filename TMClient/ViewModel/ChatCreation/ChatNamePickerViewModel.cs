@@ -11,7 +11,7 @@ using TMClient.Model;
 
 namespace TMClient.ViewModel
 {
-    internal class ChatNamePickerViewModel : BaseViewModel, IDataErrorInfo
+    internal class ChatNamePickerViewModel : BaseViewModel
     {
         public ObservableCollection<User> Users { get; set; }
 
@@ -31,21 +31,7 @@ namespace TMClient.ViewModel
         private readonly Action<Chat?> dialogCompleted;
 
         public ICommand CreateCommand => new AsyncCommand(Confirm);
-        public string Error => throw new NotImplementedException();
-        public string this[string columnName]
-        {
-            get
-            {
-                switch (columnName)
-                {
-                    case "ChatName":
-                        if (!Model.IsValidName(Name))
-                            return "chat name error";
-                        break;
-                }
-                return string.Empty;
-            }
-        }
+
         public ChatNamePickerViewModel(User[] users, Action<Chat?> dialogCompleted)
         {
             Users = new ObservableCollection<User>(users);

@@ -44,18 +44,35 @@
                 <ColumnDefinition/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <controls:ExtendedTextBox Grid.Column="0" FontSize="20" Placeholder="Название чата" MaxLines="1" >
+            <controls:ExtendedTextBox Grid.Column="0" FontSize="20" Placeholder="Название чата" MaxLines="1" x:Name="ChatName" >
                 <controls:ExtendedTextBox.Text>
-                    <Binding Path="Name" NotifyOnValidationError="True">
+                    <Binding Path="Name" NotifyOnValidationError="True"  UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
-                            <DataErrorValidationRule/>
+                            <StaticResource ResourceKey="ChatNameRule"/>
                         </Binding.ValidationRules>
                     </Binding>
                 </controls:ExtendedTextBox.Text>
             </controls:ExtendedTextBox>
 
-            <controls:IconButton Grid.Column="1" Text="Создать" Margin="5" Icon="&#xEd0e;"  Style="{StaticResource OrangeButton}"
-                                 Command="{Binding CreateCommand, IsAsync=True}"/>
+            <controls:IconButton Grid.Column="1" Text="Создать" Margin="5" Icon="&#xEd0e;"
+                                 Command="{Binding CreateCommand, IsAsync=True}" x:Name="createBtn">
+                <controls:IconButton.Style>
+                    <Style BasedOn="{StaticResource OrangeButton}" TargetType="controls:IconButton">
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Style.Triggers>
+
+                            <DataTrigger  Binding="{Binding Path=(Validation.HasError),ElementName=ChatName}" Value="False">
+                                <Setter Property="IsEnabled" Value="True"/>
+                            </DataTrigger>
+                            
+                            <DataTrigger  Binding="{Binding Text.Length,ElementName=ChatName}" Value="0">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                            
+                        </Style.Triggers>
+                    </Style>
+                </controls:IconButton.Style>
+            </controls:IconButton>
         </Grid>
     </Grid>
 </Page>

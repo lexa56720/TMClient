@@ -25,6 +25,7 @@ namespace TMClient.View
 
         public ChatCreationWindow()
         {
+            Title = "Создание чата";
             DataContext = new ChatCreationWindowViewModel(DialogCompleted);
             InitializeComponent();
         }

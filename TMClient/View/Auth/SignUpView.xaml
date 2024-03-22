@@ -48,7 +48,7 @@
             <TextBox.Text>
                 <Binding Path="UserName" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <DataErrorValidationRule />
+                        <StaticResource ResourceKey="NameRule"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>
@@ -61,7 +61,7 @@
             <TextBox.Text>
                 <Binding Path="Login" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
-                        <DataErrorValidationRule />
+                        <StaticResource ResourceKey="LoginRule"/>
                     </Binding.ValidationRules>
                 </Binding>
             </TextBox.Text>

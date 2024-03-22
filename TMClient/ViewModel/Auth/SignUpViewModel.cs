@@ -9,7 +9,7 @@ using TMClient.Utils;
 
 namespace TMClient.ViewModel.Auth
 {
-    class SignUpViewModel(Func<IApi?, bool> returnApi) : BaseAuthViewModel(returnApi),IDataErrorInfo
+    class SignUpViewModel(Func<IApi?, bool> returnApi) : BaseAuthViewModel(returnApi)
     {
         public string UserName { get; set; } = string.Empty;
 
@@ -44,27 +44,6 @@ namespace TMClient.ViewModel.Auth
         }
         private Visibility errorVisibility = Visibility.Collapsed;
 
-
-        public string Error => throw new NotImplementedException();
-
-        public string this[string columnName]
-        {
-            get
-            {
-                switch (columnName)
-                {
-                    case "Login":
-                        if (Login != string.Empty && !Model.IsLoginValid(Login))
-                            return "Логин не соответствует требованиям";
-                        break;
-                    case "UserName":
-                        if (UserName != string.Empty && !Model.IsNameValid(UserName))
-                            return "Логин не соответствует требованиям";
-                        break;
-                }
-                return string.Empty;
-            }
-        }
 
         private readonly SignUpModel Model = new();
         private async Task SignUp(PasswordBox? passwordBox)
