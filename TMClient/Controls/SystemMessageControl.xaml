@@ -50,10 +50,10 @@
                                 <MultiDataTrigger.Conditions>
                                     <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="True"/>
                                     <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="False"/>
-                                    <Condition Binding="{Binding Message.Kind}" Value="UserEnter"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="UserLeave"/>
                                 </MultiDataTrigger.Conditions>
                                 <MultiDataTrigger.Setters>
-                                    <Setter Property="Text" Value="Вы вошли чат"/>
+                                    <Setter Property="Text" Value="Вы покинули чат"/>
                                 </MultiDataTrigger.Setters>
                             </MultiDataTrigger>
                             <MultiDataTrigger >
@@ -122,10 +122,10 @@
                                 <MultiDataTrigger.Conditions>
                                     <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="False"/>
                                     <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="False"/>
-                                    <Condition Binding="{Binding Message.Kind}" Value="UserEnter"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="UserLeave"/>
                                 </MultiDataTrigger.Conditions>
                                 <MultiDataTrigger.Setters>
-                                    <Setter Property="Text" Value="вошёл чат"/>
+                                    <Setter Property="Text" Value="вышел из чата"/>
                                 </MultiDataTrigger.Setters>
                             </MultiDataTrigger>
                             <MultiDataTrigger >

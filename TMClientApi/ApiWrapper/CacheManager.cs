@@ -151,6 +151,15 @@ namespace ApiWrapper.ApiWrapper
             return CachedChats.TryGetValue(chatId, out chat);
         }
 
+        public bool TryRemoveUser(int userId, [MaybeNullWhen(false)] out User user)
+        {
+            return CachedUsers.TryRemove(userId, out user);
+        }
+        public bool TryRemoveChat(int chatId, [MaybeNullWhen(false)] out Chat chat)
+        {
+            return CachedChats.TryRemove(chatId, out chat);
+        }
+
         public User? GetUser(int userId)
         {
             CachedUsers.TryGetValue(userId, out var user);

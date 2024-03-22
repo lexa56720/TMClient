@@ -77,7 +77,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
             users = new ClientUsersApi(api, Converter, Cache, Info);
             messages = new ClientMessagesApi(api, Converter);
-            chats = new ClientChatsApi(api, Messages, Converter, Cache);
+            chats = new ClientChatsApi(api, Converter, Cache);
             friends = new ClientFriendsApi(api, Converter);
 
             LongPollManager = new LongPollManager(api.LongPolling, this, Cache, uiContext);

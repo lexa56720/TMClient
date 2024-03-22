@@ -22,6 +22,19 @@ namespace TMClient.Controls
         }
 
 
+        public static readonly DependencyProperty IsReadOnlyProperty =
+        DependencyProperty.Register(
+            nameof(IsReadOnly),
+            typeof(bool),
+            typeof(ChatControl),
+            new PropertyMetadata(false));
+        public bool IsReadOnly
+        {
+            get { return (bool)GetValue(IsReadOnlyProperty); }
+            set { SetValue(IsReadOnlyProperty, value); }
+        }
+
+
         public static readonly DependencyProperty LoadMoreProperty =
         DependencyProperty.Register(
            nameof(LoadMore),
@@ -86,7 +99,7 @@ namespace TMClient.Controls
             {
                 IsFirstTimeLoad = false;
                 LoadMore.Execute(null);
-            }            
+            }
         }
     }
 }

@@ -2,20 +2,19 @@
 using ApiWrapper.Interfaces;
 using TMApi.ApiRequests.Chats;
 using TMApi.ApiRequests.Users;
+using ApiWrapper.Types;
 
 namespace ApiWrapper.ApiWrapper.Wrapper
 {
     internal class ClientChatsApi : IChatsApi
     {
-        private readonly IMessagesApi MessagesApi;
-
         private Api Api { get; }
         private ApiConverter Converter { get; }
         private CacheManager Cache { get; }
-        internal ClientChatsApi(Api api, IMessagesApi messagesApi, ApiConverter converter, CacheManager cacheManager)
+
+        internal ClientChatsApi(Api api, ApiConverter converter, CacheManager cacheManager)
         {
             Api = api;
-            MessagesApi = messagesApi;
             Converter = converter;
             Cache = cacheManager;
         }
@@ -54,7 +53,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
                 return null;
             chat = await Converter.Convert(requestedChat);
 
-            chat.LastMessage = await MessagesApi.GetLastMessages(chatId);
+            chat.LastMessage = await GetLastMessages(chatId);
             if (chat.LastMessage != null && chat.LastMessage.IsOwn)
                 chat.UnreadCount = 0;
 
@@ -89,7 +88,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         private async Task AssingLastMessages(IList<Chat> chats)
         {
-            var lastMessages = await MessagesApi.GetLastMessages(chats.Select(c => c.Id).ToArray());
+            var lastMessages = await GetLastMessages(chats.Select(c => c.Id).ToArray());
             if (lastMessages == null)
                 return;
             for (int i = 0; i < chats.Count; i++)
@@ -126,6 +125,12 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             return await Api.Chats.SendChatInviteResponse(inviteId, isAccepted);
         }
 
+        public async Task<bool> LeaveChat(int chatId)
+        {
+            return await Api.Chats.LeaveChat(chatId);
+        }
+
+
         internal async Task<Chat[]> GetChatIgnoringCache(int[] chatIds)
         {
             var chats = await Api.Chats.GetChat(chatIds);
@@ -136,6 +141,22 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
             await AssingLastMessages(result);
             return result;
+        }
+
+        private async Task<Message?[]> GetLastMessages(params int[] chatIds)
+        {
+            var messages = await Api.Messages.GetMessagesForChats(chatIds);
+            var converted = await Converter.Convert(messages.Where(m => m != null).ToArray());
+            return chatIds.Select(id => converted.FirstOrDefault(m => m.Destination.Id == id))
+                          .ToArray();
+        }
+        private async Task<Message?> GetLastMessages(int chatId)
+        {
+            var messages = await Api.Messages.GetMessagesForChats(chatId);
+            if (messages.Length == 0 || messages == null)
+                return null;
+            var converted = await Converter.Convert(messages.Where(m => m != null).ToArray());
+            return converted.FirstOrDefault();
         }
     }
 }

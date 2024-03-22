@@ -45,6 +45,19 @@ namespace TMClient.Controls
             }
         }
 
+
+        public static readonly DependencyProperty IsReachTopEnabledProperty =
+        DependencyProperty.Register(
+            nameof(IsReachTopEnabled),
+            typeof(bool),
+            typeof(ExtendeListView),
+            new PropertyMetadata(false));
+        public bool IsReachTopEnabled
+        {
+            get { return (bool)GetValue(IsReachTopEnabledProperty); }
+            set { SetValue(IsReachTopEnabledProperty, value); }
+        }
+
         public ExtendeListView()
         {
             InitializeComponent();
@@ -55,10 +68,10 @@ namespace TMClient.Controls
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            if(Math.Abs(e.VerticalOffset-((ScrollViewer)e.Source).ScrollableHeight)<150)
+            if (Math.Abs(e.VerticalOffset - ((ScrollViewer)e.Source).ScrollableHeight) < 150)
             {
                 if (e.ExtentHeightChange < 0)
-                    ScrollViewer?.ScrollToVerticalOffset(ScrollViewer.VerticalOffset - e.ExtentHeightChange*2);
+                    ScrollViewer?.ScrollToVerticalOffset(ScrollViewer.VerticalOffset - e.ExtentHeightChange * 2);
                 else
                     ScrollViewer?.ScrollToVerticalOffset(ScrollViewer.VerticalOffset + e.ExtentHeightChange);
             }
@@ -66,7 +79,7 @@ namespace TMClient.Controls
                 ScrollViewer?.ScrollToVerticalOffset(ScrollViewer.VerticalOffset + e.ExtentHeightChange);
             if (e.VerticalOffset == 0)
             {
-                if (ReachTop != null && ReachTop.CanExecute(null))
+                if (IsReachTopEnabled != true && ReachTop != null && ReachTop.CanExecute(null))
                     ReachTop.Execute(null);
             }
         }

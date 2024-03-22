@@ -92,17 +92,22 @@ namespace ApiWrapper.Wrapper
         }
         private void HandleRemovedChats(object? sender, int[] e)
         {
-            throw new NotImplementedException();
+            UIContext.Post(chatIds =>
+            {
+                foreach (var chatId in (int[])chatIds)
+                    if (Cache.TryRemoveChat(chatId, out var chat))
+                        Api.MultiuserChats.Remove(chat);
+            }, e);
         }
 
         private void HandleFriendsRemoved(object? sender, int[] e)
         {
-            var friends = Api.FriendList.Where(f => e.Contains(f.Id)).ToArray();
-            UIContext.Post(friendsObj =>
+            UIContext.Post(friendIds =>
             {
-                foreach (var friend in (Friend[])friendsObj)
-                    Api.FriendList.Remove(friend);
-            }, friends);
+                foreach (var friendId in (int[])friendIds)
+                    if (Cache.TryRemoveUser(friendId, out var friend))
+                        Api.FriendList.Remove((Friend)friend);
+            }, e);
         }
 
 
