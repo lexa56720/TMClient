@@ -7,6 +7,7 @@ using ApiWrapper.Types;
 using TMApi.ApiRequests.Users;
 using System;
 using ApiWrapper.Wrapper;
+using ClientApiWrapper;
 
 namespace ApiWrapper.ApiWrapper.Wrapper
 {
@@ -48,8 +49,12 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         public IChatsApi Chats => chats;
         internal readonly ClientChatsApi chats;
 
-        public ObservableCollection<Chat> MultiuserChats { get; private set; } = new();
-        public ObservableCollection<Friend> FriendList { get; private set; } = new();
+        public ObservableCollection<Chat> MultiuserChats { get; private set; }
+            = new OrderedObservableCollection<Chat>(new ChatComparer(), (c) => c, nameof(Chat.LastMessage));
+        public ObservableCollection<Friend> FriendList { get; private set; }
+            = new OrderedObservableCollection<Friend>(new FriendComparer(), (f) => f.Dialogue, nameof(Friend.Dialogue.LastMessage));
+
+
         public ObservableCollection<FriendRequest> FriendRequests { get; private set; } = new();
         public ObservableCollection<ChatInvite> ChatInvites { get; private set; } = new();
 
