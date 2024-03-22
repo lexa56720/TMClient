@@ -23,56 +23,12 @@ namespace TMClient.Controls
     /// </summary>
     public partial class SystemMessageControl : MessageBaseControl
     {
-        public override IReadOnlyCollection<Message> InnerMessages => [Message];
-        public override required User Author { get; init; }
-        public override required bool IsOwn { get; set; }
-        public override required string Text { get; set; }
-        public override required bool IsReaded { get; set; }
-        public override required DateTime Time { get; set; }
-
-        public SystemMessage Message
-        {
-            get => message;
-            set
-            {
-                message = value;
-                OnPropertyChanged(nameof(Message));
-            }
-        }
-        private SystemMessage message=null!;
-
 
         [SetsRequiredMembers]
-        public SystemMessageControl(SystemMessage message)
+        public SystemMessageControl(SystemMessage message):base(message)
         {
-            Message = message;
-            Author = message.Author;
-            IsOwn = message.IsOwn;
-            Text = message.Text;
-            Time = message.SendTime;
-            IsReaded = message.IsReaded;
-
             DataContext = this;
             InitializeComponent();
-        }
-
-
-        public override bool IsCanUnion(Message newMessage)
-        {
-            return false;
-        }
-        public override bool IsCanUnion(MessageBaseControl second)
-        {
-            return false;
-        }
-        public override void UnionToEnd(Message message)
-        {
-            return;
-        }
-
-        public override void UnionToStart(Message message)
-        {
-            return;
         }
     }
 }

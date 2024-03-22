@@ -21,7 +21,7 @@ namespace TMClient.Utils
             if (now.Year == time.Year)
             {
                 if (now.DayOfYear == time.DayOfYear)
-                    return "Сегодня в " + time.ToShortTimeString();
+                    return  time.ToShortTimeString();
                 else
                 {
                     var difference = now - time;
@@ -36,26 +36,7 @@ namespace TMClient.Utils
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var time = (string)value;
-
-            if (time.Contains("Сегодня в "))
-                return DateTime.Parse(time.Replace("Сегодня в ", null));
-
-            if (time.Contains("Вчера в "))
-            {
-                return DateTime.ParseExact(time, "Вчера в HH:mm", null);
-            }
-            var formats = new string[]
-            {
-                "Вчера в HH:mm",
-                "d MMMM в HH:mm",
-                "d MMMM yyyy"
-            };
-            if (DateTime.TryParseExact(time, formats, null, DateTimeStyles.None, out var result))
-            {
-                return result;
-            }
-            return DateTime.MinValue;
+            throw new NotImplementedException();
         }
     }
 }

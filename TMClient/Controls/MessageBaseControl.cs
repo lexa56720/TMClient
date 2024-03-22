@@ -10,20 +10,24 @@ using TMClient.Utils;
 
 namespace TMClient.Controls
 {
-    public abstract class MessageBaseControl:UserControl
+    public abstract class MessageBaseControl : UserControl
     {
-        public abstract required User Author { get; init; }
-        public abstract required bool IsOwn { get; set; }
-        public abstract required string Text { get; set; }
-        public abstract required bool IsReaded { get; set; }
-        public abstract required DateTime Time { get; set; }
+        public Message Message 
+        { 
+            get => message; 
+            set
+            {
+                message = value;
+                OnPropertyChanged(nameof(message));
+            }
+        }
+        private Message message;
 
-
-        public MessageBaseControl() 
+        public MessageBaseControl(Message message)
         {
+            Message= message;
             DataContext = this;
         }
-        public abstract IReadOnlyCollection<Message> InnerMessages { get; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -31,13 +35,5 @@ namespace TMClient.Controls
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public abstract bool IsCanUnion(Message newMessage);
-
-        public abstract bool IsCanUnion(MessageBaseControl second);
-
-        public abstract void UnionToEnd(Message message);
-
-        public abstract void UnionToStart(Message message);
     }
 }

@@ -62,9 +62,9 @@ namespace TMClient.ViewModel
 
         }
 
-        private async Task OpenChat(Page page)
+        private void OpenChat(Page page)
         {
-            await Messenger.Send(Messages.OpenChatPage, page,true);
+            Messenger.Send(Messages.OpenChatPage, page, true);
         }
 
         private async Task AddFriend()

@@ -33,7 +33,6 @@ namespace TMClient.ViewModel.Chats
         }
         private string messageText = string.Empty;
 
-
         public ICommand LoadHistory => new AsyncCommand(LoadMessages);
         public ICommand Send => new AsyncCommand<string>(SendMessage);
         public ICommand Attach => new AsyncCommand(AttachFile);
@@ -72,7 +71,7 @@ namespace TMClient.ViewModel.Chats
 
             Message[] messages;
             if (Messages.Any())
-                messages = await Model.GetHistory(Messages.First().InnerMessages.First());
+                messages = await Model.GetHistory(Messages.First().Message);
             else
                 messages = await Model.GetHistory(0);
 
@@ -90,33 +89,17 @@ namespace TMClient.ViewModel.Chats
         {
             MessageText = string.Empty;
 
-            if (string.IsNullOrEmpty(text))
-                return;
-
-            var message = await Model.SendMessage(new Message()
-            {
-                Author = CurrentUser.Info,
-                Text = text,
-                Destination = Chat,
-                IsReaded = false,
-                IsOwn = true
-            });
+            var message = await Model.SendMessage(text, CurrentUser.Info);
 
             if (message != null)
                 AddMessageToEnd(message);
-
-
-            ReadMessages(null, Messages.SelectMany(m => m.InnerMessages)
-                                      .Where(m => !m.IsReaded && !m.IsOwn)
-                                      .Select(m => m.Id)
-                                      .ToArray());
+            Model.SetIsReaded(Messages.Where(m => !m.Message.IsOwn && !m.Message.IsReaded));
         }
 
         public async Task AttachFile()
         {
 
         }
-
 
         protected async void HandleNewMessages(object? sender, Message[] messages)
         {
@@ -128,56 +111,8 @@ namespace TMClient.ViewModel.Chats
         }
         private void ReadMessages(object? sender, int[] e)
         {
-            //if(e.Length == 0) return;
-            var affectedMessages = new List<MessageBaseControl>();
-
-            for (int i = 0; i < Messages.Count; i++)
-            {
-                if (Messages[i].InnerMessages.Any(im => e.Contains(im.Id)))
-                    affectedMessages.Add(Messages[i]);
-            }
-
-            for (int i = 0; i < affectedMessages.Count; i++)
-            {
-                foreach (var innerMessage in affectedMessages[i].InnerMessages)
-                    if (e.Contains(innerMessage.Id))
-                        innerMessage.IsReaded = true;
-            }
-            App.MainThread.Invoke(() =>
-            {
-                for (int i = 0; i < affectedMessages.Count; i++)
-                {
-                    if (affectedMessages[i].InnerMessages.All(m => m.IsReaded))
-                    {
-                        affectedMessages[i].IsReaded = true;
-                        continue;
-                    }
-
-                    if (affectedMessages[i] is MessageControl)
-                    {
-                        var splitted = Split((MessageControl)affectedMessages[i]);
-                        var index = Messages.IndexOf(affectedMessages[i]);
-
-                        Messages.RemoveAt(index);
-                        for (int j = 0; j < splitted.Count; j++)
-                            Messages.Insert(index + j, splitted[j]);
-                    }
-                }
-
-                for (int i = 0; i < (Messages.Count - 1); i++)
-                {
-                    if (!Messages[i].IsCanUnion(Messages[i + 1]))
-                        continue;
-
-                    for (int j = 0; j < Messages[i + 1].InnerMessages.Count; j++)
-                        Messages[i].UnionToEnd(Messages[i + 1].InnerMessages.ElementAt(j));
-
-                    Messages.RemoveAt(i + 1);
-                    i--;
-                }
-            });
+            Model.SetIsReaded(Messages.Where(m => e.Contains(m.Message.Id)));
         }
-
 
         private MessageBaseControl CreateMessage(Message message)
         {
@@ -185,55 +120,15 @@ namespace TMClient.ViewModel.Chats
                 return new SystemMessageControl((SystemMessage)message);
             return new MessageControl(message);
         }
-
-        protected void AddMessageToEnd(Message message)
-        {
-            var last = Messages.LastOrDefault();
-            if (last != null && last.IsCanUnion(message))
-                last.UnionToEnd(message);
-            else
-                Messages.Add(CreateMessage(message));
-        }
-        protected void AddMessageToEnd(Message[] messages)
+        protected void AddMessageToEnd(params Message[] messages)
         {
             for (int i = 0; i < messages.Length; i++)
-                AddMessageToEnd(messages[i]);
+                Messages.Add(CreateMessage(messages[i]));
         }
-
-        protected void AddMessageToStart(Message message)
-        {
-            var first = Messages.FirstOrDefault();
-            if (first != null && first.IsCanUnion(message))
-                first.UnionToStart(message);
-            else
-                Messages.Insert(0, CreateMessage(message));
-        }
-        protected void AddMessageToStart(Message[] messages)
+        protected void AddMessageToStart(params Message[] messages)
         {
             for (int i = 0; i < messages.Length; i++)
-                AddMessageToStart(messages[i]);
+                Messages.Insert(0, CreateMessage(messages[i]));
         }
-
-        protected List<MessageControl> Split(MessageControl message)
-        {
-            var innerMessages = message.InnerMessages;
-            var result = new List<MessageControl>(innerMessages.Count)
-            {
-                new(innerMessages.First())
-            };
-            for (int i = 1; i < innerMessages.Count; i++)
-            {
-                if (result.Last().IsCanUnion(innerMessages.ElementAt(i)))
-                {
-                    result.Last().UnionToEnd(innerMessages.ElementAt(i));
-                }
-                else
-                {
-                    result.Add(new MessageControl(innerMessages.First()));
-                }
-            }
-            return result;
-        }
-
     }
 }
