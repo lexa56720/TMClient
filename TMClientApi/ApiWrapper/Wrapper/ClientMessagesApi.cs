@@ -15,17 +15,17 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             Api = api;
             Converter = converter;
         }
-        public async Task<Message[]> GetMessages(int chatId, int count, int offset)
+        public async Task<Message[]> GetMessagesByOffset(int chatId, int count, int offset)
         {
-            var messages = await Api.Messages.GetMessages(chatId, count, offset);
+            var messages = await Api.Messages.GetMessagesByOffset(chatId, count, offset);
             if (messages.Length == 0)
                 return [];
             return await Converter.Convert(messages);
         }
 
-        public async Task<Message[]> GetMessages(int chatId, int fromMessageId)
+        public async Task<Message[]> GetMessages(int chatId, int fromMessageId,int count)
         {
-            var messages = await Api.Messages.GetMessages(chatId, fromMessageId);
+            var messages = await Api.Messages.GetMessages(chatId, fromMessageId,count);
             if (messages.Length == 0)
                 return [];
             return await Converter.Convert(messages);

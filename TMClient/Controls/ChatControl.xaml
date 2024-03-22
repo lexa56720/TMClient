@@ -15,7 +15,7 @@
         <Border  CornerRadius="5">
             <Grid>
                 <local:ExtendeListView Background="#202020" Padding="0" Margin="0"  ScrollViewer.VerticalScrollBarVisibility="Visible"
-                                       ReachTop="{Binding LoadMore, RelativeSource={RelativeSource AncestorType={x:Type local:ChatControl}}}"
+                                       ReachTop="{Binding LoadMore, RelativeSource={RelativeSource AncestorType={x:Type local:ChatControl}},Delay=200}"
                                        ItemsSource="{Binding Messages}" HorizontalContentAlignment="Stretch"
                                        ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <local:ExtendeListView.ItemContainerStyle>

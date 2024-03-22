@@ -9,7 +9,7 @@
     <Grid HorizontalAlignment="Center" Margin="0,0,0,5">
         <StackPanel Orientation="Horizontal">
 
-            <local:UserMention User="{Binding Message.Author}">
+            <local:UserMention User="{Binding Message.Author}"  >
                 <local:UserMention.Style>
                     <Style TargetType="local:UserMention">
                         <Style.Triggers>
@@ -21,7 +21,7 @@
                 </local:UserMention.Style>
             </local:UserMention>
 
-            <TextBlock>
+            <TextBlock HorizontalAlignment="Center">
                 <TextBlock.Style>
                     <Style TargetType="TextBlock" BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}">
                         <Style.Triggers>
@@ -53,10 +53,20 @@
                                     <Condition Binding="{Binding Message.Kind}" Value="UserEnter"/>
                                 </MultiDataTrigger.Conditions>
                                 <MultiDataTrigger.Setters>
-                                    <Setter Property="Text" Value="вы покинули чат"/>
+                                    <Setter Property="Text" Value="Вы вошли чат"/>
                                 </MultiDataTrigger.Setters>
                             </MultiDataTrigger>
-
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="True"/>
+                                    <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="ChatCreated"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="Вы создали чат"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            
                             <MultiDataTrigger >
                                 <MultiDataTrigger.Conditions>
                                     <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="False"/>
@@ -84,7 +94,7 @@
                                     <Condition Binding="{Binding Message.Kind}" Value="UserEnter"/>
                                 </MultiDataTrigger.Conditions>
                                 <MultiDataTrigger.Setters>
-                                    <Setter Property="Text" Value="покинул чат"/>
+                                    <Setter Property="Text" Value="вошёл в чат"/>
                                 </MultiDataTrigger.Setters>
                             </MultiDataTrigger>
 
@@ -115,7 +125,17 @@
                                     <Condition Binding="{Binding Message.Kind}" Value="UserEnter"/>
                                 </MultiDataTrigger.Conditions>
                                 <MultiDataTrigger.Setters>
-                                    <Setter Property="Text" Value="покинул чат"/>
+                                    <Setter Property="Text" Value="вошёл чат"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="ChatCreated"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="cоздал чат"/>
                                 </MultiDataTrigger.Setters>
                             </MultiDataTrigger>
                             
@@ -123,8 +143,8 @@
                     </Style>
                 </TextBlock.Style>
             </TextBlock>
-            
-            <local:UserMention User="{Binding Message.Target}">
+
+            <local:UserMention User="{Binding Message.Target}"  >
                 <local:UserMention.Style>
                     <Style TargetType="local:UserMention">
                         <Style.Triggers>
@@ -136,9 +156,9 @@
                 </local:UserMention.Style>
             </local:UserMention>
 
-            <TextBlock>
+            <TextBlock >
                 <TextBlock.Style>
-                    <Style TargetType="TextBlock" BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}">
+                    <Style TargetType="TextBlock"  BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}">
                         <Style.Triggers>
 
                             <MultiDataTrigger >
@@ -155,7 +175,7 @@
                                     <Condition Binding="{Binding Message.Kind}" Value="UserEnter"/>
                                 </MultiDataTrigger.Conditions>
                                 <MultiDataTrigger.Setters>
-                                    <Setter Property="Visibility" Value="Hidden"/>
+                                    <Setter Property="Visibility" Value="Collapsed"/>
                                     <Setter Property="Text" Value=""/>
                                 </MultiDataTrigger.Setters>
                             </MultiDataTrigger>
@@ -164,7 +184,7 @@
                                     <Condition Binding="{Binding Message.Kind}" Value="UserLeave"/>
                                 </MultiDataTrigger.Conditions>
                                 <MultiDataTrigger.Setters>
-                                    <Setter Property="Visibility" Value="Hidden"/>
+                                    <Setter Property="Visibility" Value="Collapsed"/>
                                     <Setter Property="Text" Value=""/>
                                 </MultiDataTrigger.Setters>
                             </MultiDataTrigger>

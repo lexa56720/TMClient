@@ -33,7 +33,7 @@ namespace TMClient.ViewModel.Chats
 
         protected override ChatModel GetModel(Chat chat)
         {
-            return new ChatModel(chat);
+            return new ChatModel(chat, 20);
         }
 
         private async Task LeaveChat()

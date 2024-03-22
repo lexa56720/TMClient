@@ -101,10 +101,6 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         private static async Task<Chat[]> InitChats(ClientApi api, int[] chatIds)
         {
             var chats = await api.Chats.GetChat(chatIds);
-            var lastMessages = await api.Messages.GetLastMessages(chatIds);
-            if (lastMessages == null)
-                return [];
-
             for (int i = 0; i < chats.Length; i++)
             {
                 if (!chats[i].IsDialogue)

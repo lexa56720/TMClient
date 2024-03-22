@@ -4,7 +4,7 @@ using TMClient.Model.Chats;
 
 namespace TMClient.ViewModel.Chats
 {
-    internal class FriendChatViewModel : BaseChatViewModel<FriendChatModel>
+    internal class FriendChatViewModel : BaseChatViewModel<ChatModel>
     {
         public Friend Friend { get; }
 
@@ -15,9 +15,9 @@ namespace TMClient.ViewModel.Chats
             Friend = friend;
         }
 
-        protected override FriendChatModel GetModel(Chat chat)
+        protected override ChatModel GetModel(Chat chat)
         {
-            return new FriendChatModel(chat);
+            return new ChatModel(chat,20);
         }
 
         private async Task Block()

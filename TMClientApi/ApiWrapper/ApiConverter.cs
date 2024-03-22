@@ -77,10 +77,13 @@ namespace ApiWrapper.ApiWrapper
             }
             else
             {
+                User? target = null;
+                if (message.TargetId > 0)
+                    target = await Api.Users.GetUser(message.TargetId);
                 var systemMessage = new SystemMessage(message.Id,
                                          message.SendTime,
                                          author,
-                                         await Api.Users.GetUser(message.TargetId),
+                                         target,
                                          message.Kind,
                                          chat,
                                          Api.Info);

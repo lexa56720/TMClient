@@ -8,7 +8,7 @@ using TMClient.Utils;
 
 namespace TMClient.ViewModel.Chats
 {
-    internal abstract class BaseChatViewModel<T> : BaseViewModel where T : BaseChatModel
+    internal abstract class BaseChatViewModel<T> : BaseViewModel where T : ChatModel
     {
         public int Id { get; private set; }
         public Chat Chat { get; private set; }
@@ -33,6 +33,7 @@ namespace TMClient.ViewModel.Chats
         }
         private string messageText = string.Empty;
 
+
         public ICommand LoadHistory => new AsyncCommand(LoadMessages);
         public ICommand Send => new AsyncCommand<string>(SendMessage);
         public ICommand Attach => new AsyncCommand(AttachFile);
@@ -40,10 +41,9 @@ namespace TMClient.ViewModel.Chats
         public ICommand PageLoadedCommand => new Command(PageLoaded);
         public ICommand PageUnloadedCommand => new Command(PageUnloaded);
 
-
-
         protected T Model { get; private set; }
 
+        private bool IsFullyLoaded = false;
         public BaseChatViewModel(Chat chat)
         {
             chat.UnreadCount = 0;
@@ -67,12 +67,17 @@ namespace TMClient.ViewModel.Chats
 
         public async Task LoadMessages()
         {
+            if (IsFullyLoaded)
+                return;
+
             Message[] messages;
             if (Messages.Any())
                 messages = await Model.GetHistory(Messages.First().InnerMessages.First());
             else
                 messages = await Model.GetHistory(0);
 
+            if (messages.Length < Model.Count)
+                IsFullyLoaded = true;
 
             var readedMessages = messages.Where(m => !m.IsReaded && !m.IsOwn)
                                          .ToArray();
@@ -148,7 +153,7 @@ namespace TMClient.ViewModel.Chats
                         continue;
                     }
 
-                    if(affectedMessages[i] is MessageControl)
+                    if (affectedMessages[i] is MessageControl)
                     {
                         var splitted = Split((MessageControl)affectedMessages[i]);
                         var index = Messages.IndexOf(affectedMessages[i]);

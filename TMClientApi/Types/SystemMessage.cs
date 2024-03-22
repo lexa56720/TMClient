@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
-using TMApi.ApiRequests.Security;
 using ApiTypes.Communication.Messages;
 using System.Diagnostics.CodeAnalysis;
 using System.ComponentModel;

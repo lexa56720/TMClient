@@ -4,8 +4,8 @@ namespace ApiWrapper.Interfaces
 {
     public interface IMessagesApi
     {
-        public Task<Message[]> GetMessages(int chatId, int count, int offset);
-        public Task<Message[]> GetMessages(int chatId, int fromMessageId);
+        public Task<Message[]> GetMessagesByOffset(int chatId, int count, int offset);
+        public Task<Message[]> GetMessages(int chatId, int fromMessageId,int count);
         public Task<Message[]> GetMessages(params int[] messageIds);
 
         public Task<Message?[]> GetLastMessages( int[] chatIds);
