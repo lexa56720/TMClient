@@ -25,16 +25,6 @@ namespace TMClient.ViewModel.Chats
         public ICommand InviteCommand => new AsyncCommand(InviteToChat);
         public ICommand ShowMembersCommand => new AsyncCommand(ShowMembers);
 
-        public bool IsReadOnly
-        {
-            get => isReadOnly;
-            set
-            {
-                isReadOnly = value;
-                OnPropertyChanged(nameof(IsReadOnly));
-            }
-        }
-        private bool isReadOnly = false;
 
         protected override MultiUserChatModel GetModel(Chat chat)
         {

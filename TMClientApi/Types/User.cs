@@ -5,9 +5,9 @@ namespace ApiWrapper.Types
 {
     public class User : INotifyPropertyChanged
     {
-        public int Id { get; }
+        public virtual int Id { get; }
 
-        public string Name
+        public virtual string Name
         {
             get => name;
             set
@@ -18,7 +18,7 @@ namespace ApiWrapper.Types
         }
         private string name = string.Empty;
 
-        public string Login
+        public virtual string Login
         {
             get => login;
             set
@@ -29,7 +29,7 @@ namespace ApiWrapper.Types
         }
         private string login = string.Empty;
 
-        public bool IsOnline
+        public virtual bool IsOnline
         {
             get => isOnline;
             set
@@ -43,7 +43,6 @@ namespace ApiWrapper.Types
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private bool IsDisposed;
         public User(int id, string name, string login, bool isOnline)
         {
             Id = id;
@@ -52,7 +51,12 @@ namespace ApiWrapper.Types
             IsOnline = isOnline;
         }
 
-        public void Update(User user)
+        protected User()
+        {
+
+        }
+
+        public virtual void Update(User user)
         {
             if (user == this)
                 return;

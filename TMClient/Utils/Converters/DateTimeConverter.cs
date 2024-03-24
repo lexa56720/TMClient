@@ -25,7 +25,7 @@ namespace TMClient.Utils
                 else
                 {
                     var difference = now - time;
-                    if (difference.TotalHours < 48)
+                    if (difference.TotalHours < 24)
                         return time.ToString("Вчера в HH:mm");
                     return time.ToString("d MMMM в HH:mm");
 

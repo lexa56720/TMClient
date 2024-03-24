@@ -106,7 +106,7 @@ namespace ApiWrapper.Wrapper
             {
                 foreach (var friendId in (int[])friendIds)
                     if (Cache.TryRemoveUser(friendId, out var friend))
-                        Api.FriendList.Remove((Friend)friend);
+                        Api.FriendList.Remove(Api.FriendList.Single(f=>f.Id==friend.Id));
             }, e);
         }
 

@@ -44,5 +44,10 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         {
             return await Api.Friends.SendFriendRequest(toId);
         }
+
+        public async Task<bool> RemoveFriend(int friendId)
+        {
+            return await Api.Friends.RemoveFriend(friendId);
+        }
     }
 }

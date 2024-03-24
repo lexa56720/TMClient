@@ -21,7 +21,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid>
+            <Grid IsEnabled="{Binding IsReadOnly,Converter={StaticResource BooleanInverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -41,7 +41,7 @@
                 </StackPanel>
             </Grid>
             <controls:ChatControl LoadMore="{Binding LoadHistory}" AttachCommand="{Binding Attach}" WrittenText="{Binding MessageText}" 
-                                  SendCommand="{Binding Send}" Grid.Row="1" ItemsSource="{Binding Messages}"  />
+                                  SendCommand="{Binding Send}" Grid.Row="1" ItemsSource="{Binding Messages}" IsReadOnly="{Binding IsReadOnly}"  />
         </Grid>
     </Border>
 </Page>

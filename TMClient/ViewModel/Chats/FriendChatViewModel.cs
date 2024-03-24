@@ -4,25 +4,27 @@ using TMClient.Model.Chats;
 
 namespace TMClient.ViewModel.Chats
 {
-    internal class FriendChatViewModel : BaseChatViewModel<ChatModel>
+    internal class FriendChatViewModel : BaseChatViewModel<FriendChatModel>
     {
         public Friend Friend { get; }
 
         public ICommand BlockCommand => new AsyncCommand(Block);
-   
+
+
         public FriendChatViewModel(Friend friend) : base(friend.Dialogue)
         {
             Friend = friend;
         }
 
-        protected override ChatModel GetModel(Chat chat)
+        protected override FriendChatModel GetModel(Chat chat)
         {
-            return new ChatModel(chat,20);
+            return new FriendChatModel(chat, 20);
         }
 
         private async Task Block()
         {
-            throw new NotImplementedException();
+            if (await Model.RemoveFriend(Friend))
+                IsReadOnly = true;
         }
     }
 }
