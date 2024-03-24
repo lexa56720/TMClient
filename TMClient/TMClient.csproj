@@ -6,13 +6,17 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Resources\AppIcon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\AppIcon.png" />
     <None Remove="Resources\config.cfg" />
     <None Remove="Resources\Fonts\SegoeIcons.ttf" />
     <None Remove="Resources\Fonts\segoeui.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\AppIcon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,7 +54,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\AppIcon.png" />
     <Resource Include="Resources\Fonts\SegoeIcons.ttf" />
     <Resource Include="Resources\Fonts\segoeui.ttf" />
   </ItemGroup>
