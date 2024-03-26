@@ -10,19 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\config.cfg" />
+    <None Remove="Resources\defaultUser.png" />
     <None Remove="Resources\Fonts\SegoeIcons.ttf" />
     <None Remove="Resources\Fonts\segoeui.ttf" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Resources\AppIcon.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\config.cfg">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -54,6 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\defaultUser.png" />
     <Resource Include="Resources\Fonts\SegoeIcons.ttf" />
     <Resource Include="Resources\Fonts\segoeui.ttf" />
   </ItemGroup>

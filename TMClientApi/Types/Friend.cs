@@ -19,7 +19,7 @@ namespace ApiWrapper.Types
         }
         private Chat dialogue = null!;
 
-        public override int Id=>user.Id;
+        public override int Id => user.Id;
 
         public override string Name
         {
@@ -49,6 +49,36 @@ namespace ApiWrapper.Types
             }
         }
 
+
+        public override string ProfilePicLarge
+        {
+            get => user.ProfilePicLarge;
+            set
+            {
+                user.ProfilePicLarge = value;
+                OnPropertyChanged(nameof(ProfilePicLarge));
+            }
+        }
+        public override string ProfilePicMedium
+        {
+            get => user.ProfilePicMedium;
+            set
+            {
+                user.ProfilePicMedium = value;
+                OnPropertyChanged(nameof(ProfilePicMedium));
+            }
+        }
+        public override string ProfilePicSmall
+        {
+            get => user.ProfilePicSmall;
+            set
+            {
+                user.ProfilePicSmall = value;
+                OnPropertyChanged(nameof(ProfilePicSmall));
+            }
+        }
+
+
         private User user;
 
         public Friend(User user, Chat dialogue) : base()
@@ -66,6 +96,10 @@ namespace ApiWrapper.Types
             OnPropertyChanged(nameof(Login));
             OnPropertyChanged(nameof(Name));
             OnPropertyChanged(nameof(IsOnline));
+
+            OnPropertyChanged(nameof(ProfilePicLarge));
+            OnPropertyChanged(nameof(ProfilePicMedium));
+            OnPropertyChanged(nameof(ProfilePicSmall));
         }
     }
 }

@@ -142,5 +142,29 @@ namespace TMClient {
                 this["LongPollPeriodMinutes"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("6668")]
+        public int FileUploadPort {
+            get {
+                return ((int)(this["FileUploadPort"]));
+            }
+            set {
+                this["FileUploadPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("6669")]
+        public int FileGetPort {
+            get {
+                return ((int)(this["FileGetPort"]));
+            }
+            set {
+                this["FileGetPort"] = value;
+            }
+        }
     }
 }

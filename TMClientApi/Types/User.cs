@@ -38,17 +38,55 @@ namespace ApiWrapper.Types
                 OnPropertyChanged(nameof(IsOnline));
             }
         }
+
+
         private bool isOnline = false;
 
+        public virtual string ProfilePicLarge
+        {
+            get => profilePicLarge;
+            set
+            {
+                profilePicLarge = value;
+                OnPropertyChanged(nameof(ProfilePicLarge));
+            }
+        }
+        private string profilePicLarge;
+
+        public virtual string ProfilePicMedium
+        {
+            get => profilePicMedium;
+            set
+            {
+                profilePicMedium = value;
+                OnPropertyChanged(nameof(ProfilePicMedium));
+            }
+        }
+        private string profilePicMedium;
+
+        public virtual string ProfilePicSmall
+        {
+            get => profilePicSmall;
+            set
+            {
+                profilePicSmall = value;
+                OnPropertyChanged(nameof(ProfilePicSmall));
+            }
+        }
+        private string profilePicSmall;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public User(int id, string name, string login, bool isOnline)
+        public User(int id, string name, string login, bool isOnline, 
+            string picLarge, string picMedium,string picSmall)
         {
             Id = id;
             Name = name;
             Login = login;
             IsOnline = isOnline;
+            ProfilePicLarge = picLarge;
+            ProfilePicMedium = picMedium;
+            ProfilePicSmall = picSmall;
         }
 
         protected User()
@@ -63,6 +101,9 @@ namespace ApiWrapper.Types
             IsOnline = user.IsOnline;
             Name = user.Name;
             Login = user.Login;
+            ProfilePicLarge = user.ProfilePicLarge;
+            ProfilePicMedium = user.ProfilePicMedium;
+            ProfilePicSmall = user.ProfilePicSmall;
         }
 
         protected void OnPropertyChanged(string propertyName)

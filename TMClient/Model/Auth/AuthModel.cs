@@ -28,12 +28,14 @@ namespace TMClient.Model.Auth
             var authPort = Preferences.Default.AuthPort;
             var apiPort = Preferences.Default.ApiPort;
             var longPollPort = Preferences.Default.LongPollPort;
+            var fileUploadPort = Preferences.Default.FileUploadPort;
+            var fileGetPort = Preferences.Default.FileGetPort;
             var longPollPeriod = TimeSpan.FromMinutes(Preferences.Default.LongPollPeriodMinutes);
             var cachedUserLifetime = TimeSpan.FromMinutes(Preferences.Default.CachedUserLifetimeMinutes);
             var cachedChatLifetime = TimeSpan.FromMinutes(Preferences.Default.CachedChatLifetimeMinutes);
 
-            return new ApiFactory(ip, authPort, apiPort, cachedUserLifetime, cachedChatLifetime,
-                                  longPollPort, longPollPeriod, SynchronizationContext.Current);
+            return new ApiFactory(ip, authPort, apiPort, fileUploadPort, fileGetPort, cachedUserLifetime,
+                        cachedChatLifetime, longPollPort, longPollPeriod, SynchronizationContext.Current);
         }
 
 

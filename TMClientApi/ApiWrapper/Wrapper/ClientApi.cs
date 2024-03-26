@@ -8,6 +8,7 @@ using TMApi.ApiRequests.Users;
 using System;
 using ApiWrapper.Wrapper;
 using ClientApiWrapper;
+using System.Net;
 
 namespace ApiWrapper.ApiWrapper.Wrapper
 {
@@ -66,14 +67,14 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         private bool IsDisposed = false;
 
-        private ClientApi(TimeSpan userLifetime, TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
+        private ClientApi(IPEndPoint fileServer, TimeSpan userLifetime, TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
         {
             Info = ApiConverter.Convert(api.UserInfo.MainInfo);
 
             Cache = new CacheManager(userLifetime, chatLifetime);
             Cache.AddToCache(Info);
 
-            Converter = new ApiConverter(this, Cache);
+            Converter = new ApiConverter(this, Cache,fileServer);
 
             users = new ClientUsersApi(api, Converter, Cache, Info);
             messages = new ClientMessagesApi(api, Converter);
@@ -84,9 +85,9 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
             Api = api;
         }
-        internal static async Task<ClientApi?> Init(TimeSpan userLifetime, TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
+        internal static async Task<ClientApi?> Init(IPEndPoint fileServer, TimeSpan userLifetime, TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
         {
-            var clientApi = new ClientApi(userLifetime, chatLifetime, api, uiContext);
+            var clientApi = new ClientApi(fileServer, userLifetime, chatLifetime, api, uiContext);
 
             var chats = await InitChats(clientApi, api.UserInfo.Chats);
             clientApi.Cache.AddOrUpdateCache(TimeSpan.MaxValue, chats);

@@ -10,6 +10,8 @@ global using User = ApiWrapper.Types.User;
 using ApiWrapper.Types;
 using ApiWrapper.Interfaces;
 using ClientApiWrapper.Types;
+using System.Net;
+using ApiTypes.Communication.Medias;
 
 namespace ApiWrapper.ApiWrapper
 {
@@ -19,16 +21,22 @@ namespace ApiWrapper.ApiWrapper
         private IUsersApi UserApi => Api.Users;
         private readonly IApi Api;
         private readonly CacheManager Cache;
+        private static IPEndPoint fileServer;
 
-        public ApiConverter(IApi api, CacheManager cache)
+        public ApiConverter(IApi api, CacheManager cache, IPEndPoint fileServer)
         {
             Api = api;
             Cache = cache;
+            ApiConverter.fileServer = fileServer;
         }
 
         public static User Convert(ApiUser user)
         {
-            return new User(user.Id, user.Name, user.Login, user.IsOnline);
+            var largePic = GetProfileImage(user.ProfilePics.SingleOrDefault(p => p.Size == ImageSize.Large));
+            var mediumPic = GetProfileImage(user.ProfilePics.SingleOrDefault(p => p.Size == ImageSize.Medium));
+            var smallPic = GetProfileImage(user.ProfilePics.SingleOrDefault(p => p.Size == ImageSize.Small));
+
+            return new User(user.Id, user.Name, user.Login, user.IsOnline, largePic, mediumPic, smallPic);
         }
         public User[] Convert(ApiUser[] users)
         {
@@ -158,6 +166,13 @@ namespace ApiWrapper.ApiWrapper
                 result[i] = new ChatInvite(invites[i].Id, users[i], chats[i]);
 
             return result;
+        }
+
+        private static string GetProfileImage(Photo? photo)
+        {
+            if (photo == null)
+                return "pack://application:,,,/Resources/defaultUser.png";
+            return $"http://{fileServer.ToString}/{photo.Url}";
         }
     }
 }
