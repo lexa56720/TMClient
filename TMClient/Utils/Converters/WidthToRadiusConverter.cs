@@ -8,19 +8,17 @@ using System.Windows.Data;
 
 namespace TMClient.Utils.Converters
 {
-
-
-    [ValueConversion(typeof(string), typeof(string))]
-    public class SubLoginConverter : IValueConverter
+    [ValueConversion(typeof(double), typeof(double))]
+    internal class WidthToRadiusConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return $"(@{value})";
+            return ((double)value / 2d);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((string)value)[2..(((string)value).Length-1)];
+            return ((double)value * 2d);
         }
     }
 }

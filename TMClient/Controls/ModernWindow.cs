@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Shell;
 using TMClient.Utils;
 
@@ -15,7 +16,7 @@ namespace TMClient.Controls
         private static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
 
         [DllImport("dwmapi.dll", CharSet = CharSet.Unicode, PreserveSig = false)]
-        private static extern void DwmSetWindowAttribute(IntPtr hwnd,DWMWINDOWATTRIBUTE attribute,ref uint pvAttribute, uint cbAttribute);
+        private static extern void DwmSetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attribute, ref uint pvAttribute, uint cbAttribute);
 
         private enum AccentState
         {
@@ -102,9 +103,9 @@ namespace TMClient.Controls
         {
             CaptionHeight = 34,
             CornerRadius = new CornerRadius(5),
-            ResizeBorderThickness=new Thickness(5),
+            ResizeBorderThickness = new Thickness(5),
             GlassFrameThickness = new Thickness(0),
-            UseAeroCaptionButtons=false,
+            UseAeroCaptionButtons = false,
         };
 
         public ModernWindow()
@@ -148,6 +149,7 @@ namespace TMClient.Controls
             SetupTitle();
             Content = MainBorder;
         }
+
         private void SetupTitle()
         {
             IconPanel.Children.Add(TitleText);
@@ -165,11 +167,11 @@ namespace TMClient.Controls
                 Content = "\uE739",
                 Visibility = Visibility.Visible,
                 Style = (Style)FindResource("CaptionButtonStyle"),
-                Command = new Command((o) => 
-                { 
+                Command = new Command((o) =>
+                {
                     MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
                     SystemCommands.MaximizeWindow(this);
-                    })
+                })
             };
             RestoreButton = new IconButton()
             {
@@ -208,7 +210,7 @@ namespace TMClient.Controls
             }
             else
             {
-             
+
                 MainBorder.BorderThickness = new Thickness(0);
                 RestoreButton.Visibility = Visibility.Collapsed;
                 MaximizeButton.Visibility = Visibility.Visible;
@@ -220,11 +222,9 @@ namespace TMClient.Controls
             {
                 base.OnContentChanged(oldContent, newContent);
                 AppContent.Content = newContent;
-
                 Content = MainBorder;
             }
         }
-
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -270,12 +270,6 @@ namespace TMClient.Controls
             SetWindowCompositionAttribute(windowHelper.Handle, ref data);
 
             Marshal.FreeHGlobal(accentPtr);
-        }
-
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
-            DragMove();
         }
     }
 }

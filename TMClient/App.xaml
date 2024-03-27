@@ -4,18 +4,19 @@
              xmlns:local="clr-namespace:TMClient"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:u="clr-namespace:TMClient.Utils"
-                xmlns:v="clr-namespace:TMClient.Utils.Validations"
+             xmlns:c="clr-namespace:TMClient.Utils.Converters"
+             xmlns:v="clr-namespace:TMClient.Utils.Validations"
              xmlns:controls="clr-namespace:TMClient.Controls"
              Startup="ApplicationStart"
              Exit="ApplicationExit">
     <Application.Resources>
 
 
-        <u:LoginConverter x:Key="LoginConverter"></u:LoginConverter>
-        <u:SubLoginConverter x:Key="SubLoginConverter"></u:SubLoginConverter>
-        <u:DateTimeConverter x:Key="DateTimeConverter"></u:DateTimeConverter>
-        <u:BooleanInverter x:Key="BooleanInverter"></u:BooleanInverter>
-
+        <c:LoginConverter x:Key="LoginConverter"></c:LoginConverter>
+        <c:SubLoginConverter x:Key="SubLoginConverter"></c:SubLoginConverter>
+        <c:DateTimeConverter x:Key="DateTimeConverter"></c:DateTimeConverter>
+        <c:BooleanInverter x:Key="BooleanInverter"></c:BooleanInverter>
+        <c:WidthToRadiusConverter x:Key="WidthToRadiusConverter"></c:WidthToRadiusConverter>
 
         <v:NameRule x:Key="NameRule"></v:NameRule>
         <v:ChatNameRule x:Key="ChatNameRule"></v:ChatNameRule>

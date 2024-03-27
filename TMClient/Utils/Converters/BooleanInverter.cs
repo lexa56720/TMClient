@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace TMClient.Utils
+namespace TMClient.Utils.Converters
 {
     [ValueConversion(typeof(bool), typeof(bool))]
     internal class BooleanInverter : IValueConverter

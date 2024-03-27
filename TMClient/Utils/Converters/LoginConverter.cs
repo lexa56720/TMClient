@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
 
-namespace TMClient.Utils
+namespace TMClient.Utils.Converters
 {
     [ValueConversion(typeof(string), typeof(string))]
     public class LoginConverter : IValueConverter
