@@ -1,19 +1,13 @@
-﻿<controls:ModernWindow x:Class="TMClient.View.ImagePicker"
+﻿<UserControl x:Class="TMClient.View.ImagePicker"
         xmlns:controls="clr-namespace:TMClient.Controls"                     
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TMClient.View"
-        d:DataContext="{d:DesignInstance Type=local:ImagePicker}"
-        mc:Ignorable="d" Title="ImagePicker" AllowsTransparency="True"
-        WindowStyle="None" WindowStartupLocation="CenterScreen"  x:Name="window"
-        MinHeight="600" MinWidth="800" ResizeMode="NoResize" Loaded="window_Loaded" >
+        xmlns:local="clr-namespace:TMClient.View" x:Name="imgPicker"    
+        mc:Ignorable="d" Loaded="OnLoaded">
 
-    <controls:ModernWindow.Background>
-        <SolidColorBrush Opacity="0.3" Color="{StaticResource BackgroundDarkColor}"/>
-    </controls:ModernWindow.Background>
-    <Grid Background="Gray" ShowGridLines="False" x:Name="Root" >
+    <Grid x:Name="Root"   DataContext="{Binding ElementName=imgPicker}" >
         <Grid.RowDefinitions>
             <RowDefinition x:Name="TopSide" />
             <RowDefinition Height="Auto"/>
@@ -30,7 +24,7 @@
         </Grid.ColumnDefinitions>
 
 
-        <Image x:Name="Image" Grid.ColumnSpan="6" Grid.RowSpan="6"  />
+        <Image x:Name="Image" Grid.ColumnSpan="6" Grid.RowSpan="6" Source="{Binding ImageSource}"  />
 
         <Path Grid.ColumnSpan="6" Grid.RowSpan="6"  MouseMove="OnMouseMove" MouseDown="OnMouseDown"
              StrokeThickness="3"  StrokeDashArray="5" StrokeDashCap="Round" Stroke="White">
@@ -64,4 +58,4 @@
                       Background="White" Height="{Binding  SplitterSize}" HorizontalAlignment="Stretch"  />
 
     </Grid>
-</controls:ModernWindow>
+</UserControl>

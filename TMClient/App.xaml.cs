@@ -4,6 +4,7 @@ using ApiWrapper.Interfaces;
 using System.Configuration.Provider;
 using System.IO;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using TMClient.Model;
 using TMClient.Utils;
@@ -35,7 +36,7 @@ namespace TMClient
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-            var window = new ImagePicker("D:\\1.jpg");
+            var window = new ImagePickerWindow(@"D:\1.jpg");
             MainWindow = window;
             window.Show();
             //var dialog = new MainAuthWindow();

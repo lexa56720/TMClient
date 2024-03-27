@@ -22,7 +22,7 @@ namespace TMClient.View
     /// <summary>
     /// Логика взаимодействия для ImagePicker.xaml
     /// </summary>
-    public partial class ImagePicker : ModernWindow, INotifyPropertyChanged
+    public partial class ImagePicker : UserControl, INotifyPropertyChanged
     {
         public double SplitterSize
         {
@@ -34,6 +34,39 @@ namespace TMClient.View
             }
         }
         private double splitterSize;
+
+
+        public static readonly DependencyProperty ImageSourceProperty =
+        DependencyProperty.Register(
+            nameof(ImageSource),
+            typeof(BitmapSource),
+            typeof(ImagePicker),
+            new PropertyMetadata(null));
+        public BitmapSource ImageSource
+        {
+            get => (BitmapSource)GetValue(ImageSourceProperty);
+            set
+            {
+                SetValue(ImageSourceProperty, value);           
+            }
+        }
+
+        public BitmapSource CroppedImage
+        {
+            get
+            {
+                if (ImageSource == null || !IsPickerLoaded)
+                    return null;
+                var width = (int)Circle.ActualWidth;
+                var heigth = (int)Circle.ActualHeight;
+                var x = (int)(Center.X - Circle.ActualWidth/2 );
+                var y = (int)(Center.Y - Circle.ActualHeight / 2);
+                var a = new Int32Rect(x, y, width, heigth);
+
+                return new CroppedBitmap(ImageSource, a);
+            }
+        }
+
         public Point Center
         {
             get => center;
@@ -45,18 +78,13 @@ namespace TMClient.View
         }
         private Point center;
 
-
-        public ImagePicker(string path)
+        public ImagePicker()
         {
-            var info = SixLabors.ImageSharp.Image.Identify(path);
-            DataContext = this;
-            InitializeComponent();
             SplitterSize = 5;
-            Image.Source = new BitmapImage(new Uri(path, UriKind.Absolute));
-            window.Width = info.Width;
-            window.Height = info.Height;
+            InitializeComponent();
         }
 
+        private bool IsPickerLoaded=false;
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public void OnPropertyChanged(string propertyName)
@@ -66,11 +94,11 @@ namespace TMClient.View
 
         private void GridSplitterDragDeltaX(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
-            if (CenterColumn.Width.Value > Image.ActualHeight)
-                CenterColumn.Width = new GridLength(Image.ActualHeight);
+            if (CenterColumn.Width.Value > Image.ActualHeight-20)
+                CenterColumn.Width = new GridLength(Image.ActualHeight-20);
 
-            if (CenterColumn.Width.Value > Image.ActualWidth)
-                CenterColumn.Width = new GridLength(Image.ActualWidth);
+            if (CenterColumn.Width.Value > Image.ActualWidth - 20)
+                CenterColumn.Width = new GridLength(Image.ActualWidth-20);
 
             CenterRow.Height = CenterColumn.Width;
             UpdateCenter();
@@ -78,11 +106,11 @@ namespace TMClient.View
 
         private void GridSplitterDragDeltaY(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
-            if (CenterRow.Height.Value > Image.ActualHeight)
-                CenterRow.Height = new GridLength(Image.ActualHeight);
+            if (CenterRow.Height.Value > Image.ActualHeight - 20)
+                CenterRow.Height = new GridLength(Image.ActualHeight-20);
 
-            if (CenterRow.Height.Value > Image.ActualWidth)
-                CenterRow.Height = new GridLength(Image.ActualWidth);
+            if (CenterRow.Height.Value > Image.ActualWidth - 20)
+                CenterRow.Height = new GridLength(Image.ActualWidth-20);
 
 
             CenterColumn.Width = CenterRow.Height;
@@ -122,19 +150,25 @@ namespace TMClient.View
         private void UpdateCenter()
         {
             Point center = Circle.TransformToAncestor(Root).Transform(new Point(0, 0));
-            Center= new Point(center.X + Circle.ActualWidth / 2d, center.Y + Circle.ActualHeight / 2d);
-        }
-
-        private void window_Loaded(object sender, RoutedEventArgs e)
-        {
-            UpdateCenter();
+            Center = new Point(center.X + Circle.ActualWidth / 2d, center.Y + Circle.ActualHeight / 2d);
+            OnPropertyChanged(nameof(CroppedImage));
         }
 
         private double MoreThanZero(double value)
         {
-            if(value<0)
+            if (value < 0)
                 return 0;
             return value;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            IsPickerLoaded = true;
+
+            Root.MaxHeight = Image.ActualHeight;
+            Root.MaxWidth = Image.ActualWidth;
+            Center = new Point(Image.ActualWidth / 2, Image.ActualHeight / 2);
+            OnPropertyChanged(nameof(CroppedImage));
         }
     }
 }
