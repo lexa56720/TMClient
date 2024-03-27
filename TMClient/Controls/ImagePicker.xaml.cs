@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TMClient.Controls;
 
-namespace TMClient.View
+namespace TMClient.Controls
 {
     /// <summary>
     /// Логика взаимодействия для ImagePicker.xaml

@@ -21,10 +21,13 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         
-        <local:ImagePicker x:Name="picker" Grid.Row="0" HorizontalAlignment="Left" ImageSource="{Binding Img}"/>
+        <controls:ImagePicker x:Name="picker" Grid.Row="0" HorizontalAlignment="Left" ImageSource="{Binding Img}"/>
 
         <StackPanel Background="Red" Grid.Row="1" Orientation="Horizontal">
-            <Image Source="{Binding CroppedImage,ElementName=picker,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <controls:CircleImage Width="128" Height="128" ImageSource="{Binding CroppedImage,ElementName=picker,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" />
+
+            <controls:CircleImage Width="256" Height="256" ImageSource="{Binding CroppedImage,ElementName=picker,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" />
+
         </StackPanel>
     </Grid>
 </controls:ModernWindow>
