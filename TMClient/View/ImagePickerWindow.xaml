@@ -5,29 +5,31 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TMClient.View"
-        mc:Ignorable="d"    AllowsTransparency="True"
+        mc:Ignorable="d"    AllowsTransparency="True" SizeToContent="WidthAndHeight"
         WindowStyle="None" MinHeight="400" MinWidth="400"
-        Title="MainAuthWindow" Height="600" Width="700" HorizontalAlignment="Center"
+        Title="MainAuthWindow" HorizontalAlignment="Center"
         VerticalAlignment="Center" >
 
     <controls:ModernWindow.Background>
         <SolidColorBrush Opacity="0.3" Color="Black"/>
     </controls:ModernWindow.Background>
-    
+
     <Grid>
+        <StackPanel Orientation="Horizontal">
+            <controls:ImagePicker x:Name="picker" Grid.Row="0" HorizontalAlignment="Left" ImageSource="{Binding ImageSource}"/>
 
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        
-        <controls:ImagePicker x:Name="picker" Grid.Row="0" HorizontalAlignment="Left" ImageSource="{Binding Img}"/>
+            <StackPanel>
+                <controls:CircleImage Width="64" Height="64" ImageSource="{Binding CroppedImage,ElementName=picker,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" />
+                <Label Content="Маленькое"  FontSize="12" HorizontalAlignment="Center" Margin="0,0,0,15"/>
+                
+                <controls:CircleImage Width="128" Height="128" ImageSource="{Binding CroppedImage,ElementName=picker,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" />
+                <Label Content="Среднее" FontSize="16" HorizontalAlignment="Center" Margin="0,0,0,15"/>
 
-        <StackPanel Background="Red" Grid.Row="1" Orientation="Horizontal">
-            <controls:CircleImage Width="128" Height="128" ImageSource="{Binding CroppedImage,ElementName=picker,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" />
+                <controls:CircleImage Width="256" Height="256" ImageSource="{Binding CroppedImage,ElementName=picker,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" />
+                <Label Content="Большое" FontSize="20" HorizontalAlignment="Center" Margin="0,0,0,15"/>
 
-            <controls:CircleImage Width="256" Height="256" ImageSource="{Binding CroppedImage,ElementName=picker,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" />
-
+                <controls:IconButton Text="Accept" Command="{Binding AcceptCommand}" CommandParameter="{Binding CroppedImage,ElementName=picker}" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </controls:ModernWindow>

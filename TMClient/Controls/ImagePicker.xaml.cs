@@ -41,13 +41,24 @@ namespace TMClient.Controls
             nameof(ImageSource),
             typeof(BitmapSource),
             typeof(ImagePicker),
-            new PropertyMetadata(null));
+            new PropertyMetadata(null,ImagePropertyChanged));
+
+        private static void ImagePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((ImagePicker)d).ImagePropertyChanged();
+        }
+
+        private void ImagePropertyChanged()
+        {
+            SizeSetup();
+        }
+
         public BitmapSource ImageSource
         {
             get => (BitmapSource)GetValue(ImageSourceProperty);
             set
             {
-                SetValue(ImageSourceProperty, value);           
+                SetValue(ImageSourceProperty, value);
             }
         }
 
@@ -57,11 +68,11 @@ namespace TMClient.Controls
             {
                 if (ImageSource == null || !IsPickerLoaded)
                     return null;
-                var width = (int)Circle.ActualWidth;
-                var heigth = (int)Circle.ActualHeight;
-                var x = (int)(Center.X - Circle.ActualWidth/2 );
-                var y = (int)(Center.Y - Circle.ActualHeight / 2);
-                var a = new Int32Rect(x, y, width, heigth);
+                var width = (int)CenterColumn.Width.Value;
+                var heigth = (int)CenterRow.Height.Value;
+                var x = (int)(Center.X - CenterColumn.Width.Value / 2);
+                var y = (int)(Center.Y - CenterRow.Height.Value / 2);
+                var a = new Int32Rect(x, y, (int)CenterColumn.Width.Value, (int)CenterRow.Height.Value);
 
                 return new CroppedBitmap(ImageSource, a);
             }
@@ -84,7 +95,7 @@ namespace TMClient.Controls
             InitializeComponent();
         }
 
-        private bool IsPickerLoaded=false;
+        private bool IsPickerLoaded = false;
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public void OnPropertyChanged(string propertyName)
@@ -94,11 +105,11 @@ namespace TMClient.Controls
 
         private void GridSplitterDragDeltaX(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
-            if (CenterColumn.Width.Value > Image.ActualHeight-20)
-                CenterColumn.Width = new GridLength(Image.ActualHeight-20);
+            if (CenterColumn.Width.Value > Image.ActualHeight - 20)
+                CenterColumn.Width = new GridLength(Image.ActualHeight - 20);
 
             if (CenterColumn.Width.Value > Image.ActualWidth - 20)
-                CenterColumn.Width = new GridLength(Image.ActualWidth-20);
+                CenterColumn.Width = new GridLength(Image.ActualWidth - 20);
 
             CenterRow.Height = CenterColumn.Width;
             UpdateCenter();
@@ -107,10 +118,10 @@ namespace TMClient.Controls
         private void GridSplitterDragDeltaY(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             if (CenterRow.Height.Value > Image.ActualHeight - 20)
-                CenterRow.Height = new GridLength(Image.ActualHeight-20);
+                CenterRow.Height = new GridLength(Image.ActualHeight - 20);
 
             if (CenterRow.Height.Value > Image.ActualWidth - 20)
-                CenterRow.Height = new GridLength(Image.ActualWidth-20);
+                CenterRow.Height = new GridLength(Image.ActualWidth - 20);
 
 
             CenterColumn.Width = CenterRow.Height;
@@ -161,13 +172,24 @@ namespace TMClient.Controls
             return value;
         }
 
-        private void OnLoaded(object sender, RoutedEventArgs e)
+        private void SizeSetup()
         {
             IsPickerLoaded = true;
 
-            Root.MaxHeight = Image.ActualHeight;
-            Root.MaxWidth = Image.ActualWidth;
-            Center = new Point(Image.ActualWidth / 2, Image.ActualHeight / 2);
+            if (ImageSource is not BitmapImage a)
+            {
+                Root.MinWidth = 200;
+                Root.MinHeight = 200;
+                Center = new Point(200, 200);
+                return;
+            }
+
+            Root.MaxWidth = a.PixelWidth;
+            Root.MaxHeight = a.PixelHeight;
+            Root.MinWidth = a.PixelWidth;
+            Root.MinHeight = a.PixelHeight;
+            Rect.Rect = new Rect(0, 0, a.PixelWidth, a.PixelHeight);
+            Center = new Point(a.PixelWidth / 2, a.PixelHeight / 2);
             OnPropertyChanged(nameof(CroppedImage));
         }
     }
