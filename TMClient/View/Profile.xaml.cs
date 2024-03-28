@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using TMClient.ViewModel;
 
 namespace TMClient.View
 {
@@ -9,6 +10,7 @@ namespace TMClient.View
     {
         public Profile()
         {
+            DataContext = new ProfileViewModel();
             InitializeComponent();
         }
     }

@@ -256,7 +256,59 @@
         <Style TargetType="controls:IconButton" BasedOn="{StaticResource ResourceKey=DefaultButton}">
 
         </Style>
-        
+
+        <Style x:Key="CircleButton" TargetType="Button" BasedOn="{StaticResource ResourceKey={x:Type Button}}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid  x:Name="LayoutRoot" Opacity="0"  Background="Transparent" >
+                            <Ellipse Fill="Black" x:Name="circle" Width="{Binding Width,RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                                                     Height="{Binding Height,RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                            </Ellipse>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="LayoutRoot"  Storyboard.TargetProperty="Opacity" 
+                                                                To="0.5"
+                                                                AutoReverse="False"
+                                                                FillBehavior="HoldEnd" 
+                                                                Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="LayoutRoot"  Storyboard.TargetProperty="Opacity" 
+                                                                To="0"
+                                                                AutoReverse="False"
+                                                                FillBehavior="HoldEnd" 
+                                                                Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                            <EventTrigger RoutedEvent="Button.Click">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="circle" Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)" 
+                                                         To="LightGray"
+                                                         AutoReverse="True"
+                                                         FillBehavior="Stop" 
+                                                         Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
         <Style x:Key="TransperentButton" BasedOn="{StaticResource ResourceKey=DefaultButton}" TargetType="Button">
             <Setter Property="Background" Value="#00383838" />

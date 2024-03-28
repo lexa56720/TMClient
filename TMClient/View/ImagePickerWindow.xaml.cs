@@ -21,19 +21,18 @@ namespace TMClient.View
     /// </summary>
     public partial class ImagePickerWindow : ModernWindow
     {
-
-        public Image Image { get; set; }
+        public byte[] Image { get; set; } = [];
         public ImagePickerWindow(string path)
         {
-            DataContext = new ImagePickerViewModel(path,DialogCompleted);
+            DataContext = new ImagePickerViewModel(path, DialogCompleted);
             Title = "Выбор изображения";
             InitializeComponent();
         }
 
-        private void DialogCompleted(Image? image)
+        private void DialogCompleted(byte[] image)
         {
             Image = image;
-            DialogResult = image != null;
+            DialogResult = image.Length > 0;
             Close();
         }
     }

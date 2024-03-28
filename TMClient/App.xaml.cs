@@ -36,23 +36,20 @@ namespace TMClient
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-            var window = new ImagePickerWindow(@"D:\1.jpg");
-            MainWindow = window;
-            window.Show();
-            //var dialog = new MainAuthWindow();
+            var dialog = new MainAuthWindow();
 
-            //if (dialog.ShowDialog() == true)
-            //{
-            //    Api = dialog.Api;
-            //    ShutdownMode = ShutdownMode.OnMainWindowClose;
-            //    var mainWindow = new MainWindow(Api);
-            //    MainWindow = mainWindow;
-            //    mainWindow.Show();
-            //}
-            //else
-            //{
-            //    Shutdown();
-            //}
+            if (dialog.ShowDialog() == true)
+            {
+                Api = dialog.Api;
+                ShutdownMode = ShutdownMode.OnMainWindowClose;
+                var mainWindow = new MainWindow(Api);
+                MainWindow = mainWindow;
+                mainWindow.Show();
+            }
+            else
+            {
+                Shutdown();
+            }
         }
         public void Logout()
         {

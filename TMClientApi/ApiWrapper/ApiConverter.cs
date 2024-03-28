@@ -21,13 +21,12 @@ namespace ApiWrapper.ApiWrapper
         private IUsersApi UserApi => Api.Users;
         private readonly IApi Api;
         private readonly CacheManager Cache;
-        private static IPEndPoint fileServer;
+        public static IPEndPoint FileServer { get; set; }
 
-        public ApiConverter(IApi api, CacheManager cache, IPEndPoint fileServer)
+        public ApiConverter(IApi api, CacheManager cache)
         {
             Api = api;
             Cache = cache;
-            ApiConverter.fileServer = fileServer;
         }
 
         public static User Convert(ApiUser user)
@@ -172,7 +171,7 @@ namespace ApiWrapper.ApiWrapper
         {
             if (photo == null)
                 return "pack://application:,,,/Resources/defaultUser.png";
-            return $"http://{fileServer.ToString}/{photo.Url}";
+            return $"http://{FileServer.ToString()}/{photo.Url}";
         }
     }
 }

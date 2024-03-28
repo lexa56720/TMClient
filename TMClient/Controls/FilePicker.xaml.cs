@@ -104,7 +104,7 @@ namespace TMClient.Controls
             };
             bool? result = dialog.ShowDialog();
 
-            if (result != null && result == true)
+            if (result == true)
             {
                 Path = dialog.FileName;
 

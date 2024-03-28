@@ -69,12 +69,13 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         private ClientApi(IPEndPoint fileServer, TimeSpan userLifetime, TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
         {
+            ApiConverter.FileServer = fileServer;
             Info = ApiConverter.Convert(api.UserInfo.MainInfo);
 
             Cache = new CacheManager(userLifetime, chatLifetime);
             Cache.AddToCache(Info);
 
-            Converter = new ApiConverter(this, Cache,fileServer);
+            Converter = new ApiConverter(this, Cache);
 
             users = new ClientUsersApi(api, Converter, Cache, Info);
             messages = new ClientMessagesApi(api, Converter);

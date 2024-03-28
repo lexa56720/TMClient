@@ -29,9 +29,9 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             }
             return false;
         }
-        public Task<bool> ChangeProfilePic(byte[] imageData)
+        public async Task<bool> ChangeProfilePic(byte[] imageData)
         {
-            return Api.Users.SetProfileImage(imageData);
+            return await Api.Users.SetProfileImage(imageData);
         }
 
         public async Task<User[]> GetByName(string name)
