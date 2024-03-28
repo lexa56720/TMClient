@@ -20,7 +20,17 @@ namespace TMClient.Controls
     /// </summary>
     public partial class ExtendedTextBox : TextBox
     {
-        public string Placeholder { get; set; }
+        public static readonly DependencyProperty PlaceholderProperty =
+        DependencyProperty.Register(nameof(Placeholder),
+                                    typeof(string),
+                                    typeof(ExtendedTextBox),
+                                    new PropertyMetadata(string.Empty));
+        public string Placeholder
+        {
+            get => (string)GetValue(PlaceholderProperty);
+            set => SetValue(PlaceholderProperty, value);
+        }
+
         public ExtendedTextBox()
         {
             InitializeComponent();

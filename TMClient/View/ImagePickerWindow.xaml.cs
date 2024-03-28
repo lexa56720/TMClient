@@ -26,6 +26,7 @@ namespace TMClient.View
         public ImagePickerWindow(string path)
         {
             DataContext = new ImagePickerViewModel(path,DialogCompleted);
+            Title = "Выбор изображения";
             InitializeComponent();
         }
 

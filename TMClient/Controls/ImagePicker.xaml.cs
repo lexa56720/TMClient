@@ -72,7 +72,7 @@ namespace TMClient.Controls
                 var heigth = (int)CenterRow.Height.Value;
                 var x = (int)(Center.X - CenterColumn.Width.Value / 2);
                 var y = (int)(Center.Y - CenterRow.Height.Value / 2);
-                var a = new Int32Rect(x, y, (int)CenterColumn.Width.Value, (int)CenterRow.Height.Value);
+                var a = new Int32Rect(x, y, width, heigth);
 
                 return new CroppedBitmap(ImageSource, a);
             }
@@ -176,7 +176,7 @@ namespace TMClient.Controls
         {
             IsPickerLoaded = true;
 
-            if (ImageSource is not BitmapImage a)
+            if (ImageSource is not BitmapImage image)
             {
                 Root.MinWidth = 200;
                 Root.MinHeight = 200;
@@ -184,12 +184,22 @@ namespace TMClient.Controls
                 return;
             }
 
-            Root.MaxWidth = a.PixelWidth;
-            Root.MaxHeight = a.PixelHeight;
-            Root.MinWidth = a.PixelWidth;
-            Root.MinHeight = a.PixelHeight;
-            Rect.Rect = new Rect(0, 0, a.PixelWidth, a.PixelHeight);
-            Center = new Point(a.PixelWidth / 2, a.PixelHeight / 2);
+            Root.MaxWidth = image.PixelWidth;
+            Root.MaxHeight = image.PixelHeight;
+            Root.MinWidth = image.PixelWidth;
+            Root.MinHeight = image.PixelHeight;
+
+            CenterRow.Height =new GridLength( 200);
+            CenterColumn.Width = new GridLength(200);
+
+            LeftSide.Width = new GridLength(1, GridUnitType.Star);
+            RightSide.Width = new GridLength(1, GridUnitType.Star);
+
+            TopSide.Height = new GridLength(1, GridUnitType.Star);
+            BottomSide.Height = new GridLength(1, GridUnitType.Star);
+
+            Rect.Rect = new Rect(0, 0, image.PixelWidth, image.PixelHeight);
+            Center = new Point(image.PixelWidth / 2, image.PixelHeight / 2);
             OnPropertyChanged(nameof(CroppedImage));
         }
     }

@@ -24,15 +24,14 @@
 
         <Image x:Name="Image" Grid.ColumnSpan="6" Grid.RowSpan="6" Source="{Binding ImageSource}"  />
 
-        <Path Grid.ColumnSpan="6" Grid.RowSpan="6"  MouseMove="OnMouseMove" MouseDown="OnMouseDown"
-          >
+        <Path Grid.ColumnSpan="6" Grid.RowSpan="6"  PreviewMouseDown="OnMouseDown">
             <Path.Fill>
                 <SolidColorBrush Color="Black"  Opacity="0.6"/>
             </Path.Fill>
             <Path.Data>
                 <CombinedGeometry GeometryCombineMode="Xor">
-                    <CombinedGeometry.Geometry1>
-                        <RectangleGeometry x:Name="Rect"/>
+                    <CombinedGeometry.Geometry1  >
+                        <RectangleGeometry  x:Name="Rect"/>
                     </CombinedGeometry.Geometry1>
                     <CombinedGeometry.Geometry2>
                         <EllipseGeometry  RadiusX="{Binding ActualWidth,ElementName=Circle,Converter={StaticResource WidthToRadiusConverter}}"
