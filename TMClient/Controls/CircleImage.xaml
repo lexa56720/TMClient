@@ -10,7 +10,7 @@
         <Ellipse Height="{Binding Height, RelativeSource={RelativeSource AncestorType={x:Type local:CircleImage}}}"
                  Width="{Binding Width, RelativeSource={RelativeSource AncestorType={x:Type local:CircleImage}}}">
             <Ellipse.Fill>
-                <ImageBrush ImageSource="{Binding ImageSource,Converter={StaticResource NullImageConverter} ,RelativeSource={RelativeSource AncestorType={x:Type local:CircleImage}}}" />
+                <ImageBrush RenderOptions.BitmapScalingMode="HighQuality" ImageSource="{Binding ImageSource,Converter={StaticResource NullImageConverter} ,RelativeSource={RelativeSource AncestorType={x:Type local:CircleImage}}}" />
             </Ellipse.Fill>
         </Ellipse>
     </Grid>

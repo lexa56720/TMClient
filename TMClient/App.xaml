@@ -19,6 +19,7 @@
         <c:AddValueConverter x:Key="AddValueConverter"></c:AddValueConverter>
         <c:FirstCharConverter x:Key="FirstCharConverter"></c:FirstCharConverter>
         <c:NullImageConverter x:Key="NullImageConverter"></c:NullImageConverter>
+        <c:UserAvatarSizeConverter x:Key="UserAvatarSizeConverter"></c:UserAvatarSizeConverter>
         
         <v:NameRule x:Key="NameRule"></v:NameRule>
         <v:ChatNameRule x:Key="ChatNameRule"></v:ChatNameRule>
@@ -263,8 +264,13 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Grid  x:Name="LayoutRoot" Opacity="0"  Background="Transparent" >
-                            <Ellipse Fill="Black" x:Name="circle" Width="{Binding Width,RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                                                     Height="{Binding Height,RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                            <Ellipse Fill="Black" StrokeThickness="2"  x:Name="circle" Margin="-1"
+                                     Width="{Binding Width,RelativeSource={RelativeSource Mode=TemplatedParent},Converter={StaticResource AddValueConverter},ConverterParameter=2}"
+                                     Height="{Binding Height,RelativeSource={RelativeSource Mode=TemplatedParent},Converter={StaticResource AddValueConverter},ConverterParameter=2}">
+                                <Ellipse.Stroke>
+                                    <SolidColorBrush Color="Black" Opacity="0.4" />
+
+                                </Ellipse.Stroke>
                             </Ellipse>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
@@ -274,7 +280,7 @@
                                     <BeginStoryboard>
                                         <Storyboard>
                                             <DoubleAnimation Storyboard.TargetName="LayoutRoot"  Storyboard.TargetProperty="Opacity" 
-                                                                To="0.5"
+                                                                To="0.7"
                                                                 AutoReverse="False"
                                                                 FillBehavior="HoldEnd" 
                                                                 Duration="0:0:0.2"/>
@@ -298,7 +304,7 @@
                                 <BeginStoryboard>
                                     <Storyboard>
                                         <ColorAnimation Storyboard.TargetName="circle" Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)" 
-                                                         To="LightGray"
+                                                         To="{StaticResource LightInteractColor}"
                                                          AutoReverse="True"
                                                          FillBehavior="Stop" 
                                                          Duration="0:0:0.2"/>
