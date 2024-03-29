@@ -7,6 +7,8 @@ namespace ApiWrapper.Types
     {
         public virtual int Id { get; }
 
+        public virtual bool IsCurrentUser { get; }
+
         public virtual string Name
         {
             get => name;
@@ -38,9 +40,18 @@ namespace ApiWrapper.Types
                 OnPropertyChanged(nameof(IsOnline));
             }
         }
-
-
         private bool isOnline = false;
+
+        public virtual DateTime LastAction
+        {
+            get => lastAction; 
+            set 
+            {
+                lastAction = value;
+                OnPropertyChanged(nameof(LastAction));
+            }
+        }
+        private DateTime lastAction;
 
         public virtual string ProfilePicLarge
         {
@@ -77,13 +88,15 @@ namespace ApiWrapper.Types
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public User(int id, string name, string login, bool isOnline, 
-            string picLarge, string picMedium,string picSmall)
+        public User(int id, string name, string login, bool isOnline, bool isCurrentUser,
+                    DateTime lastAction,string picLarge, string picMedium,string picSmall)
         {
             Id = id;
             Name = name;
             Login = login;
             IsOnline = isOnline;
+            IsCurrentUser = isCurrentUser;
+            LastAction = lastAction;
             ProfilePicLarge = picLarge;
             ProfilePicMedium = picMedium;
             ProfilePicSmall = picSmall;
@@ -104,6 +117,7 @@ namespace ApiWrapper.Types
             ProfilePicLarge = user.ProfilePicLarge;
             ProfilePicMedium = user.ProfilePicMedium;
             ProfilePicSmall = user.ProfilePicSmall;
+            LastAction=user.LastAction;
         }
 
         protected void OnPropertyChanged(string propertyName)

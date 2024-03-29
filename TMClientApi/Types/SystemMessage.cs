@@ -22,14 +22,14 @@ namespace ClientApiWrapper.Types
         public bool IsTargetAreCurrentUser { get; set; }
 
         [SetsRequiredMembers]
-        public SystemMessage(int id, DateTime sendTime, User author, User? target, ActionKind action, Chat destination, User currentUser)
-                           : base(id, string.Empty, sendTime, author, destination, true, author.Id == currentUser.Id)
+        public SystemMessage(int id, DateTime sendTime, User author, User? target, ActionKind action, Chat destination)
+                           : base(id, string.Empty, sendTime, author, destination, true, author.IsCurrentUser)
         {
             Kind = action;
             Target = target;
             IsExecutorAreCurrentUser = IsOwn;
             if (Target != null)
-                IsTargetAreCurrentUser = Target.Id == currentUser.Id;
+                IsTargetAreCurrentUser = Target.IsCurrentUser;
         }
     
     }

@@ -12,6 +12,7 @@ using ApiWrapper.Interfaces;
 using ClientApiWrapper.Types;
 using System.Net;
 using ApiTypes.Communication.Medias;
+using TMApi;
 
 namespace ApiWrapper.ApiWrapper
 {
@@ -21,7 +22,7 @@ namespace ApiWrapper.ApiWrapper
         private IUsersApi UserApi => Api.Users;
         private readonly IApi Api;
         private readonly CacheManager Cache;
-        public static IPEndPoint FileServer { get; set; }
+        public static IPEndPoint? FileServer { get; set; }
 
         public ApiConverter(IApi api, CacheManager cache)
         {
@@ -29,13 +30,13 @@ namespace ApiWrapper.ApiWrapper
             Cache = cache;
         }
 
-        public static User Convert(ApiUser user)
+        public static User Convert(ApiUser user,bool isCurrentUser=false)
         {
             var largePic = GetProfileImage(user.ProfilePics.SingleOrDefault(p => p.Size == ImageSize.Large));
             var mediumPic = GetProfileImage(user.ProfilePics.SingleOrDefault(p => p.Size == ImageSize.Medium));
             var smallPic = GetProfileImage(user.ProfilePics.SingleOrDefault(p => p.Size == ImageSize.Small));
 
-            return new User(user.Id, user.Name, user.Login, user.IsOnline, largePic, mediumPic, smallPic);
+            return new User(user.Id, user.Name, user.Login, user.IsOnline, isCurrentUser, user.LastAction, largePic, mediumPic, smallPic);
         }
         public User[] Convert(ApiUser[] users)
         {
@@ -80,7 +81,7 @@ namespace ApiWrapper.ApiWrapper
                                    author,
                                    chat,
                                    message.IsReaded,
-                                   author.Id == Api.Info.Id);
+                                   author.IsCurrentUser);
             }
             else
             {
@@ -92,8 +93,7 @@ namespace ApiWrapper.ApiWrapper
                                          author,
                                          target,
                                          message.Kind,
-                                         chat,
-                                         Api.Info);
+                                         chat);
                 if (systemMessage.Target != null)
                     Cache.AddOrUpdateCache(TimeSpan.MaxValue, systemMessage.Target);
                 return systemMessage;
@@ -171,7 +171,7 @@ namespace ApiWrapper.ApiWrapper
         {
             if (photo == null)
                 return "pack://application:,,,/Resources/defaultUser.png";
-            return $"http://{FileServer.ToString()}/{photo.Url}";
+            return $"http://{FileServer?.ToString()}/{photo.Url}";
         }
     }
 }

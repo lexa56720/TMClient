@@ -21,6 +21,8 @@ namespace ApiWrapper.Types
 
         public override int Id => user.Id;
 
+        public override bool IsCurrentUser => false;
+
         public override string Name
         {
             get => user.Name;
@@ -49,6 +51,15 @@ namespace ApiWrapper.Types
             }
         }
 
+        public override DateTime LastAction
+        {
+            get => user.LastAction;
+            set
+            {
+                user.LastAction = value;
+                OnPropertyChanged(nameof(LastAction));
+            }
+        }
 
         public override string ProfilePicLarge
         {
@@ -96,6 +107,7 @@ namespace ApiWrapper.Types
             OnPropertyChanged(nameof(Login));
             OnPropertyChanged(nameof(Name));
             OnPropertyChanged(nameof(IsOnline));
+            OnPropertyChanged(nameof(LastAction));
 
             OnPropertyChanged(nameof(ProfilePicLarge));
             OnPropertyChanged(nameof(ProfilePicMedium));

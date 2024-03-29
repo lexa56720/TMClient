@@ -2,6 +2,7 @@
 using TMApi;
 using ApiWrapper.Interfaces;
 using TMApi.ApiRequests.Messages;
+using System.Xml.Linq;
 
 namespace ApiWrapper.ApiWrapper.Wrapper
 {
@@ -22,16 +23,23 @@ namespace ApiWrapper.ApiWrapper.Wrapper
 
         public async Task<bool> ChangeName(string name)
         {
-            if (await Api.Users.ChangeName(name))
+            var updatedUser = await Api.Users.ChangeName(name);
+            if (updatedUser!=null)
             {
-                CurrentUser.Name = name;
+                CurrentUser.Name = updatedUser.Name;
                 return true;
             }
             return false;
         }
         public async Task<bool> ChangeProfilePic(byte[] imageData)
         {
-            return await Api.Users.SetProfileImage(imageData);
+            var updatedUser = await Api.Users.SetProfileImage(imageData);
+            if (updatedUser != null)
+            {
+                CurrentUser.Update(ApiConverter.Convert(updatedUser));
+                return true;
+            }
+            return false;
         }
 
         public async Task<User[]> GetByName(string name)

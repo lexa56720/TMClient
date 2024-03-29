@@ -28,7 +28,7 @@ namespace TMClient.ViewModel.Chats
         {
             foreach (var user in users)
             {
-                if (CurrentUser.Info.Id == user.Id || CurrentUser.FriendList.Any(f => f.Id == user.Id))
+                if (user.IsCurrentUser || CurrentUser.FriendList.Any(f => f.Id == user.Id))
                     Users.Add(new UserContainer(user, Visibility.Collapsed));
                 else
                     Users.Add(new UserContainer(user, Visibility.Visible));

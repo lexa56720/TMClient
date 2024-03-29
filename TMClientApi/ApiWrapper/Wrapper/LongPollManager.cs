@@ -175,7 +175,7 @@ namespace ApiWrapper.Wrapper
             if (chat.IsDialogue)
             {
                 User friend;
-                if (chat.Members[0].Id == Api.Info.Id)
+                if (chat.Members[0].IsCurrentUser)
                     friend = chat.Members[1];
                 else
                     friend = chat.Members[0];

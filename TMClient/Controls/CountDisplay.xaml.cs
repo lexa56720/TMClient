@@ -22,13 +22,10 @@ namespace TMClient.Controls
     public partial class CountDisplay : UserControl, INotifyPropertyChanged
     {
         public static readonly DependencyProperty CountProperty =
-                               DependencyProperty.Register(nameof(Count),
-                                                           typeof(int),
-                                                           typeof(CountDisplay),
-                                                           new PropertyMetadata(0, CountPropertyChanged));
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
+        DependencyProperty.Register(nameof(Count),
+                                    typeof(int),
+                                    typeof(CountDisplay),
+                                    new PropertyMetadata(0, CountPropertyChanged));
         public int Count
         {
             get => (int)GetValue(CountProperty);
@@ -49,6 +46,7 @@ namespace TMClient.Controls
         }
         private string countText = string.Empty;
 
+        public event PropertyChangedEventHandler? PropertyChanged;
         public CountDisplay()
         {
             InitializeComponent();

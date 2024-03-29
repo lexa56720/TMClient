@@ -13,6 +13,6 @@
                     <TextBlock Text="{Binding User.Login,Converter={StaticResource LoginConverter}}"/>
                 </Grid>
             </TextBlock.ToolTip>
-            </TextBlock>
+        </TextBlock>
     </Grid>
 </UserControl>

@@ -17,7 +17,8 @@
         <c:DateTimeConverter x:Key="DateTimeConverter"></c:DateTimeConverter>
         <c:BooleanInverter x:Key="BooleanInverter"></c:BooleanInverter>
         <c:WidthToRadiusConverter x:Key="WidthToRadiusConverter"></c:WidthToRadiusConverter>
-
+        <c:AddValueConverter x:Key="AddValueConverter"></c:AddValueConverter>
+        
         <v:NameRule x:Key="NameRule"></v:NameRule>
         <v:ChatNameRule x:Key="ChatNameRule"></v:ChatNameRule>
         <v:LoginRule x:Key="LoginRule"></v:LoginRule>
@@ -101,7 +102,7 @@
 
         <Style TargetType="ToolTip">
             <Setter Property="FontFamily" Value="{StaticResource SegoeUI}"/>
-            <Setter Property="Background" Value="{StaticResource InteractiveBrush}"/>
+            <Setter Property="Background" Value="{StaticResource LightInteractBrush}"/>
             <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
             <Setter Property="BorderThickness" Value="0"/>
         </Style>

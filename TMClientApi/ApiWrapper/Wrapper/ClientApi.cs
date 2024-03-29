@@ -70,7 +70,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         private ClientApi(IPEndPoint fileServer, TimeSpan userLifetime, TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
         {
             ApiConverter.FileServer = fileServer;
-            Info = ApiConverter.Convert(api.UserInfo.MainInfo);
+            Info = ApiConverter.Convert(api.UserInfo.MainInfo,true);
 
             Cache = new CacheManager(userLifetime, chatLifetime);
             Cache.AddToCache(Info);
