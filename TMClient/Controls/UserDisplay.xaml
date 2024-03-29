@@ -30,9 +30,9 @@
                 </StackPanel>
             </ToolTip>
         </Grid.ToolTip>
-        <local:CircleImage Height="{Binding Height }"
+        <local:UserAvatar Height="{Binding Height }"
                            Width="{Binding Width }"
-                           ImageSource="{Binding User.ProfilePicSmall}" />
+                           User="{Binding User}" />
         <Ellipse Height="{Binding Height, Converter={StaticResource AddValueConverter},ConverterParameter=5}"
                  Width="{Binding Width, Converter={StaticResource AddValueConverter},ConverterParameter=5}"
                  StrokeThickness="3"  Margin="-5" Fill="Transparent">

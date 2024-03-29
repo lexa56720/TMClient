@@ -20,7 +20,7 @@ namespace ApiWrapper.Types
         private Chat dialogue = null!;
 
         public override int Id => user.Id;
-
+        public override bool IsHaveAvatar => user.IsHaveAvatar;
         public override bool IsCurrentUser => false;
 
         public override string Name
@@ -112,6 +112,7 @@ namespace ApiWrapper.Types
             OnPropertyChanged(nameof(ProfilePicLarge));
             OnPropertyChanged(nameof(ProfilePicMedium));
             OnPropertyChanged(nameof(ProfilePicSmall));
+            OnPropertyChanged(nameof(IsHaveAvatar));
         }
     }
 }

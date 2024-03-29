@@ -10,20 +10,20 @@
              Startup="ApplicationStart"
              Exit="ApplicationExit">
     <Application.Resources>
-
-
+        
         <c:LoginConverter x:Key="LoginConverter"></c:LoginConverter>
         <c:SubLoginConverter x:Key="SubLoginConverter"></c:SubLoginConverter>
         <c:DateTimeConverter x:Key="DateTimeConverter"></c:DateTimeConverter>
         <c:BooleanInverter x:Key="BooleanInverter"></c:BooleanInverter>
         <c:WidthToRadiusConverter x:Key="WidthToRadiusConverter"></c:WidthToRadiusConverter>
         <c:AddValueConverter x:Key="AddValueConverter"></c:AddValueConverter>
+        <c:FirstCharConverter x:Key="FirstCharConverter"></c:FirstCharConverter>
+        <c:NullImageConverter x:Key="NullImageConverter"></c:NullImageConverter>
         
         <v:NameRule x:Key="NameRule"></v:NameRule>
         <v:ChatNameRule x:Key="ChatNameRule"></v:ChatNameRule>
         <v:LoginRule x:Key="LoginRule"></v:LoginRule>
         <v:MessageRule x:Key="MessageRule"></v:MessageRule>
-
 
         <Color x:Key="OwnMessageColor">#3498DB</Color>
         <SolidColorBrush x:Key="OwnMessageBrush" Color="{StaticResource OwnMessageColor}"/>

@@ -32,10 +32,12 @@ namespace ApiWrapper.ApiWrapper
 
         public static User Convert(ApiUser user,bool isCurrentUser=false)
         {
+            if(user.ProfilePics.Length<3)
+                return new User(user.Id, user.Name, user.Login, user.IsOnline, isCurrentUser, user.LastAction);
+
             var largePic = GetProfileImage(user.ProfilePics.SingleOrDefault(p => p.Size == ImageSize.Large));
             var mediumPic = GetProfileImage(user.ProfilePics.SingleOrDefault(p => p.Size == ImageSize.Medium));
             var smallPic = GetProfileImage(user.ProfilePics.SingleOrDefault(p => p.Size == ImageSize.Small));
-
             return new User(user.Id, user.Name, user.Login, user.IsOnline, isCurrentUser, user.LastAction, largePic, mediumPic, smallPic);
         }
         public User[] Convert(ApiUser[] users)
@@ -167,10 +169,10 @@ namespace ApiWrapper.ApiWrapper
             return result;
         }
 
-        private static string GetProfileImage(Photo? photo)
+        private static string? GetProfileImage(Photo? photo)
         {
             if (photo == null)
-                return "pack://application:,,,/Resources/defaultUser.png";
+                return null;
             return $"http://{FileServer?.ToString()}/{photo.Url}";
         }
     }

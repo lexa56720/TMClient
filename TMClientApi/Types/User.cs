@@ -44,8 +44,8 @@ namespace ApiWrapper.Types
 
         public virtual DateTime LastAction
         {
-            get => lastAction; 
-            set 
+            get => lastAction;
+            set
             {
                 lastAction = value;
                 OnPropertyChanged(nameof(LastAction));
@@ -53,7 +53,18 @@ namespace ApiWrapper.Types
         }
         private DateTime lastAction;
 
-        public virtual string ProfilePicLarge
+        public virtual bool IsHaveAvatar
+        {
+            get => isHaveAvatar;
+            set
+            {
+                isHaveAvatar = value;
+                OnPropertyChanged(nameof(IsHaveAvatar));
+            }
+        }
+        private bool isHaveAvatar;
+
+        public virtual string? ProfilePicLarge
         {
             get => profilePicLarge;
             set
@@ -62,9 +73,9 @@ namespace ApiWrapper.Types
                 OnPropertyChanged(nameof(ProfilePicLarge));
             }
         }
-        private string profilePicLarge;
+        private string? profilePicLarge;
 
-        public virtual string ProfilePicMedium
+        public virtual string? ProfilePicMedium
         {
             get => profilePicMedium;
             set
@@ -73,9 +84,9 @@ namespace ApiWrapper.Types
                 OnPropertyChanged(nameof(ProfilePicMedium));
             }
         }
-        private string profilePicMedium;
+        private string? profilePicMedium;
 
-        public virtual string ProfilePicSmall
+        public virtual string? ProfilePicSmall
         {
             get => profilePicSmall;
             set
@@ -84,12 +95,12 @@ namespace ApiWrapper.Types
                 OnPropertyChanged(nameof(ProfilePicSmall));
             }
         }
-        private string profilePicSmall;
+        private string? profilePicSmall;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public User(int id, string name, string login, bool isOnline, bool isCurrentUser,
-                    DateTime lastAction,string picLarge, string picMedium,string picSmall)
+                    DateTime lastAction, string? picLarge, string? picMedium, string? picSmall)
         {
             Id = id;
             Name = name;
@@ -100,6 +111,23 @@ namespace ApiWrapper.Types
             ProfilePicLarge = picLarge;
             ProfilePicMedium = picMedium;
             ProfilePicSmall = picSmall;
+            if (picLarge == null || picMedium == null || picSmall == null)
+                IsHaveAvatar = false;
+            else
+                IsHaveAvatar = true;
+        }
+        public User(int id, string name, string login, bool isOnline, bool isCurrentUser, DateTime lastAction)
+        {
+            Id = id;
+            Name = name;
+            Login = login;
+            IsOnline = isOnline;
+            IsCurrentUser = isCurrentUser;
+            LastAction = lastAction;
+            ProfilePicLarge = null;
+            ProfilePicMedium = null;
+            ProfilePicSmall = null;
+            IsHaveAvatar = false;
         }
 
         protected User()
@@ -117,7 +145,7 @@ namespace ApiWrapper.Types
             ProfilePicLarge = user.ProfilePicLarge;
             ProfilePicMedium = user.ProfilePicMedium;
             ProfilePicSmall = user.ProfilePicSmall;
-            LastAction=user.LastAction;
+            LastAction = user.LastAction;
         }
 
         protected void OnPropertyChanged(string propertyName)
