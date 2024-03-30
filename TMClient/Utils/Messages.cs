@@ -12,6 +12,8 @@
         OpenChatPage,
         OpenSettingsPage,
 
+        LoadingStart,
+        LoadingOver,
 
         NewMessagesArived,
 

@@ -39,7 +39,11 @@ namespace TMClient.ViewModel
                 };
                 result = imageCutter.ShowDialog();
                 if (result == true)
+                {
+                    await Messenger.Send(Messages.LoadingStart, true);
                     await Model.ChangeAvatar(imageCutter.Image);
+                    await Messenger.Send(Messages.LoadingOver, true);
+                }
             }
             await Messenger.Send(Messages.ModalClosed, true);
         }

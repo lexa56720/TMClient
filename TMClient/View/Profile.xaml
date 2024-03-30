@@ -12,7 +12,7 @@
             <Grid>
                 <controls:UserAvatar User="{Binding CurrentUser.Info}" Width="256" Height="256"/> 
                 <controls:IconButton HorizontalAlignment="Center" Width="256" Height="256" Style="{StaticResource CircleButton}"
-                        VerticalAlignment="Center" Foreground="White"  Content="Изменить" Command="{Binding ChangeAvatarCommand}" />
+                        VerticalAlignment="Center" Foreground="{StaticResource ForegroundBrush}"  Text="Изменить" Icon="&#xe70f;" Command="{Binding ChangeAvatarCommand}" />
             </Grid>
             <TextBlock Text="{Binding CurrentUser.Info.Name}" FontSize="24" HorizontalAlignment="Center" FontWeight="Bold"/>
         </StackPanel>

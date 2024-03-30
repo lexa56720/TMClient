@@ -34,9 +34,22 @@
                            Width="{Binding Width }"
                            User="{Binding User}" />
 
-        <local:IconButton HorizontalAlignment="Center" Margin="0"  Height="{Binding Height }" 
-                           Width="{Binding Width }" FontSize="18"  Style="{StaticResource CircleButton}"
-         VerticalAlignment="Center" Foreground="White" Icon="&#xe8a7;" Click="OnClick" />
+        <local:IconButton HorizontalAlignment="Center" Margin="0"  Height="{Binding Height }"
+                           Width="{Binding Width }" FontSize="18"
+         VerticalAlignment="Center" Foreground="White" Icon="&#xe8a7;" Click="OnClick">
+            <local:IconButton.Style>
+                <Style BasedOn="{StaticResource CircleButton}" TargetType="local:IconButton">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding User.IsCurrentUser}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding User.IsCurrentUser}" Value="False">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </local:IconButton.Style>
+        </local:IconButton>
         <Ellipse Height="{Binding Height, Converter={StaticResource AddValueConverter},ConverterParameter=5}"
                  Width="{Binding Width, Converter={StaticResource AddValueConverter},ConverterParameter=5}"
                  StrokeThickness="3" IsHitTestVisible="False"  Margin="-5" Fill="Transparent">

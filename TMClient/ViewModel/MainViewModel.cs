@@ -21,7 +21,6 @@ namespace TMClient.ViewModel
         private Page sidePanelFrame = null!;
 
         public ICommand ChangeSideBarState => new Command(SwitchSideBarState);
-
         public ICommand ProfileCommand => new Command(() => MainFrame = Profile);
         public ICommand NotificationCommand => new Command(() => MainFrame = Notifications);
         public ICommand SettingsCommand => new Command(() => MainFrame = Settings);
@@ -60,7 +59,6 @@ namespace TMClient.ViewModel
             }
         }
         private Page mainFrame = null!;
-
         public bool IsInModalMode
         {
             get => isInModalMode;
@@ -71,6 +69,32 @@ namespace TMClient.ViewModel
             }
         }
         private bool isInModalMode;
+        public bool IsLoading
+        {
+            get => isLoading;
+            private set
+            {
+                isLoading = value;
+                if (value)
+                    LoadingVisibility = Visibility.Visible;
+                else
+                    LoadingVisibility = Visibility.Collapsed;
+
+                OnPropertyChanged(nameof(IsLoading));
+            }
+        }
+        private bool isLoading;
+        public Visibility LoadingVisibility
+        {
+            get => loadingVisibility;
+            set
+            {
+                loadingVisibility = value;
+                OnPropertyChanged(nameof(LoadingVisibility));
+            }
+        }
+        private Visibility loadingVisibility = Visibility.Collapsed;
+
 
         private readonly SidePanel Panel = new();
         private readonly Settings Settings = new();
@@ -80,7 +104,7 @@ namespace TMClient.ViewModel
 
         public MainViewModel()
         {
-            ChatPage = new ChatView(new Chat(0, "намба ван чат",0, false));
+            ChatPage = new ChatView(new Chat(0, "намба ван чат", 0, false));
             MainFrame = ChatPage;
             SidePanelFrame = Panel;
 
@@ -92,6 +116,9 @@ namespace TMClient.ViewModel
 
             Messenger.Subscribe(Messages.ModalOpened, () => IsInModalMode = true);
             Messenger.Subscribe(Messages.ModalClosed, () => IsInModalMode = false);
+
+            Messenger.Subscribe(Messages.LoadingStart, () => IsLoading = true);
+            Messenger.Subscribe(Messages.LoadingOver, () => IsLoading = false);
 
             CurrentUser.ChatInvites.CollectionChanged += ChatInvitesChanged;
             CurrentUser.FriendRequests.CollectionChanged += FriendRequestsChanged;

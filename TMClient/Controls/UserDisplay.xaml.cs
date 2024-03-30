@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TMClient.Utils;
 
 namespace TMClient.Controls
 {
@@ -40,7 +41,15 @@ namespace TMClient.Controls
 
         private void OnClick(object sender, RoutedEventArgs e)
         {
-
+            Messenger.Send(Messages.ModalOpened, true);
+            var mainwindow = App.Current.MainWindow;
+            var profileCard = new View.ProfileCard(User)
+            {
+                Owner = mainwindow,
+                ShowInTaskbar = false
+            };
+            profileCard.ShowDialog();
+            Messenger.Send(Messages.ModalClosed, true);
         }
     }
 }
