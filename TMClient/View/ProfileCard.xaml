@@ -1,12 +1,92 @@
-﻿<Window x:Class="TMClient.View.ProfileCard"
+﻿<controls:ModernWindow x:Class="TMClient.View.ProfileCard"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TMClient.View"
-        mc:Ignorable="d"
-        Title="ProfileCard" Height="450" Width="800">
-    <Grid>
-        
+        xmlns:local="clr-namespace:TMClient.View" xmlns:controls="clr-namespace:TMClient.Controls"
+        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None"
+       SizeToContent="WidthAndHeight" 
+        Title="ProfileCard" WindowStartupLocation="CenterOwner" >
+    <controls:ModernWindow.Background>
+        <SolidColorBrush Opacity="0.3" Color="{StaticResource BackgroundColor}"/>
+    </controls:ModernWindow.Background>
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <controls:UserDisplay Margin="100,0,100,0" VerticalAlignment="Top"  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" User="{Binding User}" Width="320" Height="320" IsProfileLinkEnabled="False" />
+
+
+        <Border Grid.Column="0"  Grid.Row="1" Background="{StaticResource BackgroundBrush}" Margin="-5,5,-5,-5" >
+            <Grid >
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding User.Name}" TextAlignment="Center" HorizontalAlignment="Center" FontSize="24" />
+                        <TextBlock Text="{Binding User.Login,Converter={StaticResource LoginConverter}}" FontWeight="SemiBold" TextAlignment="Center"  HorizontalAlignment="Center" FontSize="24"/>
+                    </StackPanel>
+                    <TextBlock HorizontalAlignment="Center" TextAlignment="Center"  FontSize="24">
+                        <TextBlock.Style>
+                            <Style BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}" TargetType="TextBlock" >
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding User.IsOnline}" Value="True">
+                                        <Setter Property="Text" Value="В сети" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding User.IsOnline}" Value="False">
+                                        <Setter Property="Text" Value="{Binding User.LastAction,Converter={StaticResource DateTimeConverter},StringFormat={}Последний раз в сети:{0}}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <controls:IconButton Grid.Column="1" IsIconFirst="False" VerticalAlignment="Center" Margin="0,0,0,5" Command="{Binding SendFriendRequest}">
+                        <controls:IconButton.Style>
+                            <Style BasedOn="{StaticResource ResourceKey=AcceptButton}" TargetType="controls:IconButton">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsAlreadyFriends}" Value="True" >
+                                        <Setter Property="Text" Value="В друзьях" />
+                                        <Setter Property="Icon" Value="&#xe73e;" />
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding IsAlreadyFriends}" Value="False"/>
+                                            <Condition Binding="{Binding IsRequested}" Value="False"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <MultiDataTrigger.Setters>
+                                            <Setter Property="Text" Value="Добавить в друзья" />
+                                            <Setter Property="Icon" Value="&#xe73e;" />
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </MultiDataTrigger.Setters>
+                                    </MultiDataTrigger>
+
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding IsAlreadyFriends}" Value="False"/>
+                                            <Condition Binding="{Binding IsRequested}" Value="True"/>
+                                        </MultiDataTrigger.Conditions>
+                                        <MultiDataTrigger.Setters>
+                                            <Setter Property="Text" Value="Запрос отправлен" />
+                                            <Setter Property="Icon" Value="&#xe73e;" />
+                                            <Setter Property="IsEnabled" Value="True" />
+                                        </MultiDataTrigger.Setters>
+                                    </MultiDataTrigger>
+
+                                </Style.Triggers>
+                            </Style>
+                        </controls:IconButton.Style>
+                    </controls:IconButton>
+                </StackPanel>
+
+            </Grid>
+        </Border>
+
+
     </Grid>
-</Window>
+</controls:ModernWindow>

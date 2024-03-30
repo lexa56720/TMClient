@@ -43,9 +43,18 @@
                         <DataTrigger Binding="{Binding User.IsCurrentUser}" Value="True">
                             <Setter Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding User.IsCurrentUser}" Value="False">
-                            <Setter Property="Visibility" Value="Visible"/>
+                        <DataTrigger Binding="{Binding IsProfileLinkEnabled}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
                         </DataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding User.IsCurrentUser}" Value="False"/>
+                                <Condition Binding="{Binding IsProfileLinkEnabled}" Value="True"/>
+                            </MultiDataTrigger.Conditions>
+                            <MultiDataTrigger.Setters>
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </MultiDataTrigger.Setters> 
+                        </MultiDataTrigger>
                     </Style.Triggers>
                 </Style>
             </local:IconButton.Style>

@@ -34,6 +34,22 @@ namespace TMClient.Controls
                 SetValue(UserProperty, value);
             }
         }
+
+        public static readonly DependencyProperty IsProfileLinkEnabledProperty =
+        DependencyProperty.Register(nameof(IsProfileLinkEnabled),
+                                    typeof(bool),
+                                    typeof(UserDisplay),
+                                    new PropertyMetadata(true));
+        public bool IsProfileLinkEnabled
+        {
+            get => (bool)GetValue(IsProfileLinkEnabledProperty);
+            set
+            {
+                SetValue(IsProfileLinkEnabledProperty, value);
+            }
+        }
+
+
         public UserDisplay()
         {
             InitializeComponent();

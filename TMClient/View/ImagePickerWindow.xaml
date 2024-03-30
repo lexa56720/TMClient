@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TMClient.View"
         mc:Ignorable="d" AllowsTransparency="True" SizeToContent="WidthAndHeight"
-        WindowStyle="None" MinHeight="400" MinWidth="400"
+        WindowStyle="None" MinHeight="400" MinWidth="400" WindowStartupLocation="CenterScreen"
         Title="MainAuthWindow" HorizontalAlignment="Center"
         VerticalAlignment="Center" ResizeMode="NoResize" >
 
