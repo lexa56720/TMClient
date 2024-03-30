@@ -69,7 +69,11 @@
 
                                         <StackPanel Grid.Column="0" Orientation="Vertical" >
                                             <StackPanel Orientation="Horizontal">
-                                                <controls:UserDisplay Width="50" Margin="5" Height="50" User="{Binding .}"/>
+                                                <Grid>
+                                                    <controls:UserDisplay Width="50" Margin="5" Height="50" User="{Binding .}"/>
+                                                    <controls:CountDisplay Grid.Column="1" Count="{Binding Dialogue.UnreadCount}" Width="20" Height="20" Margin="2" Foreground="{StaticResource RedBrush}"  VerticalAlignment="Top"  HorizontalAlignment="Right"  />
+                                                </Grid>
+                                 
                                                 <StackPanel VerticalAlignment="Center">
                                                     <Label Content="{Binding Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,0,0,-10" />
                                                     <Label Content="{Binding Login, Converter={StaticResource SubLoginConverter}}" FontSize="16"  Padding="0" HorizontalAlignment="Left"  />
@@ -97,7 +101,6 @@
                                             </Border>
 
                                         </StackPanel>
-                                        <controls:CountDisplay Grid.Column="1" Count="{Binding Dialogue.UnreadCount}" Width="30" Height="30" Foreground="{StaticResource RedBrush}" Margin="5" VerticalAlignment="Top"  HorizontalAlignment="Right"  />
                                     </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>

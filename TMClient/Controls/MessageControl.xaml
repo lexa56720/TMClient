@@ -15,8 +15,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="6*" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-
 
 
             <Border CornerRadius="5" Margin="5,0,5,0"  Grid.ColumnSpan="2" >
@@ -82,13 +82,33 @@
                                 </TextBlock.Style>
                             </TextBlock>
                         </StackPanel>
-                        
                     </StackPanel>
-
-
                 </Grid>
-
             </Border>
+
+            <local:UserDisplay User="{Binding Message.Author}" Width="40" Height="40" Grid.Column="3" Margin="0,0,3,0" VerticalAlignment="Center">
+                <local:UserDisplay.Style>
+                    <Style TargetType="local:UserDisplay">
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsOwn}" Value="False"/>
+                                    <Condition Binding="{Binding Message.Destination.IsDialog}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <DataTrigger Binding="{Binding Message.IsOwn}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Message.Destination.IsDialog}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </local:UserDisplay.Style>
+            </local:UserDisplay>
         </Grid>
     </Border>
 </local:MessageBaseControl>

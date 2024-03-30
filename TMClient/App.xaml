@@ -820,7 +820,7 @@
                         <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageUpCommand" />
                     </Track.DecreaseRepeatButton>
                     <Track.Thumb >
-                        <Thumb Style="{StaticResource ScrollBarThumb}" Width="18" Margin="-10,0,0,0" Background="{StaticResource HorizontalNormalBrush}" BorderBrush="{StaticResource HorizontalNormalBorderBrush}" />
+                        <Thumb Style="{StaticResource ScrollBarThumb}" Width="18" Margin="-5,0,0,0" Background="{StaticResource HorizontalNormalBrush}" BorderBrush="{StaticResource HorizontalNormalBorderBrush}" />
                     </Track.Thumb>
                     <Track.IncreaseRepeatButton>
                         <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageDownCommand" />
