@@ -32,8 +32,11 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Grid.Column="0" >
-                        <Label Content="{Binding Name}" HorizontalAlignment="Left" Padding="0" FontSize="20"  Margin="5" />
-                        <Label Content="{Binding Login, Converter={StaticResource LoginConverter}}" Padding="0"  HorizontalAlignment="Left" FontSize="20" Margin="5" />
+                        <controls:UserDisplay User="{Binding .}" Width="50" Height="50" />
+                        <StackPanel VerticalAlignment="Center">
+                            <Label Content="{Binding Name}" HorizontalAlignment="Left" Padding="0" FontSize="20"  Margin="0" />
+                            <Label Content="{Binding Login, Converter={StaticResource LoginConverter}}" Padding="0"  HorizontalAlignment="Left" FontSize="16" Margin="0,-5,0,0" />
+                        </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -64,11 +67,11 @@
                             <DataTrigger  Binding="{Binding Path=(Validation.HasError),ElementName=ChatName}" Value="False">
                                 <Setter Property="IsEnabled" Value="True"/>
                             </DataTrigger>
-                            
+
                             <DataTrigger  Binding="{Binding Text.Length,ElementName=ChatName}" Value="0">
                                 <Setter Property="IsEnabled" Value="False"/>
                             </DataTrigger>
-                            
+
                         </Style.Triggers>
                     </Style>
                 </controls:IconButton.Style>

@@ -71,8 +71,8 @@
                                             <StackPanel Orientation="Horizontal">
                                                 <controls:UserDisplay Width="50" Margin="5" Height="50" User="{Binding .}"/>
                                                 <StackPanel VerticalAlignment="Center">
-                                                    <Label Content="{Binding Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,0,0,-15" />
-                                                    <Label Content="{Binding Login, Converter={StaticResource SubLoginConverter}}" FontSize="16"  Padding="0" HorizontalAlignment="Left" Margin="0,0,0,0" />
+                                                    <Label Content="{Binding Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,0,0,-10" />
+                                                    <Label Content="{Binding Login, Converter={StaticResource SubLoginConverter}}" FontSize="16"  Padding="0" HorizontalAlignment="Left"  />
                                                 </StackPanel>
                                             </StackPanel>
 

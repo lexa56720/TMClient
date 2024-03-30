@@ -93,6 +93,9 @@ namespace ClientApiWrapper
             if (x?.LastMessage == null && y?.LastMessage != null)
                 return -1;
 
+            if (x?.LastMessage == null && y?.LastMessage == null)
+                return 0;
+
             if (x == y || x.LastMessage.SendTime == y.LastMessage.SendTime)
                 return 0;
 

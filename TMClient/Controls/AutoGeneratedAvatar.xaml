@@ -8,8 +8,8 @@
              d:DesignHeight="400" d:DesignWidth="400">
     <Grid>
         <Ellipse Width="{Binding Width,ElementName=circleImg}" Height="{Binding Height,ElementName=circleImg}" Fill="{Binding Color,ElementName=circleImg}"/>
-        <Viewbox VerticalAlignment="Center">
-            <TextBlock VerticalAlignment="Center" TextAlignment="Center" Text="{Binding User.Name,Converter={StaticResource FirstCharConverter},ElementName=circleImg}"/>
+        <Viewbox VerticalAlignment="Center" HorizontalAlignment="Center" Margin="-1,3,1,-4" >
+            <TextBlock VerticalAlignment="Center"  HorizontalAlignment="Center" TextAlignment="Center" Text="{Binding User.Name,Converter={StaticResource FirstCharConverter},ElementName=circleImg}"/>
         </Viewbox>
     </Grid>
 </UserControl>

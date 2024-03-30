@@ -87,6 +87,8 @@ namespace TMClient.Controls
 
         private SolidColorBrush PickColor(User user)
         {
+            if (user == null)
+                return new SolidColorBrush(Colors[0]);
             return new SolidColorBrush(Colors[user.Id % Colors.Count]);
         }
     }

@@ -4,9 +4,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TMClient.View" xmlns:b="http://schemas.microsoft.com/xaml/behaviors" WindowStartupLocation="CenterOwner"
+        xmlns:local="clr-namespace:TMClient.View" xmlns:b="http://schemas.microsoft.com/xaml/behaviors" 
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner"
         mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None"
-        Title="UserList" MinHeight="200" MinWidth="450" Width="400" >
+        Title="UserList" MinHeight="200" MinWidth="450" MaxHeight="1000" Width="400" >
 
 
     <controls:ModernWindow.Background>
@@ -37,9 +38,12 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.Column="0" Margin="0,5,0,5" >
-                                <Label Content="{Binding User.Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,-5,0,-5" />
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,5,0,5" >
+                                <controls:UserDisplay User="{Binding User}" Width="50" Height="50" Margin="0" />
+                                <StackPanel>
+                                    <Label Content="{Binding User.Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,-5,0,-5" />
                                 <Label Content="{Binding User.Login, Converter={StaticResource LoginConverter}}" Padding="0"  HorizontalAlignment="Left" FontSize="16" Margin="0,0,0,-5" />
+                                </StackPanel>
                             </StackPanel>
 
                             <controls:IconButton  Grid.Column="1" HorizontalAlignment="Right" Margin="0" IsIconFirst="False"

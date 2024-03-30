@@ -25,10 +25,9 @@
         <Border Grid.Column="0"  Grid.Row="1" Background="{StaticResource BackgroundBrush}" Margin="-5,5,-5,-5" >
             <Grid >
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <TextBlock Text="{Binding User.Name}" TextAlignment="Center" HorizontalAlignment="Center" FontSize="24" />
-                        <TextBlock Text="{Binding User.Login,Converter={StaticResource LoginConverter}}" FontWeight="SemiBold" TextAlignment="Center"  HorizontalAlignment="Center" FontSize="24"/>
-                    </StackPanel>
+                        <TextBlock Text="{Binding User.Login,Converter={StaticResource SubLoginConverter}}" FontWeight="SemiBold" TextAlignment="Center"  HorizontalAlignment="Center" FontSize="20"/>
+               
                     <TextBlock HorizontalAlignment="Center" TextAlignment="Center"  FontSize="24">
                         <TextBlock.Style>
                             <Style BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}" TargetType="TextBlock" >
@@ -37,14 +36,14 @@
                                         <Setter Property="Text" Value="В сети" />
                                     </DataTrigger>
                                     <DataTrigger Binding="{Binding User.IsOnline}" Value="False">
-                                        <Setter Property="Text" Value="{Binding User.LastAction,Converter={StaticResource DateTimeConverter},StringFormat={}Последний раз в сети:{0}}" />
+                                        <Setter Property="Text" Value="{Binding User.LastAction,Converter={StaticResource DateTimeConverter},StringFormat={}Последний раз в сети: {0}}" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
 
-                    <controls:IconButton Grid.Column="1" IsIconFirst="False" VerticalAlignment="Center" Margin="0,0,0,5" Command="{Binding SendFriendRequest}">
+                    <controls:IconButton Grid.Column="1" IsIconFirst="False" VerticalAlignment="Center" Margin="5" Command="{Binding SendFriendRequest}">
                         <controls:IconButton.Style>
                             <Style BasedOn="{StaticResource ResourceKey=AcceptButton}" TargetType="controls:IconButton">
                                 <Style.Triggers>
@@ -61,7 +60,7 @@
                                         </MultiDataTrigger.Conditions>
                                         <MultiDataTrigger.Setters>
                                             <Setter Property="Text" Value="Добавить в друзья" />
-                                            <Setter Property="Icon" Value="&#xe73e;" />
+                                            <Setter Property="Icon" Value="&#xe710;" />
                                             <Setter Property="IsEnabled" Value="True" />
                                         </MultiDataTrigger.Setters>
                                     </MultiDataTrigger>
@@ -74,7 +73,7 @@
                                         <MultiDataTrigger.Setters>
                                             <Setter Property="Text" Value="Запрос отправлен" />
                                             <Setter Property="Icon" Value="&#xe73e;" />
-                                            <Setter Property="IsEnabled" Value="True" />
+                                            <Setter Property="IsEnabled" Value="False" />
                                         </MultiDataTrigger.Setters>
                                     </MultiDataTrigger>
 

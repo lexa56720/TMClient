@@ -24,16 +24,32 @@
             <Grid IsEnabled="{Binding IsReadOnly,Converter={StaticResource BooleanInverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="1" >
-                    <Label Content="{Binding Friend.Name}" FontSize="24" HorizontalAlignment="Center" Padding="0"  Margin="0,-5,0,-5" />
-                    <Label Content="{Binding Friend.Login, Converter={StaticResource LoginConverter}}" Padding="0"
-                           HorizontalAlignment="Center" FontSize="16" Margin="0,0,0,-2" />
-                </StackPanel>
 
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <controls:UserDisplay User="{Binding Friend}" Width="50" Height="50" Margin="0" />
+                    <StackPanel VerticalAlignment="Center"  >
+                        <Label Content="{Binding Friend.Name}"  FontSize="24" HorizontalAlignment="Left" Padding="0"  Margin="0,-5,0,-5" />
+                        <TextBlock HorizontalAlignment="Center" TextAlignment="Center"  FontSize="16">
+                            <TextBlock.Style>
+                                <Style BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}" TargetType="TextBlock" >
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Friend.IsOnline}" Value="True">
+                                            <Setter Property="Text" Value="В сети" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Friend.IsOnline}" Value="False">
+                                            <Setter Property="Text" Value="{Binding Friend.LastAction,Converter={StaticResource DateTimeConverter},StringFormat={}Последний раз в сети: {0}}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                    </StackPanel>
+                </StackPanel>
                 <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
                     <controls:IconButton Icon="&#xE8F8;" Margin="5" Style="{StaticResource TransperentButton}"
                                      Orientation="Vertical" FontSize="32" HorizontalAlignment="Right" Command="{Binding BlockCommand}" />

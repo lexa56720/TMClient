@@ -44,10 +44,14 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.Column="0" >
-                                <Label Content="{Binding Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,-5,0,-5" />
-                                <Label Content="{Binding Login, Converter={StaticResource LoginConverter}}" Padding="0"  HorizontalAlignment="Left" FontSize="16" Margin="0,0,0,-5" />
+                            <StackPanel Orientation="Horizontal"  Grid.Column="0">
+                                <controls:UserDisplay User="{Binding .}" Width="60" Height="60" Margin="5" />
+                                <StackPanel VerticalAlignment="Center" >
+                                    <Label Content="{Binding Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,-5,0,-5" />
+                                    <Label Content="{Binding Login, Converter={StaticResource LoginConverter}}" Padding="0"  HorizontalAlignment="Left" FontSize="16" Margin="0,0,0,-5" />
+                                </StackPanel>
                             </StackPanel>
+                
                             <controls:IconButton Style="{StaticResource AcceptButton}" Grid.Column="1" Text="Добавить" Icon="&#xE8fa;" HorizontalAlignment="Right"
                                     Command="{Binding Path=DataContext.AddFriend, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FriendRequest}}}" CommandParameter="{Binding .}">
                                
