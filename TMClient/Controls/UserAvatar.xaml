@@ -14,8 +14,11 @@
                         <Setter Property="ImageSource">
                             <Setter.Value>
                                 <MultiBinding Converter="{StaticResource UserAvatarSizeConverter}">
-                                    <Binding Path="User" ElementName="avatar"/>
-                                    <Binding Path="AvatarSize" ElementName="avatar"/>
+                                    <Binding Path="User" ElementName="avatar" UpdateSourceTrigger="PropertyChanged" />
+                                    <Binding Path="AvatarSize" ElementName="avatar" UpdateSourceTrigger="PropertyChanged"/>
+                                    <Binding Path="User.ProfilePicLarge" ElementName="avatar" UpdateSourceTrigger="PropertyChanged" />
+                                    <Binding Path="User.ProfilePicMedium" ElementName="avatar" UpdateSourceTrigger="PropertyChanged" />
+                                    <Binding Path="User.ProfilePicSmall" ElementName="avatar" UpdateSourceTrigger="PropertyChanged" />
                                 </MultiBinding>
                             </Setter.Value>
                         </Setter>

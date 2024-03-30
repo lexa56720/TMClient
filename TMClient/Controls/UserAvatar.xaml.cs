@@ -37,16 +37,21 @@ namespace TMClient.Controls
             }
         }
 
+
+        public static readonly DependencyProperty AvatarSizeProperty =
+        DependencyProperty.Register(nameof(AvatarSize),
+                                    typeof(ImageSize),
+                                    typeof(UserAvatar),
+                                    new PropertyMetadata(ImageSize.Medium));
+
         public ImageSize AvatarSize
         {
-            get => avatarSize;
+            get => (ImageSize)GetValue(AvatarSizeProperty);
             set
             {
-                avatarSize = value;
-                OnPropertyChanged(nameof(AvatarSize));
+                SetValue(AvatarSizeProperty, value);
             }
         }
-        private ImageSize avatarSize;
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -62,17 +67,17 @@ namespace TMClient.Controls
         }
         private static void UserChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((UserAvatar)d).UserChanged((User)e.NewValue);
+            ((UserAvatar)d).UserChanged();
         }
-        private void UserChanged(User newUser)
+        private void UserChanged()
         {
-            AvatarSize = GetAvatarSize(newUser);
+            AvatarSize = GetAvatarSize();
         }
-        private ImageSize GetAvatarSize(User user)
+        private ImageSize GetAvatarSize()
         {
             double maxSize = Height > Width ? Height : Width;
 
-            if (maxSize <= 64)
+            if (maxSize <= 64 || double.IsNaN(maxSize))
                 return ImageSize.Small;
             if (maxSize <= 128)
                 return ImageSize.Medium;
