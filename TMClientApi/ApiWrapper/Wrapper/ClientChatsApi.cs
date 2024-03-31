@@ -3,6 +3,7 @@ using ApiWrapper.Interfaces;
 using TMApi.ApiRequests.Chats;
 using TMApi.ApiRequests.Users;
 using ApiWrapper.Types;
+using ApiTypes.Communication.Chats;
 
 namespace ApiWrapper.ApiWrapper.Wrapper
 {
@@ -129,7 +130,15 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         {
             return await Api.Chats.LeaveChat(chatId);
         }
+        public async Task<bool> ChangeCover(int chatId, byte[] newCover)
+        {
+            return await Api.Chats.ChangeCover(chatId, newCover);
+        }
 
+        public async Task<bool> Rename(int chatId,string newName)
+        {
+            return await Api.Chats.RenameChat(chatId,newName);
+        }
 
         internal async Task<Chat[]> GetChatIgnoringCache(int[] chatIds)
         {

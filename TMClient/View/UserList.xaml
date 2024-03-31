@@ -37,33 +37,36 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,5,0,5" >
-                                <controls:UserDisplay User="{Binding User}" Width="50" Height="50" Margin="0" />
-                                <StackPanel>
-                                    <Label Content="{Binding User.Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,-5,0,-5" />
-                                <Label Content="{Binding User.Login, Converter={StaticResource LoginConverter}}" Padding="0"  HorizontalAlignment="Left" FontSize="16" Margin="0,0,0,-5" />
+                            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="5" >
+                                <controls:UserDisplay User="{Binding UserContainer.User}" Width="60" Height="60" Margin="0,0,5,0"  />
+                                <StackPanel VerticalAlignment="Center">
+                                    <Label Content="{Binding  UserContainer.User.Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,-5,0,-5" />
+                                    <Label Content="{Binding  UserContainer.User.Login, Converter={StaticResource LoginConverter}}" Padding="0"  HorizontalAlignment="Left" FontSize="16" Margin="0,0,0,-5" />
                                 </StackPanel>
                             </StackPanel>
 
-                            <controls:IconButton  Grid.Column="1" HorizontalAlignment="Right" Margin="0" IsIconFirst="False"
-                                    Command="{Binding Path=DataContext.AddFriend, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserList}}}" CommandParameter="{Binding .}"
-                                     Visibility="{Binding Visibility}" IsEnabled="{Binding IsRequested,Converter={StaticResource BooleanInverter}}">
-
-                                <controls:IconButton.Style>
-                                    <Style TargetType="controls:IconButton" BasedOn="{StaticResource AcceptButton}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsRequested}" Value="true">
-                                                <Setter Property="Text" Value="Запрос отправлен"/>
-                                                <Setter Property="Icon" Value="&#xE73e;"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding IsRequested}" Value="false">
-                                                <Setter Property="Text" Value="Дружить"/>
-                                                <Setter Property="Icon" Value="&#xE8fa;"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </controls:IconButton.Style>
-                            </controls:IconButton>
+                            <DockPanel LastChildFill="True" Grid.Column="1">
+                                <TextBlock DockPanel.Dock="Top" Text="Администратор" FontSize="18" Margin="0,0,0,-5" Visibility="{Binding IsAdminVisibility}" TextAlignment="Right"  VerticalAlignment="Center"/>
+                                <controls:IconButton DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="5" IsIconFirst="False"
+                                                     Command="{Binding Path=DataContext.AddFriend, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UserList}}}" CommandParameter="{Binding .}"
+                                                     Visibility="{Binding  UserContainer.Visibility}" IsEnabled="{Binding  UserContainer.IsRequested,Converter={StaticResource BooleanInverter}}">
+                                    <controls:IconButton.Style>
+                                        <Style TargetType="controls:IconButton" BasedOn="{StaticResource AcceptButton}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding  UserContainer.IsRequested}" Value="true">
+                                                    <Setter Property="Text" Value="Запрос отправлен"/>
+                                                    <Setter Property="Icon" Value="&#xE73e;"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding  UserContainer.IsRequested}" Value="false">
+                                                    <Setter Property="Text" Value="В друзья"/>
+                                                    <Setter Property="Icon" Value="&#xE8fa;"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </controls:IconButton.Style>
+                                </controls:IconButton>
+                            </DockPanel>
+                            
                         </Grid>
                     </Border>
 

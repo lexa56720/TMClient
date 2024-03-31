@@ -54,6 +54,7 @@ namespace ApiWrapper.ApiWrapper
             var members = await UserApi.GetUser(chat.MemberIds);
             foreach (var member in members)
                 result.Members.Add(member);
+            result.Admin = result.Members.Single(m => m.Id == chat.AdminId);
             return result;
         }
         public async Task<Chat[]> Convert(ApiChat[] chats)
@@ -68,6 +69,7 @@ namespace ApiWrapper.ApiWrapper
 
                 for (int j = 0; j < chats[chatCount].MemberIds.Length; j++, memberCount++)
                     result[chatCount].Members.Add(convertedMembers[memberCount]);
+                result[chatCount].Admin = result[chatCount].Members.Single(m => m.Id == chats[chatCount].AdminId);
             }
             return result;
         }

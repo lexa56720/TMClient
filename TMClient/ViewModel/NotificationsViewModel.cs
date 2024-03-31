@@ -58,8 +58,10 @@ namespace TMClient.ViewModel
 
         private async Task ShowChatMembers(ChatInvite? invite)
         {
+            if (invite == null)
+                return;
             await Messenger.Send(Messages.ModalOpened);
-            var membersWindow = new View.UserList(invite.Chat.Members.ToArray())
+            var membersWindow = new View.UserList(invite.Chat.Members.ToArray(), invite.Chat)
             {
                 Owner = App.Current.MainWindow,
                 ShowInTaskbar = false
@@ -68,27 +70,7 @@ namespace TMClient.ViewModel
             await Messenger.Send(Messages.ModalClosed);
         }
 
-        private NotificationsModel Model;
-
-        public NotificationsViewModel()
-        {
-            Model = new NotificationsModel();
-
-            //    ChatInvites.Add(new ChatInvite(new User()
-            //    {
-            //        Id = i,
-            //        IsOnline = false,
-            //        Login = "Ramadan",
-            //        Name = "Ivan Kal",
-            //    },
-            //    new Chat()
-            //    {
-            //        Id = 1,
-            //        Name = "BEST CHAT"
-            //    }, i));
-            //}
-
-        }
+        private readonly NotificationsModel Model=new();
 
     }
 }

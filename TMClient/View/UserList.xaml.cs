@@ -8,11 +8,11 @@ namespace TMClient.View
     /// </summary>
     public partial class UserList : ModernWindow
     {
-        public UserList(User[] users)
+        public UserList(User[] users,Chat chat)
         {
             InitializeComponent();
             Title = "Пользователи";
-            DataContext = new UserListViewModel(users);
+            DataContext = new UserListViewModel(users,chat);
         }
     }
 }

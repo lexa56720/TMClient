@@ -1,4 +1,6 @@
-﻿namespace ApiWrapper.Interfaces
+﻿using TMApi;
+
+namespace ApiWrapper.Interfaces
 {
     public interface IChatsApi
     {
@@ -18,5 +20,9 @@
         public Task<ChatInvite[]> GetAllInvites(int userId);
 
         public Task<bool> SendChatInviteResponse(int inviteId, bool isAccepted);
+
+        public Task<bool> ChangeCover(int chatId, byte[] newCover);
+
+        public Task<bool> Rename(int chatId, string newName);
     }
 }

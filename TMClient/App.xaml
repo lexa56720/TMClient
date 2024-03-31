@@ -20,6 +20,8 @@
         <c:FirstCharConverter x:Key="FirstCharConverter"></c:FirstCharConverter>
         <c:NullImageConverter x:Key="NullImageConverter"></c:NullImageConverter>
         <c:EntityImageSizeConverter x:Key="EntityImageSizeConverter"></c:EntityImageSizeConverter>
+        <c:BooleanToVisibility x:Key="BooleanToVisibility"></c:BooleanToVisibility>
+        
         
         <v:NameRule x:Key="NameRule"></v:NameRule>
         <v:ChatNameRule x:Key="ChatNameRule"></v:ChatNameRule>

@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace TMClient.Utils
 {
-    internal class UserContainer : INotifyPropertyChanged
+    public class UserContainer : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public bool IsRequested

@@ -25,6 +25,7 @@ namespace TMClient.ViewModel.Chats
         public ICommand InviteCommand => new AsyncCommand(InviteToChat);
         public ICommand ShowMembersCommand => new AsyncCommand(ShowMembers);
 
+        public ICommand EditCommand => new Command(Edit);
 
         protected override MultiUserChatModel GetModel(Chat chat)
         {
@@ -52,13 +53,17 @@ namespace TMClient.ViewModel.Chats
         {
             await Messenger.Send(Utils.Messages.ModalOpened, true);
             var mainWindow = App.Current.MainWindow;
-            var membersWindow = new UserList(Chat.Members.ToArray())
+            var membersWindow = new UserList(Chat.Members.ToArray(),chat)
             {
                 Owner = mainWindow,
                 ShowInTaskbar = false
             };
             membersWindow.ShowDialog();
             await Messenger.Send(Utils.Messages.ModalClosed, true);
+        }
+        private void Edit(object? obj)
+        {
+            throw new NotImplementedException();
         }
     }
 }

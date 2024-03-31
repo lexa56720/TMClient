@@ -75,7 +75,8 @@
                                                 </Grid>
 
                                                 <StackPanel VerticalAlignment="Center">
-                                                    <Label Content="{Binding Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,0,0,-10" />
+                                                    <TextBlock Text="{Binding Name}" MaxWidth="{Binding (ListViewItem.ActualWidth),RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"
+                                                               HorizontalAlignment="Left" Padding="0" TextTrimming="CharacterEllipsis"  Margin="0,0,0,-10" />
                                                     <Label Content="{Binding Login, Converter={StaticResource SubLoginConverter}}" FontSize="16"  Padding="0" HorizontalAlignment="Left"  />
                                                 </StackPanel>
                                             </StackPanel>

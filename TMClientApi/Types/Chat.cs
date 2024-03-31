@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace ApiWrapper.Types
 {
-    public class Chat : NamedImageEntity,IDisposable
+    public class Chat : NamedImageEntity, IDisposable
     {
         public bool IsDialogue { get; }
         public int UnreadCount
@@ -19,7 +19,6 @@ namespace ApiWrapper.Types
             }
         }
         private int unreadCount;
-
         public User? WritingUser
         {
             get => writingUser;
@@ -30,7 +29,6 @@ namespace ApiWrapper.Types
             }
         }
         private User? writingUser;
-
         public Message? LastMessage
         {
             get => lastMessage;
@@ -41,25 +39,37 @@ namespace ApiWrapper.Types
             }
         }
         private Message? lastMessage;
+
+        public User Admin
+        {
+            get => admin;
+            set
+            {
+                admin = value;
+                OnPropertyChanged(nameof(Admin));
+            }
+        }
+        private User admin;
+
         public ObservableCollection<User> Members { get; } = new();
 
         private bool IsDisposed;
-        public Chat(int id, string name,int unreadCount ,bool isDialogue)
+
+        public Chat(int id, string name, int unreadCount, bool isDialogue)
         {
             Id = id;
             Name = name;
             IsDialogue = isDialogue;
-            UnreadCount=unreadCount;
+            UnreadCount = unreadCount;
         }
         public void Dispose()
         {
             if (IsDisposed)
                 return;
 
-            Members.Clear();         
+            Members.Clear();
             IsDisposed = true;
         }
-
         internal void Update(Chat chat)
         {
             if (chat == this)
