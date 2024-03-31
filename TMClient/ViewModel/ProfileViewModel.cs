@@ -21,7 +21,7 @@ namespace TMClient.ViewModel
         {
             await Messenger.Send(Messages.ModalOpened, true);
             var path = OpenFilePickerWindow();
-            if (string.IsNullOrEmpty(path))
+            if (!string.IsNullOrEmpty(path))
             {
                 var imageData = await OpenAvatarWindow(path);
                 if (imageData.Length > 0)

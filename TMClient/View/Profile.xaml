@@ -10,7 +10,7 @@
     <Grid>
         <StackPanel Margin="5">
             <Grid>
-                <controls:UserAvatar User="{Binding CurrentUser.Info}" Width="256" Height="256"/> 
+                <controls:EntityImage Entity="{Binding CurrentUser.Info}" Width="256" Height="256"/> 
                 <controls:IconButton HorizontalAlignment="Center" Width="256" Height="256" Style="{StaticResource CircleButton}"
                         VerticalAlignment="Center" Foreground="{StaticResource ForegroundBrush}"  Text="Изменить" Icon="&#xe70f;" Command="{Binding ChangeAvatarCommand}" />
             </Grid>

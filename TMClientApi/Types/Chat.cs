@@ -1,25 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using ClientApiWrapper.Types;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace ApiWrapper.Types
 {
-    public class Chat : INotifyPropertyChanged,IDisposable
+    public class Chat : NamedImageEntity,IDisposable
     {
-        public int Id { get; }
-
         public bool IsDialogue { get; }
-
-        public string Name
-        {
-            get => name;
-            set
-            {
-                name = value;
-                OnPropertyChanged(nameof(Name));
-            }
-        }
-        private string name = string.Empty;
-
         public int UnreadCount
         {
             get => unreadCount;
@@ -55,7 +42,6 @@ namespace ApiWrapper.Types
         }
         private Message? lastMessage;
         public ObservableCollection<User> Members { get; } = new();
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         private bool IsDisposed;
         public Chat(int id, string name,int unreadCount ,bool isDialogue)
@@ -73,16 +59,12 @@ namespace ApiWrapper.Types
             Members.Clear();         
             IsDisposed = true;
         }
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         internal void Update(Chat chat)
         {
             if (chat == this)
                 return;
-            Name = chat.name;
+            Name = chat.Name;
             WritingUser = chat.WritingUser;
             LastMessage = chat.LastMessage;
 

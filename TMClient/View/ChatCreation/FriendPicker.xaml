@@ -23,10 +23,10 @@
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="Focusable" Value="False"/>
                     <Setter Property="Margin" Value="0,0,0,5"/>
-                    <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+                    <Setter Property="Background" Value="{StaticResource BackgroundLightBrush}"/>
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+                            <Setter Property="Background" Value="{StaticResource BackgroundLightBrush}" />
                         </Trigger>
                     </Style.Triggers>
                 </Style>

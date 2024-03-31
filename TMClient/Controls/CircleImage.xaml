@@ -10,7 +10,8 @@
         <Ellipse Height="{Binding Height, ElementName=circImg}"
                  Width="{Binding Width, ElementName=circImg}">
             <Ellipse.Fill>
-                <ImageBrush RenderOptions.BitmapScalingMode="HighQuality" ImageSource="{Binding ImageSource,Converter={StaticResource NullImageConverter},ElementName=circImg}" />
+                <ImageBrush RenderOptions.BitmapScalingMode="HighQuality" 
+                            ImageSource="{Binding ImageSource,Converter={StaticResource NullImageConverter},ElementName=circImg}" />
             </Ellipse.Fill>
         </Ellipse>
     </Grid>

@@ -9,7 +9,7 @@
     <Grid HorizontalAlignment="Center">
         <StackPanel Orientation="Horizontal">
 
-            <local:UserMention User="{Binding Message.Author}"  >
+            <local:UserMention User="{Binding Message.Author}" Margin="0,0,-5,0"  >
                 <local:UserMention.Style>
                     <Style TargetType="local:UserMention">
                         <Style.Triggers>
@@ -144,7 +144,7 @@
                 </TextBlock.Style>
             </TextBlock>
 
-            <local:UserMention User="{Binding Message.Target}"  >
+            <local:UserMention User="{Binding Message.Target}"  Margin="-5,0,-5,0" >
                 <local:UserMention.Style>
                     <Style TargetType="local:UserMention">
                         <Style.Triggers>

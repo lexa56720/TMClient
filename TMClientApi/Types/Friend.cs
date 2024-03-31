@@ -20,7 +20,7 @@ namespace ApiWrapper.Types
         private Chat dialogue = null!;
 
         public override int Id => user.Id;
-        public override bool IsHaveAvatar => user.IsHaveAvatar;
+        public override bool IsHaveImage => user.IsHaveImage;
         public override bool IsCurrentUser => false;
 
         public override string Name
@@ -61,31 +61,31 @@ namespace ApiWrapper.Types
             }
         }
 
-        public override string ProfilePicLarge
+        public override string ImageLarge
         {
-            get => user.ProfilePicLarge;
+            get => user.ImageLarge;
             set
             {
-                user.ProfilePicLarge = value;
-                OnPropertyChanged(nameof(ProfilePicLarge));
+                user.ImageLarge = value;
+                OnPropertyChanged(nameof(ImageLarge));
             }
         }
-        public override string ProfilePicMedium
+        public override string ImageMedium
         {
-            get => user.ProfilePicMedium;
+            get => user.ImageMedium;
             set
             {
-                user.ProfilePicMedium = value;
-                OnPropertyChanged(nameof(ProfilePicMedium));
+                user.ImageMedium = value;
+                OnPropertyChanged(nameof(ImageMedium));
             }
         }
-        public override string ProfilePicSmall
+        public override string ImageSmall
         {
-            get => user.ProfilePicSmall;
+            get => user.ImageSmall;
             set
             {
-                user.ProfilePicSmall = value;
-                OnPropertyChanged(nameof(ProfilePicSmall));
+                user.ImageSmall = value;
+                OnPropertyChanged(nameof(ImageSmall));
             }
         }
 
@@ -109,10 +109,10 @@ namespace ApiWrapper.Types
             OnPropertyChanged(nameof(IsOnline));
             OnPropertyChanged(nameof(LastAction));
 
-            OnPropertyChanged(nameof(ProfilePicLarge));
-            OnPropertyChanged(nameof(ProfilePicMedium));
-            OnPropertyChanged(nameof(ProfilePicSmall));
-            OnPropertyChanged(nameof(IsHaveAvatar));
+            OnPropertyChanged(nameof(ImageLarge));
+            OnPropertyChanged(nameof(ImageMedium));
+            OnPropertyChanged(nameof(ImageSmall));
+            OnPropertyChanged(nameof(IsHaveImage));
         }
     }
 }

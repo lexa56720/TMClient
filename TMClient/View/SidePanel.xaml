@@ -73,7 +73,7 @@
                                                     <controls:UserDisplay Width="50" Margin="5" Height="50" User="{Binding .}"/>
                                                     <controls:CountDisplay Grid.Column="1" Count="{Binding Dialogue.UnreadCount}" Width="20" Height="20" Margin="2" Foreground="{StaticResource RedBrush}"  VerticalAlignment="Top"  HorizontalAlignment="Right"  />
                                                 </Grid>
-                                 
+
                                                 <StackPanel VerticalAlignment="Center">
                                                     <Label Content="{Binding Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,0,0,-10" />
                                                     <Label Content="{Binding Login, Converter={StaticResource SubLoginConverter}}" FontSize="16"  Padding="0" HorizontalAlignment="Left"  />
@@ -86,6 +86,9 @@
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding Dialogue.LastMessage.IsReaded}" Value="False">
                                                                 <Setter Property="Background" Value="{StaticResource UnreadMessageBrush}"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Dialogue.LastMessage.IsReaded}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource UserMessageBrush}"/>
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding Dialogue.LastMessage}" Value="{x:Null}">
                                                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -139,30 +142,43 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
-                                        <StackPanel>
-                                            <Label Grid.Column="0" HorizontalAlignment="Left" Content="{Binding Name}"/>
+                                        <StackPanel Orientation="Vertical">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Grid>
+                                                <controls:EntityImage Width="50" Margin="5" Height="50" Entity="{Binding .}"/>
+                                                <controls:CountDisplay Grid.Column="1" Count="{Binding UnreadCount}" Width="20" Height="20" Margin="2" Foreground="{StaticResource RedBrush}"  VerticalAlignment="Top"  HorizontalAlignment="Right"  />
+                                            </Grid>
+                                            
+                                                <Label Grid.Column="0" HorizontalAlignment="Left" Content="{Binding Name}"/>
+                                            </StackPanel>
 
                                             <Border CornerRadius="0,0,5,5" >
-                                                <Border.Style>
-                                                    <Style TargetType="Border" BasedOn="{StaticResource ResourceKey={x:Type Border}}">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding LastMessage.IsReaded}" Value="False">
-                                                                <Setter Property="Background" Value="{StaticResource UnreadMessageBrush}"/>
+                                                    <Border.Style>
+                                                        <Style TargetType="Border" BasedOn="{StaticResource ResourceKey={x:Type Border}}">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding LastMessage.IsReaded}" Value="False">
+                                                                    <Setter Property="Background" Value="{StaticResource UnreadMessageBrush}"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding LastMessage.IsReaded}" Value="True">
+                                                                <Setter Property="Background" Value="{StaticResource UserMessageBrush}"/>
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding LastMessage}" Value="{x:Null}">
-                                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Border.Style>
-                                                <StackPanel>
-                                                    <TextBlock Text="{Binding LastMessage.Text}" TextTrimming="CharacterEllipsis"    LineStackingStrategy="BlockLineHeight" LineHeight="28" MaxHeight="84"
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                <DockPanel LastChildFill="True" >
+                                                    <controls:UserDisplay DockPanel.Dock="Left" User="{Binding LastMessage.Author}" Margin="5" Width="40" Height="40"/>
+
+                                                    <StackPanel DockPanel.Dock="Right">
+                                                        <TextBlock Text="{Binding LastMessage.Text}" TextTrimming="CharacterEllipsis"    LineStackingStrategy="BlockLineHeight" LineHeight="28" MaxHeight="84"
                                                            MaxWidth="{Binding (ListViewItem.ActualWidth),RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"/>
-                                                    <TextBlock HorizontalAlignment="Right" TextTrimming="CharacterEllipsis" Margin="-5,-10,0,-5" Text="{Binding LastMessage.SendTime,Converter={StaticResource DateTimeConverter}}" FontSize="12"/>
-                                                </StackPanel>
+                                                        <TextBlock HorizontalAlignment="Right" TextTrimming="CharacterEllipsis" Margin="-5,-10,0,-5" Text="{Binding LastMessage.SendTime,Converter={StaticResource DateTimeConverter}}" FontSize="12"/>
+                                                    </StackPanel>
+                                                </DockPanel>
                                             </Border>
                                         </StackPanel>
-                                        <controls:CountDisplay Grid.Column="1" Count="{Binding UnreadCount}" Width="30" Height="30" Foreground="{StaticResource RedBrush}" Margin="5" VerticalAlignment="Top"  HorizontalAlignment="Right"  />
                                     </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>

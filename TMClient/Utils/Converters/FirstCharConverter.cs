@@ -16,7 +16,7 @@ namespace TMClient.Utils.Converters
         {
             if (value is string && !string.IsNullOrWhiteSpace((string)value))
             {
-                return ((string)value).First().ToString();
+                return ((string)value).First().ToString().ToUpper();
             }
             return "X";
         }

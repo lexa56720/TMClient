@@ -1,24 +1,12 @@
 ﻿using ApiTypes.Communication.Chats;
+using ClientApiWrapper.Types;
 using System.ComponentModel;
 
 namespace ApiWrapper.Types
 {
-    public class User : INotifyPropertyChanged
+    public class User : NamedImageEntity
     {
-        public virtual int Id { get; }
-
         public virtual bool IsCurrentUser { get; }
-
-        public virtual string Name
-        {
-            get => name;
-            set
-            {
-                name = value;
-                OnPropertyChanged(nameof(Name));
-            }
-        }
-        private string name = string.Empty;
 
         public virtual string Login
         {
@@ -53,52 +41,6 @@ namespace ApiWrapper.Types
         }
         private DateTime lastAction;
 
-        public virtual bool IsHaveAvatar
-        {
-            get => isHaveAvatar;
-            set
-            {
-                isHaveAvatar = value;
-                OnPropertyChanged(nameof(IsHaveAvatar));
-            }
-        }
-        private bool isHaveAvatar;
-
-        public virtual string? ProfilePicLarge
-        {
-            get => profilePicLarge;
-            set
-            {
-                profilePicLarge = value;
-                OnPropertyChanged(nameof(ProfilePicLarge));
-            }
-        }
-        private string? profilePicLarge;
-
-        public virtual string? ProfilePicMedium
-        {
-            get => profilePicMedium;
-            set
-            {
-                profilePicMedium = value;
-                OnPropertyChanged(nameof(ProfilePicMedium));
-            }
-        }
-        private string? profilePicMedium;
-
-        public virtual string? ProfilePicSmall
-        {
-            get => profilePicSmall;
-            set
-            {
-                profilePicSmall = value;
-                OnPropertyChanged(nameof(ProfilePicSmall));
-            }
-        }
-        private string? profilePicSmall;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         public User(int id, string name, string login, bool isOnline, bool isCurrentUser,
                     DateTime lastAction, string? picLarge, string? picMedium, string? picSmall)
         {
@@ -108,13 +50,13 @@ namespace ApiWrapper.Types
             IsOnline = isOnline;
             IsCurrentUser = isCurrentUser;
             LastAction = lastAction;
-            ProfilePicLarge = picLarge;
-            ProfilePicMedium = picMedium;
-            ProfilePicSmall = picSmall;
+            ImageLarge = picLarge;
+            ImageMedium = picMedium;
+            ImageSmall = picSmall;
             if (picLarge == null || picMedium == null || picSmall == null)
-                IsHaveAvatar = false;
+                IsHaveImage = false;
             else
-                IsHaveAvatar = true;
+                IsHaveImage = true;
         }
         public User(int id, string name, string login, bool isOnline, bool isCurrentUser, DateTime lastAction)
         {
@@ -124,10 +66,10 @@ namespace ApiWrapper.Types
             IsOnline = isOnline;
             IsCurrentUser = isCurrentUser;
             LastAction = lastAction;
-            ProfilePicLarge = null;
-            ProfilePicMedium = null;
-            ProfilePicSmall = null;
-            IsHaveAvatar = false;
+            ImageLarge = null;
+            ImageMedium = null;
+            ImageSmall = null;
+            IsHaveImage = false;
         }
 
         protected User()
@@ -142,15 +84,11 @@ namespace ApiWrapper.Types
             IsOnline = user.IsOnline;
             Name = user.Name;
             Login = user.Login;
-            ProfilePicLarge = user.ProfilePicLarge;
-            ProfilePicMedium = user.ProfilePicMedium;
-            ProfilePicSmall = user.ProfilePicSmall;
+            ImageLarge = user.ImageLarge;
+            ImageMedium = user.ImageMedium;
+            ImageSmall = user.ImageSmall;
+            IsHaveImage=user.IsHaveImage;
             LastAction = user.LastAction;
-        }
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

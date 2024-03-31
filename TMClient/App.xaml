@@ -19,7 +19,7 @@
         <c:AddValueConverter x:Key="AddValueConverter"></c:AddValueConverter>
         <c:FirstCharConverter x:Key="FirstCharConverter"></c:FirstCharConverter>
         <c:NullImageConverter x:Key="NullImageConverter"></c:NullImageConverter>
-        <c:UserAvatarSizeConverter x:Key="UserAvatarSizeConverter"></c:UserAvatarSizeConverter>
+        <c:EntityImageSizeConverter x:Key="EntityImageSizeConverter"></c:EntityImageSizeConverter>
         
         <v:NameRule x:Key="NameRule"></v:NameRule>
         <v:ChatNameRule x:Key="ChatNameRule"></v:ChatNameRule>

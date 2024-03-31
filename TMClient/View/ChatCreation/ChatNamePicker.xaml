@@ -21,10 +21,10 @@
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="Focusable" Value="False"/>
                     <Setter Property="Margin" Value="0,0,0,5"/>
-                    <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+                    <Setter Property="Background" Value="{StaticResource BackgroundLightBrush}"/>
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+                            <Setter Property="Background" Value="{StaticResource BackgroundLightBrush}" />
                         </Trigger>
                     </Style.Triggers>
                 </Style>
@@ -32,7 +32,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Grid.Column="0" >
-                        <controls:UserDisplay User="{Binding .}" Width="50" Height="50" />
+                        <controls:UserDisplay User="{Binding .}" Width="50" Height="50" Margin="5,5,0,5" />
                         <StackPanel VerticalAlignment="Center">
                             <Label Content="{Binding Name}" HorizontalAlignment="Left" Padding="0" FontSize="20"  Margin="0" />
                             <Label Content="{Binding Login, Converter={StaticResource LoginConverter}}" Padding="0"  HorizontalAlignment="Left" FontSize="16" Margin="0,-5,0,0" />

@@ -1,4 +1,5 @@
 ﻿using ApiTypes.Communication.Medias;
+using ClientApiWrapper.Types;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,30 +22,30 @@ namespace TMClient.Controls
     /// <summary>
     /// Логика взаимодействия для UserAvatar.xaml
     /// </summary>
-    public partial class UserAvatar : UserControl
+    public partial class EntityImage : UserControl
     {
-        public static readonly DependencyProperty UserProperty =
-        DependencyProperty.Register(nameof(User),
-                                    typeof(User),
-                                    typeof(UserAvatar),
-                                    new PropertyMetadata(null, UserChanged));
-        public User User
+        public static readonly DependencyProperty EntityProperty =
+        DependencyProperty.Register(nameof(Entity),
+                                    typeof(NamedImageEntity),
+                                    typeof(EntityImage),
+                                    new PropertyMetadata(null, EntityChanged));
+        public NamedImageEntity Entity
         {
-            get => (User)GetValue(UserProperty);
+            get => (NamedImageEntity)GetValue(EntityProperty);
             set
             {
-                SetValue(UserProperty, value);
+                SetValue(EntityProperty, value);
             }
         }
 
 
         public static readonly DependencyProperty AvatarSizeProperty =
-        DependencyProperty.Register(nameof(AvatarSize),
+        DependencyProperty.Register(nameof(ImageSize),
                                     typeof(ImageSize),
-                                    typeof(UserAvatar),
+                                    typeof(EntityImage),
                                     new PropertyMetadata(ImageSize.Medium));
 
-        public ImageSize AvatarSize
+        public ImageSize ImageSize
         {
             get => (ImageSize)GetValue(AvatarSizeProperty);
             set
@@ -56,7 +57,7 @@ namespace TMClient.Controls
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public UserAvatar()
+        public EntityImage()
         {
             InitializeComponent();
         }
@@ -65,15 +66,15 @@ namespace TMClient.Controls
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-        private static void UserChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void EntityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((UserAvatar)d).UserChanged();
+            ((EntityImage)d).EntityChanged();
         }
-        private void UserChanged()
+        private void EntityChanged()
         {
-            AvatarSize = GetAvatarSize();
+            ImageSize = GetImageSize();
         }
-        private ImageSize GetAvatarSize()
+        private ImageSize GetImageSize()
         {
             double maxSize = Height > Width ? Height : Width;
 

@@ -49,7 +49,6 @@ namespace TMClient.Controls
             }
         }
 
-
         public UserDisplay()
         {
             InitializeComponent();

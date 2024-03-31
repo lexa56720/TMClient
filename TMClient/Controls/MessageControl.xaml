@@ -13,78 +13,95 @@
         <Grid Margin="0" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="6*" />
+                <ColumnDefinition Width="6"    />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
 
 
-            <Border CornerRadius="5" Margin="5,0,5,0"  Grid.ColumnSpan="2" >
-                <Border.Style>
-                    <Style TargetType="Border" BasedOn="{StaticResource ResourceKey={x:Type Border}}">
+            <Grid Margin="5,0,5,0" x:Name="msgGrid" Grid.ColumnSpan="2">
+                <Grid.Style>
+                    <Style TargetType="Grid" BasedOn="{StaticResource ResourceKey={x:Type Grid}}">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Message.IsOwn}" Value="True">
                                 <Setter Property="Grid.Column" Value="0"/>
-                                <Setter Property="Background" Value="{StaticResource OwnMessageBrush}"/>
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Message.IsOwn}" Value="False">
                                 <Setter Property="Grid.Column" Value="1"/>
-                                <Setter Property="Background" Value="{StaticResource UserMessageBrush}"/>
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </Border.Style>
+                </Grid.Style>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border CornerRadius="5" HorizontalAlignment="Right"   >
+                    <Border.Style>
+                        <Style TargetType="Border" BasedOn="{StaticResource ResourceKey={x:Type Border}}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Message.IsOwn}" Value="True">
+                                    <Setter Property="Background" Value="{StaticResource OwnMessageBrush}"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Message.IsOwn}" Value="False">
+                                    <Setter Property="Background" Value="{StaticResource UserMessageBrush}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
 
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-                    <TextBlock Padding="5,5,5,0" Margin="0"  Text="{Binding Message.Text}" TextWrapping="Wrap"/>
-
-
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-5,0,-5">
-                        <TextBlock  Text="{Binding Message.SendTime,Converter={StaticResource DateTimeConverter}}"
+                    <Grid  >
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Padding="5,5,5,0"   Margin="0"  Text="{Binding Message.Text}" TextWrapping="Wrap"/>
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-5,0,-5">
+                            <TextBlock  Text="{Binding Message.SendTime,Converter={StaticResource DateTimeConverter}}"
                                                VerticalAlignment="Bottom" FontSize="14"  />
 
-                        <StackPanel Margin="-7,-5,0,5" Orientation="Horizontal">
-                            <StackPanel.RenderTransform>
-                                <ScaleTransform ScaleX="1" ScaleY="1.2" />
-                            </StackPanel.RenderTransform>
-                            <TextBlock VerticalAlignment="Bottom" Text="&#xe73e;" FontWeight="SemiBold"  FontFamily="{StaticResource SegoeIcons}"  FontSize="16" >
-                                <TextBlock.Style>
-                                    <Style BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}" TargetType="TextBlock">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Message.IsOwn}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                            <TextBlock VerticalAlignment="Bottom"  Text="&#xe73e;" Margin="-19,0,0,0" FontWeight="SemiBold" FontFamily="{StaticResource SegoeIcons}"  FontSize="16" >
-                                <TextBlock.Style>
-                                    <Style BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}" TargetType="TextBlock">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <MultiDataTrigger>
-                                                <MultiDataTrigger.Conditions>
-                                                    <Condition Binding="{Binding Message.IsOwn}" Value="True"/>
-                                                    <Condition Binding="{Binding Message.IsReaded}" Value="True"/>
-                                                </MultiDataTrigger.Conditions>
-                                                <MultiDataTrigger.Setters>
+                            <StackPanel Margin="-7,-5,0,5" Orientation="Horizontal">
+                                <StackPanel.RenderTransform>
+                                    <ScaleTransform ScaleX="1" ScaleY="1.2" />
+                                </StackPanel.RenderTransform>
+                                <TextBlock VerticalAlignment="Bottom" Text="&#xe73e;" FontWeight="SemiBold"  FontFamily="{StaticResource SegoeIcons}"  FontSize="16" >
+                                    <TextBlock.Style>
+                                        <Style BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}" TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Message.IsOwn}" Value="True">
                                                     <Setter Property="Visibility" Value="Visible"/>
-                                                </MultiDataTrigger.Setters>
-                                            </MultiDataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                                <TextBlock VerticalAlignment="Bottom"  Text="&#xe73e;" Margin="-19,0,0,0" FontWeight="SemiBold" FontFamily="{StaticResource SegoeIcons}"  FontSize="16" >
+                                    <TextBlock.Style>
+                                        <Style BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}" TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding Message.IsOwn}" Value="True"/>
+                                                        <Condition Binding="{Binding Message.IsReaded}" Value="True"/>
+                                                    </MultiDataTrigger.Conditions>
+                                                    <MultiDataTrigger.Setters>
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </MultiDataTrigger.Setters>
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </Grid>
-            </Border>
+                    </Grid>
+                </Border>
+
+            </Grid>
 
             <local:UserDisplay User="{Binding Message.Author}" Width="40" Height="40" Grid.Column="3" Margin="0,0,3,0" VerticalAlignment="Center">
                 <local:UserDisplay.Style>
@@ -93,7 +110,7 @@
                             <MultiDataTrigger>
                                 <MultiDataTrigger.Conditions>
                                     <Condition Binding="{Binding Message.IsOwn}" Value="False"/>
-                                    <Condition Binding="{Binding Message.Destination.IsDialog}" Value="False"/>
+                                    <Condition Binding="{Binding Message.Destination.IsDialogue}" Value="False"/>
                                 </MultiDataTrigger.Conditions>
                                 <MultiDataTrigger.Setters>
                                     <Setter Property="Visibility" Value="Visible" />
@@ -102,7 +119,7 @@
                             <DataTrigger Binding="{Binding Message.IsOwn}" Value="True">
                                 <Setter Property="Visibility" Value="Collapsed" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Message.Destination.IsDialog}" Value="True">
+                            <DataTrigger Binding="{Binding Message.Destination.IsDialogue}" Value="True">
                                 <Setter Property="Visibility" Value="Collapsed" />
                             </DataTrigger>
                         </Style.Triggers>

@@ -1,4 +1,5 @@
 ﻿using ApiTypes.Communication.Medias;
+using ClientApiWrapper.Types;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,23 +12,23 @@ using System.Windows.Media;
 
 namespace TMClient.Utils.Converters
 {
-    internal class UserAvatarSizeConverter : IMultiValueConverter
+    internal class EntityImageSizeConverter : IMultiValueConverter
     {
         public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
         {
 
-            if (value[0] is User user && value[1] is ImageSize size &&
-                user.ProfilePicSmall != null && user.ProfilePicMedium != null && user.ProfilePicLarge != null)
+            if (value[0] is NamedImageEntity entity && value[1] is ImageSize size &&
+                entity.ImageSmall != null && entity.ImageMedium != null && entity.ImageLarge != null)
             {
                 ImageSourceConverter conv = new ImageSourceConverter();
 
                 return size switch
                 {
-                    ImageSize.Small => conv.ConvertFromString(user.ProfilePicSmall),
-                    ImageSize.Medium => conv.ConvertFromString(user.ProfilePicMedium),
-                    ImageSize.Large => conv.ConvertFromString(user.ProfilePicLarge),
-                    ImageSize.Original => conv.ConvertFromString(user.ProfilePicLarge),
-                    _ => conv.ConvertFromString(user.ProfilePicSmall),
+                    ImageSize.Small => conv.ConvertFromString(entity.ImageSmall),
+                    ImageSize.Medium => conv.ConvertFromString(entity.ImageMedium),
+                    ImageSize.Large => conv.ConvertFromString(entity.ImageLarge),
+                    ImageSize.Original => conv.ConvertFromString(entity.ImageLarge),
+                    _ => conv.ConvertFromString(entity.ImageSmall),
                 };
 
             }
