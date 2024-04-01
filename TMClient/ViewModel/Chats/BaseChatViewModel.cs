@@ -123,12 +123,38 @@ namespace TMClient.ViewModel.Chats
         protected void AddMessageToEnd(params Message[] messages)
         {
             for (int i = 0; i < messages.Length; i++)
-                Messages.Add(CreateMessage(messages[i]));
+            {
+                var message = CreateMessage(messages[i]);
+                if (message is MessageControl messageControl && ((Messages.LastOrDefault() is MessageControl prev &&
+                    prev.Message.Author.Id != messages[i].Author.Id) || Messages.LastOrDefault() is not MessageControl))
+                {
+                    messageControl.IsAuthorVisible = false;
+                }
+                Messages.Add(message);
+            }
+
         }
         protected void AddMessageToStart(params Message[] messages)
         {
             for (int i = 0; i < messages.Length; i++)
-                Messages.Insert(0, CreateMessage(messages[i]));
+            {
+                var message = CreateMessage(messages[i]);
+                if (message is MessageControl messageControl)
+                {
+                    if (Messages.FirstOrDefault() is MessageControl next)
+                    {
+                        if (next.Message.Author.Id == messages[i].Author.Id)
+                            next.IsAuthorVisible = false;
+                        messageControl.IsAuthorVisible = true;
+                    }
+                    else if (Messages.FirstOrDefault() is not MessageControl)
+                    {
+                        messageControl.IsAuthorVisible = true;
+                    }
+                }
+
+                Messages.Insert(0, message);
+            }
         }
     }
 }

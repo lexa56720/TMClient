@@ -23,7 +23,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition  Height="auto"/>
                 </Grid.RowDefinitions>
-                <controls:ExtendedTextBox Placeholder="Поиск" MaxLength="32" Grid.Row="2" Margin="5,10,10,10" FontSize="20"
+                <controls:ExtendedTextBox Placeholder="Поиск" MaxLength="32" Grid.Row="2" Margin="5,5,10,10" FontSize="20"
                                           Text="{Binding SearchQuery,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </Border>

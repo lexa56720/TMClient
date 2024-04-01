@@ -10,7 +10,7 @@ using TMClient.Utils;
 
 namespace TMClient.Controls
 {
-    public abstract class MessageBaseControl : UserControl
+    public abstract class MessageBaseControl : UserControl,INotifyPropertyChanged
     {
         public Message Message 
         { 

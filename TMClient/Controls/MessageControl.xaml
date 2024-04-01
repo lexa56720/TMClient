@@ -100,10 +100,9 @@
                         </StackPanel>
                     </Grid>
                 </Border>
-
             </Grid>
 
-            <local:UserDisplay User="{Binding Message.Author}" Width="40" Height="40" Grid.Column="3" Margin="0,0,3,0" VerticalAlignment="Top">
+            <local:UserDisplay User="{Binding Message.Author}"  Width="40" Height="40" Grid.Column="3" Margin="0,0,3,0" VerticalAlignment="Top">
                 <local:UserDisplay.Style>
                     <Style TargetType="local:UserDisplay">
                         <Style.Triggers>
@@ -111,11 +110,15 @@
                                 <MultiDataTrigger.Conditions>
                                     <Condition Binding="{Binding Message.IsOwn}" Value="False"/>
                                     <Condition Binding="{Binding Message.Destination.IsDialogue}" Value="False"/>
+                                    <Condition Binding="{Binding IsAuthorVisible}" Value="True"/>
                                 </MultiDataTrigger.Conditions>
                                 <MultiDataTrigger.Setters>
                                     <Setter Property="Visibility" Value="Visible" />
                                 </MultiDataTrigger.Setters>
                             </MultiDataTrigger>
+                            <DataTrigger Binding="{Binding IsAuthorVisible}" Value="False">
+                                <Setter Property="Visibility" Value="Hidden" />
+                            </DataTrigger>
                             <DataTrigger Binding="{Binding Message.IsOwn}" Value="True">
                                 <Setter Property="Visibility" Value="Collapsed" />
                             </DataTrigger>
