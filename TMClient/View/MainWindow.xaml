@@ -107,6 +107,11 @@
 
             <GridSplitter  Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Width="8" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
 
+            <TextBlock Padding="0,0,5,5" HorizontalAlignment="Center" FontSize="48" FontWeight="DemiBold" Foreground="{StaticResource DisabledForegroundBrush}" TextAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Grid.Column="3">
+                Добро поджаловать <LineBreak/>
+                в TMClient
+            </TextBlock>
+
             <Frame Padding="0,0,5,5" Grid.Row="0" Grid.Column="3"  Content="{Binding MainFrame}" Background="Transparent"/>
 
         </Grid>

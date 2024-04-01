@@ -40,10 +40,11 @@
                    HorizontalAlignment="Stretch" Grid.Row="1">
 
             <local:IconButton DockPanel.Dock="Right" Icon="&#xE724;" FontSize="32" VerticalAlignment="Bottom"
+                              Style="{StaticResource TransperentButton}"
                               Command="{Binding SendCommand,RelativeSource={RelativeSource AncestorType={x:Type local:ChatControl}}}"
                               CommandParameter="{Binding Text,ElementName=MessageBox}"/>
 
-            <local:IconButton DockPanel.Dock="Right" Icon="&#xE723;" FontSize="32" VerticalAlignment="Bottom"
+            <local:IconButton DockPanel.Dock="Right" Icon="&#xE723;" FontSize="32" VerticalAlignment="Bottom"  Style="{StaticResource TransperentButton}"
                               Command="{Binding AttachCommand,RelativeSource={RelativeSource AncestorType={x:Type local:ChatControl}}}" />
             
             <TextBox x:Name="MessageBox" DockPanel.Dock="Left" TextWrapping="Wrap" HorizontalAlignment="Stretch" MaxLength="512" 

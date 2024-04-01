@@ -40,17 +40,6 @@ namespace TMClient.ViewModel.Chats
         public ICommand PageLoadedCommand => new Command(PageLoaded);
         public ICommand PageUnloadedCommand => new Command(PageUnloaded);
 
-        public bool IsReadOnly
-        {
-            get => isReadOnly;
-            set
-            {
-                isReadOnly = value;
-                OnPropertyChanged(nameof(IsReadOnly));
-            }
-        }
-        private bool isReadOnly = false;
-
         protected T Model { get; private set; }
 
         private bool IsFullyLoaded = false;

@@ -1,69 +1,65 @@
-﻿using ApiWrapper.Types;
-using AsyncAwaitBestPractices.MVVM;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Input;
-using TMClient.Model.Chats;
 using TMClient.Utils;
-using TMClient.View;
+using TMClient.View.Chats;
 
 namespace TMClient.ViewModel.Chats
 {
-    internal class ChatViewModel(Chat chat) : BaseChatViewModel<MultiUserChatModel>(chat)
+    internal class ChatViewModel : BaseViewModel
     {
-        public int MemberCount
+        public Chat Chat { get; }
+        public Page CurrentPage
         {
-            get => memberCount;
+            get => currentPage;
             set
             {
-                memberCount = value;
-                OnPropertyChanged(nameof(MemberCount));
+                currentPage = value;
+                OnPropertyChanged(nameof(CurrentPage));
             }
         }
-        private int memberCount;
-
-        public ICommand LeaveCommand => new AsyncCommand(LeaveChat);
-        public ICommand InviteCommand => new AsyncCommand(InviteToChat);
-        public ICommand ShowMembersCommand => new AsyncCommand(ShowMembers);
-
-        public ICommand EditCommand => new Command(Edit);
-
-        protected override MultiUserChatModel GetModel(Chat chat)
+        private Page currentPage = null!;
+        public Page ChatPage
         {
-            return new MultiUserChatModel(chat, 20);
-        }
-
-        private async Task LeaveChat()
-        {
-            await Model.LeaveChat();
-            IsReadOnly = true;
-        }
-        private async Task InviteToChat()
-        {
-            await Messenger.Send(Utils.Messages.ModalOpened, true);
-            var mainWindow = App.Current.MainWindow;
-            var membersWindow = new InvitingWindow(Chat)
+            get => chatPage;
+            set
             {
-                Owner = mainWindow,
-                ShowInTaskbar = false
-            };
-            membersWindow.ShowDialog();
-            await Messenger.Send(Utils.Messages.ModalClosed, true);
+                chatPage = value;
+                OnPropertyChanged(nameof(ChatPage));
+            }
         }
-        private async Task ShowMembers()
+        private Page chatPage;
+        public Page? ChatEditor
         {
-            await Messenger.Send(Utils.Messages.ModalOpened, true);
-            var mainWindow = App.Current.MainWindow;
-            var membersWindow = new ChatMembers(Chat.Members.ToArray(),chat)
+            get => chatEditor;
+            set
             {
-                Owner = mainWindow,
-                ShowInTaskbar = false
-            };
-            membersWindow.ShowDialog();
-            await Messenger.Send(Utils.Messages.ModalClosed, true);
+                chatEditor = value;
+                OnPropertyChanged(nameof(ChatEditor));
+            }
         }
-        private void Edit(object? obj)
+        private Page? chatEditor;
+
+        public ChatViewModel(Chat chat)
         {
-            throw new NotImplementedException();
+            Chat = chat;
+            ChatPage = new MultiUserChat(Chat, OpenEditorPage);
+            CurrentPage = ChatPage;
+        }
+
+        private void OpenEditorPage()
+        {
+            ChatEditor ??= new ChatEditor(Chat,OpenChatPage);
+            CurrentPage = ChatEditor;
+        }
+
+        private void OpenChatPage()
+        {
+            CurrentPage = ChatPage;
         }
     }
 }

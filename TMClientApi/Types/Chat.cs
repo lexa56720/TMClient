@@ -1,4 +1,5 @@
-﻿using ClientApiWrapper.Types;
+﻿using ApiTypes.Communication.Users;
+using ClientApiWrapper.Types;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
@@ -7,6 +8,18 @@ namespace ApiWrapper.Types
     public class Chat : NamedImageEntity, IDisposable
     {
         public bool IsDialogue { get; }
+
+        public bool IsReadOnly
+        {
+            get => isReadOnly;
+            set
+            {
+                isReadOnly = value;
+                OnPropertyChanged(nameof(IsReadOnly));
+            }
+        }
+        private bool isReadOnly = false;
+
         public int UnreadCount
         {
             get => unreadCount;
@@ -49,17 +62,23 @@ namespace ApiWrapper.Types
                 OnPropertyChanged(nameof(Admin));
             }
         }
-        private User admin;
+        private User admin = null!;
 
         public ObservableCollection<User> Members { get; } = new();
 
         private bool IsDisposed;
 
-        public Chat(int id, string name, int unreadCount, bool isDialogue)
+        public Chat(int id, string name, User admin, int unreadCount, bool isDialogue,
+             string? picLarge, string? picMedium, string? picSmall) : base(id, name, picLarge, picMedium, picSmall)
         {
-            Id = id;
-            Name = name;
             IsDialogue = isDialogue;
+            Admin = admin;
+            UnreadCount = unreadCount;
+        }
+        public Chat(int id, string name, User admin, int unreadCount, bool isDialogue):base(id,name)
+        {
+            IsDialogue = isDialogue;
+            Admin = admin;
             UnreadCount = unreadCount;
         }
         public void Dispose()
@@ -74,9 +93,9 @@ namespace ApiWrapper.Types
         {
             if (chat == this)
                 return;
-            Name = chat.Name;
             WritingUser = chat.WritingUser;
             LastMessage = chat.LastMessage;
+            base.Update(chat);
 
             Members.Clear();
             foreach (var member in chat.Members)

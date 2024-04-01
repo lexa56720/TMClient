@@ -2,9 +2,9 @@
 
 namespace ClientApiWrapper.Types
 {
-    public abstract class NamedImageEntity:INotifyPropertyChanged
+    public abstract class NamedImageEntity : INotifyPropertyChanged
     {
-        public virtual int Id { get; protected set; }
+        public virtual int Id { get; private set; }
 
         public virtual string Name
         {
@@ -61,8 +61,60 @@ namespace ClientApiWrapper.Types
         }
         private string? imageSmall;
 
+        public NamedImageEntity(int id, string name, string? picLarge, string? picMedium, string? picSmall)
+        {
+            Id = id;
+            Name = name;
+
+            if (picLarge == null || picMedium == null || picSmall == null)
+                IsHaveImage = false;
+            else
+            {
+                ImageLarge = picLarge;
+                ImageMedium = picMedium;
+                ImageSmall = picSmall;
+                IsHaveImage = true;
+            }
+        }
+        public NamedImageEntity(int id, string name)
+        {
+            Id = id;
+            Name = name;
+            ImageLarge = null;
+            ImageMedium = null;
+            ImageSmall = null;
+            IsHaveImage = false;
+        }
+        protected NamedImageEntity()
+        {
+        }
+
+
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        public virtual void Update(NamedImageEntity entity)
+        {
+            if (!entity.Name.Equals(Name))
+                Name = entity.Name;
+
+            if (!IsStringsEquals(ImageLarge, entity.ImageLarge))
+                ImageLarge = entity.ImageLarge;
+
+            if (!IsStringsEquals(ImageMedium, entity.ImageMedium))
+                ImageMedium = entity.ImageMedium;
+
+            if (!IsStringsEquals(ImageSmall, entity.ImageSmall))
+                ImageSmall = entity.ImageSmall;
+
+            if (IsHaveImage != entity.IsHaveImage)
+                IsHaveImage = entity.IsHaveImage;
+        }
+
+        private bool IsStringsEquals(string? a, string? b)
+        {
+            return a == b || (a != null && a.Equals(b)) || (b != null && b.Equals(a));
+        }
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

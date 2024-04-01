@@ -100,12 +100,10 @@ namespace TMClient.ViewModel
         private readonly Settings Settings = new();
         private readonly Profile Profile = new();
         private readonly Notifications Notifications = new();
-        private Page ChatPage = new();
+        private Page? ChatPage;
 
         public MainViewModel()
         {
-            ChatPage = new ChatView(new Chat(0, "намба ван чат", 0, false));
-            MainFrame = ChatPage;
             SidePanelFrame = Panel;
 
             Messenger.Subscribe<Page>(Messages.OpenChatPage, (o, p) =>

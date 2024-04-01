@@ -10,54 +10,12 @@
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding PageLoadedCommand}" />
+            <i:InvokeCommandAction Command="{Binding ChatPage.DataContext.PageLoadedCommand}" />
         </i:EventTrigger>
         <i:EventTrigger EventName="Unloaded">
-            <i:InvokeCommandAction Command="{Binding PageUnloadedCommand}" />
+            <i:InvokeCommandAction Command="{Binding ChatPage.DataContext.PageUnloadedCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Border Background="{StaticResource BackgroundBrush}" CornerRadius="5" >
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <StackPanel IsEnabled="{Binding IsReadOnly,Converter={StaticResource BooleanInverter}}"
-                            Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,0,0" Orientation="Horizontal">
-
-                    <controls:EntityImage Entity="{Binding Chat}" Width="50" Height="50"/>
-                    <StackPanel>
-                        <Label FontSize="24" Content="{Binding Chat.Name}" HorizontalAlignment="Left" Padding="0"  HorizontalContentAlignment="Center" Margin="0,-5,0,-5"  />
-                        <controls:IconButton   Icon="&#xE716;" Text="{Binding Chat.Members.Count, StringFormat={}{0} участников}" Style="{StaticResource TransperentButton}"
-                                       HorizontalAlignment="Center"   FontSize="14" Margin="0" Padding="0"  HorizontalContentAlignment="Center"
-                                       Command="{Binding ShowMembersCommand}"/>
-                    </StackPanel>
-                    <controls:IconButton Icon="&#xe70f;" Margin="5" Style="{StaticResource TransperentButton}"
-                                         Visibility="{Binding Chat.Admin.IsCurrentUser,Converter={StaticResource BooleanToVisibility}}"
-                      Orientation="Vertical" FontSize="32" HorizontalAlignment="Left" Command="{Binding EditCommand}" />
-
-                </StackPanel>
-                <StackPanel  IsEnabled="{Binding IsReadOnly,Converter={StaticResource BooleanInverter}}"  Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
-
-                   
-                    <controls:IconButton Icon="&#xE8FA;" Margin="5" Style="{StaticResource TransperentButton}"
-                                     Orientation="Vertical" FontSize="32" HorizontalAlignment="Right" Command="{Binding InviteCommand}" />
-
-                    <controls:IconButton Icon="&#xEA54;" Margin="5" Style="{StaticResource TransperentButton}"
-                                     Orientation="Vertical" FontSize="32" HorizontalAlignment="Right" Command="{Binding LeaveCommand}" />
-                </StackPanel>
-            </Grid>
-            <controls:ChatControl  LoadMore="{Binding LoadHistory}"  AttachCommand="{Binding Attach}" SendCommand="{Binding Send}"
-                                  WrittenText="{Binding MessageText}"  Grid.Row="1" ItemsSource="{Binding Messages}"  />
-        </Grid>
-    </Border>
-
+    <Frame Background="Transparent" Content="{Binding CurrentPage}" />
 </Page>

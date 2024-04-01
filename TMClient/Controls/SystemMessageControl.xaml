@@ -76,6 +76,27 @@
                                     <Setter Property="Text" Value="Вы выгнали"/>
                                 </MultiDataTrigger.Setters>
                             </MultiDataTrigger>
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="True"/>
+                                    <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="NewCover"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="Вы поменяли обложку чата"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="True"/>
+                                    <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="ChatRenamed"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="Вы переименовали чат"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+
 
                             <MultiDataTrigger >
                                 <MultiDataTrigger.Conditions>
@@ -117,6 +138,7 @@
                                     <Setter Property="Text" Value="выгнал Вас"/>
                                 </MultiDataTrigger.Setters>
                             </MultiDataTrigger>
+
 
                             <MultiDataTrigger >
                                 <MultiDataTrigger.Conditions>
@@ -166,6 +188,26 @@
                                 </MultiDataTrigger.Conditions>
                                 <MultiDataTrigger.Setters>
                                     <Setter Property="Text" Value="выгнал"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="NewCover"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="поменял обложку чата"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="ChatRenamed"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="переименовал чат"/>
                                 </MultiDataTrigger.Setters>
                             </MultiDataTrigger>
 

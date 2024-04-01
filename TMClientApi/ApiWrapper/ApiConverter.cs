@@ -13,6 +13,7 @@ using ClientApiWrapper.Types;
 using System.Net;
 using ApiTypes.Communication.Medias;
 using TMApi;
+using ApiTypes.Communication.Users;
 
 namespace ApiWrapper.ApiWrapper
 {
@@ -30,9 +31,9 @@ namespace ApiWrapper.ApiWrapper
             Cache = cache;
         }
 
-        public static User Convert(ApiUser user,bool isCurrentUser=false)
+        public static User Convert(ApiUser user, bool isCurrentUser = false)
         {
-            if(user.ProfilePics.Length<3)
+            if (user.ProfilePics.Length < 3)
                 return new User(user.Id, user.Name, user.Login, user.IsOnline, isCurrentUser, user.LastAction);
 
             var largePic = GetProfileImage(user.ProfilePics.SingleOrDefault(p => p.Size == ImageSize.Large));
@@ -50,11 +51,18 @@ namespace ApiWrapper.ApiWrapper
 
         public async Task<Chat> Convert(ApiChat chat)
         {
-            var result = new Chat(chat.Id, chat.Name, chat.UnreadCount, chat.IsDialogue);
             var members = await UserApi.GetUser(chat.MemberIds);
+
+            var largePic = GetProfileImage(chat.ChatCover.SingleOrDefault(p => p.Size == ImageSize.Large));
+            var mediumPic = GetProfileImage(chat.ChatCover.SingleOrDefault(p => p.Size == ImageSize.Medium));
+            var smallPic = GetProfileImage(chat.ChatCover.SingleOrDefault(p => p.Size == ImageSize.Small));
+
+            var result = new Chat(chat.Id, chat.Name, members.Single(m => m.Id == chat.AdminId), chat.UnreadCount,
+                                  chat.IsDialogue, largePic, mediumPic, smallPic);
+
             foreach (var member in members)
                 result.Members.Add(member);
-            result.Admin = result.Members.Single(m => m.Id == chat.AdminId);
+
             return result;
         }
         public async Task<Chat[]> Convert(ApiChat[] chats)
@@ -64,8 +72,14 @@ namespace ApiWrapper.ApiWrapper
             var convertedMembers = await UserApi.GetUser(members);
             for (int chatCount = 0, memberCount = 0; chatCount < result.Length; chatCount++)
             {
-                result[chatCount] = new Chat(chats[chatCount].Id, chats[chatCount].Name,
-                                             chats[chatCount].UnreadCount, chats[chatCount].IsDialogue);
+                var largePic = GetProfileImage(chats[chatCount].ChatCover.SingleOrDefault(p => p.Size == ImageSize.Large));
+                var mediumPic = GetProfileImage(chats[chatCount].ChatCover.SingleOrDefault(p => p.Size == ImageSize.Medium));
+                var smallPic = GetProfileImage(chats[chatCount].ChatCover.SingleOrDefault(p => p.Size == ImageSize.Small));
+
+                var admin = convertedMembers.First(m => m.Id == chats[chatCount].AdminId);
+
+                result[chatCount] = new Chat(chats[chatCount].Id, chats[chatCount].Name, admin,
+                chats[chatCount].UnreadCount, chats[chatCount].IsDialogue, largePic, mediumPic, smallPic);
 
                 for (int j = 0; j < chats[chatCount].MemberIds.Length; j++, memberCount++)
                     result[chatCount].Members.Add(convertedMembers[memberCount]);

@@ -96,7 +96,11 @@ namespace ApiWrapper.Wrapper
             {
                 foreach (var chatId in (int[])chatIds)
                     if (Cache.TryRemoveChat(chatId, out var chat))
+                    {
+                        chat.IsReadOnly = true;
                         Api.MultiuserChats.Remove(chat);
+                        chat.Dispose();
+                    }
             }, e);
         }
 

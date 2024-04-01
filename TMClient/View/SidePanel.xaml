@@ -146,11 +146,10 @@
                                         <StackPanel Orientation="Vertical">
                                             <StackPanel Orientation="Horizontal">
                                                 <Grid>
-                                                <controls:EntityImage Width="50" Margin="5" Height="50" Entity="{Binding .}"/>
+                                                <controls:EntityImage Width="50" Margin="5,5,0,5" Height="50" Entity="{Binding .}"/>
                                                 <controls:CountDisplay Grid.Column="1" Count="{Binding UnreadCount}" Width="20" Height="20" Margin="2" Foreground="{StaticResource RedBrush}"  VerticalAlignment="Top"  HorizontalAlignment="Right"  />
                                             </Grid>
-                                            
-                                                <Label Grid.Column="0" HorizontalAlignment="Left" Content="{Binding Name}"/>
+                                                <Label Grid.Column="0" Margin="-5,0,0,0" HorizontalAlignment="Left" Content="{Binding Name}"/>
                                             </StackPanel>
 
                                             <Border CornerRadius="0,0,5,5" >

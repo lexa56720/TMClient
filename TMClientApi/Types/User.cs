@@ -42,37 +42,22 @@ namespace ApiWrapper.Types
         private DateTime lastAction;
 
         public User(int id, string name, string login, bool isOnline, bool isCurrentUser,
-                    DateTime lastAction, string? picLarge, string? picMedium, string? picSmall)
+            DateTime lastAction, string? picLarge, string? picMedium, string? picSmall) : base(id, name, picLarge, picMedium, picSmall)
         {
-            Id = id;
-            Name = name;
             Login = login;
             IsOnline = isOnline;
             IsCurrentUser = isCurrentUser;
             LastAction = lastAction;
-            ImageLarge = picLarge;
-            ImageMedium = picMedium;
-            ImageSmall = picSmall;
-            if (picLarge == null || picMedium == null || picSmall == null)
-                IsHaveImage = false;
-            else
-                IsHaveImage = true;
         }
-        public User(int id, string name, string login, bool isOnline, bool isCurrentUser, DateTime lastAction)
+        public User(int id, string name, string login, bool isOnline, bool isCurrentUser, DateTime lastAction): base(id, name)
         {
-            Id = id;
-            Name = name;
             Login = login;
             IsOnline = isOnline;
             IsCurrentUser = isCurrentUser;
             LastAction = lastAction;
-            ImageLarge = null;
-            ImageMedium = null;
-            ImageSmall = null;
-            IsHaveImage = false;
         }
 
-        protected User()
+        protected User():base()
         {
 
         }
@@ -82,13 +67,8 @@ namespace ApiWrapper.Types
             if (user == this)
                 return;
             IsOnline = user.IsOnline;
-            Name = user.Name;
             Login = user.Login;
-            ImageLarge = user.ImageLarge;
-            ImageMedium = user.ImageMedium;
-            ImageSmall = user.ImageSmall;
-            IsHaveImage=user.IsHaveImage;
-            LastAction = user.LastAction;
+            base.Update(user);
         }
     }
 }

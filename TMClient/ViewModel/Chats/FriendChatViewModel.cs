@@ -24,7 +24,7 @@ namespace TMClient.ViewModel.Chats
         private async Task Block()
         {
             if (await Model.RemoveFriend(Friend))
-                IsReadOnly = true;
+                Friend.Dialogue.IsReadOnly = true;
         }
     }
 }
