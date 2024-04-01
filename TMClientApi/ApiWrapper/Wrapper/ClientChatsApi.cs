@@ -135,11 +135,14 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             return await Api.Chats.ChangeCover(chatId, newCover);
         }
 
-        public async Task<bool> Rename(int chatId,string newName)
+        public async Task<bool> Rename(int chatId, string newName)
         {
-            return await Api.Chats.RenameChat(chatId,newName);
+            return await Api.Chats.RenameChat(chatId, newName);
         }
-
+        public async Task<bool> KickUser(int chatId, int userId)
+        {
+            return await Api.Chats.KickUserFromChat(chatId, userId);
+        }
         internal async Task<Chat[]> GetChatIgnoringCache(int[] chatIds)
         {
             var chats = await Api.Chats.GetChat(chatIds);

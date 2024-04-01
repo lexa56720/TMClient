@@ -66,7 +66,17 @@
                                     <Setter Property="Text" Value="Вы создали чат"/>
                                 </MultiDataTrigger.Setters>
                             </MultiDataTrigger>
-                            
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="True"/>
+                                    <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="UserKicked"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="Вы выгнали"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+
                             <MultiDataTrigger >
                                 <MultiDataTrigger.Conditions>
                                     <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="False"/>
@@ -95,6 +105,16 @@
                                 </MultiDataTrigger.Conditions>
                                 <MultiDataTrigger.Setters>
                                     <Setter Property="Text" Value="вошёл в чат"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="True"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="UserKicked"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="выгнал Вас"/>
                                 </MultiDataTrigger.Setters>
                             </MultiDataTrigger>
 
@@ -138,7 +158,17 @@
                                     <Setter Property="Text" Value="cоздал чат"/>
                                 </MultiDataTrigger.Setters>
                             </MultiDataTrigger>
-                            
+                            <MultiDataTrigger >
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Message.IsExecutorAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.IsTargetAreCurrentUser}" Value="False"/>
+                                    <Condition Binding="{Binding Message.Kind}" Value="UserKicked"/>
+                                </MultiDataTrigger.Conditions>
+                                <MultiDataTrigger.Setters>
+                                    <Setter Property="Text" Value="выгнал"/>
+                                </MultiDataTrigger.Setters>
+                            </MultiDataTrigger>
+
                         </Style.Triggers>
                     </Style>
                 </TextBlock.Style>

@@ -23,6 +23,7 @@ namespace ApiWrapper.Interfaces
 
         public Task<bool> ChangeCover(int chatId, byte[] newCover);
 
+        public Task<bool> KickUser (int chatId, int userId);
         public Task<bool> Rename(int chatId, string newName);
     }
 }

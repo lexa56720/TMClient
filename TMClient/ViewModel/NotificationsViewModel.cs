@@ -61,7 +61,7 @@ namespace TMClient.ViewModel
             if (invite == null)
                 return;
             await Messenger.Send(Messages.ModalOpened);
-            var membersWindow = new View.UserList(invite.Chat.Members.ToArray(), invite.Chat)
+            var membersWindow = new View.ChatMembers(invite.Chat.Members.ToArray(), invite.Chat)
             {
                 Owner = App.Current.MainWindow,
                 ShowInTaskbar = false

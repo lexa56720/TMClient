@@ -1,0 +1,112 @@
+﻿<controls:ModernWindow  xmlns:controls="clr-namespace:TMClient.Controls" 
+        x:Class="TMClient.View.ChatMembers"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TMClient.View" xmlns:b="http://schemas.microsoft.com/xaml/behaviors" 
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner"
+        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None"
+        Title="UserList" MinHeight="200" MinWidth="450" MaxHeight="700" Width="400" >
+
+
+    <controls:ModernWindow.Background>
+        <SolidColorBrush Opacity="0.3" Color="{StaticResource BackgroundColor}"/>
+    </controls:ModernWindow.Background>
+    <Grid>
+        <ListView Grid.Row="2" ItemsSource="{Binding Members}" ScrollViewer.VerticalScrollBarVisibility="Visible"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="list" >
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Focusable" Value="False"/>
+                    <Setter Property="Margin" Value="0,0,0,5"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource BackgroundLightBrush}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Администратор" FontSize="18" Margin="0,0,0,-5" Visibility="{Binding IsAdminVisibility}" TextAlignment="Center" />
+                            <StackPanel Grid.Column="0" Grid.Row="1" >
+                                <StackPanel  Orientation="Horizontal" Margin="5" >
+                                    <controls:UserDisplay User="{Binding User}" Width="60" Height="60" Margin="0,0,5,0"  />
+                                    <StackPanel VerticalAlignment="Center">
+
+                                        <Label Content="{Binding User.Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,-5,0,-5" />
+                                        <Label Content="{Binding User.Login, Converter={StaticResource LoginConverter}}" Padding="0"  HorizontalAlignment="Left" FontSize="16" Margin="0,0,0,-5" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                            <Grid Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <controls:IconButton HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="0" Margin="5" IsIconFirst="False" Text="Выгнать" Icon="&#xe711;"
+                                     Command="{Binding DataContext.KickUserCommand, ElementName=list}" CommandParameter="{Binding .}">
+                                    <controls:IconButton.Style>
+                                        <Style TargetType="controls:IconButton" BasedOn="{StaticResource DeclineButton}">
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding DataContext.IsAdmin, ElementName=list}" Value="True" />
+                                                        <Condition Binding="{Binding User.IsCurrentUser}" Value="False" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <MultiDataTrigger.Setters>
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </MultiDataTrigger.Setters>
+                                                </MultiDataTrigger>
+                                                <DataTrigger Binding="{Binding DataContext.IsAdmin, ElementName=list}" Value="false">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding User.IsCurrentUser}" Value="true">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </controls:IconButton.Style>
+                                </controls:IconButton>
+
+
+                                <controls:IconButton  Grid.Column="1"  Grid.Row="2" HorizontalAlignment="Stretch" Margin="5" IsIconFirst="False"
+                                                     Command="{Binding DataContext.AddFriend, ElementName=list}" CommandParameter="{Binding .}"
+                                                     Visibility="{Binding  Visibility}" IsEnabled="{Binding IsRequested,Converter={StaticResource BooleanInverter}}">
+                                    <controls:IconButton.Style>
+                                        <Style TargetType="controls:IconButton" BasedOn="{StaticResource AcceptButton}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsRequested}" Value="true">
+                                                    <Setter Property="Text" Value="Запрос отправлен"/>
+                                                    <Setter Property="Icon" Value="&#xE73e;"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsRequested}" Value="false">
+                                                    <Setter Property="Text" Value="В друзья"/>
+                                                    <Setter Property="Icon" Value="&#xE8fa;"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </controls:IconButton.Style>
+                                </controls:IconButton>
+                            </Grid>
+
+                        </Grid>
+                    </Border>
+
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</controls:ModernWindow>

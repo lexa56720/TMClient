@@ -53,7 +53,7 @@ namespace TMClient.ViewModel.Chats
         {
             await Messenger.Send(Utils.Messages.ModalOpened, true);
             var mainWindow = App.Current.MainWindow;
-            var membersWindow = new UserList(Chat.Members.ToArray(),chat)
+            var membersWindow = new ChatMembers(Chat.Members.ToArray(),chat)
             {
                 Owner = mainWindow,
                 ShowInTaskbar = false
