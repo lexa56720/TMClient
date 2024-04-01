@@ -61,37 +61,13 @@ namespace TMClient {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("6665")]
-        public int AuthPort {
+        [global::System.Configuration.DefaultSettingValueAttribute("6660")]
+        public int InfoPort {
             get {
-                return ((int)(this["AuthPort"]));
+                return ((int)(this["InfoPort"]));
             }
             set {
-                this["AuthPort"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("6667")]
-        public int LongPollPort {
-            get {
-                return ((int)(this["LongPollPort"]));
-            }
-            set {
-                this["LongPollPort"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("6666")]
-        public int ApiPort {
-            get {
-                return ((int)(this["ApiPort"]));
-            }
-            set {
-                this["ApiPort"] = value;
+                this["InfoPort"] = value;
             }
         }
         
@@ -128,42 +104,6 @@ namespace TMClient {
             }
             set {
                 this["ServerAddress"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("2")]
-        public int LongPollPeriodMinutes {
-            get {
-                return ((int)(this["LongPollPeriodMinutes"]));
-            }
-            set {
-                this["LongPollPeriodMinutes"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("6668")]
-        public int FileUploadPort {
-            get {
-                return ((int)(this["FileUploadPort"]));
-            }
-            set {
-                this["FileUploadPort"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("6669")]
-        public int FileGetPort {
-            get {
-                return ((int)(this["FileGetPort"]));
-            }
-            set {
-                this["FileGetPort"] = value;
             }
         }
     }

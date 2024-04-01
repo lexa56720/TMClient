@@ -28,38 +28,16 @@ namespace TMClient.ViewModel
         }
         private string serverAddress = Preferences.Default.ServerAddress;
 
-        public string AuthPort
+        public string InfoPort
         {
-            get => authPort;
+            get => infoPort;
             set
             {
-                authPort = value;
-                OnPropertyChanged(nameof(AuthPort));
+                infoPort = value;
+                OnPropertyChanged(nameof(InfoPort));
             }
         }
-        private string authPort = Preferences.Default.AuthPort.ToString();
-
-        public string ApiPort
-        {
-            get => apiPort;
-            set
-            {
-                apiPort = value;
-                OnPropertyChanged(nameof(ApiPort));
-            }
-        }
-        private string apiPort= Preferences.Default.ApiPort.ToString();
-
-        public string NotificationPort
-        {
-            get => notificationPort;
-            set
-            {
-                notificationPort = value;
-                OnPropertyChanged(nameof(NotificationPort));
-            }
-        }
-        private string notificationPort = Preferences.Default.LongPollPort.ToString();
+        private string infoPort = Preferences.Default.InfoPort.ToString();
 
         public string CachedUserLifeTime
         {
@@ -109,27 +87,19 @@ namespace TMClient.ViewModel
                 {
                     case nameof(ServerAddress):
                         if (!IpRegex.IsMatch(ServerAddress))
-                            error = "Ip error";
+                            error = "Некорректный адресс";
                         break;
-                    case nameof(AuthPort):
-                        if (!int.TryParse(AuthPort, out var auth) || auth >= ushort.MaxValue)
-                            error = "Auth port error";
-                        break;
-                    case nameof(ApiPort):
-                        if (!int.TryParse(ApiPort, out var api) || api >= ushort.MaxValue)
-                            error = "Api port error";
-                        break;
-                    case nameof(NotificationPort):
-                        if (!int.TryParse(NotificationPort, out var notification) || notification >= ushort.MaxValue)
-                            error = "Notification port error";
+                    case nameof(InfoPort):
+                        if (!int.TryParse(InfoPort, out var auth) || auth >= ushort.MaxValue)
+                            error = "Некорректный порт";
                         break;
                     case nameof(CachedUserLifeTime):
                         if (!int.TryParse(CachedUserLifeTime, out var cachedUser) || cachedUser < 0)
-                            error = "Cached user lifetime error";
+                            error = "Некорректное время";
                         break;
                     case nameof(CachedChatLifeTime):
                         if (!int.TryParse(CachedChatLifeTime, out var cachedChat) || cachedChat < 0)
-                            error = "Cached chat lifetime error";
+                            error = "Некорректное время";
                         break;
                 }
                 return error;
@@ -142,9 +112,7 @@ namespace TMClient.ViewModel
         private void LoadSettings()
         {
             ServerAddress = Preferences.Default.ServerAddress;
-            AuthPort = Preferences.Default.AuthPort.ToString();
-            ApiPort = Preferences.Default.ApiPort.ToString();
-            NotificationPort = Preferences.Default.LongPollPort.ToString();
+            InfoPort = Preferences.Default.InfoPort.ToString();
             CachedUserLifeTime = Preferences.Default.CachedUserLifetimeMinutes.ToString();
             CachedChatLifeTime = Preferences.Default.CachedChatLifetimeMinutes.ToString();
         }
@@ -153,14 +121,8 @@ namespace TMClient.ViewModel
         {
             Preferences.Default.ServerAddress = serverAddress;
 
-            if (int.TryParse(AuthPort, out var auth))
-                Preferences.Default.AuthPort = auth;
-
-            if (int.TryParse(ApiPort, out var api))
-                Preferences.Default.ApiPort = api;
-
-            if (int.TryParse(NotificationPort, out var longPoll))
-                Preferences.Default.LongPollPort= longPoll;
+            if (int.TryParse(InfoPort, out var auth))
+                Preferences.Default.InfoPort = auth;
 
             if (int.TryParse(CachedUserLifeTime, out var user))
                 Preferences.Default.CachedUserLifetimeMinutes =user;

@@ -11,14 +11,8 @@
     <Setting Name="IsSaveAuth" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="AuthPort" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">6665</Value>
-    </Setting>
-    <Setting Name="LongPollPort" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">6667</Value>
-    </Setting>
-    <Setting Name="ApiPort" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">6666</Value>
+    <Setting Name="InfoPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">6660</Value>
     </Setting>
     <Setting Name="CachedUserLifetimeMinutes" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">10</Value>
@@ -28,15 +22,6 @@
     </Setting>
     <Setting Name="ServerAddress" Type="System.String" Scope="User">
       <Value Profile="(Default)">127.0.0.1</Value>
-    </Setting>
-    <Setting Name="LongPollPeriodMinutes" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">2</Value>
-    </Setting>
-    <Setting Name="FileUploadPort" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">6668</Value>
-    </Setting>
-    <Setting Name="FileGetPort" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">6669</Value>
     </Setting>
   </Settings>
 </SettingsFile>

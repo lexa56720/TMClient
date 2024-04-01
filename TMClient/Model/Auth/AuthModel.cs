@@ -17,25 +17,19 @@ namespace TMClient.Model.Auth
         }
         private static ApiFactory apiProvider = null!;
 
-
         public async Task<IApi?> TryGetApi()
         {
             return await ApiProvider.Load(Preferences.Default.AuthPath);
         }
+
         private static ApiFactory GetApiProvider()
         {
             var ip = IPAddress.Parse(Preferences.Default.ServerAddress);
-            var authPort = Preferences.Default.AuthPort;
-            var apiPort = Preferences.Default.ApiPort;
-            var longPollPort = Preferences.Default.LongPollPort;
-            var fileUploadPort = Preferences.Default.FileUploadPort;
-            var fileGetPort = Preferences.Default.FileGetPort;
-            var longPollPeriod = TimeSpan.FromMinutes(Preferences.Default.LongPollPeriodMinutes);
+            var infoPort = Preferences.Default.InfoPort;
             var cachedUserLifetime = TimeSpan.FromMinutes(Preferences.Default.CachedUserLifetimeMinutes);
             var cachedChatLifetime = TimeSpan.FromMinutes(Preferences.Default.CachedChatLifetimeMinutes);
 
-            return new ApiFactory(ip, authPort, apiPort, fileUploadPort, fileGetPort, cachedUserLifetime,
-                        cachedChatLifetime, longPollPort, longPollPeriod, SynchronizationContext.Current);
+            return new ApiFactory(ip, infoPort, cachedUserLifetime, cachedChatLifetime, SynchronizationContext.Current);
         }
 
 

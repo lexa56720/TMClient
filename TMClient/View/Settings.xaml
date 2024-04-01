@@ -39,10 +39,8 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-
             <RowDefinition Height="5*"/>
-
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
 
@@ -67,10 +65,10 @@
                     </StackPanel>
 
                     <StackPanel>
-                        <TextBlock  VerticalAlignment="Center" TextWrapping="Wrap" Text="Порт авторизации:" FontSize="16" />
-                        <TextBox  FontSize="24"  x:Name="Auth">
+                        <TextBlock  VerticalAlignment="Center" TextWrapping="Wrap" Text="Порт:" FontSize="16" />
+                        <TextBox  FontSize="24"  x:Name="Info">
                             <TextBox.Text>
-                                <Binding Path="AuthPort" NotifyOnValidationError="True" >
+                                <Binding Path="InfoPort" NotifyOnValidationError="True" >
                                     <Binding.ValidationRules>
                                         <DataErrorValidationRule/>
                                     </Binding.ValidationRules>
@@ -78,35 +76,6 @@
                             </TextBox.Text>
                         </TextBox>
                     </StackPanel>
-
-
-                    <StackPanel>
-                        <TextBlock   VerticalAlignment="Center" TextWrapping="Wrap" Text="Порт запросов:" FontSize="16" />
-                        <TextBox  FontSize="24" x:Name="Api">
-                            <TextBox.Text>
-                                <Binding Path="ApiPort" NotifyOnValidationError="True" >
-                                    <Binding.ValidationRules>
-                                        <DataErrorValidationRule/>
-                                    </Binding.ValidationRules>
-                                </Binding>
-                            </TextBox.Text>
-                        </TextBox>
-                    </StackPanel>
-
-
-                    <StackPanel>
-                        <TextBlock   Text="Порт уведомлений:" VerticalAlignment="Center" TextWrapping="Wrap"  FontSize="16" />
-                        <TextBox  FontSize="24" x:Name="Notification">
-                            <TextBox.Text>
-                                <Binding Path="NotificationPort" NotifyOnValidationError="True" >
-                                    <Binding.ValidationRules>
-                                        <DataErrorValidationRule/>
-                                    </Binding.ValidationRules>
-                                </Binding>
-                            </TextBox.Text>
-                        </TextBox>
-                    </StackPanel>
-
 
                     <StackPanel>
                         <TextBlock   VerticalAlignment="Center" TextWrapping="Wrap" Text="Время жизни кэша пользователей (мин):" FontSize="16" />
@@ -138,7 +107,7 @@
             </ScrollViewer>
         </Border>
         <controls:IconButton Icon="&#xE74e;" HorizontalContentAlignment="Center"  Command="{Binding SaveCommand}"
-                             Grid.Row="7" Grid.Column="1"  Margin="100,0,100,0" FontSize="28" Text="Сохранить">
+                             Grid.Row="3" Grid.Column="1"  Margin="100,0,100,0" FontSize="28" Text="Сохранить">
             <controls:IconButton.Style>
                 <Style TargetType="controls:IconButton" BasedOn="{StaticResource ResourceKey=AcceptButton}">
                     <Style.Triggers>
@@ -146,11 +115,9 @@
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding Path=(Validation.HasError),ElementName=Ip}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError),ElementName=Auth}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError),ElementName=Api}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError),ElementName=Notification}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError),ElementName=Info}" Value="False"/>
                                 <Condition Binding="{Binding Path=(Validation.HasError),ElementName=UserCache}" Value="False"/>
-                                <Condition Binding="{Binding Path=(Validation.HasError),ElementName=Ip}" Value="False"/>
+                                <Condition Binding="{Binding Path=(Validation.HasError),ElementName=ChatCache}" Value="False"/>
                             </MultiDataTrigger.Conditions>
                             <Setter Property="IsEnabled" Value="True"/>
                         </MultiDataTrigger>
@@ -159,15 +126,7 @@
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
 
-                        <DataTrigger Binding="{Binding Path=(Validation.HasError),ElementName=Auth}" Value="True">
-                            <Setter Property="IsEnabled" Value="False"/>
-                        </DataTrigger>
-
-                        <DataTrigger Binding="{Binding Path=(Validation.HasError),ElementName=Api}" Value="True">
-                            <Setter Property="IsEnabled" Value="False"/>
-                        </DataTrigger>
-
-                        <DataTrigger Binding="{Binding Path=(Validation.HasError),ElementName=Notification}" Value="True">
+                        <DataTrigger Binding="{Binding Path=(Validation.HasError),ElementName=Info}" Value="True">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
 
