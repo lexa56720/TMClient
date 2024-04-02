@@ -24,7 +24,7 @@
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Grid.Column="0" x:Name="Name" FontSize="24" >
+                <TextBox Grid.Column="0" x:Name="chatName" FontSize="24" >
                     <TextBox.Text>
                         <Binding Path="ChatName" Mode="TwoWay" NotifyOnValidationError="True" UpdateSourceTrigger="PropertyChanged">
                             <Binding.ValidationRules>
@@ -38,10 +38,10 @@
                     <controls:IconButton.Style>
                         <Style BasedOn="{StaticResource AcceptButton}" TargetType="controls:IconButton">
                             <Style.Triggers>
-                                <DataTrigger  Binding="{Binding Path=(Validation.HasError),ElementName=Name}" Value="True">
+                                <DataTrigger  Binding="{Binding Path=(Validation.HasError),ElementName=chatName}" Value="True">
                                     <Setter Property="IsEnabled" Value="False"/>
                                 </DataTrigger>
-                                <DataTrigger  Binding="{Binding Path=(Validation.HasError),ElementName=Name}" Value="False">
+                                <DataTrigger  Binding="{Binding Path=(Validation.HasError),ElementName=chatName}" Value="False">
                                     <Setter Property="IsEnabled" Value="True"/>
                                 </DataTrigger>
                             </Style.Triggers>

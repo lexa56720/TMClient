@@ -132,12 +132,24 @@ namespace TMClient.ViewModel
             }
         }
         private Visibility loadingVisibility = Visibility.Collapsed;
-
-
         private readonly SidePanel Panel = new();
         private readonly Settings Settings = new();
         private readonly Profile Profile = new();
         private readonly Notifications Notifications = new();
+
+        private int ModalCount
+        {
+            get => modalCount;
+            set
+            {
+                modalCount = value;
+                if (value == 0 && IsInModalMode != false)
+                    IsInModalMode = false;
+                else if (value > 0 && IsInModalMode != true)
+                    IsInModalMode = true;
+            }
+        }
+        private int modalCount;
 
         public MainViewModel()
         {
@@ -149,8 +161,8 @@ namespace TMClient.ViewModel
                 UnselectAllExcept(string.Empty);
             });
 
-            Messenger.Subscribe(Messages.ModalOpened, () => IsInModalMode = true);
-            Messenger.Subscribe(Messages.ModalClosed, () => IsInModalMode = false);
+            Messenger.Subscribe(Messages.ModalOpened, () => ModalCount++);
+            Messenger.Subscribe(Messages.ModalClosed, () => ModalCount--);
 
             Messenger.Subscribe(Messages.LoadingStart, () => IsLoading = true);
             Messenger.Subscribe(Messages.LoadingOver, () => IsLoading = false);

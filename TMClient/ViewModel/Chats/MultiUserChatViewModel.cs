@@ -23,7 +23,6 @@ namespace TMClient.ViewModel.Chats
 
         public ICommand LeaveCommand => new AsyncCommand(LeaveChat);
         public ICommand InviteCommand => new AsyncCommand(InviteToChat);
-        public ICommand ShowMembersCommand => new AsyncCommand(ShowMembers);
         public ICommand EditCommand => new Command(Edit);
 
 
@@ -47,18 +46,6 @@ namespace TMClient.ViewModel.Chats
             await Messenger.Send(Utils.Messages.ModalOpened, true);
             var mainWindow = App.Current.MainWindow;
             var membersWindow = new InvitingWindow(Chat)
-            {
-                Owner = mainWindow,
-                ShowInTaskbar = false
-            };
-            membersWindow.ShowDialog();
-            await Messenger.Send(Utils.Messages.ModalClosed, true);
-        }
-        private async Task ShowMembers()
-        {
-            await Messenger.Send(Utils.Messages.ModalOpened, true);
-            var mainWindow = App.Current.MainWindow;
-            var membersWindow = new ChatMembers(Chat.Members.ToArray(),Chat)
             {
                 Owner = mainWindow,
                 ShowInTaskbar = false

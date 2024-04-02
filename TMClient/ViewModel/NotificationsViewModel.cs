@@ -13,14 +13,11 @@ namespace TMClient.ViewModel
 
         public ObservableCollection<ChatInvite> ChatInvites => CurrentUser.ChatInvites;
 
-
         public ICommand AcceptFriendRequest => new AsyncCommand<FriendRequest>(AcceptFriend);
         public ICommand DeclineFriendRequest => new AsyncCommand<FriendRequest>(DeclineFriend);
 
         public ICommand AcceptChatInvite => new AsyncCommand<ChatInvite>(AcceptInvite);
         public ICommand DeclineChatInvite => new AsyncCommand<ChatInvite>(DeclineInvite);
-
-        public ICommand ShowChat => new AsyncCommand<ChatInvite>(ShowChatMembers);
 
         private async Task AcceptFriend(FriendRequest? request)
         {
@@ -56,19 +53,6 @@ namespace TMClient.ViewModel
             }
         }
 
-        private async Task ShowChatMembers(ChatInvite? invite)
-        {
-            if (invite == null)
-                return;
-            await Messenger.Send(Messages.ModalOpened);
-            var membersWindow = new View.ChatMembers(invite.Chat.Members.ToArray(), invite.Chat)
-            {
-                Owner = App.Current.MainWindow,
-                ShowInTaskbar = false
-            };
-            membersWindow.ShowDialog();
-            await Messenger.Send(Messages.ModalClosed);
-        }
 
         private readonly NotificationsModel Model=new();
 

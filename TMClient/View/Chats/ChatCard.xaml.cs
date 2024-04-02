@@ -6,13 +6,13 @@ namespace TMClient.View
     /// <summary>
     /// Логика взаимодействия для UserList.xaml
     /// </summary>
-    public partial class ChatMembers : ModernWindow
+    public partial class ChatCard : ModernWindow
     {
-        public ChatMembers(User[] users,Chat chat)
+        public ChatCard(Chat chat)
         {
-            InitializeComponent();
             Title = chat.Name;
-            DataContext = new ChatMembersViewModel(users,chat);
+            DataContext = new ChatMembersViewModel(chat);
+            InitializeComponent();
         }
     }
 }

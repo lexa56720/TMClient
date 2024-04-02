@@ -158,28 +158,28 @@
                                         <StackPanel Orientation="Vertical">
                                             <StackPanel Orientation="Horizontal">
                                                 <Grid>
-                                                <controls:EntityImage Width="50" Margin="5,5,0,5" Height="50" Entity="{Binding .}"/>
-                                                <controls:CountDisplay Grid.Column="1" Count="{Binding UnreadCount}" Width="20" Height="20" Margin="2" Foreground="{StaticResource RedBrush}"  VerticalAlignment="Top"  HorizontalAlignment="Right"  />
-                                            </Grid>
+                                                    <controls:ChatDisplay Chat="{Binding .}" Margin="5,5,0,5" Width="50" Height="50"/>
+                                                    <controls:CountDisplay Grid.Column="1" Count="{Binding UnreadCount}" Width="20" Height="20" Margin="2" Foreground="{StaticResource RedBrush}"  VerticalAlignment="Top"  HorizontalAlignment="Right"  />
+                                                </Grid>
                                                 <Label Grid.Column="0" Margin="-5,0,0,0" HorizontalAlignment="Left" Content="{Binding Name}"/>
                                             </StackPanel>
 
                                             <Border CornerRadius="0,0,5,5" >
-                                                    <Border.Style>
-                                                        <Style TargetType="Border" BasedOn="{StaticResource ResourceKey={x:Type Border}}">
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding LastMessage.IsReaded}" Value="False">
-                                                                    <Setter Property="Background" Value="{StaticResource UnreadMessageBrush}"/>
+                                                <Border.Style>
+                                                    <Style TargetType="Border" BasedOn="{StaticResource ResourceKey={x:Type Border}}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding LastMessage.IsReaded}" Value="False">
+                                                                <Setter Property="Background" Value="{StaticResource UnreadMessageBrush}"/>
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding LastMessage.IsReaded}" Value="True">
                                                                 <Setter Property="Background" Value="{StaticResource UserMessageBrush}"/>
                                                             </DataTrigger>
                                                             <DataTrigger Binding="{Binding LastMessage}" Value="{x:Null}">
-                                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Border.Style>
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Border.Style>
                                                 <DockPanel LastChildFill="True" >
                                                     <controls:UserDisplay DockPanel.Dock="Left" User="{Binding LastMessage.Author}" Margin="5" Width="40" Height="40"/>
 

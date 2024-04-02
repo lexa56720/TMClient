@@ -81,7 +81,7 @@
                         <Grid>
                             <controls:SelectableButton IsSelected="{Binding IsNotificationsSelected,Mode=TwoWay}" Icon="&#xEDAC;" Orientation="Vertical"
                            FontSize="32" Margin="5" Command="{Binding NotificationCommand}" TextFontSize="12" Text="Запросы" TextVisibility="{Binding SideBarState}"  />
-                            <controls:CountDisplay Count="{Binding NotificationCount}" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="20" Width="20" FontSize="16" Foreground="{StaticResource RedBrush}"/>
+                            <controls:CountDisplay Count="{Binding NotificationCount}" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20" Width="20" FontSize="16" Foreground="{StaticResource RedBrush}"/>
                         </Grid>
                     </StackPanel>
                     <StackPanel VerticalAlignment="Bottom" DockPanel.Dock="Bottom"  >

@@ -35,7 +35,7 @@
 
         <local:IconButton HorizontalAlignment="Center" Margin="0"  Height="{Binding Height}"
                            Width="{Binding Width}" FontSize="18"
-         VerticalAlignment="Center" Foreground="White" Icon="&#xe8a7;" Click="OnClick">
+         VerticalAlignment="Center" Foreground="{StaticResource ForegroundBrush}" Icon="&#xe8a7;" Click="OnClick">
             <local:IconButton.Style>
                 <Style BasedOn="{StaticResource CircleButton}" TargetType="local:IconButton">
                     <Style.Triggers>

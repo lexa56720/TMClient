@@ -10,7 +10,11 @@
         <TextBlock Text="{Binding User.Name}" FontSize="{Binding FontSize}" FontWeight="SemiBold" >
             <TextBlock.ToolTip>
                 <Grid>
-                    <TextBlock Text="{Binding User.Login,Converter={StaticResource LoginConverter}}"/>
+                    <StackPanel Margin="-5,0,-5,-5">
+                        <local:UserDisplay IsProfileLinkEnabled="False" User="{Binding User}" Width="32" Height="32" />
+                        <TextBlock Text="{Binding User.Login,Converter={StaticResource LoginConverter}}"/>
+                    </StackPanel>
+               
                 </Grid>
             </TextBlock.ToolTip>
         </TextBlock>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TMClient.View" xmlns:b="http://schemas.microsoft.com/xaml/behaviors" 
         mc:Ignorable="d" WindowStartupLocation="CenterOwner" WindowStyle="None" AllowsTransparency="True"
-        Height="400" Width="400" >
+        MaxHeight="700" MinHeight="300" MinWidth="300" SizeToContent="WidthAndHeight" >
 
     <controls:ModernWindow.Background>
         <SolidColorBrush Opacity="0.7" Color="{StaticResource BackgroundColor}"/>
@@ -58,7 +58,7 @@
                                 <Control.Template>
                                     <ControlTemplate>
 
-                                        <controls:IconButton Margin="0" x:Name="button" Style="{StaticResource AcceptButton}" Text="Выбрать" Icon="&#xE710;" HorizontalAlignment="Right"
+                                        <controls:IconButton Margin="5" x:Name="button" Style="{StaticResource AcceptButton}" Text="Выбрать" Icon="&#xE710;" HorizontalAlignment="Right"
                                             Command="{Binding Path=DataContext.SelectCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:InvitingWindow}}}" CommandParameter="{Binding .}"/>
 
 

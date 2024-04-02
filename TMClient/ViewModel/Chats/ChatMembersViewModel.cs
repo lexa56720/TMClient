@@ -39,10 +39,10 @@ namespace TMClient.ViewModel.Chats
         private readonly ChatMembersModel Model = new();
 
 
-        public ChatMembersViewModel(User[] users, Chat chat)
+        public ChatMembersViewModel(Chat chat)
         {
             IsAdmin = chat.Admin.IsCurrentUser;
-            foreach (var user in users)
+            foreach (var user in chat.Members)
             {
                 var visibility = Visibility.Visible;
                 if (user.IsCurrentUser || CurrentUser.FriendList.Any(f => f.Id == user.Id))

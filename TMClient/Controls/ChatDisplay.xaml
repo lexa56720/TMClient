@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="TMClient.Controls.ChatDisplay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TMClient.Controls"
+             mc:Ignorable="d"  x:Name="chatDisplay"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid DataContext="{Binding ElementName=chatDisplay}">
+
+        <local:EntityImage Height="{Binding Height}" Width="{Binding Width}" Entity="{Binding Chat}" />
+
+        <local:IconButton HorizontalAlignment="Center" Margin="0"  Height="{Binding Height}" Width="{Binding Width}" Style="{StaticResource CircleButton}"
+                          FontSize="18"  VerticalAlignment="Center" Foreground="{StaticResource ForegroundBrush}" Icon="&#xe8a7;" Click="OnClick"/>
+
+    </Grid>
+</UserControl>
