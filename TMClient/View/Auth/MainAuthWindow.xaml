@@ -43,7 +43,7 @@
                     </Style.Triggers>
                 </Style>
             </Grid.Style>
-            
+
             <Grid.Background>
                 <SolidColorBrush Opacity="0.3" Color="{StaticResource BackgroundColor}"/>
             </Grid.Background>
@@ -51,7 +51,6 @@
                 <RowDefinition Height="15*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-
 
 
             <Frame Grid.Row="0" Background="Transparent" Margin="5"  Content="{Binding EnteringFrame}" IsEnabled="{Binding IsLoaded}"/>
@@ -75,7 +74,6 @@
             <controls:IconButton Style="{StaticResource TransperentButton}" Command="{Binding BackNavigation}" Icon="&#xE72b;" Margin="5" 
                           Visibility="{Binding BackNavigationVisibility}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" FontSize="24" />
         </Grid>
-
         <fa:ImageAwesome Grid.Row="0" Icon="Refresh" Margin="200" Visibility="{Binding LoadingVisibility}" Foreground="White" Spin="True" SpinDuration="10" />
     </Grid>
 </controls:ModernWindow>

@@ -228,6 +228,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
         <Style x:Key="DefaultButton" BasedOn="{StaticResource ButtonTemplate}" TargetType="Button">
             <Style.Triggers>
                 <MultiTrigger>
@@ -257,9 +258,10 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        
         <Style TargetType="Button" BasedOn="{StaticResource ResourceKey=DefaultButton}">
-
         </Style>
+        
         <Style TargetType="controls:IconButton" BasedOn="{StaticResource ResourceKey=DefaultButton}">
 
         </Style>
