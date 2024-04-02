@@ -41,7 +41,7 @@
                                             <Setter Property="Text" Value="В сети" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Friend.IsOnline}" Value="False">
-                                            <Setter Property="Text" Value="{Binding Friend.LastAction,Converter={StaticResource DateTimeConverter},StringFormat={}Последний раз в сети: {0}}" />
+                                            <Setter Property="Text" Value="{Binding Friend.LastAction,Converter={StaticResource DateTimeConverter},StringFormat={}В сети: {0}}" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>

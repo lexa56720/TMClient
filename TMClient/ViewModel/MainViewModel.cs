@@ -21,11 +21,10 @@ namespace TMClient.ViewModel
         private Page sidePanelFrame = null!;
 
         public ICommand ChangeSideBarState => new Command(SwitchSideBarState);
-        public ICommand ProfileCommand => new Command(() => MainFrame = Profile);
-        public ICommand NotificationCommand => new Command(() => MainFrame = Notifications);
-        public ICommand SettingsCommand => new Command(() => MainFrame = Settings);
+        public ICommand ProfileCommand => new Command(() => OpenNonChatPage(Profile));
+        public ICommand NotificationCommand => new Command(() => OpenNonChatPage(Notifications));
+        public ICommand SettingsCommand => new Command(() => OpenNonChatPage(Settings));
         public ICommand LogoutCommand => new Command(Logout);
-        public ICommand ChatCommand => new Command(() => MainFrame = ChatPage);
 
         public bool IsProfileSelected
         {
@@ -45,26 +44,13 @@ namespace TMClient.ViewModel
             get => isNotificationsSelected;
             set
             {
-                isNotificationsSelected = value; 
+                isNotificationsSelected = value;
                 if (value)
                     UnselectAllExcept(nameof(IsNotificationsSelected));
                 OnPropertyChanged(nameof(IsNotificationsSelected));
             }
         }
         private bool isNotificationsSelected;
-
-        public bool IsChatSelected
-        {
-            get => isChatSelected;
-            set
-            {
-                isChatSelected = value;
-                if (value)
-                    UnselectAllExcept(nameof(IsChatSelected));
-                OnPropertyChanged(nameof(IsChatSelected));
-            }
-        }
-        private bool isChatSelected;
 
         public bool IsSettingsSelected
         {
@@ -152,18 +138,15 @@ namespace TMClient.ViewModel
         private readonly Settings Settings = new();
         private readonly Profile Profile = new();
         private readonly Notifications Notifications = new();
-        private Page? ChatPage;
-
 
         public MainViewModel()
         {
             SidePanelFrame = Panel;
 
-            Messenger.Subscribe<Page>(Messages.OpenChatPage, (o, p) =>
+            Messenger.Subscribe<Page>(Messages.OpenChatPage, (o, page) =>
             {
-                ChatPage = p;
-                MainFrame = p;
-                IsChatSelected = true;
+                MainFrame = page;
+                UnselectAllExcept(string.Empty);
             });
 
             Messenger.Subscribe(Messages.ModalOpened, () => IsInModalMode = true);
@@ -200,14 +183,17 @@ namespace TMClient.ViewModel
                 SideBarState = Visibility.Collapsed;
         }
 
+        private void OpenNonChatPage(Page page)
+        {
+            MainFrame = page;
+            Panel.UnselectAllChats();
+        }
         private void UnselectAllExcept(string name)
         {
             if (nameof(IsProfileSelected) != name)
                 IsProfileSelected = false;
             if (nameof(IsNotificationsSelected) != name)
                 IsNotificationsSelected = false;
-            if (nameof(IsChatSelected) != name)
-                IsChatSelected = false;
             if (nameof(IsSettingsSelected) != name)
                 IsSettingsSelected = false;
         }

@@ -8,10 +8,18 @@ namespace TMClient.View
     /// </summary>
     public partial class SidePanel : Page
     {
+        private readonly SidePanelViewModel ViewModel;
         public SidePanel()
         {
             InitializeComponent();
-            DataContext = new SidePanelViewModel();
+            ViewModel = new SidePanelViewModel();
+            DataContext = ViewModel; 
+        }
+
+        public void UnselectAllChats()
+        {
+            ViewModel.SelectedChat=null;
+            ViewModel.SelectedFriend=null;
         }
     }
 }

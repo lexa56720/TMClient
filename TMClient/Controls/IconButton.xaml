@@ -17,26 +17,57 @@
                    FontFamily="{StaticResource SegoeIcons}" />
 
             <TextBlock Text="{Binding Text}"
-                   FontSize="{Binding FontSize}"
                    Foreground="{Binding Foreground}"
-                   Margin="0,0,0,0" Visibility="{Binding TextVisibility}"  
-                   TextAlignment="Center" VerticalAlignment="Center"/>
+                   Visibility="{Binding TextVisibility}"  
+                   TextAlignment="Center" VerticalAlignment="Center">
+                <TextBlock.FontSize>
+                    <PriorityBinding>
+                        <Binding Path="TextFontSize" />
+                        <Binding Path="FontSize" />
+                    </PriorityBinding>
+                </TextBlock.FontSize>
+                <TextBlock.Style>
+                    <Style BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}" TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Orientation}" Value="Vertical">
+                                <Setter Property="Margin" Value="0,-5,0,0"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
         </StackPanel>
 
         <StackPanel DataContext="{Binding ElementName=btn}"   
                 Orientation="{Binding Orientation}" Visibility="{Binding TextFirstVisibility}">
 
             <TextBlock Text="{Binding Text}"
-                   FontSize="{Binding FontSize}"
                    Foreground="{Binding Foreground}"
                    Margin="0,0,0,0" Visibility="{Binding TextVisibility}"  
-                   TextAlignment="Center" VerticalAlignment="Center"/>
+                   TextAlignment="Center" VerticalAlignment="Center">
+                <TextBlock.FontSize>
+                    <PriorityBinding>
+                        <Binding Path="TextFontSize" />
+                        <Binding Path="FontSize" />
+                    </PriorityBinding>
+                </TextBlock.FontSize>
+            </TextBlock>
 
             <TextBlock Text="{Binding Icon}" 
                FontSize="{Binding FontSize}"
                Foreground="{Binding Foreground}"
                Margin="0,0,0,0" TextAlignment="Center" VerticalAlignment="Center" 
-               FontFamily="{StaticResource SegoeIcons}" />
+               FontFamily="{StaticResource SegoeIcons}">
+                <TextBlock.Style>
+                    <Style BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}" TargetType="TextBlock">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Orientation}" Value="Vertical">
+                                <Setter Property="Margin" Value="0,-5,0,0"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
         </StackPanel>
     </Grid>
 

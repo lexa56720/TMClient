@@ -9,17 +9,18 @@ namespace TMClient.Controls
     /// </summary>
     public partial class IconButton : Button, INotifyPropertyChanged
     {
+
+
+        public static readonly DependencyProperty TextVisibilityProperty =
+        DependencyProperty.Register(nameof(TextVisibility),
+                                    typeof(Visibility),
+                                    typeof(IconButton),
+                                    new PropertyMetadata(Visibility.Collapsed));
         public Visibility TextVisibility
         {
-            get => textVisibility;
-            set
-            {
-                textVisibility = value;
-                OnPropertyChanged(nameof(TextVisibility));
-            }
-
+            get { return (Visibility)GetValue(TextVisibilityProperty); }
+            set { SetValue(TextVisibilityProperty, value); }
         }
-        private Visibility textVisibility = Visibility.Collapsed;
 
 
         public Visibility IconFirstVisibility
@@ -53,7 +54,7 @@ namespace TMClient.Controls
             {
                 isIconFirst = value;
                 OnPropertyChanged(nameof(IsIconFirst));
-                if(isIconFirst)
+                if (isIconFirst)
                 {
                     IconFirstVisibility = Visibility.Visible;
                     TextFirstVisibility = Visibility.Hidden;
@@ -65,7 +66,7 @@ namespace TMClient.Controls
                 }
             }
         }
-        private bool isIconFirst=true;
+        private bool isIconFirst = true;
 
         public Orientation Orientation
         {
@@ -78,16 +79,23 @@ namespace TMClient.Controls
         }
         private Orientation orientation = Orientation.Horizontal;
 
+        public static readonly DependencyProperty TextProperty =
+            DependencyProperty.Register(nameof(Text), typeof(string), typeof(IconButton),
+            new PropertyMetadata(string.Empty, TextPropertyChanged));
         public string Text
         {
             get { return (string)GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }
         }
 
-        public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register(nameof(Text), typeof(string), typeof(IconButton),
-            new PropertyMetadata(string.Empty, TextPropertyChanged));
-
+        public static readonly DependencyProperty TextFontSizeProperty =
+            DependencyProperty.Register(nameof(TextFontSize), typeof(int), typeof(IconButton),
+            new PropertyMetadata(0));
+        public int TextFontSize
+        {
+            get { return (int)GetValue(TextFontSizeProperty); }
+            set { SetValue(TextFontSizeProperty, value); }
+        }
 
         public static readonly DependencyProperty IconProperty =
             DependencyProperty.Register(nameof(Icon), typeof(string), typeof(IconButton),
