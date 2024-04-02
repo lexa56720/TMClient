@@ -21,7 +21,7 @@
         <c:NullImageConverter x:Key="NullImageConverter"></c:NullImageConverter>
         <c:EntityImageSizeConverter x:Key="EntityImageSizeConverter"></c:EntityImageSizeConverter>
         <c:BooleanToVisibility x:Key="BooleanToVisibility"></c:BooleanToVisibility>
-        
+        <c:SearchConverter x:Key="SearchConverter"></c:SearchConverter>
         
         <v:NameRule x:Key="NameRule"></v:NameRule>
         <v:ChatNameRule x:Key="ChatNameRule"></v:ChatNameRule>
@@ -204,7 +204,8 @@
             </Setter>
         </Style>
 
-        <Style x:Key="DefaultButton" TargetType="Button">
+
+        <Style x:Key="ButtonTemplate" TargetType="Button">
             <Style.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5" />
@@ -226,6 +227,8 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+        <Style x:Key="DefaultButton" BasedOn="{StaticResource ButtonTemplate}" TargetType="Button">
             <Style.Triggers>
                 <MultiTrigger>
                     <MultiTrigger.Conditions>

@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:TMClient.View" xmlns:fa="http://schemas.fontawesome.io/icons/"
+    xmlns:local="clr-namespace:TMClient.View" xmlns:fa="http://schemas.fontawesome.io/icons/" xmlns:controls1="clr-namespace:TMClient.Controls.TMClient.Controls"
     AllowsTransparency="True"
     WindowStyle="None" 
     mc:Ignorable="d" WindowStartupLocation="CenterScreen" 
@@ -92,8 +92,11 @@
                         <Label Content="Сообщения" Visibility="{Binding SideBarState}" Margin="0,-10,0,0" HorizontalAlignment="Center"/>
                     </StackPanel>
                     <StackPanel VerticalAlignment="Bottom" DockPanel.Dock="Bottom"  >
+                        <controls:SelectableButton/>
+
+
                         <controls:IconButton Icon="&#xE713;" Style="{StaticResource TransperentButton}" Orientation="Vertical"
-                                      Command="{Binding SettingsCommand}" FontSize="32" Margin="5" Foreground="#9B59B6"  />
+                                      Command="{Binding SettingsCommand}" FontSize="32" Margin="5" Foreground="#E67E22"  />
                         <Label Content="Параметры" Visibility="{Binding SideBarState}" FontSize="12" Margin="0,-10,0,0" HorizontalAlignment="Center"/>
 
                         <controls:IconButton Icon="&#xF3b1;" Style="{StaticResource TransperentButton}" Orientation="Vertical"

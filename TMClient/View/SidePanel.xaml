@@ -24,7 +24,7 @@
                     <RowDefinition  Height="auto"/>
                 </Grid.RowDefinitions>
                 <controls:ExtendedTextBox Placeholder="Поиск" MaxLength="32" Grid.Row="2" Margin="5,5,10,10" FontSize="20"
-                                          Text="{Binding SearchQuery,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                             x:Name="Query"            />
             </Grid>
         </Border>
 
@@ -65,7 +65,14 @@
                             </ListView.ItemContainerStyle>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid  HorizontalAlignment="Stretch" Margin="0,0,0,0">
+                                    <Grid HorizontalAlignment="Stretch" Margin="0,0,0,0">
+                                        <Grid.Visibility>
+                                            <MultiBinding Converter="{StaticResource SearchConverter}" >
+                                                <Binding Path="Name" />
+                                                <Binding Path="Login" />
+                                                <Binding Path="Text" ElementName="Query" />
+                                            </MultiBinding>
+                                        </Grid.Visibility>
 
                                         <StackPanel Grid.Column="0" Orientation="Vertical" >
                                             <StackPanel Orientation="Horizontal">
@@ -111,7 +118,6 @@
                         </ListView>
 
                     </Grid>
-
                 </Border>
 
                 <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Margin="5,5,0,0"  Height="8"  VerticalAlignment="Center"/>
@@ -143,6 +149,12 @@
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
+                                        <Grid.Visibility>
+                                            <MultiBinding Converter="{StaticResource SearchConverter}" >
+                                                <Binding Path="Name" />
+                                                <Binding Path="Text" ElementName="Query" />
+                                            </MultiBinding>
+                                        </Grid.Visibility>
                                         <StackPanel Orientation="Vertical">
                                             <StackPanel Orientation="Horizontal">
                                                 <Grid>
