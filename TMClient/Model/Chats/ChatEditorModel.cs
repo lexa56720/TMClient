@@ -17,5 +17,10 @@ namespace TMClient.Model.Chats
         {
             await Api.Chats.Rename(chat.Id, newName);
         }
+
+        public async Task KickUser(User user, Chat chat)
+        {
+            await Api.Chats.KickUser(chat.Id, user.Id);
+        }
     }
 }

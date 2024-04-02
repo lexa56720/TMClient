@@ -48,10 +48,66 @@
                         </Style>
                     </controls:IconButton.Style>
                 </controls:IconButton>
+
             </Grid>
+
+            <ListView Background="#202020" Margin="5"   ItemsSource="{Binding Members}" ScrollViewer.VerticalScrollBarVisibility="Visible"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="list" >
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Focusable" Value="False"/>
+                        <Setter Property="Margin" Value="0,0,0,5"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource BackgroundLightBrush}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel  Grid.Column="0"   Orientation="Horizontal" Margin="5" >
+                                    <controls:UserDisplay User="{Binding User}" Width="60" Height="60" Margin="0,0,5,0"  />
+                                    <StackPanel VerticalAlignment="Center">
+                                        <Label Content="{Binding User.Name}" HorizontalAlignment="Left" Padding="0"  Margin="0,-5,0,-5" />
+                                        <Label Content="{Binding User.Login, Converter={StaticResource LoginConverter}}" Padding="0"  HorizontalAlignment="Left" FontSize="16" Margin="0,0,0,-5" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <controls:IconButton HorizontalAlignment="Right" VerticalAlignment="Stretch"  Grid.Column="1" Margin="5" IsIconFirst="False" Text="Выгнать" Icon="&#xe711;"
+                                                             Command="{Binding DataContext.KickUserCommand, ElementName=list}" CommandParameter="{Binding .}">
+                                    <controls:IconButton.Style>
+                                        <Style TargetType="controls:IconButton" BasedOn="{StaticResource DeclineButton}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding User.IsCurrentUser}" Value="false">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding User.IsCurrentUser}" Value="true">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </controls:IconButton.Style>
+                                </controls:IconButton>
+
+                            </Grid>
+                        </Border>
+
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
         </StackPanel>
 
         <controls:IconButton Command="{Binding OpenChatCommand}" Style="{StaticResource TransperentButton}" 
                              FontSize="24" Icon="&#xe72b;" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
+
     </Grid>
 </Page>

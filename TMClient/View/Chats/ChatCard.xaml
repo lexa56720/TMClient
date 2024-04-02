@@ -68,7 +68,7 @@
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
                                         <controls:IconButton HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Column="0" Margin="5" IsIconFirst="False" Text="Выгнать" Icon="&#xe711;"
-                                   Command="{Binding DataContext.KickUserCommand, ElementName=list}" CommandParameter="{Binding .}">
+                                                             Command="{Binding DataContext.KickUserCommand, ElementName=list}" CommandParameter="{Binding .}">
                                             <controls:IconButton.Style>
                                                 <Style TargetType="controls:IconButton" BasedOn="{StaticResource DeclineButton}">
                                                     <Style.Triggers>
@@ -91,7 +91,6 @@
                                                 </Style>
                                             </controls:IconButton.Style>
                                         </controls:IconButton>
-
 
                                         <controls:IconButton  Grid.Column="1"  Grid.Row="2" HorizontalAlignment="Stretch" Margin="5" IsIconFirst="False"
                                                    Command="{Binding DataContext.AddFriend, ElementName=list}" CommandParameter="{Binding .}"
