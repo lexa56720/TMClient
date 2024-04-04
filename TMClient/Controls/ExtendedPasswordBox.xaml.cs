@@ -21,11 +21,19 @@ namespace TMClient.Controls
     /// </summary>
     public partial class ExtendedPasswordBox : UserControl
     {
-        public static readonly DependencyProperty PasswordProperty=
+        public static readonly DependencyProperty PasswordProperty =
         DependencyProperty.Register(nameof(Password),
                                     typeof(string),
                                     typeof(ExtendedPasswordBox),
-                                    new PropertyMetadata(null));
+                                    new PropertyMetadata(null, PasswordChanged));
+
+        private static void PasswordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var passwordBox = ((ExtendedPasswordBox)d).passbox;
+            if (!passwordBox.Password.Equals((string)e.NewValue))
+                passwordBox.Password = (string)e.NewValue;
+        }
+
         public string Password
         {
             get => (string)GetValue(PasswordProperty);
@@ -51,7 +59,7 @@ namespace TMClient.Controls
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            Password=passbox.Password;
+            Password = passbox.Password;
         }
     }
 }

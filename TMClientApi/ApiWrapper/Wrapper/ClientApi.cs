@@ -161,7 +161,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         }
         private void UsersPasswordChanged(object? sender, string e)
         {
-            PasswordHash = ApiTypes.Shared.HashGenerator.GenerateHash(e);
+            PasswordHash = ApiTypes.Shared.HashGenerator.GenerateHashSmall(e);
         }
         public async Task Save(string path)
         {

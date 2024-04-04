@@ -66,7 +66,18 @@ namespace TMClient.ViewModel
                 OnPropertyChanged(nameof(SuccessSave));
             }
         }
-        private bool? successSave=null!;
+        private bool? successSave = null!;
+
+        public bool? FailedSave
+        {
+            get => failedSave;
+            set
+            {
+                failedSave = value;
+                OnPropertyChanged(nameof(FailedSave));
+            }
+        }
+        private bool? failedSave = null!;
 
         public string Name
         {
@@ -127,15 +138,16 @@ namespace TMClient.ViewModel
         private async Task SaveName()
         {
             await Messenger.Send(Messages.LoadingStart);
-            SuccessSave = await Model.SaveName(Name);
+            SetSaveState(await Model.SaveName(Name));
             await Messenger.Send(Messages.LoadingOver);
         }
 
         private async Task SavePassword()
         {
             await Messenger.Send(Messages.LoadingStart);
-            SuccessSave = await Model.SavePassword(CurrentPassword, NewPassword);
+            SetSaveState(await Model.SavePassword(CurrentPassword, NewPassword));
             await Messenger.Send(Messages.LoadingOver);
+            RepeatNewPassword = NewPassword = CurrentPassword = string.Empty;
         }
         private async Task ChangeAvatar()
         {
@@ -148,6 +160,14 @@ namespace TMClient.ViewModel
                 await Messenger.Send(Messages.LoadingOver, true);
             }
             await Messenger.Send(Messages.ModalClosed, true);
+        }
+
+        private void SetSaveState(bool state)
+        {
+            if (state)
+                SuccessSave = true;
+            else
+                FailedSave = true;
         }
     }
 }

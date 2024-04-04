@@ -29,7 +29,7 @@
             <i:ControlStoryboardAction Storyboard="{StaticResource Success}"     
                                ControlStoryboardOption="Play"/>
         </i:DataTrigger>
-        <i:DataTrigger Binding="{Binding SuccessSave}" Value="False">
+        <i:DataTrigger Binding="{Binding FailedSave}" Value="True">
             <i:ControlStoryboardAction Storyboard="{StaticResource Fail}"     
                              ControlStoryboardOption="Play"/>
         </i:DataTrigger>

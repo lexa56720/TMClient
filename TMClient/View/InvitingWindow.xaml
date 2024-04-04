@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TMClient.View" xmlns:b="http://schemas.microsoft.com/xaml/behaviors" 
         mc:Ignorable="d" WindowStartupLocation="CenterOwner" WindowStyle="None" AllowsTransparency="True"
-        MaxHeight="700" MinHeight="300" MinWidth="300" SizeToContent="WidthAndHeight" >
+        MaxHeight="700" MinHeight="400" MinWidth="500" SizeToContent="WidthAndHeight" >
 
     <controls:ModernWindow.Background>
         <SolidColorBrush Opacity="0.7" Color="{StaticResource BackgroundColor}"/>
@@ -42,7 +42,7 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition  Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Orientation="Horizontal" >
                                 <controls:UserDisplay User="{Binding User}" Width="50" Height="50" Margin="0" />
