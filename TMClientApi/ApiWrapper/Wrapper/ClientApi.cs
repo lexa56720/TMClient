@@ -9,12 +9,16 @@ using System;
 using ApiWrapper.Wrapper;
 using ClientApiWrapper;
 using System.Net;
+using System.Text;
+using System.Linq;
 
 namespace ApiWrapper.ApiWrapper.Wrapper
 {
     public class ClientApi : IApi, IUserInfo
     {
         public User Info { get; private set; }
+
+        public string PasswordHash { get; set; }
 
         public event EventHandler<Message[]> NewMessages
         {
@@ -70,7 +74,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         private ClientApi(IPEndPoint fileServer, TimeSpan userLifetime, TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
         {
             ApiConverter.FileServer = fileServer;
-            Info = ApiConverter.Convert(api.UserInfo.MainInfo,true);
+            Info = ApiConverter.Convert(api.UserInfo.MainInfo, true);
 
             Cache = new CacheManager(userLifetime, chatLifetime);
             Cache.AddToCache(Info);
@@ -83,12 +87,19 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             friends = new ClientFriendsApi(api, Converter);
 
             LongPollManager = new LongPollManager(api.LongPolling, this, Cache, uiContext);
+            users.PasswordChanged += UsersPasswordChanged;
 
             Api = api;
         }
-        internal static async Task<ClientApi?> Init(IPEndPoint fileServer, TimeSpan userLifetime, TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
+
+
+
+        internal static async Task<ClientApi?> Init(IPEndPoint fileServer, string password, TimeSpan userLifetime, TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
         {
-            var clientApi = new ClientApi(fileServer, userLifetime, chatLifetime, api, uiContext);
+            var clientApi = new ClientApi(fileServer, userLifetime, chatLifetime, api, uiContext)
+            {
+                PasswordHash = password
+            };
 
             var chats = await InitChats(clientApi, api.UserInfo.Chats);
             clientApi.Cache.AddOrUpdateCache(TimeSpan.MaxValue, chats);
@@ -141,18 +152,44 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             if (IsDisposed)
                 return;
 
+            users.PasswordChanged -= UsersPasswordChanged;
             LongPollManager.Dispose();
             Api.Dispose();
             Cache.Clear();
+            GC.SuppressFinalize(this);
             IsDisposed = true;
         }
-
+        private void UsersPasswordChanged(object? sender, string e)
+        {
+            PasswordHash = ApiTypes.Shared.HashGenerator.GenerateHash(e);
+        }
         public async Task Save(string path)
         {
-            var bytes = Api.SerializeAuthData();
+            using var ms = new MemoryStream();
+            using var bw = new BinaryWriter(ms);
+
+            bw.Write(Api.SerializeAuthData());
+
+            var passwordBytes = Encoding.ASCII.GetBytes(PasswordHash);
+            bw.Write(passwordBytes);
+            bw.Write(passwordBytes.Length);
+
+            await ms.FlushAsync();
+            var bytes = ms.ToArray();
             var protectedBytes = ProtectedData.Protect(bytes, null, DataProtectionScope.CurrentUser);
             using var fs = File.Create(path);
             await fs.WriteAsync(protectedBytes);
+        }
+
+        internal static string DeserializePasswordHash(byte[] unprotectedBytes)
+        {
+            using var ms = new MemoryStream(unprotectedBytes);
+            using var br = new BinaryReader(ms);
+
+            ms.Seek(sizeof(int), SeekOrigin.End);
+            var length = br.ReadInt32();
+            ms.Seek(sizeof(int) + length, SeekOrigin.End);
+            return br.ReadString();
         }
     }
 }

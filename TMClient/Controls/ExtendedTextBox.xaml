@@ -13,7 +13,7 @@
                 <Setter.Value>
                     <ControlTemplate>
                         <Grid DataContext="{Binding ElementName=txtBox}">
-                            <TextBox Margin="0"  VerticalAlignment="{Binding VerticalAlignment}" Text="{Binding Text,UpdateSourceTrigger=PropertyChanged}" FontSize="{Binding FontSize}"  HorizontalAlignment="{Binding HorizontalAlignment }" x:Name="SearchTermTextBox" />
+                            <TextBox Margin="0" FontFamily="{Binding FontFamily}"  VerticalAlignment="{Binding VerticalAlignment}" Text="{Binding Text,UpdateSourceTrigger=PropertyChanged}" FontSize="{Binding FontSize}"  HorizontalAlignment="{Binding HorizontalAlignment }" x:Name="SearchTermTextBox" />
                             <TextBlock  IsHitTestVisible="False" Text="{Binding Placeholder}" Margin="5,5,0,0" VerticalAlignment="{Binding VerticalAlignment}" FontSize="{Binding FontSize}" HorizontalAlignment="{Binding HorizontalAlignment }" Foreground="DarkGray">
                                 <TextBlock.Style>
                                     <Style TargetType="{x:Type TextBlock}">

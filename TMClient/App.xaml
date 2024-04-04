@@ -27,6 +27,7 @@
         <v:ChatNameRule x:Key="ChatNameRule"></v:ChatNameRule>
         <v:LoginRule x:Key="LoginRule"></v:LoginRule>
         <v:MessageRule x:Key="MessageRule"></v:MessageRule>
+        <v:PasswordRule x:Key="PasswordRule"></v:PasswordRule>
 
         <Color x:Key="OwnMessageColor">#3498DB</Color>
         <SolidColorBrush x:Key="OwnMessageBrush" Color="{StaticResource OwnMessageColor}"/>
@@ -84,7 +85,8 @@
 
         <Color x:Key="TransperentGreenColor">#004CAF50</Color>
 
-        
+
+        <FontFamily x:Key="PasswordFont">pack://application:,,,/Resources/Fonts/#password</FontFamily>
         <FontFamily x:Key="SegoeIcons">./Resources/Fonts/#Segoe Fluent Icons</FontFamily>
         <FontFamily x:Key="SegoeUI">./Resources/Fonts/#{StaticResource SegoeUI}</FontFamily>
 
@@ -512,8 +514,29 @@
             </Style.Triggers>
         </Style>
 
-        <Style TargetType="Grid">
+        <Style TargetType="controls:ExtendedPasswordBox">
+            <Setter Property="Margin" Value="5"/>
 
+            <Setter Property="Validation.ErrorTemplate">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <DockPanel LastChildFill="True">
+                            <Border BorderBrush="{StaticResource RedBrush}" CornerRadius="7" BorderThickness="2">
+                                <AdornedElementPlaceholder Name="adornerPlaceholder"/>
+                            </Border>
+                        </DockPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip" 
+              Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Grid">
             <Setter Property="Control.Background" Value="Transparent" />
 
             <Style.Resources>
@@ -555,7 +578,7 @@
                 <Setter.Value>
                     <ControlTemplate>
                         <DockPanel LastChildFill="True">
-                            <Border BorderBrush="{StaticResource RedBrush}" CornerRadius="5" BorderThickness="2">
+                            <Border BorderBrush="{StaticResource RedBrush}" CornerRadius="7" BorderThickness="2">
                                 <AdornedElementPlaceholder Name="adornerPlaceholder"/>
                             </Border>
                         </DockPanel>
@@ -571,6 +594,12 @@
                 <Trigger Property="Validation.HasError" Value="True">
                     <Setter Property="ToolTip" 
                          Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
                 </Trigger>
                 <Trigger Property="IsFocused" Value="True">
                     <Trigger.EnterActions>
@@ -647,6 +676,7 @@
             <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
             <Setter Property="VerticalContentAlignment" Value="Top"/>
             <Setter Property="Background" Value="#323232" />
+            
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type PasswordBox}">
@@ -682,6 +712,15 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Opacity" Value="1"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <Style TargetType="Frame">
@@ -895,7 +934,6 @@
                             <ScrollContentPresenter Grid.Column="0" Margin="2,5,5,5"  />
                             <ScrollBar x:Name="PART_VerticalScrollBar"  Grid.Row="0" Grid.Column="1" Value="{TemplateBinding VerticalOffset}" Maximum="{TemplateBinding ScrollableHeight}" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
                             <ScrollBar x:Name="PART_HorizontalScrollBar"  Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Value="{TemplateBinding HorizontalOffset}" Maximum="{TemplateBinding ScrollableWidth}" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
-                            <Rectangle Grid.Row="1" Grid.Column="1" Fill="Red"/>
 
 
                         </Grid>

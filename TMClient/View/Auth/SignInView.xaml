@@ -35,7 +35,7 @@
         </StackPanel>
 
         <Label FontSize="20" Content="Логин:"  Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"   HorizontalAlignment="Left" VerticalAlignment="Bottom" />
-        <TextBox  Margin="15,5,15,5" FontSize="28" Grid.Row="3" Grid.ColumnSpan="3" VerticalAlignment="Top"  Grid.Column="1" Text="{Binding Login}" TextWrapping="NoWrap" AcceptsReturn="False"  IsEnabled="{Binding IsBusy,Converter={StaticResource BooleanInverter}}" />
+        <TextBox Margin="15,5,15,5" FontSize="28" Grid.Row="3" Grid.ColumnSpan="3" VerticalAlignment="Top"  Grid.Column="1" Text="{Binding Login}" TextWrapping="NoWrap" AcceptsReturn="False"  IsEnabled="{Binding IsBusy,Converter={StaticResource BooleanInverter}}" />
 
         <Label  FontSize="20" Content="Пароль:" Grid.ColumnSpan="3"  Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
         <PasswordBox x:Name="PasswordBox" FontSize="28" Grid.ColumnSpan="3"  VerticalAlignment="Top"   Margin="15,5,15,5" Grid.Row="5" Grid.Column="1" IsEnabled="{Binding IsBusy,Converter={StaticResource BooleanInverter}}" />

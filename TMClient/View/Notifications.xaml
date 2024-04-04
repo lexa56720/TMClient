@@ -22,7 +22,8 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Content="Запросы в друзья" HorizontalAlignment="Center" FontSize="24" Margin="0,0,0,-5"/>
-                <ListView Grid.Row="1" ItemsSource="{Binding FriendRequests}" ScrollViewer.VerticalScrollBarVisibility="Visible" >
+                <ListView Grid.Row="1" ItemsSource="{Binding FriendRequests}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          ScrollViewer.VerticalScrollBarVisibility="Visible" >
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -74,7 +75,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Content="Приглашения в чаты" HorizontalAlignment="Center" FontSize="24" Margin="0,0,0,-5"/>
-                <ListView Grid.Row="1" ItemsSource="{Binding ChatInvites}" ScrollViewer.VerticalScrollBarVisibility="Visible" >
+                <ListView Grid.Row="1" ItemsSource="{Binding ChatInvites}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" >
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

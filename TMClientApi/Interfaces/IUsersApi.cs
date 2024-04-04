@@ -9,5 +9,7 @@
         public ValueTask<User?> GetUser(int userId);
         public ValueTask<User[]> GetUser(int[] userId);
         public Task<User[]> GetByName(string name);
+        public Task<bool> ChangePassword(string currentPassword, string newPassword)
+;
     }
 }

@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using TMApi;
 using ApiWrapper.ApiWrapper.Wrapper;
 using ApiWrapper.Interfaces;
+using System.Text;
 
 namespace ApiWrapper.ApiWrapper
 {
@@ -34,11 +35,13 @@ namespace ApiWrapper.ApiWrapper
             if (api == null)
                 return null;
 
-            return await ClientApi.Init(new IPEndPoint(Server, provider.ImageGetPort), UserLifetime, ChatLifetime, api, UIContext);
+            var passwordHash = ApiTypes.Shared.HashGenerator.GenerateHashSmall(password);
+            return await ClientApi.Init(new IPEndPoint(Server, provider.ImageGetPort),
+                                        passwordHash, UserLifetime, ChatLifetime, api, UIContext);
         }
         public async Task<ClientApi?> CreateByRegistration(string username, string login, string password)
         {
-            var provider = await ApiProvider.CreateProvider(Server,InfoPort);
+            var provider = await ApiProvider.CreateProvider(Server, InfoPort);
             if (provider == null)
                 return null;
 
@@ -46,7 +49,9 @@ namespace ApiWrapper.ApiWrapper
             if (api == null)
                 return null;
 
-            return await ClientApi.Init(new IPEndPoint(Server, provider.ImageGetPort), UserLifetime, ChatLifetime, api, UIContext);
+            var passwordHash = ApiTypes.Shared.HashGenerator.GenerateHashSmall(password);
+            return await ClientApi.Init(new IPEndPoint(Server, provider.ImageGetPort),
+                                        passwordHash, UserLifetime, ChatLifetime, api, UIContext);
         }
         public async Task<IApi?> Load(string path)
         {
@@ -61,7 +66,7 @@ namespace ApiWrapper.ApiWrapper
                         unprotectedBytes = ProtectedData.Unprotect(bytes, null, DataProtectionScope.CurrentUser);
                     }).WaitAsync(TimeSpan.FromSeconds(2));
 
-                    var provider = await ApiProvider.CreateProvider(Server,InfoPort);
+                    var provider = await ApiProvider.CreateProvider(Server, InfoPort);
                     if (provider == null)
                         return null;
 
@@ -69,7 +74,9 @@ namespace ApiWrapper.ApiWrapper
                     if (api == null)
                         return null;
 
-                    return await ClientApi.Init(new IPEndPoint(Server, provider.ImageGetPort), UserLifetime, ChatLifetime, api, UIContext);
+                    var passwordHash = ClientApi.DeserializePasswordHash(unprotectedBytes);
+                    return await ClientApi.Init(new IPEndPoint(Server, provider.ImageGetPort),
+                                                passwordHash, UserLifetime, ChatLifetime, api, UIContext);
                 }
                 catch
                 {
@@ -78,5 +85,7 @@ namespace ApiWrapper.ApiWrapper
             }
             return null;
         }
+
+
     }
 }

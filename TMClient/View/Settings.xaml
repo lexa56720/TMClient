@@ -10,7 +10,7 @@
       Title="Настройки">
 
     <Page.Resources>
-        <Storyboard x:Key="Succsses" TargetProperty="Background.(SolidColorBrush.Color)" TargetName="SettingsGrid">
+        <Storyboard x:Key="Success" TargetProperty="Background.(SolidColorBrush.Color)" TargetName="SettingsGrid">
             <ColorAnimation 
                     From="#004CAF50"
                     To="#224CAF50"  
@@ -25,7 +25,7 @@
         </i:EventTrigger>
 
         <i:DataTrigger Binding="{Binding SuccessSave, Mode=OneWay}" Value="True">
-            <i:ControlStoryboardAction Storyboard="{StaticResource Succsses}"     
+            <i:ControlStoryboardAction Storyboard="{StaticResource Success}"     
                                ControlStoryboardOption="Play"/>
         </i:DataTrigger>
 

@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <None Remove="Resources\defaultUser.png" />
+    <None Remove="Resources\Fonts\password.ttf" />
     <None Remove="Resources\Fonts\SegoeIcons.ttf" />
     <None Remove="Resources\Fonts\segoeui.ttf" />
   </ItemGroup>
@@ -51,6 +52,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\defaultUser.png" />
+    <Resource Include="Resources\Fonts\password.ttf" />
     <Resource Include="Resources\Fonts\SegoeIcons.ttf" />
     <Resource Include="Resources\Fonts\segoeui.ttf" />
   </ItemGroup>

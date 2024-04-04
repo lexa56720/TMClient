@@ -3,18 +3,163 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:TMClient.View" xmlns:controls="clr-namespace:TMClient.Controls"
+      xmlns:local="clr-namespace:TMClient.View" xmlns:controls="clr-namespace:TMClient.Controls" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       mc:Ignorable="d"  Background="{StaticResource BackgroundDarkBrush}"
-      d:DesignHeight="450" d:DesignWidth="800" Margin="0,5,0,0"
+      d:DesignHeight="650" d:DesignWidth="800" Margin="0,5,0,0"
       Title="Profile">
-    <Grid>
-        <StackPanel Margin="5">
+    <Page.Resources>
+        <Storyboard x:Key="Success" TargetProperty="Background.(SolidColorBrush.Color)" TargetName="MainGrid">
+            <ColorAnimation 
+                    From="#004CAF50"
+                    To="#224CAF50"  
+                    AutoReverse="True" 
+                    Duration="0:0:0.4"/>
+        </Storyboard>
+        <Storyboard x:Key="Fail" TargetProperty="Background.(SolidColorBrush.Color)" TargetName="MainGrid">
+            <ColorAnimation 
+                    From="#004CAF50"
+                    To="#224CAF50"  
+                    AutoReverse="True" 
+                    Duration="0:0:0.4"/>
+        </Storyboard>
+    </Page.Resources>
+
+    <i:Interaction.Triggers>
+        <i:DataTrigger Binding="{Binding SuccessSave}" Value="True">
+            <i:ControlStoryboardAction Storyboard="{StaticResource Success}"     
+                               ControlStoryboardOption="Play"/>
+        </i:DataTrigger>
+        <i:DataTrigger Binding="{Binding SuccessSave}" Value="False">
+            <i:ControlStoryboardAction Storyboard="{StaticResource Fail}"     
+                             ControlStoryboardOption="Play"/>
+        </i:DataTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Margin="5">
             <Grid>
-                <controls:EntityImage Entity="{Binding CurrentUser.Info}" Width="256" Height="256"/> 
+                <controls:EntityImage Entity="{Binding CurrentUser.Info}" Width="256" Height="256"/>
                 <controls:IconButton HorizontalAlignment="Center" Width="256" Height="256" Style="{StaticResource CircleButton}"
                         VerticalAlignment="Center" Foreground="{StaticResource ForegroundBrush}"  Text="Изменить" Icon="&#xe70f;" Command="{Binding ChangeAvatarCommand}" />
             </Grid>
-            <TextBlock Text="{Binding CurrentUser.Info.Name}" FontSize="24" HorizontalAlignment="Center" FontWeight="Bold"/>
+            <TextBlock Text="{Binding CurrentUser.Info.Name}" FontSize="32" HorizontalAlignment="Center" FontWeight="Bold"/>
+
         </StackPanel>
+
+        <Border Grid.Row="1" CornerRadius="5" Background="#202020"  Margin="0,20,0,0">
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" >
+                <StackPanel >
+
+                    <TextBlock Text="Текущее имя:" FontSize="18"/>
+                    <DockPanel LastChildFill="True">
+                        <controls:IconButton DockPanel.Dock="Right" FontSize="18"  Text="Сбросить"  Margin="5" Icon="&#xe7a7;"
+                                             Command="{Binding ResetNameCommand}" Style="{StaticResource DeclineButton}" />
+
+                        <controls:IconButton DockPanel.Dock="Right" FontSize="18"  Text="Сохранить" Margin="5"  Icon="&#xe74e;"
+                                             Command="{Binding SaveNameCommand}"  Style="{StaticResource AcceptButton}" />
+
+                        <TextBox Margin="5" DockPanel.Dock="Left" FontSize="18" Text="{Binding Name,Mode=TwoWay}"  />
+                    </DockPanel>
+
+                    <Grid Margin="0,15,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock  Grid.Row="0" Text="Текущий пароль:" FontSize="18"/>
+                        <controls:ExtendedPasswordBox x:Name="currPassword" Grid.Row="1" FontSize="18">
+                            <controls:ExtendedPasswordBox.Password>
+                                <Binding Path="CurrentPassword" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True" >
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </controls:ExtendedPasswordBox.Password>
+                        </controls:ExtendedPasswordBox>
+
+                        <TextBlock Grid.Row="2" Text="Новый пароль:" FontSize="18"/>
+                        <controls:ExtendedPasswordBox x:Name="newPassword"  Grid.Row="3"  FontSize="18" Margin="5">
+                            <controls:ExtendedPasswordBox.Password>
+                                <Binding Path="NewPassword" Mode="TwoWay" NotifyOnValidationError="True"
+                                         UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </controls:ExtendedPasswordBox.Password>
+                            <controls:ExtendedPasswordBox.Style>
+                                <Style TargetType="controls:ExtendedPasswordBox" BasedOn="{StaticResource ResourceKey={x:Type controls:ExtendedPasswordBox}}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=(Validation.HasError),ElementName=currPassword}" Value="False">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=(Validation.HasError),ElementName=currPassword}" Value="True">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Password,ElementName=currPassword}" Value="">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </controls:ExtendedPasswordBox.Style>
+
+                        </controls:ExtendedPasswordBox>
+
+                        <controls:ExtendedPasswordBox IsEnabled="{Binding IsEnabled,ElementName=newPassword}"  x:Name="repeatPassword" Grid.Row="4"  FontSize="18" Margin="5" >
+                            <controls:ExtendedPasswordBox.Password>
+                                <Binding Path="RepeatNewPassword" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True" >
+                                    <Binding.ValidationRules>
+                                        <DataErrorValidationRule />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </controls:ExtendedPasswordBox.Password>
+                        </controls:ExtendedPasswordBox>
+
+
+                        <controls:IconButton Grid.Row="4" Grid.Column="1" FontSize="18" DockPanel.Dock="Right" Text="Сохранить" 
+                                             Margin="5"   Icon="&#xe74e;"  Command="{Binding SavePasswordCommand}">
+                            <controls:IconButton.Style>
+                                <Style BasedOn="{StaticResource AcceptButton}" TargetType="controls:IconButton" >
+                                    <Setter Property="IsEnabled" Value="False"/>
+
+                                    <Style.Triggers>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding IsEnabled,ElementName=newPassword}" Value="True" />
+                                                <Condition Binding="{Binding Path=(Validation.HasError),ElementName=newPassword}" Value="False"/>
+                                                <Condition Binding="{Binding Path=(Validation.HasError),ElementName=repeatPassword}" Value="False"/>
+                                            </MultiDataTrigger.Conditions>
+                                            <MultiDataTrigger.Setters>
+                                                <Setter Property="IsEnabled" Value="True"/>
+                                            </MultiDataTrigger.Setters>
+                                        </MultiDataTrigger>
+
+                                        <DataTrigger Binding="{Binding Password,ElementName=newPassword}" Value="">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Password,ElementName=repeatPassord}" Value="">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </controls:IconButton.Style>
+                        </controls:IconButton>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
     </Grid>
 </Page>

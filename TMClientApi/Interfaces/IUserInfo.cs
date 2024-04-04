@@ -19,5 +19,7 @@ namespace ApiWrapper.Interfaces
         public event EventHandler<Message[]> NewMessages;
         public event EventHandler<int[]> ReadedMessages;
         public User Info { get; }
+
+        public string PasswordHash { get; internal set; }
     }
 }

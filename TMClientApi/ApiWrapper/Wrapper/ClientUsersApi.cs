@@ -13,6 +13,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         private CacheManager Cache { get; }
         private User CurrentUser { get; }
 
+        internal event EventHandler<string>? PasswordChanged;
         internal ClientUsersApi(Api api, ApiConverter converter, CacheManager cacheManager, User currentUser)
         {
             Api = api;
@@ -24,7 +25,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         public async Task<bool> ChangeName(string name)
         {
             var updatedUser = await Api.Users.ChangeName(name);
-            if (updatedUser!=null)
+            if (updatedUser != null)
             {
                 CurrentUser.Name = updatedUser.Name;
                 return true;
@@ -37,6 +38,16 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             if (updatedUser != null)
             {
                 CurrentUser.Update(ApiConverter.Convert(updatedUser));
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> ChangePassword(string currentPassword, string newPassword)
+        {
+            if (await Api.Users.ChangePassword(CurrentUser.Login, currentPassword, newPassword))
+            {
+                PasswordChanged?.Invoke(this, newPassword);
                 return true;
             }
             return false;
