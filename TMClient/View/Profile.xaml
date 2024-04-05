@@ -53,6 +53,7 @@
         <Border Grid.Row="1" CornerRadius="5" Background="#202020"  Margin="0,20,0,0">
             <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" >
                 <StackPanel >
+                    <TextBlock Text="Личные данные:" HorizontalAlignment="Center" FontSize="24"/>
 
                     <TextBlock Text="Текущее имя:" FontSize="18"/>
                     <DockPanel LastChildFill="True">
@@ -65,7 +66,8 @@
                         <TextBox Margin="5" DockPanel.Dock="Left" FontSize="18" Text="{Binding Name,Mode=TwoWay}"  />
                     </DockPanel>
 
-                    <Grid Margin="0,15,0,0">
+                    <TextBlock Margin="0,15,0,0" Text="Смена пароля:" HorizontalAlignment="Center" FontSize="24"/>
+                    <Grid >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
@@ -79,7 +81,7 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock  Grid.Row="0" Text="Текущий пароль:" FontSize="18"/>
-                        <controls:ExtendedPasswordBox x:Name="currPassword" Grid.Row="1" FontSize="18">
+                        <controls:ExtendedPasswordBox x:Name="currPassword" Placeholder="Введите текущий пароль" Grid.Row="1" FontSize="18">
                             <controls:ExtendedPasswordBox.Password>
                                 <Binding Path="CurrentPassword" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True" >
                                     <Binding.ValidationRules>
@@ -90,7 +92,7 @@
                         </controls:ExtendedPasswordBox>
 
                         <TextBlock Grid.Row="2" Text="Новый пароль:" FontSize="18"/>
-                        <controls:ExtendedPasswordBox x:Name="newPassword"  Grid.Row="3"  FontSize="18" Margin="5">
+                        <controls:ExtendedPasswordBox x:Name="newPassword" Placeholder="Введите новый пароль"  Grid.Row="3"  FontSize="18" Margin="5">
                             <controls:ExtendedPasswordBox.Password>
                                 <Binding Path="NewPassword" Mode="TwoWay" NotifyOnValidationError="True"
                                          UpdateSourceTrigger="PropertyChanged">
@@ -117,7 +119,8 @@
 
                         </controls:ExtendedPasswordBox>
 
-                        <controls:ExtendedPasswordBox IsEnabled="{Binding IsEnabled,ElementName=newPassword}"  x:Name="repeatPassword" Grid.Row="4"  FontSize="18" Margin="5" >
+                        <controls:ExtendedPasswordBox IsEnabled="{Binding IsEnabled,ElementName=newPassword}"  x:Name="repeatPassword" 
+                                                      Placeholder="Повторите новый пароль"  Grid.Row="4"  FontSize="18" Margin="5" >
                             <controls:ExtendedPasswordBox.Password>
                                 <Binding Path="RepeatNewPassword" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="True" >
                                     <Binding.ValidationRules>
@@ -149,7 +152,7 @@
                                         <DataTrigger Binding="{Binding Password,ElementName=newPassword}" Value="">
                                             <Setter Property="IsEnabled" Value="False"/>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding Password,ElementName=repeatPassord}" Value="">
+                                        <DataTrigger Binding="{Binding Password,ElementName=repeatPassword}" Value="">
                                             <Setter Property="IsEnabled" Value="False"/>
                                         </DataTrigger>
                                     </Style.Triggers>

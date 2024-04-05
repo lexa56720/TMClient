@@ -2,7 +2,7 @@
 
 namespace TMClient.Model.Auth
 {
-    internal class SignUpModel:AuthModel
+    internal class SignUpModel:BaseAuthModel
     {
         public async Task<IApi?> Registration(string name, string login, string password)
         {

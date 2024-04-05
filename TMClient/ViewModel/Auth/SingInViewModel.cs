@@ -9,9 +9,9 @@ using TMClient.Utils;
 
 namespace TMClient.ViewModel.Auth
 {
-    class SingInViewModel(Func<IApi?, bool> returnApi) : BaseAuthViewModel(returnApi)
+    class SingInViewModel : BaseAuthViewModel<SignInModel>
     {
-        public ICommand SignInCommand => new AsyncCommand<PasswordBox>(SignIn, (o) => !IsBusy);
+        public ICommand SignInCommand => new AsyncCommand(SignIn, (o) => !IsBusy);
         public ICommand OpenSettings => new AsyncCommand(() => Messenger.Send(Messages.OpenSettingsPage));
         public bool IsBusy
         {
@@ -28,8 +28,19 @@ namespace TMClient.ViewModel.Auth
             }
         }
         private bool isBusy = false;
+
         public string Login { get; set; } = string.Empty;
 
+        public string Password
+        {
+            get => password;
+            set
+            {
+                password = value;
+                OnPropertyChanged(nameof(Password));
+            }
+        }
+        private string password = string.Empty;
         public Visibility ErrorVisibility
         {
             get => errorVisibility;
@@ -42,12 +53,15 @@ namespace TMClient.ViewModel.Auth
         private Visibility errorVisibility = Visibility.Collapsed;
 
 
-        private readonly SignInModel Model = new();
-
-        private async Task SignIn(PasswordBox? passwordBox)
+        public SingInViewModel(Func<IApi?, bool> returnApi) : base(returnApi)
         {
-            var password = passwordBox.Password;
-
+        }
+        protected override SignInModel GetModel()
+        {
+            return new SignInModel();
+        }
+        private async Task SignIn()
+        {      
             if (!Model.IsLoginValid(Login))
             {
                 ErrorVisibility = Visibility.Visible;
@@ -55,14 +69,16 @@ namespace TMClient.ViewModel.Auth
             }
 
             IsBusy = true;
-            IApi? api = await Model.SignIn(Login, password);
+            IApi? api = await Model.SignIn(Login, Password);
             if (!ReturnApi(api))
             {
                 ErrorVisibility = Visibility.Visible;
                 IsBusy = false;
             }
 
-            passwordBox.Password = string.Empty;
+            Password = string.Empty;
         }
+
+
     }
 }

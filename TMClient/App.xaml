@@ -10,7 +10,7 @@
              Startup="ApplicationStart"
              Exit="ApplicationExit">
     <Application.Resources>
-        
+
         <c:LoginConverter x:Key="LoginConverter"></c:LoginConverter>
         <c:SubLoginConverter x:Key="SubLoginConverter"></c:SubLoginConverter>
         <c:DateTimeConverter x:Key="DateTimeConverter"></c:DateTimeConverter>
@@ -22,7 +22,7 @@
         <c:EntityImageSizeConverter x:Key="EntityImageSizeConverter"></c:EntityImageSizeConverter>
         <c:BooleanToVisibility x:Key="BooleanToVisibility"></c:BooleanToVisibility>
         <c:SearchConverter x:Key="SearchConverter"></c:SearchConverter>
-        
+
         <v:NameRule x:Key="NameRule"></v:NameRule>
         <v:ChatNameRule x:Key="ChatNameRule"></v:ChatNameRule>
         <v:LoginRule x:Key="LoginRule"></v:LoginRule>
@@ -230,7 +230,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <Style x:Key="DefaultButton" BasedOn="{StaticResource ButtonTemplate}" TargetType="Button">
             <Style.Triggers>
                 <MultiTrigger>
@@ -260,10 +260,10 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+
         <Style TargetType="Button" BasedOn="{StaticResource ResourceKey=DefaultButton}">
         </Style>
-        
+
         <Style TargetType="controls:IconButton" BasedOn="{StaticResource ResourceKey=DefaultButton}">
 
         </Style>
@@ -565,6 +565,11 @@
             <Setter Property="Control.FontFamily" Value="{StaticResource SegoeUI}" />
             <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
             <Setter Property="Padding" Value="5" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <Style x:Key="DefaultTextBox" TargetType="TextBox">
@@ -676,7 +681,7 @@
             <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
             <Setter Property="VerticalContentAlignment" Value="Top"/>
             <Setter Property="Background" Value="#323232" />
-            
+
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type PasswordBox}">
@@ -745,6 +750,111 @@
         </Style>
         <Style TargetType="controls:ModernWindow">
             <Setter Property="Background" Value="{StaticResource BackgroundBrush}" />
+        </Style>
+
+
+        <Style TargetType="ToggleButton">
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Background" Value="{StaticResource BackgroundDarkBrush}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ForegroundBrush}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Grid>
+                            <Rectangle x:Name="frame"
+                               Fill="{TemplateBinding Background}"
+                               Stroke="{TemplateBinding BorderBrush}"
+                               StrokeThickness="2" Height="20" RadiusX="5" RadiusY="5"/>
+
+                            <Ellipse x:Name="thumb"
+                             Fill="{TemplateBinding BorderBrush}"
+                             HorizontalAlignment="Left" Margin="5"
+                             Width="10" Height="10"/>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ThicknessAnimation
+                                                Storyboard.TargetName="thumb"
+                                                Storyboard.TargetProperty="Margin"
+                                                FillBehavior="HoldEnd"
+                                                AccelerationRatio="1"       
+                                                To="25,5,5,5"
+                                                Duration="0:0:0.2"/>
+                                            <ColorAnimation
+                                                Storyboard.TargetName="frame"
+                                                Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)"
+                                                FillBehavior="HoldEnd"
+                                                AccelerationRatio="1" 
+                                                To="{StaticResource ActiveColor}"
+                                                Duration="0:0:0.2"/>
+                                            <ColorAnimation
+                                                Storyboard.TargetName="frame"
+                                                Storyboard.TargetProperty="Stroke.(SolidColorBrush.Color)"
+                                                FillBehavior="HoldEnd"
+                                                AccelerationRatio="1" 
+                                                To="{StaticResource ActiveColor}"
+                                                Duration="0:0:0.2"/>
+                                            <ColorAnimation
+                                                Storyboard.TargetName="thumb"
+                                                Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)"
+                                                FillBehavior="HoldEnd"
+                                                AccelerationRatio="1" 
+                                                To="{StaticResource ForegroundColor}"
+                                                Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ThicknessAnimation
+                                               Storyboard.TargetName="thumb"
+                                               Storyboard.TargetProperty="Margin"
+                                               FillBehavior="HoldEnd"
+                                               AccelerationRatio="1"       
+                                               To="5"
+                                               Duration="0:0:0.2"/>
+                                            <ColorAnimation
+                                               Storyboard.TargetName="frame"
+                                               Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)"
+                                               FillBehavior="HoldEnd"
+                                               AccelerationRatio="1" 
+                                               To="{StaticResource BackgroundDarkColor}"
+                                               Duration="0:0:0.2"/>
+                                            <ColorAnimation
+                                               Storyboard.TargetName="frame"
+                                               Storyboard.TargetProperty="Stroke.(SolidColorBrush.Color)"
+                                               FillBehavior="HoldEnd"
+                                               AccelerationRatio="1" 
+                                               To="{StaticResource ForegroundColor}"
+                                               Duration="0:0:0.2"/>
+                                            <ColorAnimation
+                                               Storyboard.TargetName="thumb"
+                                               Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)"
+                                               FillBehavior="HoldEnd"
+                                               AccelerationRatio="1" 
+                                               To="{StaticResource ForegroundColor}"
+                                               Duration="0:0:0.2"/>
+                                        </Storyboard>
+
+                                    </BeginStoryboard>
+
+                                </Trigger.ExitActions>
+                                
+                                
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <!--#region ScrollBar -->
@@ -930,7 +1040,7 @@
                                 <RowDefinition/>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
-                            
+
                             <ScrollContentPresenter Grid.Column="0" Margin="2,5,5,5"  />
                             <ScrollBar x:Name="PART_VerticalScrollBar"  Grid.Row="0" Grid.Column="1" Value="{TemplateBinding VerticalOffset}" Maximum="{TemplateBinding ScrollableHeight}" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
                             <ScrollBar x:Name="PART_HorizontalScrollBar"  Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Value="{TemplateBinding HorizontalOffset}" Maximum="{TemplateBinding ScrollableWidth}" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
@@ -1131,7 +1241,7 @@
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
-               </Setter>
+            </Setter>
         </Style>
         <Style TargetType="ListViewItem">
             <Setter Property="Background" Value="{StaticResource BackgroundLightBrush}"/>

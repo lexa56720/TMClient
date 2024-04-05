@@ -119,8 +119,7 @@ namespace TMClient.ViewModel
                         break;
                     }
             }
-            return string.Empty; ;
-
+            return string.Empty;
         }
 
         private readonly ProfileModel Model = new();

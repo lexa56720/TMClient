@@ -143,9 +143,9 @@ namespace TMClient.ViewModel
             set
             {
                 modalCount = value;
-                if (value == 0 && IsInModalMode != false)
+                if (ModalCount == 0 && IsInModalMode != false)
                     IsInModalMode = false;
-                else if (value > 0 && IsInModalMode != true)
+                else if (ModalCount > 0 && IsInModalMode != true)
                     IsInModalMode = true;
             }
         }
@@ -155,33 +155,48 @@ namespace TMClient.ViewModel
         {
             SidePanelFrame = Panel;
 
-            Messenger.Subscribe<Page>(Messages.OpenChatPage, (o, page) =>
-            {
-                MainFrame = page;
-                UnselectAllExcept(string.Empty);
-            });
-
-            Messenger.Subscribe(Messages.ModalOpened, () => ModalCount++);
-            Messenger.Subscribe(Messages.ModalClosed, () => ModalCount--);
-
-            Messenger.Subscribe(Messages.LoadingStart, () => IsLoading = true);
-            Messenger.Subscribe(Messages.LoadingOver, () => IsLoading = false);
+            Messenger.Subscribe<Page>(Messages.OpenChatPage, OpenChatPage);
+            Messenger.Subscribe(Messages.ModalOpened, IncrementModalCount);
+            Messenger.Subscribe(Messages.ModalClosed, DecrementModalCount);
+            Messenger.Subscribe(Messages.LoadingStart, LoadingStart);
+            Messenger.Subscribe(Messages.LoadingOver, LoadingOver);
 
             CurrentUser.ChatInvites.CollectionChanged += ChatInvitesChanged;
             CurrentUser.FriendRequests.CollectionChanged += FriendRequestsChanged;
             UpdateNotificationCount();
         }
 
+        private void OpenChatPage(object? o, Page chat)
+        {
+            MainFrame = chat;
+            UnselectAllExcept(string.Empty);
+        }
+        private void IncrementModalCount()
+        {
+            ModalCount++;
+        }
+        private void DecrementModalCount()
+        {
+            ModalCount--;
+        }
+        private void LoadingStart()
+        {
+            IsLoading = true;
+        }
+        private void LoadingOver()
+        {
+            IsLoading = false;
+        }
+
+
         private void FriendRequestsChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             UpdateNotificationCount();
         }
-
         private void ChatInvitesChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             UpdateNotificationCount();
         }
-
         private void UpdateNotificationCount()
         {
             NotificationCount = CurrentUser.ChatInvites.Count + CurrentUser.FriendRequests.Count;
@@ -213,6 +228,13 @@ namespace TMClient.ViewModel
         {
             CurrentUser.ChatInvites.CollectionChanged -= ChatInvitesChanged;
             CurrentUser.FriendRequests.CollectionChanged -= FriendRequestsChanged;
+
+            Messenger.Unsubscribe<Page>(Messages.OpenChatPage, OpenChatPage);
+            Messenger.Unsubscribe(Messages.ModalOpened, IncrementModalCount);
+            Messenger.Unsubscribe(Messages.ModalClosed, DecrementModalCount);
+            Messenger.Unsubscribe(Messages.LoadingStart, LoadingStart);
+            Messenger.Unsubscribe(Messages.LoadingOver, LoadingOver);
+
             Messenger.Send(Messages.CloseMainWindow);
             Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
             ((App)Application.Current).Logout();

@@ -1,4 +1,6 @@
-﻿namespace TMClient.Utils
+﻿using static System.Net.Mime.MediaTypeNames;
+
+namespace TMClient.Utils
 {
     public static class Messenger
     {
@@ -54,7 +56,15 @@
             }
             return false;
         }
-
+        public static void Unsubscribe(Messages message, Action handler)
+        {
+            if (Events.TryGetValue(message.ToString(), out var value))
+            {
+                value.Delegates.Remove(handler);
+                if (value.Delegates.Count == 0)
+                    Events.Remove(message.ToString());
+            }
+        }
         public static void Unsubscribe<T>(Messages message, EventHandler<T> handler)
         {
             Unsubscribe(message.ToString(), handler);
@@ -64,7 +74,7 @@
             if (Events.TryGetValue(text, out var value))
             {
                 value.Delegates.Remove(handler);
-                if (!value.Delegates.Any())
+                if (value.Delegates.Count == 0)
                     Events.Remove(text);
             }
         }

@@ -2,7 +2,7 @@
 
 namespace TMClient.Model.Auth
 {
-    internal class SignInModel : AuthModel
+    internal class SignInModel : BaseAuthModel
     {
         public async Task<IApi?> SignIn(string login, string password)
         {

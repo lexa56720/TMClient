@@ -25,7 +25,7 @@ namespace TMClient.Controls
         DependencyProperty.Register(nameof(Password),
                                     typeof(string),
                                     typeof(ExtendedPasswordBox),
-                                    new PropertyMetadata(null, PasswordChanged));
+                                    new PropertyMetadata(string.Empty, PasswordChanged));
 
         private static void PasswordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

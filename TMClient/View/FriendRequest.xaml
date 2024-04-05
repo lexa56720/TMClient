@@ -33,6 +33,7 @@
                 <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="Focusable" Value="False"/>
+                    <Setter Property="Margin" Value="0,0,0,5"/>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
@@ -41,7 +42,7 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition  Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Orientation="Horizontal"  Grid.Column="0">
@@ -52,7 +53,7 @@
                                 </StackPanel>
                             </StackPanel>
                 
-                            <controls:IconButton Style="{StaticResource AcceptButton}" Grid.Column="1" Text="Добавить" Icon="&#xE8fa;" HorizontalAlignment="Right"
+                            <controls:IconButton Style="{StaticResource AcceptButton}" Margin="5" Grid.Column="1" Text="Добавить" Icon="&#xE8fa;" HorizontalAlignment="Right"
                                     Command="{Binding Path=DataContext.AddFriend, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FriendRequest}}}" CommandParameter="{Binding .}">
                                
                                 <b:Interaction.Triggers>

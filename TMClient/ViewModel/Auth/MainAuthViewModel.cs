@@ -9,7 +9,7 @@ using TMClient.View;
 
 namespace TMClient.ViewModel.Auth
 {
-    class MainAuthViewModel : BaseAuthViewModel
+    class MainAuthViewModel : BaseAuthViewModel<MainAuthModel>
     {
         public Page EnteringFrame
         {
@@ -38,6 +38,8 @@ namespace TMClient.ViewModel.Auth
 
         public ICommand SwitchPage => new Command(SwitchPages);
         public ICommand WindowLoaded => new AsyncCommand(TryToLoadApi);
+        public ICommand WindowClosed => new Command(Dispose);
+
         public ICommand BackNavigation => new Command(OpenPreviousPage);
 
         public Visibility SwitchPageVisibility
@@ -63,20 +65,20 @@ namespace TMClient.ViewModel.Auth
         private Visibility backNavigationVisibility=Visibility.Hidden;
 
 
-        public bool IsLoaded
+        public bool IsLoading
         {
-            get => isLoaded;
+            get => isLoading;
             set
             {
-                isLoaded = value;
+                isLoading = value;
                 if (value)
-                    LoadingVisibility = Visibility.Hidden;
-                else
                     LoadingVisibility = Visibility.Visible;
-                OnPropertyChanged(nameof(IsLoaded));
+                else
+                    LoadingVisibility = Visibility.Hidden;
+                OnPropertyChanged(nameof(IsLoading));
             }
         }
-        private bool isLoaded = true;
+        private bool isLoading;
 
         public Visibility LoadingVisibility
         {
@@ -91,7 +93,6 @@ namespace TMClient.ViewModel.Auth
 
         private Page? PreviousPage;
 
-        private readonly AuthModel Model = new();
         public MainAuthViewModel(Func<IApi?, bool> returnApi) : base(returnApi)
         {
             Registration = new SignUpView(returnApi);
@@ -99,11 +100,30 @@ namespace TMClient.ViewModel.Auth
             Settings = new Settings();
 
             EnteringFrame = Auth;
+
             Messenger.Subscribe(Messages.OpenSettingsPage,OpenSettings);
+            Messenger.Subscribe(Messages.AuthLoadingStart, LoadingStart);
+            Messenger.Subscribe(Messages.AuthLoadingFinish, LoadingOver);
+        }
 
-            Messenger.Subscribe(Messages.AuthLoadingStart, () => IsLoaded = false);
+        private void Dispose()
+        {
+            Messenger.Unsubscribe(Messages.OpenSettingsPage, OpenSettings);
+            Messenger.Unsubscribe(Messages.AuthLoadingStart, LoadingStart);
+            Messenger.Unsubscribe(Messages.AuthLoadingFinish, LoadingOver);
+        }
 
-            Messenger.Subscribe(Messages.AuthLoadingFinish,() => IsLoaded = true);
+        private void LoadingStart()
+        {
+            IsLoading = true;
+        }
+        private void LoadingOver()
+        {
+            IsLoading = false;
+        }
+        protected override MainAuthModel GetModel()
+        {
+            return new MainAuthModel();
         }
 
         private async Task TryToLoadApi()

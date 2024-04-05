@@ -1,11 +1,15 @@
 ﻿using ApiWrapper.ApiWrapper;
 using ApiWrapper.Interfaces;
-using System.IO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace TMClient.Model.Auth
 {
-    internal class AuthModel
+    internal class BaseAuthModel
     {
         protected ApiFactory ApiProvider
         {
@@ -33,6 +37,7 @@ namespace TMClient.Model.Auth
         }
 
 
+
         public bool IsLoginValid(string login)
         {
             return ApiTypes.Shared.DataConstraints.IsLoginLegal(login);
@@ -41,6 +46,11 @@ namespace TMClient.Model.Auth
         public bool IsPasswordValid(string pass)
         {
             return ApiTypes.Shared.DataConstraints.IsPasswordLegal(pass);
+        }
+
+        public void SaveIsAuth(bool value)
+        {
+            Preferences.Default.IsSaveAuth = value;
         }
     }
 }
