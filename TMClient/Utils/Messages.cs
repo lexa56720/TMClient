@@ -15,8 +15,6 @@
         LoadingStart,
         LoadingOver,
 
-        NewMessagesArived,
-
         Logout,
     }
 }

@@ -6,12 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using TMClient.Model;
+using TMClient.Model.Pages;
 using TMClient.Utils;
 using TMClient.Utils.Validations;
 using TMClient.View;
 
-namespace TMClient.ViewModel
+namespace TMClient.ViewModel.Pages
 {
     internal class ProfileViewModel : BaseViewModel, IDataErrorInfo
     {

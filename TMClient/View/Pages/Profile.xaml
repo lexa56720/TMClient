@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TMClient.View" xmlns:controls="clr-namespace:TMClient.Controls" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-      mc:Ignorable="d"  Background="{StaticResource BackgroundDarkBrush}"
+      mc:Ignorable="d"  Background="{StaticResource BackgroundBrush}"
       d:DesignHeight="650" d:DesignWidth="800" Margin="0,5,0,0"
       Title="Profile">
     <Page.Resources>
@@ -47,10 +47,11 @@
                         VerticalAlignment="Center" Foreground="{StaticResource ForegroundBrush}"  Text="Изменить" Icon="&#xe70f;" Command="{Binding ChangeAvatarCommand}" />
             </Grid>
             <TextBlock Text="{Binding CurrentUser.Info.Name}" FontSize="32" HorizontalAlignment="Center" FontWeight="Bold"/>
+            <TextBlock Text="{Binding CurrentUser.Info.Login,Converter={StaticResource SubLoginConverter}}" Margin="0,-15,0,0" FontSize="18" HorizontalAlignment="Center" FontWeight="Bold"/>
 
         </StackPanel>
 
-        <Border Grid.Row="1" CornerRadius="5" Background="#202020"  Margin="0,20,0,0">
+        <Border Grid.Row="1" CornerRadius="5" Background="#202020"  Margin="0,15,0,0">
             <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" >
                 <StackPanel >
                     <TextBlock Text="Личные данные:" HorizontalAlignment="Center" FontSize="24"/>

@@ -1,9 +1,6 @@
 ﻿using TMApi;
 using ApiWrapper.Interfaces;
-using TMApi.ApiRequests.Chats;
-using TMApi.ApiRequests.Users;
 using ApiWrapper.Types;
-using ApiTypes.Communication.Chats;
 
 namespace ApiWrapper.ApiWrapper.Wrapper
 {
@@ -143,18 +140,24 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         {
             return await Api.Chats.KickUserFromChat(chatId, userId);
         }
-        internal async Task<Chat[]> GetChatIgnoringCache(int[] chatIds)
+        internal async Task<Chat[]> GetChatIgnoringCache(int[] chatIds, bool ignoreUserCache)
         {
             var chats = await Api.Chats.GetChat(chatIds);
             if (chats.Length == 0)
                 return [];
 
-            var result = await Converter.Convert(chats);
+            var result = await Converter.Convert(chats, ignoreUserCache);
 
             await AssingLastMessages(result);
             return result;
         }
-
+        internal async Task<ChatInvite[]> GetChatInviteIgnoringCache(int[] inviteIds)
+        {
+            if (inviteIds.Length == 0)
+                return [];
+            var invites = await Api.Chats.GetChatInvite(inviteIds);
+            return await Converter.Convert(invites);
+        }
         private async Task<Message?[]> GetLastMessages(params int[] chatIds)
         {
             var messages = await Api.Messages.GetMessagesForChats(chatIds);
@@ -167,7 +170,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             var messages = await Api.Messages.GetMessagesForChats(chatId);
             if (messages.Length == 0 || messages == null)
                 return null;
-            var converted = await Converter.Convert(messages.Where(m => m != null).ToArray());
+            var converted = await Converter.Convert(messages.Where(m => m != null).ToArray() as ApiMessage[]);
             return converted.FirstOrDefault();
         }
     }

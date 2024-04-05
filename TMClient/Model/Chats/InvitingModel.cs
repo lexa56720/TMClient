@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TMClient.Utils;
 
-namespace TMClient.Model
+namespace TMClient.Model.Chats
 {
     class InvitingModel : BaseModel
     {

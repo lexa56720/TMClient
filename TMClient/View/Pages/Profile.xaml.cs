@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using TMClient.ViewModel;
+using TMClient.ViewModel.Pages;
 
 namespace TMClient.View
 {

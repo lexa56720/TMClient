@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using TMClient.Controls;
 using TMClient.ViewModel;
+using TMClient.ViewModel.Chats;
 
 namespace TMClient.View
 {

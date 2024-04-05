@@ -65,11 +65,13 @@ namespace ApiWrapper.Wrapper
 
         private async void HandleNewChatInivites(object? sender, int[] e)
         {
-            var invites = await Api.Chats.GetChatInvite(e);
+            var invites = await Api.chats.GetChatInviteIgnoringCache(e);
             UIContext.Post(invitesObj =>
             {
                 foreach (var inivite in (ChatInvite[])invitesObj)
                     Api.ChatInvites.Add(inivite);
+                Cache.AddOrUpdateCache(TimeSpan.MaxValue, ((ChatInvite[])invitesObj).Select(i=>i.Inviter).ToArray());
+                Cache.AddOrUpdateCache(TimeSpan.MaxValue, ((ChatInvite[])invitesObj).Select(i => i.Chat).ToArray());
             }, invites);
         }
 
@@ -84,7 +86,7 @@ namespace ApiWrapper.Wrapper
 
         private async void HandleChatChanged(object? sender, int[] e)
         {
-            var chats = await Api.chats.GetChatIgnoringCache(e);
+            var chats = await Api.chats.GetChatIgnoringCache(e,false);
             UIContext.Post(chatsObj =>
             {
                 Cache.AddOrUpdateCache(TimeSpan.MaxValue, (Chat[])chatsObj);
@@ -110,7 +112,7 @@ namespace ApiWrapper.Wrapper
             {
                 foreach (var friendId in (int[])friendIds)
                     if (Cache.TryRemoveUser(friendId, out var friend))
-                        Api.FriendList.Remove(Api.FriendList.Single(f=>f.Id==friend.Id));
+                        Api.FriendList.Remove(Api.FriendList.Single(f => f.Id == friend.Id));
             }, e);
         }
 
@@ -118,11 +120,12 @@ namespace ApiWrapper.Wrapper
         private async void HandleNewFriendRequests(object? sender, int[] e)
         {
             var friendRequests = await Api.Friends.GetFriendRequest(e);
+            var senders = await Api.users.GetUserIgnoringCache(friendRequests.Select(f => f.From.Id).ToArray());
             UIContext.Post(requestObj =>
             {
                 foreach (var request in (FriendRequest[])requestObj)
                     Api.FriendRequests.Add(request);
-                Cache.AddOrUpdateCache(friendRequests.Select(f => f.From).ToArray());
+                Cache.AddOrUpdateCache(TimeSpan.MaxValue,senders);
             }, friendRequests);
         }
 
@@ -161,12 +164,13 @@ namespace ApiWrapper.Wrapper
 
         private async void HandleNewChats(object? sender, int[] e)
         {
-            var chats = await Api.Chats.GetChat(e);
+            var chats = await Api.chats.GetChatIgnoringCache(e,true);
+ 
             UIContext.Post(chatsObj =>
             {
                 foreach (var chat in (Chat[])chatsObj)
                 {
-                    if (Cache.AddToCache(TimeSpan.MaxValue, chat))
+                    if (Cache.AddOrUpdateCache(TimeSpan.MaxValue, chat))
                         AddToCollections(chat);
                     else if (Cache.TryGetChat(chat.Id, out var updatedChat))
                         AddToCollections(updatedChat);

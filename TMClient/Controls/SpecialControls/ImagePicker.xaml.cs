@@ -62,7 +62,7 @@ namespace TMClient.Controls
             }
         }
 
-        public BitmapSource CroppedImage
+        public BitmapSource? CroppedImage
         {
             get
             {

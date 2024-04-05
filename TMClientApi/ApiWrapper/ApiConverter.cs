@@ -14,6 +14,7 @@ using System.Net;
 using ApiTypes.Communication.Medias;
 using TMApi;
 using ApiTypes.Communication.Users;
+using ApiWrapper.ApiWrapper.Wrapper;
 
 namespace ApiWrapper.ApiWrapper
 {
@@ -21,11 +22,11 @@ namespace ApiWrapper.ApiWrapper
     {
         private IChatsApi ChatApi => Api.Chats;
         private IUsersApi UserApi => Api.Users;
-        private readonly IApi Api;
+        private readonly ClientApi Api;
         private readonly CacheManager Cache;
         public static IPEndPoint? FileServer { get; set; }
 
-        public ApiConverter(IApi api, CacheManager cache)
+        public ApiConverter(ClientApi api, CacheManager cache)
         {
             Api = api;
             Cache = cache;
@@ -65,11 +66,11 @@ namespace ApiWrapper.ApiWrapper
 
             return result;
         }
-        public async Task<Chat[]> Convert(ApiChat[] chats)
+        public async Task<Chat[]> Convert(ApiChat[] chats, bool isIgnoreCache = false)
         {
             var result = new Chat[chats.Length];
             var members = chats.SelectMany(c => c.MemberIds).ToArray();
-            var convertedMembers = await UserApi.GetUser(members);
+            var convertedMembers = isIgnoreCache ? await Api.users.GetUserIgnoringCache(members) : await UserApi.GetUser(members);
             for (int chatCount = 0, memberCount = 0; chatCount < result.Length; chatCount++)
             {
                 var largePic = GetProfileImage(chats[chatCount].ChatCover.SingleOrDefault(p => p.Size == ImageSize.Large));
@@ -173,10 +174,21 @@ namespace ApiWrapper.ApiWrapper
             return new ChatInvite(invite.Id, user, chat);
         }
 
-        public async Task<ChatInvite[]> Convert(ApiChatInvite[] invites)
+        public async Task<ChatInvite[]> Convert(ApiChatInvite[] invites,bool isIgnoreCache=false)
         {
-            var users = await UserApi.GetUser(invites.Select(i => i.FromUserId).ToArray());
-            var chats = await ChatApi.GetChat(invites.Select(i => i.ChatId).ToArray());
+            User[] users;
+            Chat[] chats;
+            if(isIgnoreCache)
+            {
+                users = await Api.users.GetUserIgnoringCache(invites.Select(i => i.FromUserId).ToArray());
+                chats = await Api.chats.GetChatIgnoringCache(invites.Select(i => i.ChatId).ToArray(),true);
+            }
+            else
+            {
+                users = await UserApi.GetUser(invites.Select(i => i.FromUserId).ToArray());
+                chats = await ChatApi.GetChat(invites.Select(i => i.ChatId).ToArray());
+            }
+
             var result = new ChatInvite[invites.Length];
 
             for (int i = 0; i < invites.Length; i++)

@@ -1,6 +1,6 @@
-﻿namespace TMClient.Model
+﻿namespace TMClient.Model.Pages
 {
-    class NotificationsModel: BaseModel
+    class NotificationsModel : BaseModel
     {
         public async Task AcceptFriend(FriendRequest request)
         {

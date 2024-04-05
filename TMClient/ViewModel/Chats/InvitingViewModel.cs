@@ -7,10 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using TMClient.Model;
+using TMClient.Model.Chats;
 using TMClient.Utils;
 
-namespace TMClient.ViewModel
+namespace TMClient.ViewModel.Chats
 {
     class InvitingViewModel : BaseViewModel
     {
@@ -47,7 +47,7 @@ namespace TMClient.ViewModel
         public Chat Chat { get; }
         public Action Close { get; }
 
-        public InvitingViewModel(Chat chat,Action close)
+        public InvitingViewModel(Chat chat, Action close)
         {
             var invitableFriends = Model.GetUsersToInivite(chat, CurrentUser.FriendList);
             Users = new ObservableCollection<UserContainer>(invitableFriends.Select(friend => new UserContainer(friend)));

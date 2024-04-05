@@ -7,7 +7,7 @@ using System.Windows.Input;
 using TMClient.Utils;
 using TMClient.View;
 
-namespace TMClient.ViewModel
+namespace TMClient.ViewModel.Pages
 {
     class SidePanelViewModel : BaseViewModel
     {
@@ -70,7 +70,7 @@ namespace TMClient.ViewModel
         private async Task AddFriend()
         {
             await Messenger.Send(Messages.ModalOpened, true);
-            var mainwindow = App.Current.MainWindow;
+            var mainwindow = System.Windows.Application.Current.MainWindow;
             var friendSearchWindow = new View.FriendRequest
             {
                 Owner = mainwindow,
@@ -83,7 +83,7 @@ namespace TMClient.ViewModel
         private async Task CreateChat()
         {
             await Messenger.Send(Messages.ModalOpened, true);
-            var mainwindow = App.Current.MainWindow;
+            var mainwindow = System.Windows.Application.Current.MainWindow;
             var chatCreationWindow = new ChatCreationWindow
             {
                 Owner = mainwindow,

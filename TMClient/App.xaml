@@ -29,6 +29,9 @@
         <v:MessageRule x:Key="MessageRule"></v:MessageRule>
         <v:PasswordRule x:Key="PasswordRule"></v:PasswordRule>
 
+        <FontFamily x:Key="SegoeIcons">./Resources/Fonts/#Segoe Fluent Icons</FontFamily>
+        <FontFamily x:Key="SegoeUI">./Resources/Fonts/#{StaticResource SegoeUI}</FontFamily>
+
         <Color x:Key="OwnMessageColor">#3498DB</Color>
         <SolidColorBrush x:Key="OwnMessageBrush" Color="{StaticResource OwnMessageColor}"/>
 
@@ -86,9 +89,6 @@
         <Color x:Key="TransperentGreenColor">#004CAF50</Color>
 
 
-        <FontFamily x:Key="PasswordFont">pack://application:,,,/Resources/Fonts/#password</FontFamily>
-        <FontFamily x:Key="SegoeIcons">./Resources/Fonts/#Segoe Fluent Icons</FontFamily>
-        <FontFamily x:Key="SegoeUI">./Resources/Fonts/#{StaticResource SegoeUI}</FontFamily>
 
         <Storyboard x:Key="MouseOverStart">
             <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 

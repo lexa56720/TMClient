@@ -12,7 +12,6 @@ namespace TMClient.Utils
 
             public EventValue()
             {
-
             }
             public EventValue(Type type)
             {

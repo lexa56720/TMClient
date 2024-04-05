@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TMClient.Model
+namespace TMClient.Model.Pages
 {
     internal class ProfileModel : BaseModel
     {

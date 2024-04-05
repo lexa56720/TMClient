@@ -23,7 +23,7 @@
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Content="Запросы в друзья" HorizontalAlignment="Center" FontSize="24" Margin="0,0,0,-5"/>
                 <ListView Grid.Row="1" ItemsSource="{Binding FriendRequests}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                          ScrollViewer.VerticalScrollBarVisibility="Visible" >
+                          ScrollViewer.VerticalScrollBarVisibility="Visible" Background="#202020"  >
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -62,6 +62,19 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                <TextBlock Grid.Row="1" Opacity="0.4" FontWeight="DemiBold" FontSize="32" Text="Запросов нет"
+                           Foreground="{StaticResource DisabledForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}" TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding FriendRequests.Count}" Value="0">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
             </Grid>
 
         </Border>
@@ -75,7 +88,8 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Content="Приглашения в чаты" HorizontalAlignment="Center" FontSize="24" Margin="0,0,0,-5"/>
-                <ListView Grid.Row="1" ItemsSource="{Binding ChatInvites}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Visible" >
+                <ListView Grid.Row="1" ItemsSource="{Binding ChatInvites}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          ScrollViewer.VerticalScrollBarVisibility="Visible" Background="#202020" >
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -117,6 +131,20 @@
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
+                <TextBlock Grid.Row="1" Opacity="0.4" FontWeight="DemiBold" FontSize="32" Text="Приглашений нет"
+                           Foreground="{StaticResource DisabledForegroundBrush}" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}" TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ChatInvites.Count}" Value="0">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                    
             </Grid>
         </Border>
     </Grid>

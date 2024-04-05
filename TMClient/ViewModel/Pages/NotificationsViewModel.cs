@@ -2,10 +2,10 @@
 using AsyncAwaitBestPractices.MVVM;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using TMClient.Model;
+using TMClient.Model.Pages;
 using TMClient.Utils;
 
-namespace TMClient.ViewModel
+namespace TMClient.ViewModel.Pages
 {
     class NotificationsViewModel : BaseViewModel
     {
@@ -54,7 +54,7 @@ namespace TMClient.ViewModel
         }
 
 
-        private readonly NotificationsModel Model=new();
+        private readonly NotificationsModel Model = new();
 
     }
 }
