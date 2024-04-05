@@ -51,6 +51,7 @@ namespace TMClient.Model.Auth
         public void SaveIsAuth(bool value)
         {
             Preferences.Default.IsSaveAuth = value;
+            Preferences.Default.Save();
         }
     }
 }

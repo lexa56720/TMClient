@@ -61,6 +61,16 @@ namespace TMClient.ViewModel
         }
         private string cachedChatLifeTime = Preferences.Default.CachedChatLifetimeMinutes.ToString();
 
+        public bool IsSaveAuth
+        {
+            get => isSaveAuth;
+            set
+            {
+                isSaveAuth = value;            
+                OnPropertyChanged(nameof(IsSaveAuth));
+            }
+        }
+        private bool isSaveAuth = Preferences.Default.IsSaveAuth;
         public bool SuccessSave
         {
             get => successSave;
@@ -120,6 +130,7 @@ namespace TMClient.ViewModel
         private void Save(object? obj)
         {
             Preferences.Default.ServerAddress = serverAddress;
+            Preferences.Default.IsSaveAuth = IsSaveAuth;
 
             if (int.TryParse(InfoPort, out var auth))
                 Preferences.Default.InfoPort = auth;

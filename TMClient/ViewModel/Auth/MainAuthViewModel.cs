@@ -22,9 +22,6 @@ namespace TMClient.ViewModel.Auth
         }
         private Page enteringFrame = null!;
 
-        private readonly Page Registration;
-        private readonly Page Auth;
-        private readonly Page Settings;
         public bool IsLoginPage
         {
             get => isLoginPage;
@@ -64,7 +61,6 @@ namespace TMClient.ViewModel.Auth
         }
         private Visibility backNavigationVisibility=Visibility.Hidden;
 
-
         public bool IsLoading
         {
             get => isLoading;
@@ -92,8 +88,13 @@ namespace TMClient.ViewModel.Auth
         private Visibility loadingVisibility = Visibility.Hidden;
 
         private Page? PreviousPage;
+        private readonly Page Registration;
+        private readonly Page Auth;
+        private readonly Page Settings;
 
-        public MainAuthViewModel(Func<IApi?, bool> returnApi) : base(returnApi)
+        private readonly bool IsTryLoadAuth;
+
+        public MainAuthViewModel(Func<IApi?, bool> returnApi,bool isTryLoadAuth) : base(returnApi)
         {
             Registration = new SignUpView(returnApi);
             Auth = new AuthView(returnApi);
@@ -104,6 +105,7 @@ namespace TMClient.ViewModel.Auth
             Messenger.Subscribe(Messages.OpenSettingsPage,OpenSettings);
             Messenger.Subscribe(Messages.AuthLoadingStart, LoadingStart);
             Messenger.Subscribe(Messages.AuthLoadingFinish, LoadingOver);
+            IsTryLoadAuth = isTryLoadAuth;
         }
 
         private void Dispose()
@@ -128,9 +130,11 @@ namespace TMClient.ViewModel.Auth
 
         private async Task TryToLoadApi()
         {
-            if (Preferences.Default.IsSaveAuth != false)
+            if (IsTryLoadAuth && Preferences.Default.IsSaveAuth != false)
             {
+                IsLoading = true;
                 IApi? api = await Model.TryGetApi();
+                IsLoading = false;
                 ReturnApi.Invoke(api);
             }
         }

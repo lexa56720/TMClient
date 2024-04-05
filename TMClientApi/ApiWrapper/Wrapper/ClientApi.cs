@@ -186,10 +186,11 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             using var ms = new MemoryStream(unprotectedBytes);
             using var br = new BinaryReader(ms);
 
-            ms.Seek(sizeof(int), SeekOrigin.End);
+            ms.Seek(-sizeof(int), SeekOrigin.End);
             var length = br.ReadInt32();
-            ms.Seek(sizeof(int) + length, SeekOrigin.End);
-            return br.ReadString();
+            ms.Seek(-(sizeof(int) + length), SeekOrigin.End);
+            var hashBytes = br.ReadBytes(length);
+            return Encoding.ASCII.GetString(hashBytes);
         }
     }
 }

@@ -12,11 +12,11 @@ namespace TMClient.View.Auth
     public partial class MainAuthWindow : ModernWindow
     {
         public IApi Api { get; set; }
-        public MainAuthWindow()
+        public MainAuthWindow(bool loadAuth)
         {
             InitializeComponent();
             Title = "Авторизация";
-            DataContext = new MainAuthViewModel(AuthCompleted);
+            DataContext = new MainAuthViewModel(AuthCompleted, loadAuth);
         }
 
         private bool AuthCompleted(IApi? api)

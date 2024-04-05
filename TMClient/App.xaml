@@ -38,13 +38,13 @@
         <Color x:Key="UserMessageColor">#424242</Color>
         <SolidColorBrush x:Key="UserMessageBrush" Color="{StaticResource UserMessageColor}"/>
 
-        <Color x:Key="ActiveHighlightColor">#0078D7</Color>
+        <Color x:Key="ActiveHighlightColor">#3498DB</Color>
         <SolidColorBrush x:Key="ActiveHighlightBrush" Color="{StaticResource ActiveHighlightColor}"/>
 
-        <Color x:Key="ActiveColor">#0063B1</Color>
+        <Color x:Key="ActiveColor">#2980B9</Color>
         <SolidColorBrush x:Key="ActiveBrush" Color="{StaticResource ActiveColor}" />
 
-        <Color x:Key="ActiveClickColor">#0D47A1</Color>
+        <Color x:Key="ActiveClickColor">#2d73a1</Color>
         <SolidColorBrush x:Key="ActiveClickBrush" Color="{StaticResource ActiveClickColor}" />
 
         <Color x:Key="InteractColor">#242424</Color>
@@ -774,9 +774,13 @@
                         </Grid>
 
                         <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="ToggleButton.Loaded">
+                                <SkipStoryboardToFill BeginStoryboardName="checkedSB" />
+                                <SkipStoryboardToFill BeginStoryboardName="uncheckedSB" />
+                            </EventTrigger>
                             <Trigger Property="IsChecked" Value="True">
                                 <Trigger.EnterActions>
-                                    <BeginStoryboard>
+                                    <BeginStoryboard x:Name="checkedSB">
                                         <Storyboard>
                                             <ThicknessAnimation
                                                 Storyboard.TargetName="thumb"
@@ -810,7 +814,7 @@
                                     </BeginStoryboard>
                                 </Trigger.EnterActions>
                                 <Trigger.ExitActions>
-                                    <BeginStoryboard>
+                                    <BeginStoryboard x:Name="uncheckedSB">
                                         <Storyboard>
                                             <ThicknessAnimation
                                                Storyboard.TargetName="thumb"

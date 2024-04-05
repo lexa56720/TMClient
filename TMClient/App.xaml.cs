@@ -21,22 +21,31 @@ namespace TMClient
     {
         private IApi? Api;
 
-        public static Dispatcher MainThread=>App.Current.Dispatcher;
+        public static Dispatcher MainThread => App.Current.Dispatcher;
         public App()
         {
-            Preferences.Default.AuthPath = Path.Combine(
+            if (string.IsNullOrWhiteSpace(Preferences.Default.AuthPath))
+                Preferences.Default.AuthPath = Path.Combine(
                        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/userdata/auth/authdata.bin");
 
-            Preferences.Default.AppFolder = Path.Combine(
+            if (string.IsNullOrWhiteSpace(Preferences.Default.AppFolder))
+                Preferences.Default.AppFolder = Path.Combine(
                        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/");
+
+            Preferences.Default.Save();
 
             Messenger.Subscribe(Messages.Logout, Logout);
         }
         private void ApplicationStart(object sender, StartupEventArgs? e)
         {
+            OpenPage(true);
+        }
+
+        private void OpenPage(bool tryToLoadAuth)
+        {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-            var dialog = new MainAuthWindow();
+            var dialog = new MainAuthWindow(tryToLoadAuth);
 
             if (dialog.ShowDialog() == true)
             {
@@ -55,20 +64,17 @@ namespace TMClient
         {
             Api?.Dispose();
             Api = null;
-            ApplicationStart(this, null);
+            OpenPage(false);
         }
         private async void ApplicationExit(object sender, ExitEventArgs e)
         {
-            if (Api == null || Preferences.Default.IsSaveAuth == false)
+            if (Preferences.Default.IsSaveAuth == false)
             {
                 if (File.Exists(Preferences.Default.AuthPath))
                     File.Delete(Preferences.Default.AuthPath);
             }
-            else
-            {
-                Preferences.Default.Save();
+            else if (Api != null)
                 await Api.Save(Preferences.Default.AuthPath);
-            }
         }
     }
 }

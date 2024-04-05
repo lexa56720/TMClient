@@ -17,9 +17,9 @@
     </controls:ModernWindow.Background>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding WindowLoaded}"/>
+            <i:InvokeCommandAction Command="{Binding WindowLoaded}" />
         </i:EventTrigger>
-        <i:EventTrigger EventName="Unloaded">
+        <i:EventTrigger EventName="Closed">
             <i:InvokeCommandAction Command="{Binding WindowClosed}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
@@ -56,7 +56,7 @@
             </Grid.RowDefinitions>
 
 
-            <Frame Grid.Row="0" Background="Transparent" Margin="5"  Content="{Binding EnteringFrame}" />
+            <Frame Grid.Row="0" Background="Transparent"   Content="{Binding EnteringFrame}" />
 
             <Button  Grid.Row="1" Command="{Binding SwitchPage}"  Margin="-5" Visibility="{Binding SwitchPageVisibility}" >
                 <Button.Style>

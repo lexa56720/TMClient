@@ -25,30 +25,6 @@ namespace TMClient {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string AppFolder {
-            get {
-                return ((string)(this["AppFolder"]));
-            }
-            set {
-                this["AppFolder"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string AuthPath {
-            get {
-                return ((string)(this["AuthPath"]));
-            }
-            set {
-                this["AuthPath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool IsSaveAuth {
             get {
@@ -104,6 +80,30 @@ namespace TMClient {
             }
             set {
                 this["ServerAddress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AppFolder {
+            get {
+                return ((string)(this["AppFolder"]));
+            }
+            set {
+                this["AppFolder"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AuthPath {
+            get {
+                return ((string)(this["AuthPath"]));
+            }
+            set {
+                this["AuthPath"] = value;
             }
         }
     }

@@ -19,7 +19,7 @@ namespace TMClient.ViewModel.Auth
                 OnPropertyChanged(nameof(IsSaveAuth));
             }
         }
-        private bool isSaveAuth;
+        private bool isSaveAuth=Preferences.Default.IsSaveAuth;
 
         protected T Model { get; private set; }
         public BaseAuthViewModel(Func<IApi?, bool> returnApi)
