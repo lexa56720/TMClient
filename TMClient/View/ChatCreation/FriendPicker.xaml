@@ -37,7 +37,7 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition  Width="*"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Orientation="Horizontal" Grid.Column="0" >

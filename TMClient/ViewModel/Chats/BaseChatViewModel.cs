@@ -125,8 +125,8 @@ namespace TMClient.ViewModel.Chats
             for (int i = 0; i < messages.Length; i++)
             {
                 var message = CreateMessage(messages[i]);
-                if (message is MessageControl messageControl && ((Messages.LastOrDefault() is MessageControl prev &&
-                    prev.Message.Author.Id != messages[i].Author.Id) || Messages.LastOrDefault() is not MessageControl))
+                if (message is MessageControl messageControl && Messages.LastOrDefault() is MessageControl prev &&
+                    prev.Message.Author.Id != messages[i].Author.Id)
                 {
                     messageControl.IsAuthorVisible = false;
                 }
