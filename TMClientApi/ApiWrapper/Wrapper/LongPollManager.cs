@@ -40,6 +40,9 @@ namespace ApiWrapper.Wrapper
             longPolling.NewFriendRequests += HandleNewFriendRequests;
             longPolling.FriendsRemoved += HandleFriendsRemoved;
             longPolling.MessagesReaded += HandleReadedMessages;
+            longPolling.UserOnline += HandleUserOnline;
+            longPolling.UserOffline += HandleUserOffline;
+
             longPolling.Start();
         }
 
@@ -58,8 +61,28 @@ namespace ApiWrapper.Wrapper
             LongPolling.RemovedChats -= HandleRemovedChats;
             LongPolling.ChatsChanged -= HandleChatChanged;
             LongPolling.RelatedUsersChanged -= HandleRelatedUsersChanged;
-
+            LongPolling.UserOnline -= HandleUserOnline;
+            LongPolling.UserOffline -= HandleUserOffline;
             IsDisposed = true;
+        }
+
+        private void HandleUserOffline(object? sender, int[] e)
+        {
+            UIContext.Post(userIds =>
+            {
+                foreach (var id in (int[])userIds)
+                    if (Cache.TryGetUser(id, out var user))
+                        user.IsOnline = false;
+            }, e);
+        }
+        private void HandleUserOnline(object? sender, int[] e)
+        {
+            UIContext.Post(userIds =>
+            {
+                foreach (var id in (int[])userIds)
+                    if (Cache.TryGetUser(id, out var user))
+                        user.IsOnline = true;
+            }, e);
         }
 
 
@@ -70,7 +93,7 @@ namespace ApiWrapper.Wrapper
             {
                 foreach (var inivite in (ChatInvite[])invitesObj)
                     Api.ChatInvites.Add(inivite);
-                Cache.AddOrUpdateCache(TimeSpan.MaxValue, ((ChatInvite[])invitesObj).Select(i=>i.Inviter).ToArray());
+                Cache.AddOrUpdateCache(TimeSpan.MaxValue, ((ChatInvite[])invitesObj).Select(i => i.Inviter).ToArray());
                 Cache.AddOrUpdateCache(TimeSpan.MaxValue, ((ChatInvite[])invitesObj).Select(i => i.Chat).ToArray());
             }, invites);
         }
@@ -86,7 +109,7 @@ namespace ApiWrapper.Wrapper
 
         private async void HandleChatChanged(object? sender, int[] e)
         {
-            var chats = await Api.chats.GetChatIgnoringCache(e,false);
+            var chats = await Api.chats.GetChatIgnoringCache(e, false);
             UIContext.Post(chatsObj =>
             {
                 Cache.AddOrUpdateCache(TimeSpan.MaxValue, (Chat[])chatsObj);
@@ -101,7 +124,6 @@ namespace ApiWrapper.Wrapper
                     {
                         chat.IsReadOnly = true;
                         Api.MultiuserChats.Remove(chat);
-                        chat.Dispose();
                     }
             }, e);
         }
@@ -125,7 +147,7 @@ namespace ApiWrapper.Wrapper
             {
                 foreach (var request in (FriendRequest[])requestObj)
                     Api.FriendRequests.Add(request);
-                Cache.AddOrUpdateCache(TimeSpan.MaxValue,senders);
+                Cache.AddOrUpdateCache(TimeSpan.MaxValue, senders);
             }, friendRequests);
         }
 
@@ -164,8 +186,8 @@ namespace ApiWrapper.Wrapper
 
         private async void HandleNewChats(object? sender, int[] e)
         {
-            var chats = await Api.chats.GetChatIgnoringCache(e,true);
- 
+            var chats = await Api.chats.GetChatIgnoringCache(e, true);
+
             UIContext.Post(chatsObj =>
             {
                 foreach (var chat in (Chat[])chatsObj)

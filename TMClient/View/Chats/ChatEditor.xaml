@@ -4,21 +4,21 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TMClient.View.Chats" xmlns:controls="clr-namespace:TMClient.Controls"
-      mc:Ignorable="d" 
+      mc:Ignorable="d" Background="{StaticResource BackgroundBrush}"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ChatEditor">
 
-    <Grid Background="{StaticResource BackgroundDarkBrush}" Margin="5">
+    <Grid>
 
-        <StackPanel>
-            <Grid>
+        <DockPanel LastChildFill="True">
+            <Grid DockPanel.Dock="Top">
                 <controls:EntityImage Entity="{Binding Chat}" Width="256" Height="256" />
                 <controls:IconButton HorizontalAlignment="Center" Width="256" Height="256" Style="{StaticResource CircleButton}"
                  VerticalAlignment="Center" Foreground="{StaticResource ForegroundBrush}"  Text="Изменить" Icon="&#xe70f;"
                                      Command="{Binding PickImageCommand}" />
             </Grid>
 
-            <Grid>
+            <Grid DockPanel.Dock="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="auto"/>
@@ -51,7 +51,7 @@
 
             </Grid>
 
-            <ListView Background="#202020" Margin="5"   ItemsSource="{Binding Members}" ScrollViewer.VerticalScrollBarVisibility="Visible"
+            <ListView Background="#202020" Margin="5" DockPanel.Dock="Bottom"   ItemsSource="{Binding Members}" ScrollViewer.VerticalScrollBarVisibility="Visible"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="list" >
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
@@ -103,7 +103,7 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-        </StackPanel>
+        </DockPanel>
 
         <controls:IconButton Command="{Binding OpenChatCommand}" Style="{StaticResource TransperentButton}" 
                              FontSize="24" Icon="&#xe72b;" VerticalAlignment="Top" HorizontalAlignment="Left"/>

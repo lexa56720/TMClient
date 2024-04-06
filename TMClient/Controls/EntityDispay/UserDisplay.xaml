@@ -63,6 +63,7 @@
                  StrokeThickness="3" IsHitTestVisible="False"  Margin="-5" Fill="Transparent">
             <Ellipse.Style>
                 <Style TargetType="Ellipse">
+                    <Setter Property="Stroke" Value="Transparent" />
                     <Style.Triggers>
 
                         <MultiDataTrigger>
@@ -75,25 +76,10 @@
                             </MultiDataTrigger.Setters>
                         </MultiDataTrigger>
 
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding User.IsOnline}" Value="False"/>
-                                <Condition Binding="{Binding User.IsCurrentUser}" Value="False"/>
-                            </MultiDataTrigger.Conditions>
-                            <MultiDataTrigger.Setters>
-                                <Setter Property="Stroke" Value="Transparent" />
-                            </MultiDataTrigger.Setters>
-                        </MultiDataTrigger>
-
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding User.IsCurrentUser}" Value="True"/>
-                            </MultiDataTrigger.Conditions>
-                            <MultiDataTrigger.Setters>
-                                <Setter Property="Stroke" Value="{StaticResource ActiveHighlightBrush}" />
-                            </MultiDataTrigger.Setters>
-                        </MultiDataTrigger>
-
+                        <DataTrigger Binding="{Binding User.IsCurrentUser}" Value="True">
+                            <Setter Property="Stroke" Value="{StaticResource ActiveHighlightBrush}" />
+                        </DataTrigger>
+                        
                     </Style.Triggers>
                 </Style>
             </Ellipse.Style>

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ApiWrapper.Types
 {
-    public class Friend : User
+    public class Friend : User,IDisposable
     {
         public Chat Dialogue
         {
@@ -89,21 +90,38 @@ namespace ApiWrapper.Types
             }
         }
 
-
         private User user;
 
+        private bool IsDisposed=false;
         public Friend(User user, Chat dialogue) : base()
         {
             this.user = user;
             Dialogue = dialogue;
+            user.PropertyChanged += UserPropertyChanged;
         }
-
+        public void Dispose()
+        {
+            if (IsDisposed)
+                return;
+            if (user != null)
+                user.PropertyChanged -= UserPropertyChanged;
+            IsDisposed = true;
+        }
+        private void UserPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(e.PropertyName))
+                OnPropertyChanged(e.PropertyName);
+        }
 
         public override void Update(User user)
         {
             if (this.user == user)
                 return;
+
+            user.PropertyChanged -= UserPropertyChanged;
             this.user = user;
+            user.PropertyChanged += UserPropertyChanged;
+
             OnPropertyChanged(nameof(Login));
             OnPropertyChanged(nameof(Name));
             OnPropertyChanged(nameof(IsOnline));
@@ -114,5 +132,6 @@ namespace ApiWrapper.Types
             OnPropertyChanged(nameof(ImageSmall));
             OnPropertyChanged(nameof(IsHaveImage));
         }
+
     }
 }

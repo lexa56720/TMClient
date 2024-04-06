@@ -104,7 +104,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             var chats = await InitChats(clientApi, api.UserInfo.Chats);
             clientApi.Cache.AddOrUpdateCache(TimeSpan.MaxValue, chats);
 
-            var friends = InitFriends(clientApi, api.UserInfo.Friends, chats);
+            var friends = await InitFriends(clientApi, api.UserInfo.Friends, chats);
             clientApi.Cache.AddOrUpdateCache(TimeSpan.MaxValue, friends);
 
             var requests = await InitRequests(clientApi, api.UserInfo.FriendRequests);
@@ -126,9 +126,9 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             }
             return chats;
         }
-        private static User[] InitFriends(ClientApi api, ApiUser[] apiFriends, Chat[] chats)
+        private static async Task<User[]> InitFriends(ClientApi api, ApiUser[] apiFriends, Chat[] chats)
         {
-            var friends = api.Converter.Convert(apiFriends);
+            var friends = await api.Users.GetUser(apiFriends.Select(f => f.Id).ToArray());
             foreach (var friend in friends)
                 api.FriendList.Add(new Friend(friend, chats.Single(c => c.IsDialogue && c.Members.Any(m => m.Id == friend.Id))));
             return friends;

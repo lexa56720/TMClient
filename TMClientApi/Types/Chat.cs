@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace ApiWrapper.Types
 {
-    public class Chat : NamedImageEntity, IDisposable
+    public class Chat : NamedImageEntity
     {
         public bool IsDialogue { get; }
 
@@ -66,8 +66,6 @@ namespace ApiWrapper.Types
 
         public ObservableCollection<User> Members { get; } = new();
 
-        private bool IsDisposed;
-
         public Chat(int id, string name, User admin, int unreadCount, bool isDialogue,
              string? picLarge, string? picMedium, string? picSmall) : base(id, name, picLarge, picMedium, picSmall)
         {
@@ -80,14 +78,6 @@ namespace ApiWrapper.Types
             IsDialogue = isDialogue;
             Admin = admin;
             UnreadCount = unreadCount;
-        }
-        public void Dispose()
-        {
-            if (IsDisposed)
-                return;
-
-            Members.Clear();
-            IsDisposed = true;
         }
         internal void Update(Chat chat)
         {
