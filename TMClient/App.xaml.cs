@@ -36,12 +36,12 @@ namespace TMClient
 
             Messenger.Subscribe(Messages.Logout, Logout);
         }
-        private void ApplicationStart(object sender, StartupEventArgs? e)
+        private async void ApplicationStart(object sender, StartupEventArgs? e)
         {
-            OpenPage(true);
+            await OpenPage(true);
         }
 
-        private void OpenPage(bool tryToLoadAuth)
+        private async Task OpenPage(bool tryToLoadAuth)
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
@@ -50,6 +50,7 @@ namespace TMClient
             if (dialog.ShowDialog() == true)
             {
                 Api = dialog.Api;
+                await HandleAuthData();
                 ShutdownMode = ShutdownMode.OnMainWindowClose;
                 var mainWindow = new MainWindow(Api);
                 MainWindow = mainWindow;
@@ -60,13 +61,18 @@ namespace TMClient
                 Shutdown();
             }
         }
-        public void Logout()
+        public async void Logout()
         {
             Api?.Dispose();
             Api = null;
-            OpenPage(false);
+            await OpenPage(false);
         }
         private async void ApplicationExit(object sender, ExitEventArgs e)
+        {
+            await HandleAuthData();
+        }
+
+        private async Task HandleAuthData()
         {
             if (Preferences.Default.IsSaveAuth == false)
             {

@@ -24,28 +24,24 @@ namespace TMClient.Model.Chats
         {
             return await Api.Messages.GetMessagesByOffset(Chat.Id, Count, offset);
         }
-        private async Task<Message?> SendMessage(Message message)
-        {
-            return await Api.Messages.SendMessage(message.Text, message.Destination.Id);
-        }
+
         public async Task<bool> MarkAsReaded(Message[] messages)
         {
             return await Api.Messages.MarkAsReaded(messages.Where(m => !m.IsReaded)
                                                            .ToArray());
         }
-        public async Task<Message?> SendMessage(string? text,User user)
+        public async Task<Message?> SendMessage(string? text)
         {
-            if (string.IsNullOrEmpty(text))
+            if (string.IsNullOrWhiteSpace(text))
                 return null;
+            return await Api.Messages.SendMessage(text, Chat.Id);
+        }
 
-            return await SendMessage(new Message()
-            {
-                Author = user,
-                Text = text,
-                Destination = Chat,
-                IsReaded = false,
-                IsOwn = true
-            });
+        public async Task<Message?> SendMessage(string? text, string[] filePaths)
+        {
+            text ??= string.Empty;
+            using var tks = new CancellationTokenSource();
+            return await Api.Messages.SendMessage(text, Chat.Id, tks.Token, filePaths);
         }
         public void SetIsReaded(IEnumerable<MessageBaseControl> messages)
         {
@@ -53,7 +49,7 @@ namespace TMClient.Model.Chats
                 return;
             App.MainThread.Invoke(() =>
             {
-                foreach(var message in messages)
+                foreach (var message in messages)
                 {
                     message.Message.IsReaded = true;
                 }

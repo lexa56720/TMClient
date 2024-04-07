@@ -7,7 +7,7 @@ using TMClient.View;
 
 namespace TMClient.Utils
 {
-    internal static class FileImageData
+    internal static class FileLoader
     {
         public static byte[] GetImageData()
         {
@@ -39,6 +39,22 @@ namespace TMClient.Utils
             if (result == true)
                 return dialog.FileName;
             return string.Empty;
+        }
+
+        public static string[] PickFiles()
+        {
+            var dialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "All|*.*",
+                CheckFileExists = true,
+                CheckPathExists = true,
+                ValidateNames = true,
+                Multiselect = true,
+            };
+            bool? result = dialog.ShowDialog();
+            if (result == true)
+                return dialog.FileNames;
+            return [];
         }
     }
 }

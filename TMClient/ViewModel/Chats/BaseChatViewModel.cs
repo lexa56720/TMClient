@@ -21,7 +21,7 @@ namespace TMClient.ViewModel.Chats
                 OnPropertyChanged(nameof(Messages));
             }
         }
-        private ObservableCollection<MessageBaseControl> messages = new();
+        private ObservableCollection<MessageBaseControl> messages = [];
         public string MessageText
         {
             get => messageText;
@@ -35,10 +35,14 @@ namespace TMClient.ViewModel.Chats
 
         public ICommand LoadHistory => new AsyncCommand(LoadMessages);
         public ICommand Send => new AsyncCommand<string>(SendMessage);
-        public ICommand Attach => new AsyncCommand(AttachFile);
-
+        public ICommand Attach => new Command(AttachFile);
         public ICommand PageLoadedCommand => new Command(PageLoaded);
         public ICommand PageUnloadedCommand => new Command(PageUnloaded);
+        public ICommand RemoveFileCommand => new Command(RemoveFile);
+
+
+
+        public ObservableCollection<string> Files { get; set; } = [];
 
         protected T Model { get; private set; }
 
@@ -87,20 +91,36 @@ namespace TMClient.ViewModel.Chats
 
         public async Task SendMessage(string? text)
         {
-            MessageText = string.Empty;
 
-            var message = await Model.SendMessage(text, CurrentUser.Info);
+            Message? sendedMessage;
+            if (Files.Count == 0)
+                sendedMessage = await Model.SendMessage(text);
+            else
+                sendedMessage = await Model.SendMessage(text, Files.ToArray());
 
-            if (message != null)
-                AddMessageToEnd(message);
+            if (sendedMessage != null)
+            {
+                AddMessageToEnd(sendedMessage);
+
+                MessageText = string.Empty;
+                Files.Clear();
+            }
             Model.SetIsReaded(Messages.Where(m => !m.Message.IsOwn && !m.Message.IsReaded));
         }
 
-        public async Task AttachFile()
+        public void AttachFile()
         {
-
+            var files = FileLoader.PickFiles();
+            Files.Clear();
+            foreach (var file in files)
+                Files.Add(file);
         }
-
+        private void RemoveFile(object? obj)
+        {
+            if (obj is not string path)
+                return;
+            Files.Remove(path);
+        }
         protected async void HandleNewMessages(object? sender, Message[] messages)
         {
             var currentChatMessages = messages.Where(m => m.Destination.Id == Chat.Id)

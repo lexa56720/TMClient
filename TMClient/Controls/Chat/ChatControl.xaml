@@ -4,19 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TMClient.Controls"
-             mc:Ignorable="d"  
+             mc:Ignorable="d"  x:Name="chatCtrl"
              d:DesignHeight="450" d:DesignWidth="800"  Loaded="ChatLoaded">
     <Grid  >
         <Grid.RowDefinitions>
             <RowDefinition/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Border   CornerRadius="5">
             <Grid >
                 <local:ExtendeListView Background="#202020" Padding="0" Margin="0"  ScrollViewer.VerticalScrollBarVisibility="Visible"
-                                       IsReachTopEnabled="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType={x:Type local:ChatControl}}}"
-                                       ReachTop="{Binding LoadMore, RelativeSource={RelativeSource AncestorType={x:Type local:ChatControl}},Delay=200}"
+                                       IsReachTopEnabled="{Binding IsReadOnly, ElementName=chatCtrl}"
+                                       ReachTop="{Binding LoadMore, ElementName=chatCtrl}"
                                        ItemsSource="{Binding Messages}" HorizontalContentAlignment="Stretch" 
                                        ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
                     <local:ExtendeListView.ItemContainerStyle>
@@ -36,20 +37,63 @@
             </Grid>
         </Border>
 
-        <DockPanel IsEnabled="{Binding IsReadOnly,Converter={StaticResource BooleanInverter},RelativeSource={RelativeSource AncestorType={x:Type local:ChatControl}}}"
+        <DockPanel IsEnabled="{Binding IsReadOnly,Converter={StaticResource BooleanInverter}, ElementName=chatCtrl}"
                    HorizontalAlignment="Stretch" Grid.Row="1">
 
             <local:IconButton DockPanel.Dock="Right" Icon="&#xE724;" FontSize="32" VerticalAlignment="Bottom"
                               Style="{StaticResource TransperentButton}"
-                              Command="{Binding SendCommand,RelativeSource={RelativeSource AncestorType={x:Type local:ChatControl}}}"
+                              Command="{Binding SendCommand, ElementName=chatCtrl}"
                               CommandParameter="{Binding Text,ElementName=MessageBox}"/>
 
             <local:IconButton DockPanel.Dock="Right" Icon="&#xE723;" FontSize="32" VerticalAlignment="Bottom"  Style="{StaticResource TransperentButton}"
-                              Command="{Binding AttachCommand,RelativeSource={RelativeSource AncestorType={x:Type local:ChatControl}}}" />
-            
+                              Command="{Binding AttachCommand, ElementName=chatCtrl}" />
+
+
             <TextBox x:Name="MessageBox" DockPanel.Dock="Left" TextWrapping="Wrap" Margin="0,5,5,0" HorizontalAlignment="Stretch" MaxLength="512" 
-              FontSize="24" MaxLines="10" Style="{StaticResource DarkTextBox}" Text="{Binding WrittenText,RelativeSource={RelativeSource AncestorType={x:Type local:ChatControl}}}"
+              FontSize="24" MaxLines="10" Style="{StaticResource DarkTextBox}" Text="{Binding WrittenText,ElementName=chatCtrl}"
                      VerticalScrollBarVisibility="Auto" AcceptsReturn="True" />
+
         </DockPanel>
+
+
+        <ListView Background="Transparent" Grid.Row="2" ItemsSource="{Binding Files}" x:Name="filelist" >
+            <ListView.Style>
+                <Style BasedOn="{StaticResource ResourceKey={x:Type ListView}}" TargetType="ListView">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Files.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Style>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
+                    <Setter Property="Focusable" Value="false"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="0,0,0,5"/>
+                    <Setter Property="Background" Value="{StaticResource BackgroundLightBrush}"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="{StaticResource BackgroundLightBrush}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid >
+                        <local:FileDisplay MaxWidth="200" MaxHeight="100" Path="{Binding .}" />
+                        <local:IconButton Icon="&#xe711;" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" 
+                                          Style="{StaticResource DarkTransperentButton}" Command="{Binding Path=DataContext.RemoveFileCommand,ElementName=chatCtrl}" CommandParameter="{Binding .}" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </UserControl>

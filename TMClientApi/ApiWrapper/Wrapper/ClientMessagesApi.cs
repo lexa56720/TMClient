@@ -2,6 +2,7 @@
 using ApiWrapper.Interfaces;
 using ApiWrapper.Types;
 using TMApi.ApiRequests.Messages;
+using ApiTypes.Communication.BaseTypes;
 
 namespace ApiWrapper.ApiWrapper.Wrapper
 {
@@ -23,9 +24,9 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             return await Converter.Convert(messages);
         }
 
-        public async Task<Message[]> GetMessages(int chatId, int fromMessageId,int count)
+        public async Task<Message[]> GetMessages(int chatId, int fromMessageId, int count)
         {
-            var messages = await Api.Messages.GetMessages(chatId, fromMessageId,count);
+            var messages = await Api.Messages.GetMessages(chatId, fromMessageId, count);
             if (messages.Length == 0)
                 return [];
             return await Converter.Convert(messages);
@@ -42,6 +43,40 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         public async Task<Message?> SendMessage(string text, int destinationId)
         {
             var message = await Api.Messages.SendMessage(text, destinationId);
+            if (message == null)
+                return null;
+
+            var convertedMessage = await Converter.Convert(message);
+            if (convertedMessage == null)
+                return null;
+
+            if (convertedMessage.Destination.LastMessage == null ||
+                convertedMessage.SendTime > convertedMessage.Destination.LastMessage.SendTime)
+            {
+                convertedMessage.Destination.LastMessage = convertedMessage;
+            }
+            convertedMessage.Destination.UnreadCount = 0;
+
+            return convertedMessage;
+        }
+        public async Task<Message?> SendMessage(string text, int destinationId, CancellationToken token, string[] filePaths)
+        {
+            var result = new SerializableFile[filePaths.Length];
+            try
+            {
+                await Parallel.ForAsync(0, filePaths.Length, token, async (i, token) =>
+                {
+                    var bytes = await File.ReadAllBytesAsync(filePaths[i], token);
+                    var fileName = Path.GetFileName(filePaths[i]);
+                    result[i] = new SerializableFile(fileName, bytes);
+                });
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+            var message = await Api.Messages.SendMessage(text, destinationId, result);
             if (message == null)
                 return null;
 

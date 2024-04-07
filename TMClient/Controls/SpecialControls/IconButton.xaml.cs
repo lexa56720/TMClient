@@ -113,14 +113,14 @@ namespace TMClient.Controls
             InitializeComponent();
         }
 
-        private void IconPropertyChanged(string text)
+        private void IconPropertyChanged()
         {
             OnPropertyChanged(nameof(Icon));
         }
 
         private static void IconPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((IconButton)d).IconPropertyChanged((string)e.NewValue);
+            ((IconButton)d).IconPropertyChanged();
         }
 
         private void TextPropertyChanged(string text)

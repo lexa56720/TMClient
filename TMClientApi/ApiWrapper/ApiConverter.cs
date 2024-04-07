@@ -197,7 +197,7 @@ namespace ApiWrapper.ApiWrapper
             return result;
         }
 
-        private static string? GetProfileImage(Photo? photo)
+        private static string? GetProfileImage(PhotoLink? photo)
         {
             if (photo == null)
                 return null;

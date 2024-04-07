@@ -22,7 +22,8 @@
         <c:EntityImageSizeConverter x:Key="EntityImageSizeConverter"></c:EntityImageSizeConverter>
         <c:BooleanToVisibility x:Key="BooleanToVisibility"></c:BooleanToVisibility>
         <c:SearchConverter x:Key="SearchConverter"></c:SearchConverter>
-
+        <c:PathToFilenameConverter x:Key="PathToFilenameConverter"></c:PathToFilenameConverter>
+        
         <v:NameRule x:Key="NameRule"></v:NameRule>
         <v:ChatNameRule x:Key="ChatNameRule"></v:ChatNameRule>
         <v:LoginRule x:Key="LoginRule"></v:LoginRule>
@@ -206,7 +207,6 @@
             </Setter>
         </Style>
 
-
         <Style x:Key="ButtonTemplate" TargetType="Button">
             <Style.Resources>
                 <Style TargetType="Border">
@@ -364,6 +364,54 @@
                             AutoReverse="True"
                             FillBehavior="Stop" 
                             Duration="0:0:0.2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+        <Style x:Key="DarkTransperentButton" BasedOn="{StaticResource ResourceKey=DefaultButton}" TargetType="Button">
+            <Setter Property="Background" Value="#69000000" />
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsMouseOver" Value="True" />
+                    </MultiTrigger.Conditions>
+                    <MultiTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard >
+                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
+                             To="#69383838"
+                             AutoReverse="False"
+                             FillBehavior="HoldEnd" 
+                             Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </MultiTrigger.EnterActions>
+                    <MultiTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard >
+                                <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
+                             To="#69000000"
+                             AutoReverse="False"
+                             FillBehavior="HoldEnd" 
+                             Duration="0:0:0.3"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </MultiTrigger.ExitActions>
+                </MultiTrigger>
+                <EventTrigger RoutedEvent="Button.Click">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
+                     To="#69848484"
+                     AutoReverse="True"
+                     FillBehavior="Stop" 
+                     Duration="0:0:0.2"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
@@ -532,6 +580,9 @@
                 <Trigger Property="Validation.HasError" Value="True">
                     <Setter Property="ToolTip" 
               Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
