@@ -23,7 +23,14 @@ namespace TMClient.Model.Auth
 
         public async Task<IApi?> TryGetApi()
         {
-            return await ApiProvider.Load(Preferences.Default.AuthPath);
+            try
+            {
+                return await ApiProvider.Load(Preferences.Default.AuthPath);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         private static ApiFactory GetApiProvider()

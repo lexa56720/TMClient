@@ -34,7 +34,8 @@
 
         <StackPanel  Grid.Column="1" Grid.Row="1" Margin="0,5,0,5">
             <Label Margin="0" Content="Данные для регистрации:" VerticalAlignment="Center" VerticalContentAlignment="Center" Padding="0" HorizontalAlignment="Center" FontSize="28" />
-            <TextBlock FontSize="20" Text="Ошибка!" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="#F44336" Visibility="{Binding ErrorVisibility}" />
+            <TextBlock FontSize="20" Text="{Binding ErrorText}" VerticalAlignment="Bottom" HorizontalAlignment="Center"
+                       Foreground="#F44336" Visibility="{Binding ErrorVisibility}"  Margin="0,-5,0,-5" />
         </StackPanel>
 
 

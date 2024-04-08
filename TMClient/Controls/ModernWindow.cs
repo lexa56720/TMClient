@@ -108,11 +108,31 @@ namespace TMClient.Controls
             UseAeroCaptionButtons = false,
         };
 
+        static ModernWindow()
+        {
+            ResizeModeProperty.AddOwner(typeof(ModernWindow), new FrameworkPropertyMetadata(ResizeMode.CanResize, ResizeModeChanged));
+        }
         public ModernWindow()
         {
             InitializeComponent();
             EventSetup();
             MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+        }
+
+        private static void ResizeModeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is not ResizeMode mode)
+                return;
+
+            (d as ModernWindow)?.ResizeModeChanged(mode);
+        }
+
+        private void ResizeModeChanged(ResizeMode mode)
+        {
+            if (mode == ResizeMode.NoResize)
+                MaximizeButton.Visibility = Visibility.Collapsed;
+            else
+                MaximizeButton.Visibility = Visibility.Visible;
         }
 
         protected override void OnClosed(EventArgs e)
@@ -213,7 +233,8 @@ namespace TMClient.Controls
 
                 MainBorder.BorderThickness = new Thickness(0);
                 RestoreButton.Visibility = Visibility.Collapsed;
-                MaximizeButton.Visibility = Visibility.Visible;
+                if (ResizeMode != ResizeMode.NoResize)
+                    MaximizeButton.Visibility = Visibility.Visible;
             }
         }
         protected override void OnContentChanged(object oldContent, object newContent)

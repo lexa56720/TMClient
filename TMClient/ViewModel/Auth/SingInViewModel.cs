@@ -41,6 +41,18 @@ namespace TMClient.ViewModel.Auth
             }
         }
         private string password = string.Empty;
+
+        public string ErrorText
+        {
+            get => errorText;
+            set
+            {
+                errorText = value;
+                OnPropertyChanged(nameof(ErrorText));
+            }
+        }
+        private string errorText;
+
         public Visibility ErrorVisibility
         {
             get => errorVisibility;
@@ -69,12 +81,22 @@ namespace TMClient.ViewModel.Auth
             }
 
             IsBusy = true;
-            IApi? api = await Model.SignIn(Login, Password);
-            if (!ReturnApi(api))
+            try
             {
+                IApi? api = await Model.SignIn(Login, Password);
+                if (!ReturnApi(api))
+                {
+                    ErrorVisibility = Visibility.Visible;
+                    IsBusy = false;
+                }
+            }
+            catch(Exception ex)
+            {
+                ErrorText = ex.Message;
                 ErrorVisibility = Visibility.Visible;
                 IsBusy = false;
             }
+
 
             Password = string.Empty;
         }

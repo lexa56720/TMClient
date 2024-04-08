@@ -29,7 +29,7 @@ namespace ApiWrapper.ApiWrapper
         {
             var provider = await ApiProvider.CreateProvider(Server, InfoPort);
             if (provider == null)
-                return null;
+                throw new Exception("Сервер недоступен");
 
             var api = await provider.GetApiLogin(login, password);
             if (api == null)
@@ -43,7 +43,7 @@ namespace ApiWrapper.ApiWrapper
         {
             var provider = await ApiProvider.CreateProvider(Server, InfoPort);
             if (provider == null)
-                return null;
+                throw new Exception("Сервер недоступен");
 
             var api = await provider.GetApiRegistration(username, login, password);
             if (api == null)
@@ -55,8 +55,13 @@ namespace ApiWrapper.ApiWrapper
         }
         public async Task<IApi?> Load(string path)
         {
+
             if (File.Exists(path))
             {
+                var provider = await ApiProvider.CreateProvider(Server, InfoPort);
+                if (provider == null)
+                    throw new Exception("Сервер недоступен");
+
                 var bytes = await File.ReadAllBytesAsync(path);
                 try
                 {
@@ -66,10 +71,7 @@ namespace ApiWrapper.ApiWrapper
                         unprotectedBytes = ProtectedData.Unprotect(bytes, null, DataProtectionScope.CurrentUser);
                     }).WaitAsync(TimeSpan.FromSeconds(2));
 
-                    var provider = await ApiProvider.CreateProvider(Server, InfoPort);
-                    if (provider == null)
-                        return null;
-
+ 
                     var api = await provider.DeserializeAuthData(unprotectedBytes);
                     if (api == null)
                         return null;

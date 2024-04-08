@@ -7,7 +7,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        AllowsTransparency="True" 
+        AllowsTransparency="True" ResizeMode="NoResize"
         WindowStyle="None" MinHeight="400" MinWidth="400"
         Title="MainAuthWindow" Height="600" Width="700" HorizontalAlignment="Center"
         VerticalAlignment="Center"  >

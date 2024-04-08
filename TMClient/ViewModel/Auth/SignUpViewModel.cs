@@ -55,6 +55,16 @@ namespace TMClient.ViewModel.Auth
         }
         private string repeatPassword = string.Empty;
 
+        public string ErrorText 
+        { 
+            get => errorText;
+            set
+            {
+                errorText = value;
+                OnPropertyChanged(nameof(ErrorText));
+            }
+        }
+        private string errorText;
 
         public ICommand SignUpCommand => new AsyncCommand(SignUp, o => !IsBusy);
         public ICommand OpenSettings => new AsyncCommand(() => Messenger.Send(Messages.OpenSettingsPage));
@@ -112,12 +122,19 @@ namespace TMClient.ViewModel.Auth
                 ErrorVisibility = Visibility.Visible;
                 return;
             }
-
             IsBusy = true;
-            IApi? api = await Model.Registration(UserName, Login, Password);
-
-            if (!ReturnApi(api))
+            try
             {
+                IApi? api = await Model.Registration(UserName, Login, Password);
+                if (!ReturnApi(api))
+                {
+                    ErrorVisibility = Visibility.Visible;
+                    IsBusy = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorText = ex.Message;
                 ErrorVisibility = Visibility.Visible;
                 IsBusy = false;
             }
