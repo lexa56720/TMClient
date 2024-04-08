@@ -56,8 +56,46 @@
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Padding="5,5,5,0"   Margin="0"  Text="{Binding Message.Text}" TextWrapping="Wrap"/>
+                        <TextBlock Padding="5,5,5,0" Grid.Row="0"   Margin="0"  Text="{Binding Message.Text}" TextWrapping="Wrap"/>
+                        <ListView Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="1" ItemsSource="{Binding Message.Attachments}" >
+                            <ListView.Style>
+                                <Style BasedOn="{StaticResource ResourceKey={x:Type ListView}}" TargetType="ListView">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Message.Attachments.Length}" Value="0">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.Style>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
+                                    <Setter Property="Focusable" Value="false"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="Margin" Value="0,0,-5,0"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="Transparent" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid >
+                                        <local:AttachmentDisplay MinHeight="50" MinWidth="50" MaxWidth="200" MaxHeight="200" Attachment="{Binding .}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-5,0,-5">
                             <TextBlock  Text="{Binding Message.SendTime,Converter={StaticResource DateTimeConverter}}"
                                                VerticalAlignment="Bottom" FontSize="14"  />

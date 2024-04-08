@@ -37,7 +37,7 @@ namespace ClientApiWrapper.Types
                 OnPropertyChanged(nameof(ImageLarge));
             }
         }
-        private string? imageLarge;
+        private string? imageLarge = null;
 
         public virtual string? ImageMedium
         {
@@ -48,7 +48,7 @@ namespace ClientApiWrapper.Types
                 OnPropertyChanged(nameof(ImageMedium));
             }
         }
-        private string? imageMedium;
+        private string? imageMedium = null;
 
         public virtual string? ImageSmall
         {
@@ -59,7 +59,7 @@ namespace ClientApiWrapper.Types
                 OnPropertyChanged(nameof(ImageSmall));
             }
         }
-        private string? imageSmall;
+        private string? imageSmall=null;
 
         public NamedImageEntity(int id, string name, string? picLarge, string? picMedium, string? picSmall)
         {
@@ -70,25 +70,22 @@ namespace ClientApiWrapper.Types
                 IsHaveImage = false;
             else
             {
+                IsHaveImage = true;
+
                 ImageLarge = picLarge;
                 ImageMedium = picMedium;
                 ImageSmall = picSmall;
-                IsHaveImage = true;
             }
         }
         public NamedImageEntity(int id, string name)
         {
             Id = id;
             Name = name;
-            ImageLarge = null;
-            ImageMedium = null;
-            ImageSmall = null;
             IsHaveImage = false;
         }
         protected NamedImageEntity()
         {
         }
-
 
 
         public event PropertyChangedEventHandler? PropertyChanged;

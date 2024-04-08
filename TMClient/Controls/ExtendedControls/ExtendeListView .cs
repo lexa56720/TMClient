@@ -10,7 +10,7 @@ namespace TMClient.Controls
     /// <summary>
     /// Логика взаимодействия для ExtendeListView.xaml
     /// </summary>
-    public partial class ExtendeListView : ListView
+    public class ExtendeListView : ListView
     {
         private ScrollViewer? ScrollViewer
         {
@@ -58,17 +58,16 @@ namespace TMClient.Controls
             set { SetValue(IsReachTopEnabledProperty, value); }
         }
 
-        public ExtendeListView()
+        public ExtendeListView():base()
         {
-            InitializeComponent();
-
             ScrollViewer = FindScrollViewer(this);
+            Style = (Style)FindResource("DefaultListView");
         }
 
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            if (Math.Abs(e.VerticalOffset - ((ScrollViewer)e.Source).ScrollableHeight) < 150)
+            if (Math.Abs(e.VerticalOffset - (ScrollViewer).ScrollableHeight) < 150)
             {
                 if (e.ExtentHeightChange < 0)
                     ScrollViewer?.ScrollToVerticalOffset(ScrollViewer.VerticalOffset - e.ExtentHeightChange * 2);

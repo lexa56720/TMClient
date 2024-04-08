@@ -15,22 +15,16 @@ namespace ClientApiWrapper.Types
     {
         public override bool IsSystem => true;
 
-        public ActionKind Kind { get; init; }
-        public User? Target { get; init; }
+        public required ActionKind Kind { get; init; }
+        public required User? Target { get; init; }
 
-        public bool IsExecutorAreCurrentUser { get; set; }
-        public bool IsTargetAreCurrentUser { get; set; }
+        public required bool IsExecutorAreCurrentUser { get; init; }
+        public required bool IsTargetAreCurrentUser { get; init; }
 
-        [SetsRequiredMembers]
-        public SystemMessage(int id, DateTime sendTime, User author, User? target, ActionKind action, Chat destination)
-                           : base(id, string.Empty, sendTime, author, destination, true, author.IsCurrentUser)
+        public SystemMessage()
         {
-            Kind = action;
-            Target = target;
-            IsExecutorAreCurrentUser = IsOwn;
-            if (Target != null)
-                IsTargetAreCurrentUser = Target.IsCurrentUser;
+
         }
-    
+  
     }
 }

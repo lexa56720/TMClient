@@ -1,4 +1,5 @@
 ﻿using ApiTypes.Communication.Messages;
+using ClientApiWrapper.Types;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 
@@ -6,12 +7,12 @@ namespace ApiWrapper.Types
 {
     public class Message : INotifyPropertyChanged
     {
-        public int Id { get; init; }
+        public required int Id { get; init; }
 
 
-        public virtual bool IsSystem=>false;
+        public virtual bool IsSystem => false;
 
-        public string Text
+        public required string Text
         {
             get => text;
             set
@@ -22,7 +23,7 @@ namespace ApiWrapper.Types
         }
         private string text = string.Empty;
 
-        public DateTime SendTime
+        public required DateTime SendTime
         {
             get => sendTime;
             set
@@ -68,21 +69,13 @@ namespace ApiWrapper.Types
 
         public required Chat Destination { get; init; }
 
+        public required Attachment[] Attachments { get; init; } = [];
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        [SetsRequiredMembers]
-        public Message(int id, string text, DateTime sendTime, User author, Chat destination, bool isReaded, bool isOwn)
-        {
-            Id = id;
-            Text = text;
-            SendTime = sendTime;
-            Author = author;
-            Destination = destination;
-            IsReaded = isReaded;
-            IsOwn = isOwn;
-        }
         public Message()
         {
+
         }
 
         private void OnPropertyChanged(string propertyName)

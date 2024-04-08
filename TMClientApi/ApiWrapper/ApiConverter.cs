@@ -15,6 +15,8 @@ using ApiTypes.Communication.Medias;
 using TMApi;
 using ApiTypes.Communication.Users;
 using ApiWrapper.ApiWrapper.Wrapper;
+using ApiTypes.Communication.Chats;
+using TMApi.ApiRequests.Security;
 
 namespace ApiWrapper.ApiWrapper
 {
@@ -37,9 +39,9 @@ namespace ApiWrapper.ApiWrapper
             if (user.ProfilePics.Length < 3)
                 return new User(user.Id, user.Name, user.Login, user.IsOnline, isCurrentUser, user.LastAction);
 
-            var largePic = GetProfileImage(user.ProfilePics.SingleOrDefault(p => p.Size == ImageSize.Large));
-            var mediumPic = GetProfileImage(user.ProfilePics.SingleOrDefault(p => p.Size == ImageSize.Medium));
-            var smallPic = GetProfileImage(user.ProfilePics.SingleOrDefault(p => p.Size == ImageSize.Small));
+            var largePic = GetImageUrl(user.ProfilePics.SingleOrDefault(p => p.Size == ImageSize.Large));
+            var mediumPic = GetImageUrl(user.ProfilePics.SingleOrDefault(p => p.Size == ImageSize.Medium));
+            var smallPic = GetImageUrl(user.ProfilePics.SingleOrDefault(p => p.Size == ImageSize.Small));
             return new User(user.Id, user.Name, user.Login, user.IsOnline, isCurrentUser, user.LastAction, largePic, mediumPic, smallPic);
         }
         public User[] Convert(ApiUser[] users)
@@ -54,9 +56,9 @@ namespace ApiWrapper.ApiWrapper
         {
             var members = await UserApi.GetUser(chat.MemberIds);
 
-            var largePic = GetProfileImage(chat.ChatCover.SingleOrDefault(p => p.Size == ImageSize.Large));
-            var mediumPic = GetProfileImage(chat.ChatCover.SingleOrDefault(p => p.Size == ImageSize.Medium));
-            var smallPic = GetProfileImage(chat.ChatCover.SingleOrDefault(p => p.Size == ImageSize.Small));
+            var largePic = GetImageUrl(chat.ChatCover.SingleOrDefault(p => p.Size == ImageSize.Large));
+            var mediumPic = GetImageUrl(chat.ChatCover.SingleOrDefault(p => p.Size == ImageSize.Medium));
+            var smallPic = GetImageUrl(chat.ChatCover.SingleOrDefault(p => p.Size == ImageSize.Small));
 
             var result = new Chat(chat.Id, chat.Name, members.Single(m => m.Id == chat.AdminId), chat.UnreadCount,
                                   chat.IsDialogue, largePic, mediumPic, smallPic);
@@ -73,9 +75,9 @@ namespace ApiWrapper.ApiWrapper
             var convertedMembers = isIgnoreCache ? await Api.users.GetUserIgnoringCache(members) : await UserApi.GetUser(members);
             for (int chatCount = 0, memberCount = 0; chatCount < result.Length; chatCount++)
             {
-                var largePic = GetProfileImage(chats[chatCount].ChatCover.SingleOrDefault(p => p.Size == ImageSize.Large));
-                var mediumPic = GetProfileImage(chats[chatCount].ChatCover.SingleOrDefault(p => p.Size == ImageSize.Medium));
-                var smallPic = GetProfileImage(chats[chatCount].ChatCover.SingleOrDefault(p => p.Size == ImageSize.Small));
+                var largePic = GetImageUrl(chats[chatCount].ChatCover.SingleOrDefault(p => p.Size == ImageSize.Large));
+                var mediumPic = GetImageUrl(chats[chatCount].ChatCover.SingleOrDefault(p => p.Size == ImageSize.Medium));
+                var smallPic = GetImageUrl(chats[chatCount].ChatCover.SingleOrDefault(p => p.Size == ImageSize.Small));
 
                 var admin = convertedMembers.First(m => m.Id == chats[chatCount].AdminId);
 
@@ -93,30 +95,8 @@ namespace ApiWrapper.ApiWrapper
         {
             Cache.AddOrUpdateCache(TimeSpan.MaxValue, author);
             if (message.Kind == ApiTypes.Communication.Messages.ActionKind.None)
-            {
-                return new Message(message.Id,
-                                   message.Text,
-                                   message.SendTime,
-                                   author,
-                                   chat,
-                                   message.IsReaded,
-                                   author.IsCurrentUser);
-            }
-            else
-            {
-                User? target = null;
-                if (message.TargetId > 0)
-                    target = await Api.Users.GetUser(message.TargetId);
-                var systemMessage = new SystemMessage(message.Id,
-                                         message.SendTime,
-                                         author,
-                                         target,
-                                         message.Kind,
-                                         chat);
-                if (systemMessage.Target != null)
-                    Cache.AddOrUpdateCache(TimeSpan.MaxValue, systemMessage.Target);
-                return systemMessage;
-            }
+                return CreateMessage(message, author, chat);
+            return await CreateSystemMessage(message, author, chat);
         }
         public async Task<Message?> Convert(ApiMessage message)
         {
@@ -174,14 +154,14 @@ namespace ApiWrapper.ApiWrapper
             return new ChatInvite(invite.Id, user, chat);
         }
 
-        public async Task<ChatInvite[]> Convert(ApiChatInvite[] invites,bool isIgnoreCache=false)
+        public async Task<ChatInvite[]> Convert(ApiChatInvite[] invites, bool isIgnoreCache = false)
         {
             User[] users;
             Chat[] chats;
-            if(isIgnoreCache)
+            if (isIgnoreCache)
             {
                 users = await Api.users.GetUserIgnoringCache(invites.Select(i => i.FromUserId).ToArray());
-                chats = await Api.chats.GetChatIgnoringCache(invites.Select(i => i.ChatId).ToArray(),true);
+                chats = await Api.chats.GetChatIgnoringCache(invites.Select(i => i.ChatId).ToArray(), true);
             }
             else
             {
@@ -197,7 +177,77 @@ namespace ApiWrapper.ApiWrapper
             return result;
         }
 
-        private static string? GetProfileImage(PhotoLink? photo)
+
+        private async Task<Message> CreateSystemMessage(ApiMessage message, User author, Chat chat)
+        {
+            User? target = null;
+            bool isTargetCurrentUser = false;
+            if (message.TargetId > 0)
+                target = await Api.Users.GetUser(message.TargetId);
+
+            if (target != null)
+            {
+                Cache.AddOrUpdateCache(TimeSpan.MaxValue, target);
+                isTargetCurrentUser = target.IsCurrentUser;
+            }
+            return new SystemMessage()
+            {
+                Id = message.Id,
+                Author = author,
+                Destination = chat,
+                IsOwn = author.IsCurrentUser,
+                IsReaded = message.IsReaded,
+                Text = message.Text,
+                SendTime = message.SendTime,
+                Attachments = [],
+                Kind = message.Kind,
+                Target = target,
+                IsTargetAreCurrentUser = isTargetCurrentUser,
+                IsExecutorAreCurrentUser = author.IsCurrentUser
+            };
+        }
+        private Message CreateMessage(ApiMessage message, User author, Chat chat)
+        {
+            return new Message()
+            {
+                Id = message.Id,
+                Author = author,
+                Destination = chat,
+                IsOwn = author.IsCurrentUser,
+                IsReaded = message.IsReaded,
+                Text = message.Text,
+                SendTime = message.SendTime,
+                Attachments = Convert(message.Photos, message.Files)
+            };
+        }
+
+        private static Attachment[] Convert(PhotoLink[] photos, FileLink[] files)
+        {
+            var attachments = new Attachment[photos.Length + files.Length];
+            for (int imageCount = 0, fileCount = 0; imageCount < attachments.Length; imageCount++)
+            {
+                if (imageCount < photos.Length)
+                {
+                    var url = GetImageUrl(photos[imageCount]);
+                    var imageName = photos[imageCount].Url.GetHashCode().ToString();
+                    attachments[imageCount] = new ImageAttachment(imageName, url);
+                }
+                else
+                {
+                    var url = GetFileUrl(files[fileCount]);
+                    attachments[imageCount] = new FileAttachment(files[fileCount].Name, url);
+                    fileCount++;
+                }
+            }
+            return attachments;
+        }
+        private static string? GetFileUrl(FileLink? file)
+        {
+            if (file == null)
+                return null;
+            return $"http://{FileServer?.ToString()}/{file.Url}";
+        }
+        private static string? GetImageUrl(PhotoLink? photo)
         {
             if (photo == null)
                 return null;

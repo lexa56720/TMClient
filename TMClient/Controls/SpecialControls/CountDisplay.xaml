@@ -10,6 +10,8 @@
         <Ellipse HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{Binding Foreground}" Width="{Binding Width}" Height="{Binding Height}" >
             
         </Ellipse>
-        <TextBlock Text="{Binding CountText}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{Binding FontSize}"/>
+        <Viewbox>
+            <TextBlock Text="{Binding CountText}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Viewbox>
     </Grid>
 </UserControl>

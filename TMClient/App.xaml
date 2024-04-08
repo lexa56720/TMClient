@@ -278,9 +278,59 @@
                                      Height="{Binding Height,RelativeSource={RelativeSource Mode=TemplatedParent},Converter={StaticResource AddValueConverter},ConverterParameter=2}">
                                 <Ellipse.Stroke>
                                     <SolidColorBrush Color="Black" Opacity="0.4" />
-
                                 </Ellipse.Stroke>
                             </Ellipse>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="LayoutRoot"  Storyboard.TargetProperty="Opacity" 
+                                                                To="0.7"
+                                                                AutoReverse="False"
+                                                                FillBehavior="HoldEnd" 
+                                                                Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="LayoutRoot"  Storyboard.TargetProperty="Opacity" 
+                                                                To="0"
+                                                                AutoReverse="False"
+                                                                FillBehavior="HoldEnd" 
+                                                                Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                            <EventTrigger RoutedEvent="Button.Click">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation Storyboard.TargetName="circle" Storyboard.TargetProperty="Fill.(SolidColorBrush.Color)" 
+                                                         To="{StaticResource LightInteractColor}"
+                                                         AutoReverse="True"
+                                                         FillBehavior="Stop" 
+                                                         Duration="0:0:0.2"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ShadeButton" TargetType="Button" BasedOn="{StaticResource ResourceKey={x:Type Button}}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid  x:Name="LayoutRoot" Opacity="0"  Background="Transparent" >
+                            <Rectangle Fill="Black" StrokeThickness="2"  x:Name="circle" Margin="-2"/>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                         <ControlTemplate.Triggers>
@@ -1340,6 +1390,7 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="DefaultListView" TargetType="ListView" BasedOn="{StaticResource ResourceKey={x:Type ListView}}"/>
         <!--#endregion-->
 
         <!--#region TreeView-->

@@ -34,8 +34,7 @@
         </Viewbox>
 
         <Border  Background="#69000000" VerticalAlignment="Bottom" CornerRadius="0,0,5,5">
-            
-        <TextBlock   FontSize="{Binding FontSize}" Text="{Binding Path,Converter={StaticResource PathToFilenameConverter}}" />
+            <TextBlock   FontSize="{Binding FontSize}" Text="{Binding Path,Converter={StaticResource PathToFilenameConverter}}" />
         </Border>
 
     </Grid>
