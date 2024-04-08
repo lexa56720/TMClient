@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using TMClient.Utils;
 
 namespace TMClient.Controls
 {
@@ -9,19 +11,6 @@ namespace TMClient.Controls
     /// </summary>
     public partial class ChatControl : UserControl
     {
-        public static readonly DependencyProperty ItemsSourceProperty =
-        DependencyProperty.Register(
-            nameof(ItemsSource),
-            typeof(IEnumerable<MessageControl>),
-            typeof(ChatControl),
-            new PropertyMetadata(null));
-        public IEnumerable<MessageControl> ItemsSource
-        {
-            get { return (IEnumerable<MessageControl>)GetValue(ItemsSourceProperty); }
-            set { SetValue(ItemsSourceProperty, value); }
-        }
-
-
         public static readonly DependencyProperty IsReadOnlyProperty =
         DependencyProperty.Register(
             nameof(IsReadOnly),
@@ -61,20 +50,6 @@ namespace TMClient.Controls
             set { SetValue(SendCommandProperty, value); }
         }
 
-
-        public static readonly DependencyProperty AttachCommandProperty =
-        DependencyProperty.Register(
-           nameof(AttachCommand),
-           typeof(ICommand),
-           typeof(ChatControl),
-           new PropertyMetadata(null));
-        public ICommand AttachCommand
-        {
-            get { return (ICommand)GetValue(AttachCommandProperty); }
-            set { SetValue(AttachCommandProperty, value); }
-        }
-
-
         public static readonly DependencyProperty WrittenTextProperty =
         DependencyProperty.Register(
            nameof(WrittenText),
@@ -87,12 +62,44 @@ namespace TMClient.Controls
             set { SetValue(WrittenTextProperty, value); }
         }
 
+
+        public static readonly DependencyProperty FilesProperty =
+        DependencyProperty.Register(nameof(Files),
+                                    typeof(ObservableCollection<string>),
+                                    typeof(ChatControl));
+        public ObservableCollection<string> Files
+        {
+            get => (ObservableCollection<string>)GetValue(FilesProperty);
+            set => SetValue(FilesProperty, value);
+        }
+
+
+        public static readonly DependencyProperty MessagesProperty =
+        DependencyProperty.Register(nameof(Messages),
+                            typeof(ObservableCollection<MessageBaseControl>),
+                            typeof(ChatControl));
+        public ObservableCollection<MessageBaseControl> Messages
+        {
+            get => (ObservableCollection<MessageBaseControl>)GetValue(MessagesProperty);
+            set => SetValue(MessagesProperty, value);
+        }
+
+
+
+        public ICommand AttachCommand => new Command(Attach);
+        public ICommand RemoveFileCommand => new Command(RemoveFile);
+
         public ChatControl()
         {
+            SetValue(FilesProperty, new ObservableCollection<string>());
+            SetValue(MessagesProperty, new ObservableCollection<MessageBaseControl>());
+
             InitializeComponent();
         }
 
         private bool IsFirstTimeLoad = true;
+
+
         private void ChatLoaded(object sender, EventArgs e)
         {
             if (LoadMore.CanExecute(null) && IsFirstTimeLoad)
@@ -100,6 +107,19 @@ namespace TMClient.Controls
                 IsFirstTimeLoad = false;
                 LoadMore.Execute(null);
             }
+        }
+        private void RemoveFile(object? obj)
+        {
+            if (obj is not string path)
+                return;
+            Files.Remove(path);
+        }
+        public void Attach()
+        {
+            var files = FileLoader.PickFiles();
+            Files.Clear();
+            foreach (var file in files)
+                Files.Add(file);
         }
     }
 }

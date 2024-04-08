@@ -35,12 +35,8 @@ namespace TMClient.ViewModel.Chats
 
         public ICommand LoadHistory => new AsyncCommand(LoadMessages);
         public ICommand Send => new AsyncCommand<string>(SendMessage);
-        public ICommand Attach => new Command(AttachFile);
         public ICommand PageLoadedCommand => new Command(PageLoaded);
         public ICommand PageUnloadedCommand => new Command(PageUnloaded);
-        public ICommand RemoveFileCommand => new Command(RemoveFile);
-
-
 
         public ObservableCollection<string> Files { get; set; } = [];
 
@@ -108,19 +104,6 @@ namespace TMClient.ViewModel.Chats
             Model.SetIsReaded(Messages.Where(m => !m.Message.IsOwn && !m.Message.IsReaded));
         }
 
-        public void AttachFile()
-        {
-            var files = FileLoader.PickFiles();
-            Files.Clear();
-            foreach (var file in files)
-                Files.Add(file);
-        }
-        private void RemoveFile(object? obj)
-        {
-            if (obj is not string path)
-                return;
-            Files.Remove(path);
-        }
         protected async void HandleNewMessages(object? sender, Message[] messages)
         {
             var currentChatMessages = messages.Where(m => m.Destination.Id == Chat.Id)

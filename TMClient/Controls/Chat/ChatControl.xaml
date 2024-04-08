@@ -18,7 +18,7 @@
                 <local:ExtendeListView Background="#202020" Padding="0" Margin="0"  ScrollViewer.VerticalScrollBarVisibility="Visible"
                                        IsReachTopEnabled="{Binding IsReadOnly, ElementName=chatCtrl}"
                                        ReachTop="{Binding LoadMore, ElementName=chatCtrl}"
-                                       ItemsSource="{Binding Messages}" HorizontalContentAlignment="Stretch" 
+                                       ItemsSource="{Binding Messages, ElementName=chatCtrl}" HorizontalContentAlignment="Stretch" 
                                        ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
                     <local:ExtendeListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
@@ -56,7 +56,7 @@
         </DockPanel>
 
 
-        <ListView Background="Transparent" Grid.Row="2" ItemsSource="{Binding Files}" x:Name="filelist" >
+        <ListView Background="Transparent" Grid.Row="2" ItemsSource="{Binding Files,ElementName=chatCtrl}" x:Name="filelist" >
             <ListView.Style>
                 <Style BasedOn="{StaticResource ResourceKey={x:Type ListView}}" TargetType="ListView">
                     <Setter Property="Visibility" Value="Visible"/>
@@ -90,7 +90,7 @@
                     <Grid >
                         <local:FileDisplay MaxWidth="200" MaxHeight="100" Path="{Binding .}" />
                         <local:IconButton Icon="&#xe711;" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" 
-                                          Style="{StaticResource DarkTransperentButton}" Command="{Binding Path=DataContext.RemoveFileCommand,ElementName=chatCtrl}" CommandParameter="{Binding .}" />
+                                          Style="{StaticResource DarkTransperentButton}" Command="{Binding Path=RemoveFileCommand,ElementName=chatCtrl}" CommandParameter="{Binding .}" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
