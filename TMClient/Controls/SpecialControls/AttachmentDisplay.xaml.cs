@@ -109,6 +109,17 @@ namespace TMClient.Controls
         }
         private bool isDownloading;
 
+        public bool IsImageLoaded
+        {
+            get => isImageLoaded;
+            set
+            {
+                isImageLoaded = value;
+                OnPropertyChanged(nameof(IsImageLoaded));
+            }
+        }
+        private bool isImageLoaded;
+
         private string SavedPath { get; set; } = string.Empty;
 
         private CancellationTokenSource TokenSource;
@@ -136,10 +147,23 @@ namespace TMClient.Controls
             IsSaved = false;
             IsDownloading = false;
             IsImage = attachment is ImageAttachment;
+            if (Image != null)
+                (Image as BitmapImage).DownloadCompleted -= ImageDownloadCompleted;
+
             if (IsImage)
+            {
                 Image = new BitmapImage(new Uri(attachment.Url));
+                IsImageLoaded = !(Image as BitmapImage).IsDownloading;
+                (Image as BitmapImage).DownloadCompleted += ImageDownloadCompleted;
+            }
             else
                 Image = null;
+
+        }
+
+        private void ImageDownloadCompleted(object? sender, EventArgs e)
+        {
+            IsImageLoaded = true;
         }
 
         private async Task Download()
@@ -163,7 +187,7 @@ namespace TMClient.Controls
             {
                 IsSaved = false;
             }
-            if(TokenSource.IsCancellationRequested)
+            if (TokenSource.IsCancellationRequested)
             {
                 fs.Close();
                 DownloadProgress = 0;

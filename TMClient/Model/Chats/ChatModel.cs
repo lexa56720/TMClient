@@ -43,7 +43,7 @@ namespace TMClient.Model.Chats
             using var tks = new CancellationTokenSource();
             return await Api.Messages.SendMessage(text, Chat.Id, tks.Token, filePaths);
         }
-        public void SetIsReaded(IEnumerable<MessageBaseControl> messages)
+        public void SetIsReaded(IEnumerable<Message> messages)
         {
             if (messages.Count() == 0)
                 return;
@@ -51,7 +51,7 @@ namespace TMClient.Model.Chats
             {
                 foreach (var message in messages)
                 {
-                    message.Message.IsReaded = true;
+                    message.IsReaded = true;
                 }
             });
         }

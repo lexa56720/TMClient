@@ -35,6 +35,33 @@
                     </local:ExtendeListView.ItemContainerStyle>
                     <local:ExtendeListView.ItemTemplate>
                         <DataTemplate>
+                            <ContentControl Content="{Binding }">
+                                <ContentControl.Style>
+                                    <Style TargetType="ContentControl">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Message.IsSystem}" Value="True">
+                                                <Setter Property="ContentTemplate">
+                                                    <Setter.Value>
+                                                        <DataTemplate>
+                                                            <local:SystemMessageControl Message="{Binding Message}" />
+                                                        </DataTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Message.IsSystem}" Value="False">
+                                                <Setter Property="ContentTemplate">
+                                                    <Setter.Value>
+                                                        <DataTemplate>
+                                                            <local:MessageControl OpenImageCommand="{Binding DataContext.OpenImageCommand,RelativeSource={RelativeSource AncestorType=local:ExtendeListView}}"
+                                                                                  IsAuthorVisible="{Binding IsAuthorVisible}"  Message="{Binding Message}" />
+                                                        </DataTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ContentControl.Style>
+                            </ContentControl>
                         </DataTemplate>
                     </local:ExtendeListView.ItemTemplate>
                 </local:ExtendeListView>
@@ -93,7 +120,7 @@
                 <DataTemplate>
                     <Grid >
                         <local:FileDisplay MaxWidth="200" MaxHeight="100" Path="{Binding .}" />
-                        <local:IconButton Icon="&#xe711;" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" 
+                        <local:IconButton Icon="&#xe711;" Margin="5" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" 
                                           Style="{StaticResource DarkTransperentButton}" Command="{Binding Path=RemoveFileCommand,ElementName=chatCtrl}" CommandParameter="{Binding .}" />
                     </Grid>
                 </DataTemplate>

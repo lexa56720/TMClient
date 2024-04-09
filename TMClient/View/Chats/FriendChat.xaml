@@ -57,7 +57,7 @@
                 </StackPanel>
             </Grid>
             <controls:ChatControl LoadMore="{Binding LoadHistory}" Files="{Binding Files}" WrittenText="{Binding MessageText}" Messages="{Binding Messages}" 
-                                  SendCommand="{Binding Send}" Grid.Row="1" IsReadOnly="{Binding  Friend.Dialogue.IsReadOnly}"  />
+                                  SendCommand="{Binding Send}" Grid.Row="1" IsReadOnly="{Binding  Friend.Dialogue.IsReadOnly}" OpenImageCommand="{Binding OpenImageCommand}"  />
         </Grid>
     </Border>
 </Page>

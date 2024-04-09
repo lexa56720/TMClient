@@ -1,5 +1,4 @@
-﻿using ClientApiWrapper.Types;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,21 +10,21 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using TMClient.Utils;
-using System.Diagnostics.CodeAnalysis;
+using TMClient.Controls;
+using TMClient.ViewModel;
 
-namespace TMClient.Controls
+namespace TMClient.View
 {
     /// <summary>
-    /// Логика взаимодействия для SystemMessageControl.xaml
+    /// Логика взаимодействия для ImageViewerWindow.xaml
     /// </summary>
-    public partial class SystemMessageControl : MessageBaseControl
+    public partial class ImageViewerWindow : ModernWindow
     {
-
-        public SystemMessageControl()
+        public ImageViewerWindow(ImageSource imageSource)
         {
+            Title = "Просмотр изображения";
+            DataContext = new ImageViewerViewModel(imageSource);
             InitializeComponent();
         }
     }

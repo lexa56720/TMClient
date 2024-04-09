@@ -10,13 +10,16 @@
 
         <Grid Margin="0" Visibility="{Binding IsImage,Converter={StaticResource BooleanToVisibility},IsAsync=True}">
 
-            <Button Command="{Binding OpenFullCommand}" Style="{StaticResource TransperentButton}">
+            <Button Visibility="{Binding IsImageLoaded,Converter={StaticResource BooleanToVisibility}}" 
+                    Command="{Binding OpenFullCommand}" CommandParameter="{Binding Image}" Style="{StaticResource TransperentButton}">
                 <Grid>
-                    <Border x:Name="mask" Background="{StaticResource BackgroundDarkBrush}" Margin="0" CornerRadius="5"/>
-                    <Image RenderOptions.BitmapScalingMode="HighQuality" ForceCursor="true" Cursor="Hand"
+                    <Border x:Name="mask" Background="{Binding Background}" Opacity="1" Margin="0" CornerRadius="5">
+    
+                    </Border>
+                    <Image  x:Name="img" RenderOptions.BitmapScalingMode="HighQuality" ForceCursor="true" Cursor="Hand"
                        Source="{Binding Image,IsAsync=True}" Stretch="Uniform" MinHeight="50" MinWidth="50" >
                         <Image.OpacityMask>
-                            <VisualBrush Visual="{Binding ElementName=mask}" />
+                            <VisualBrush Visual="{Binding ElementName=mask}"  />
                         </Image.OpacityMask>
                     </Image>
                 </Grid>
@@ -43,10 +46,10 @@
                    TextWrapping="WrapWithOverflow" TextTrimming="CharacterEllipsis" Text="{Binding Attachment.FileName}">
             <TextBlock.Style>
                 <Style TargetType="TextBlock" BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}">
-                    <Setter Property="Visibility" Value="Visible"/>
+                    <Setter Property="Visibility" Value="Collapsed"/>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsImage,IsAsync=True}" Value="True">
-                            <Setter Property="Visibility" Value="Collapsed"/>
+                        <DataTrigger Binding="{Binding IsImage,IsAsync=True}" Value="False">
+                            <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -55,7 +58,7 @@
 
         <DockPanel  Margin="5" >
 
-            <local:IconButton DockPanel.Dock="Bottom" Margin="0" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+            <local:IconButton DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right">
                 <local:IconButton.Style>
                     <Style TargetType="local:IconButton" BasedOn="{StaticResource DarkTransperentButton}">
                         <Style.Triggers>
@@ -70,6 +73,12 @@
                             <DataTrigger Binding="{Binding IsSaved}" Value="True">
                                 <Setter Property="Icon" Value="&#xe74e;"/>
                                 <Setter Property="Command" Value="{Binding OpenFolderCommand}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsImage}" Value="False">
+                                <Setter Property="Margin" Value="0,0,0,21"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsImage}" Value="True">
+                                <Setter Property="Margin" Value="5"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

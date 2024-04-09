@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -95,11 +96,11 @@ namespace TMClient.Controls
 
         public static readonly DependencyProperty MessagesProperty =
         DependencyProperty.Register(nameof(Messages),
-                            typeof(ObservableCollection<MessageBaseControl>),
+                            typeof(ObservableCollection<MessageContainer>),
                             typeof(ChatControl));
-        public ObservableCollection<MessageBaseControl> Messages
+        public ObservableCollection<MessageContainer> Messages
         {
-            get => (ObservableCollection<MessageBaseControl>)GetValue(MessagesProperty);
+            get => (ObservableCollection<MessageContainer>)GetValue(MessagesProperty);
             set => SetValue(MessagesProperty, value);
         }
 
@@ -111,7 +112,7 @@ namespace TMClient.Controls
         public ChatControl()
         {
             SetValue(FilesProperty, new ObservableCollection<string>());
-            SetValue(MessagesProperty, new ObservableCollection<MessageBaseControl>());
+            SetValue(MessagesProperty, new ObservableCollection<MessageContainer>());
 
             InitializeComponent();
         }

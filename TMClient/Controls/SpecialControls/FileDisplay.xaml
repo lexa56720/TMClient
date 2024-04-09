@@ -10,13 +10,8 @@
     <Grid DataContext="{Binding ElementName=fileDisplay}">
 
         <Grid Margin="5" Visibility="{Binding IsImage,Converter={StaticResource BooleanToVisibility},IsAsync=True}">
-            <Border Name="mask" Background="White" Margin="1" CornerRadius="5"/>
 
-            <Image Source="{Binding Image,IsAsync=True}" Stretch="Uniform">
-                <Image.OpacityMask>
-                    <VisualBrush Visual="{Binding ElementName=mask}"/>
-
-                </Image.OpacityMask>
+            <Image Margin="0" Source="{Binding Image,IsAsync=True}" Stretch="Uniform">
             </Image>
         </Grid>
         <Viewbox>
@@ -34,7 +29,7 @@
         </Viewbox>
 
         <Border  Background="#69000000" VerticalAlignment="Bottom" CornerRadius="0,0,5,5">
-            <TextBlock   FontSize="{Binding FontSize}" Text="{Binding Path,Converter={StaticResource PathToFilenameConverter}}" />
+            <TextBlock  TextTrimming="CharacterEllipsis"  FontSize="{Binding FontSize}" Text="{Binding Path,Converter={StaticResource PathToFilenameConverter}}" />
         </Border>
 
     </Grid>

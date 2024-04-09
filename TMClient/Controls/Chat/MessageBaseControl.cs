@@ -5,35 +5,35 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using TMClient.Utils;
 
 namespace TMClient.Controls
 {
-    public abstract class MessageBaseControl : UserControl,INotifyPropertyChanged
+    public abstract class MessageBaseControl : UserControl
     {
-        public Message Message 
-        { 
-            get => message; 
+
+        public static readonly DependencyProperty MessageProperty =
+        DependencyProperty.Register(nameof(Message),
+                                    typeof(Message),
+                                    typeof(MessageBaseControl),
+                                    new PropertyMetadata(null));
+
+        public Message Message
+        {
+            get
+            {
+                return (Message)GetValue(MessageProperty);
+            }
             set
             {
-                message = value;
-                OnPropertyChanged(nameof(message));
+                SetValue(MessageProperty, value);
             }
         }
-        private Message message;
-
-        public MessageBaseControl(Message message)
+        public MessageBaseControl()
         {
-            Message= message;
-            DataContext = this;
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

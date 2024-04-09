@@ -49,7 +49,7 @@
                 </StackPanel>
             </Grid>
             <controls:ChatControl IsReadOnly="{Binding Chat.IsReadOnly}" LoadMore="{Binding LoadHistory}" Files="{Binding Files}" SendCommand="{Binding Send}"
-                                  WrittenText="{Binding MessageText}"  Grid.Row="1" Messages="{Binding Messages}"  />
+                                  WrittenText="{Binding MessageText}"  Grid.Row="1" Messages="{Binding Messages}" OpenImageCommand="{Binding OpenImageCommand}"   />
         </Grid>
     </Border>
 </Page>

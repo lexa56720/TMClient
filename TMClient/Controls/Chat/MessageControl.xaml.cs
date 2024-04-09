@@ -14,6 +14,7 @@ namespace TMClient.Controls
     /// </summary>
     public partial class MessageControl : MessageBaseControl
     {
+
         public static readonly DependencyProperty OpenImageCommandProperty =
         DependencyProperty.Register(nameof(OpenImageCommand),
                                     typeof(ICommand),
@@ -30,21 +31,29 @@ namespace TMClient.Controls
                 SetValue(OpenImageCommandProperty, value);
             }
         }
+
+
+        public static readonly DependencyProperty IsAuthorVisibleProperty =
+        DependencyProperty.Register(nameof(IsAuthorVisible),
+                                    typeof(bool),
+                                    typeof(MessageControl),
+                                    new PropertyMetadata(true));
         public bool IsAuthorVisible
-        {
-            get => isAuthorVisibile;
+        { 
+            get
+            {
+                return (bool)GetValue(IsAuthorVisibleProperty);
+            }
             set
             {
-                isAuthorVisibile = value;
-                OnPropertyChanged(nameof(IsAuthorVisible));
+                SetValue(IsAuthorVisibleProperty, value);
             }
         }
-        private bool isAuthorVisibile =false;
 
-        public MessageControl(Message message):base(message)
+
+        public MessageControl()
         {
             InitializeComponent();
-            DataContext = this;
         }
     }
 }

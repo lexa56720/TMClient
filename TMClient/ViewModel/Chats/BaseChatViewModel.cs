@@ -2,9 +2,11 @@
 using ClientApiWrapper.Types;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Windows.Media;
 using TMClient.Controls;
 using TMClient.Model.Chats;
 using TMClient.Utils;
+using TMClient.View;
 
 namespace TMClient.ViewModel.Chats
 {
@@ -12,7 +14,7 @@ namespace TMClient.ViewModel.Chats
     {
         public int Id { get; private set; }
         public Chat Chat { get; private set; }
-        public ObservableCollection<MessageBaseControl> Messages
+        public ObservableCollection<MessageContainer> Messages
         {
             get => messages;
             set
@@ -21,7 +23,7 @@ namespace TMClient.ViewModel.Chats
                 OnPropertyChanged(nameof(Messages));
             }
         }
-        private ObservableCollection<MessageBaseControl> messages = [];
+        private ObservableCollection<MessageContainer> messages = [];
         public string MessageText
         {
             get => messageText;
@@ -37,6 +39,15 @@ namespace TMClient.ViewModel.Chats
         public ICommand Send => new AsyncCommand<string>(SendMessage);
         public ICommand PageLoadedCommand => new Command(PageLoaded);
         public ICommand PageUnloadedCommand => new Command(PageUnloaded);
+        public ICommand OpenImageCommand => new Command(OpenImage);
+
+        private void OpenImage(object? obj)
+        {
+            if (obj is not ImageSource image)
+                return;
+            var imageViewer = new ImageViewerWindow(image);
+            imageViewer.Show();
+        }
 
         public ObservableCollection<string> Files { get; set; } = [];
 
@@ -101,7 +112,8 @@ namespace TMClient.ViewModel.Chats
                 MessageText = string.Empty;
                 Files.Clear();
             }
-            Model.SetIsReaded(Messages.Where(m => !m.Message.IsOwn && !m.Message.IsReaded));
+            Model.SetIsReaded(Messages.Where(m => !m.Message.IsOwn && !m.Message.IsReaded)
+                                      .Select(m => m.Message));
         }
 
         protected async void HandleNewMessages(object? sender, Message[] messages)
@@ -114,24 +126,23 @@ namespace TMClient.ViewModel.Chats
         }
         private void ReadMessages(object? sender, int[] e)
         {
-            Model.SetIsReaded(Messages.Where(m => e.Contains(m.Message.Id)));
+            Model.SetIsReaded(Messages.Where(m => e.Contains(m.Message.Id))
+                                      .Select(m => m.Message));
         }
 
-        private MessageBaseControl CreateMessage(Message message)
+        private MessageContainer CreateMessage(Message message)
         {
-            if (message.IsSystem)
-                return new SystemMessageControl((SystemMessage)message);
-            return new MessageControl(message);
+            return new MessageContainer(message);
         }
         protected void AddMessageToEnd(params Message[] messages)
         {
             for (int i = 0; i < messages.Length; i++)
             {
                 var message = CreateMessage(messages[i]);
-                if (message is MessageControl messageControl && Messages.LastOrDefault() is MessageControl prev &&
-                    prev.Message.Author.Id != messages[i].Author.Id)
+                if (!message.Message.IsSystem && Messages.LastOrDefault() is MessageContainer prev &&
+                    !prev.Message.IsSystem && prev.Message.Author.Id != message.Message.Author.Id)
                 {
-                    messageControl.IsAuthorVisible = false;
+                    message.IsAuthorVisible = false;
                 }
                 Messages.Add(message);
             }
@@ -142,17 +153,17 @@ namespace TMClient.ViewModel.Chats
             for (int i = 0; i < messages.Length; i++)
             {
                 var message = CreateMessage(messages[i]);
-                if (message is MessageControl messageControl)
+                if (!message.Message.IsSystem)
                 {
-                    if (Messages.FirstOrDefault() is MessageControl next)
+                    if (Messages.FirstOrDefault() is MessageContainer next && !next.Message.IsSystem)
                     {
                         if (next.Message.Author.Id == messages[i].Author.Id)
                             next.IsAuthorVisible = false;
-                        messageControl.IsAuthorVisible = true;
+                        message.IsAuthorVisible = true;
                     }
-                    else if (Messages.FirstOrDefault() is not MessageControl)
+                    else if (Messages.FirstOrDefault() is MessageContainer nextM && nextM.Message.IsSystem)
                     {
-                        messageControl.IsAuthorVisible = true;
+                        message.IsAuthorVisible = true;
                     }
                 }
 
