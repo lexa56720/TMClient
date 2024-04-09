@@ -217,7 +217,7 @@ namespace TMClient.Controls
         {
             if (string.IsNullOrEmpty(Preferences.Default.SavingFolder))
             {
-                var savingFolder = Utils.PathPicker.PickFolder();
+                var savingFolder = PathPicker.PickFolder();
                 if (string.IsNullOrEmpty(savingFolder))
                     return string.Empty;
                 Preferences.Default.SavingFolder = savingFolder;
@@ -245,7 +245,6 @@ namespace TMClient.Controls
             {
                 await fs.WriteAsync(buffer, token);
                 DownloadProgress += progressStep;
-                await Task.Delay(100);
             }
             if (token.IsCancellationRequested)
                 return false;
