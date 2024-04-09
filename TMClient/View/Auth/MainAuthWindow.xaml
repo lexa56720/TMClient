@@ -25,24 +25,37 @@
     </i:Interaction.Triggers>
 
     <Grid IsEnabled="{Binding IsLoading,Converter={StaticResource BooleanInverter}}">
+
         <Grid>
             <Grid.Style>
                 <Style TargetType="Grid" BasedOn="{StaticResource ResourceKey={x:Type Grid}}">
+                    <Setter Property="Grid.BitmapEffect">
+                        <Setter.Value>
+                            <BlurBitmapEffect x:Name="blurEffect" Radius="0"/>
+                        </Setter.Value>
+                    </Setter>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding LoadingVisibility}" Value="Visible">
-                            <Setter Property="Effect">
-                                <Setter.Value>
-                                    <BlurEffect Radius="10"/>
-                                </Setter.Value>
-                            </Setter>
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                        Storyboard.TargetProperty="BitmapEffect.Radius"
+                                        To="10" Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation
+                                        Storyboard.TargetProperty="BitmapEffect.Radius"
+                                        To="0" Duration="0:0:0.3"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding LoadingVisibility}" Value="Hidden">
-                            <Setter Property="Effect">
-                                <Setter.Value>
-                                    <BlurEffect Radius="0"/>
-                                </Setter.Value>
-                            </Setter>
-                        </DataTrigger>
+
                     </Style.Triggers>
                 </Style>
             </Grid.Style>
