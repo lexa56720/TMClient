@@ -171,22 +171,10 @@ namespace TMClient.ViewModel
             MainFrame = chat;
             UnselectAllExcept(string.Empty);
         }
-        private void IncrementModalCount()
-        {
-            ModalCount++;
-        }
-        private void DecrementModalCount()
-        {
-            ModalCount--;
-        }
-        private void LoadingStart()
-        {
-            IsLoading = true;
-        }
-        private void LoadingOver()
-        {
-            IsLoading = false;
-        }
+        private void IncrementModalCount() => ModalCount++;
+        private void DecrementModalCount() => ModalCount--;
+        private void LoadingStart() => IsLoading = true;
+        private void LoadingOver() => IsLoading = false;
 
 
         private void FriendRequestsChanged(object? sender, NotifyCollectionChangedEventArgs e)

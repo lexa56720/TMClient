@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:TMClient.View"
         mc:Ignorable="d" AllowsTransparency="True" SizeToContent="WidthAndHeight"
         WindowStyle="None" MinHeight="400" MinWidth="400" WindowStartupLocation="CenterScreen"
-        Title="MainAuthWindow" HorizontalAlignment="Center"
+        Title="Выбор изображения" HorizontalAlignment="Center"
         VerticalAlignment="Center" ResizeMode="NoResize" >
 
     <controls:ModernWindow.Background>

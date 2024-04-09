@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TMClient.View" xmlns:controls="clr-namespace:TMClient.Controls"
         mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None"
-       SizeToContent="WidthAndHeight" 
-        Title="ProfileCard" WindowStartupLocation="CenterOwner" >
+        SizeToContent="WidthAndHeight" 
+        Title="Профиль" WindowStartupLocation="CenterOwner" >
     <controls:ModernWindow.Background>
         <SolidColorBrush Opacity="0.3" Color="{StaticResource BackgroundColor}"/>
     </controls:ModernWindow.Background>

@@ -23,7 +23,7 @@ namespace TMClient.Controls
                 OnPropertyChanged(nameof(Message));
             }
         }
-        private Message message;
+        private Message message=null!;
         public bool IsAuthorVisible
         {
             get => isAuthorVisibile;

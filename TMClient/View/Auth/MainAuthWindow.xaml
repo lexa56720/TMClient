@@ -9,7 +9,7 @@
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         AllowsTransparency="True" ResizeMode="NoResize"
         WindowStyle="None" MinHeight="400" MinWidth="400"
-        Title="MainAuthWindow" Height="600" Width="700" HorizontalAlignment="Center"
+        Title="Авторизация" Height="600" Width="700" HorizontalAlignment="Center"
         VerticalAlignment="Center"  >
 
     <controls:ModernWindow.Background>
