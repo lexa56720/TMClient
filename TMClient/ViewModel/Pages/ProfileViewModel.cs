@@ -151,7 +151,7 @@ namespace TMClient.ViewModel.Pages
         private async Task ChangeAvatar()
         {
             await Messenger.Send(Messages.ModalOpened, true);
-            var imageData = PathPicker.GetImageData();
+            var imageData = GetImageData();
             if (imageData.Length > 0)
             {
                 await Messenger.Send(Messages.LoadingStart, true);
@@ -160,7 +160,22 @@ namespace TMClient.ViewModel.Pages
             }
             await Messenger.Send(Messages.ModalClosed, true);
         }
-
+        private byte[] GetImageData()
+        {
+            var path = PathPicker.PickFiles("Изображения|*.jpg;*.jpeg;*.png", false).FirstOrDefault();
+            if (!string.IsNullOrEmpty(path))
+            {
+                var mainWindow = App.Current.MainWindow;
+                var imageCutter = new ImagePickerWindow(path)
+                {
+                    Owner = mainWindow,
+                    ShowInTaskbar = false
+                };
+                if (imageCutter.ShowDialog() == true)
+                    return imageCutter.Image;
+            }
+            return [];
+        }
         private void SetSaveState(bool state)
         {
             if (state)

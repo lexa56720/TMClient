@@ -136,7 +136,7 @@ namespace TMClient.Controls
         }
         public void Attach()
         {
-            var files = PathPicker.PickFiles();
+            var files = PathPicker.PickFiles("Все|*.*",true);
             Files.Clear();
             foreach (var file in files)
                 Files.Add(file);

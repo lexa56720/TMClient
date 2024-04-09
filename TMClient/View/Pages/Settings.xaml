@@ -101,7 +101,12 @@
                             </TextBox.Text>
                         </TextBox>
                     </StackPanel>
-
+                    
+                    <StackPanel>
+                        <TextBlock  VerticalAlignment="Center" TextWrapping="Wrap"  Text="Загрузки:" FontSize="16" />
+                        <controls:FilePicker FontSize="24" IsFile="False" Path="{Binding SaveLocation,Mode=TwoWay}" Placeholder="{Binding SaveLocation}" FilePicked="{Binding SaveLocationChangedCommand}"/>
+                    </StackPanel>
+                    
                     <StackPanel Orientation="Horizontal">
                         <TextBlock  VerticalAlignment="Center" TextWrapping="Wrap"  Text="Сохранять данные авторизации для автоматического входа:" FontSize="16" />
                         <ToggleButton IsChecked="{Binding IsSaveAuth}" HorizontalAlignment="Right"/>

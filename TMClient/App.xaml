@@ -857,6 +857,8 @@
         <Style TargetType="ToggleButton">
             <Setter Property="Width" Value="40"/>
             <Setter Property="Height" Value="20"/>
+            <Setter Property="ForceCursor" Value="True"/>
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Background" Value="{StaticResource BackgroundDarkBrush}"/>
             <Setter Property="BorderBrush" Value="{StaticResource ForegroundBrush}"/>
             <Setter Property="Template">
@@ -950,9 +952,8 @@
                                     </BeginStoryboard>
 
                                 </Trigger.ExitActions>
-                                
-                                
                             </Trigger>
+                           
                             <Trigger Property="IsEnabled" Value="False">
                                 <Setter Property="Opacity" Value="0.5"/>
                             </Trigger>

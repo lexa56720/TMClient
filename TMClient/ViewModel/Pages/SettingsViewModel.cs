@@ -26,7 +26,7 @@ namespace TMClient.ViewModel
                 OnPropertyChanged(nameof(ServerAddress));
             }
         }
-        private string serverAddress = Preferences.Default.ServerAddress;
+        private string serverAddress = string.Empty;
 
         public string InfoPort
         {
@@ -37,7 +37,7 @@ namespace TMClient.ViewModel
                 OnPropertyChanged(nameof(InfoPort));
             }
         }
-        private string infoPort = Preferences.Default.InfoPort.ToString();
+        private string infoPort = string.Empty;
 
         public string CachedUserLifeTime
         {
@@ -48,7 +48,7 @@ namespace TMClient.ViewModel
                 OnPropertyChanged(nameof(CachedUserLifeTime));
             }
         }
-        private string cachedUserLifeTime = Preferences.Default.CachedUserLifetimeMinutes.ToString();
+        private string cachedUserLifeTime = string.Empty;
 
         public string CachedChatLifeTime
         {
@@ -59,18 +59,18 @@ namespace TMClient.ViewModel
                 OnPropertyChanged(nameof(cachedChatLifeTime));
             }
         }
-        private string cachedChatLifeTime = Preferences.Default.CachedChatLifetimeMinutes.ToString();
+        private string cachedChatLifeTime = string.Empty;
 
         public bool IsSaveAuth
         {
             get => isSaveAuth;
             set
             {
-                isSaveAuth = value;            
+                isSaveAuth = value;
                 OnPropertyChanged(nameof(IsSaveAuth));
             }
         }
-        private bool isSaveAuth = Preferences.Default.IsSaveAuth;
+        private bool isSaveAuth;
         public bool SuccessSave
         {
             get => successSave;
@@ -82,6 +82,25 @@ namespace TMClient.ViewModel
         }
         private bool successSave;
 
+        public string SaveLocation
+        {
+            get => saveLocation;
+            set
+            {
+                saveLocation = value;
+                OnPropertyChanged(nameof(SaveLocation));
+            }
+        }
+        private string saveLocation;
+
+        public ICommand SaveLocationChangedCommand=>new Command(SaveLocationChanged);
+
+        private void SaveLocationChanged(object? obj)
+        {
+            if (obj is not string path)
+                return;
+            SaveLocation = path;
+        }
 
         [GeneratedRegex("^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$")]
         private static partial Regex IpRegexClass();
@@ -125,6 +144,8 @@ namespace TMClient.ViewModel
             InfoPort = Preferences.Default.InfoPort.ToString();
             CachedUserLifeTime = Preferences.Default.CachedUserLifetimeMinutes.ToString();
             CachedChatLifeTime = Preferences.Default.CachedChatLifetimeMinutes.ToString();
+            IsSaveAuth=Preferences.Default.IsSaveAuth;
+            SaveLocation = Preferences.Default.SavingFolder;
         }
 
         private void Save(object? obj)
@@ -136,11 +157,11 @@ namespace TMClient.ViewModel
                 Preferences.Default.InfoPort = auth;
 
             if (int.TryParse(CachedUserLifeTime, out var user))
-                Preferences.Default.CachedUserLifetimeMinutes =user;
+                Preferences.Default.CachedUserLifetimeMinutes = user;
 
             if (int.TryParse(CachedChatLifeTime, out var chat))
                 Preferences.Default.CachedChatLifetimeMinutes = chat;
-
+            Preferences.Default.SavingFolder = SaveLocation;
             Preferences.Default.Save();
             SuccessSave = true;
         }

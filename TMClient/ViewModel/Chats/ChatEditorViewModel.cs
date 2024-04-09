@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Input;
 using TMClient.Model.Chats;
 using TMClient.Utils;
+using TMClient.View;
 
 namespace TMClient.ViewModel.Chats
 {
@@ -67,9 +68,26 @@ namespace TMClient.ViewModel.Chats
 
         private async Task PickImage()
         {
-            var imageData = PathPicker.GetImageData();
+            var imageData = GetImageData();
             if (imageData.Length > 0)
                 await Model.ChangeCover(Chat, imageData);
+        }
+
+        private byte[] GetImageData()
+        {
+            var path = PathPicker.PickFiles("Изображения|*.jpg;*.jpeg;*.png", false).FirstOrDefault();
+            if (!string.IsNullOrEmpty(path))
+            {
+                var mainWindow = App.Current.MainWindow;
+                var imageCutter = new ImagePickerWindow(path)
+                {
+                    Owner = mainWindow,
+                    ShowInTaskbar = false
+                };
+                if (imageCutter.ShowDialog() == true)
+                    return imageCutter.Image;
+            }
+            return [];
         }
 
         private async Task Save()

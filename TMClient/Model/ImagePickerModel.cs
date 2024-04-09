@@ -37,7 +37,7 @@ namespace TMClient.Model
             {
                 System.Windows.SystemParameters.PrimaryScreenHeight,
                 System.Windows.SystemParameters.PrimaryScreenWidth,
-                1000,
+                900,
             };
             return (int)sizes.Min();
         }

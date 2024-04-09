@@ -45,6 +45,8 @@ namespace TMClient.Controls
                                     typeof(FilePicker),
                                     new PropertyMetadata(null));
 
+        public bool IsFile { get; set; } = true;
+
         public ICommand FilePicked
         {
             get
@@ -56,19 +58,20 @@ namespace TMClient.Controls
                 SetValue(FilePickedProperty, value);
             }
         }
-
         public ICommand PathEntered => new Command(ExecuteCommand);
 
+
+        public static readonly DependencyProperty PathProperty =
+        DependencyProperty.Register(nameof(Path),
+                                    typeof(string),
+                                    typeof(FilePicker),
+                                    new PropertyMetadata(string.Empty));
         public string Path
         {
-            get => path;
-            set
-            {
-                path = value;
-                OnPropertyChanged(nameof(Path));
-            }
+            get => (string)GetValue(PathProperty);
+            set => SetValue(PathProperty, value);
         }
-        private string path;
+
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -94,27 +97,21 @@ namespace TMClient.Controls
 
         private void Explore()
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog
+            string? path;
+            if (IsFile)
+                path = PathPicker.PickFiles("Изображения|*.jpg;*.jpeg;*.png", false).FirstOrDefault();
+            else
+                path = PathPicker.PickFolder();
+            if (!string.IsNullOrEmpty(path))
             {
-                Filter = "Изображения|*.jpg;*.jpeg;*.png",
-                CheckFileExists = true,
-                CheckPathExists = true,
-                ValidateNames = true,
-                Multiselect = false,
-            };
-            bool? result = dialog.ShowDialog();
-
-            if (result == true)
-            {
-                Path = dialog.FileName;
-
+                Path = path;
                 ExecuteCommand();
             }
         }
 
         private void ExecuteCommand()
         {
-            if (File.Exists(Path) && FilePicked != null && FilePicked.CanExecute(null))
+            if (((IsFile&& File.Exists(Path)) || (!IsFile && System.IO.Path.Exists(Path))) && FilePicked != null && FilePicked.CanExecute(null))
                 FilePicked.Execute(Path);
         }
 
