@@ -3,6 +3,7 @@ using ClientApiWrapper.Types;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -17,7 +18,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+using TMClient.Utils;
 
 namespace TMClient.Controls
 {
@@ -31,12 +32,29 @@ namespace TMClient.Controls
                                         typeof(Attachment),
                                         typeof(AttachmentDisplay),
                                         new PropertyMetadata(null, AttachmentChanged));
-
         public Attachment Attachment
         {
             get { return (Attachment)GetValue(AttachmentProperty); }
             set { SetValue(AttachmentProperty, value); }
         }
+
+        public static readonly DependencyProperty OpenFullCommandProperty =
+            DependencyProperty.Register(nameof(OpenFullCommand),
+                                        typeof(ICommand),
+                                        typeof(AttachmentDisplay),
+                                        new PropertyMetadata(null));
+        public ICommand OpenFullCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(OpenFullCommandProperty);
+            }
+            set
+            {
+                SetValue(OpenFullCommandProperty, value);
+            }
+        }
+
         public bool IsImage
         {
             get => isImage;
@@ -57,10 +75,10 @@ namespace TMClient.Controls
             }
         }
         private ImageSource? image;
-        public ICommand DownloadCommand => new AsyncCommand(Download, (o) => !IsBusy);
-        public ICommand DownloadCancelCommand => new AsyncCommand(CancelDownload);
-        public ICommand OpenFullCommand => new AsyncCommand(OpenFull);
-        public int DownloadProgress
+        public ICommand DownloadCommand => new AsyncCommand(Download, (o) => !IsDownloading);
+        public ICommand DownloadCancelCommand => new Command(CancelDownload, (o) => IsDownloading);
+        public ICommand OpenFolderCommand => new Command(OpenFolder, (o) => IsSaved == true && !string.IsNullOrEmpty(SavedPath));
+        public float DownloadProgress
         {
             get => downloadProgress;
             set
@@ -69,7 +87,7 @@ namespace TMClient.Controls
                 OnPropertyChanged(nameof(DownloadProgress));
             }
         }
-        private int downloadProgress;
+        private float downloadProgress;
         public bool IsSaved
         {
             get => isSaved;
@@ -80,16 +98,20 @@ namespace TMClient.Controls
             }
         }
         private bool isSaved;
-        public bool IsBusy
+        public bool IsDownloading
         {
-            get => isBusy;
+            get => isDownloading;
             set
             {
-                isBusy = value;
-                OnPropertyChanged(nameof(IsBusy));
+                isDownloading = value;
+                OnPropertyChanged(nameof(IsDownloading));
             }
         }
-        private bool isBusy;
+        private bool isDownloading;
+
+        private string SavedPath { get; set; } = string.Empty;
+
+        private CancellationTokenSource TokenSource;
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public AttachmentDisplay()
@@ -112,7 +134,7 @@ namespace TMClient.Controls
         {
             DownloadProgress = 0;
             IsSaved = false;
-            IsBusy = false;
+            IsDownloading = false;
             IsImage = attachment is ImageAttachment;
             if (IsImage)
                 Image = new BitmapImage(new Uri(attachment.Url));
@@ -122,40 +144,88 @@ namespace TMClient.Controls
 
         private async Task Download()
         {
-            IsBusy = true;
-            var path = $@"D:\TmApi\{Attachment.FileName}";
-            if (IsImage)
-                path += ".jpg";
-            Directory.CreateDirectory(System.IO.Path.GetDirectoryName(path));
-            using var fs = new FileStream(path, FileMode.Create, FileAccess.Write);
-            if (IsImage)
-                IsSaved = SaveImage(fs);
-            else
-                IsSaved = await SaveFile(fs);
+            var path = GetPath(GetSavingFolder(), IsImage, Attachment.FileName);
+            if (string.IsNullOrEmpty(path))
+                return;
 
-            IsBusy = false;
+            TokenSource = new CancellationTokenSource();
+
+            using var fs = new FileStream(path, FileMode.Create, FileAccess.Write);
+            IsDownloading = true;
+            try
+            {
+                if (IsImage)
+                    IsSaved = SaveImage(fs);
+                else
+                    IsSaved = await SaveFile(fs, TokenSource.Token);
+            }
+            catch
+            {
+                IsSaved = false;
+            }
+            if(TokenSource.IsCancellationRequested)
+            {
+                fs.Close();
+                DownloadProgress = 0;
+                if (File.Exists(path))
+                    File.Delete(path);
+            }
+
+            SavedPath = IsSaved ? path : string.Empty;
+            IsDownloading = false;
+
+            TokenSource.Dispose();
         }
 
-        private async Task<bool> SaveFile(Stream fs)
+        private string GetPath(string folderPath, bool isImage, string fileName)
+        {
+            if (string.IsNullOrEmpty(folderPath))
+                return string.Empty;
+
+            var path = Path.Combine(folderPath, fileName);
+            if (isImage)
+                path += ".jpg";
+            if (!Path.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+            return path;
+        }
+        private string GetSavingFolder()
+        {
+            if (string.IsNullOrEmpty(Preferences.Default.SavingFolder))
+            {
+                var savingFolder = Utils.PathPicker.PickFolder();
+                if (string.IsNullOrEmpty(savingFolder))
+                    return string.Empty;
+                Preferences.Default.SavingFolder = savingFolder;
+                Preferences.Default.Save();
+            }
+            return Preferences.Default.SavingFolder;
+        }
+
+        private async Task<bool> SaveFile(Stream fs, CancellationToken token)
         {
             using var client = new HttpClient();
-            using var response = await client.GetAsync(Attachment.Url);
+            using var response = await client.GetAsync(Attachment.Url, token);
             if (!response.IsSuccessStatusCode)
                 return false;
-            using var stream = await response.Content.ReadAsStreamAsync();
+            using var stream = await response.Content.ReadAsStreamAsync(token);
             if (stream == null || response.Content.Headers.ContentLength == null)
                 return false;
 
-            var percent = (int)(response.Content.Headers.ContentLength / 100);
-            var buffer = new byte[percent];
-            while (true)
+            DownloadProgress = 0;
+            var bufferSize = 81920;
+            float progressStep = (bufferSize * 100f) / response.Content.Headers.ContentLength.Value;
+            var buffer = new Memory<byte>(new byte[bufferSize]);
+            int read;
+            while (!token.IsCancellationRequested && (read = await stream.ReadAsync(buffer, token)) != 0)
             {
-                var readed = await stream.ReadAsync(buffer);
-                if (readed == 0)
-                    break;
-                await fs.WriteAsync(buffer,0,readed);
-                DownloadProgress++;
+                await fs.WriteAsync(buffer, token);
+                DownloadProgress += progressStep;
+                await Task.Delay(100);
             }
+            if (token.IsCancellationRequested)
+                return false;
+            DownloadProgress = 100;
             return true;
         }
 
@@ -170,13 +240,21 @@ namespace TMClient.Controls
             return true;
         }
 
-        private async Task CancelDownload()
+        private void CancelDownload()
         {
-            throw new NotImplementedException();
+            TokenSource.Cancel();
         }
-        private async Task OpenFull()
+        private void OpenFolder()
         {
-            throw new NotImplementedException();
+            if (!File.Exists(SavedPath))
+                return;
+            Process.Start(new ProcessStartInfo()
+            {
+                FileName = "explorer",
+                Arguments = $"e, /select, \"{SavedPath}\"",
+                UseShellExecute = true,
+                Verb = "open"
+            });
         }
 
     }

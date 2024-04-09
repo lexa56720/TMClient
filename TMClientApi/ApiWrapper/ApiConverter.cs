@@ -228,9 +228,11 @@ namespace ApiWrapper.ApiWrapper
             {
                 if (imageCount < photos.Length)
                 {
-                    var url = GetImageUrl(photos[imageCount]);
-                    var imageName = photos[imageCount].Url.GetHashCode().ToString();
-                    attachments[imageCount] = new ImageAttachment(imageName, url);
+                    var url = GetImageUrl(photos[imageCount]);   
+                    var imageName = photos[imageCount].Url.Split('/').Skip(1).FirstOrDefault();
+                    if (string.IsNullOrEmpty(imageName) || string.IsNullOrEmpty(url))
+                        continue;
+                    attachments[imageCount] = new ImageAttachment(imageName[0..16], url);
                 }
                 else
                 {

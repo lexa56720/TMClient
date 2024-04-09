@@ -11,6 +11,25 @@ namespace TMClient.Controls
     /// </summary>
     public partial class ChatControl : UserControl
     {
+
+        public static readonly DependencyProperty OpenImageCommandProperty =
+        DependencyProperty.Register(nameof(OpenImageCommand),
+                                    typeof(ICommand),
+                                    typeof(ChatControl),
+                                    new PropertyMetadata(null));
+        public ICommand OpenImageCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(OpenImageCommandProperty);
+            }
+            set
+            {
+                SetValue(OpenImageCommandProperty, value);
+            }
+        }
+
+
         public static readonly DependencyProperty IsReadOnlyProperty =
         DependencyProperty.Register(
             nameof(IsReadOnly),
@@ -116,7 +135,7 @@ namespace TMClient.Controls
         }
         public void Attach()
         {
-            var files = FileLoader.PickFiles();
+            var files = PathPicker.PickFiles();
             Files.Clear();
             foreach (var file in files)
                 Files.Add(file);

@@ -151,7 +151,7 @@ namespace TMClient.ViewModel.Pages
         private async Task ChangeAvatar()
         {
             await Messenger.Send(Messages.ModalOpened, true);
-            var imageData = FileLoader.GetImageData();
+            var imageData = PathPicker.GetImageData();
             if (imageData.Length > 0)
             {
                 await Messenger.Send(Messages.LoadingStart, true);

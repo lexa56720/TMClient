@@ -962,6 +962,31 @@
             </Setter>
         </Style>
 
+
+        <Style TargetType="{x:Type ProgressBar}">
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ProgressBar">
+                        <Grid>
+                            <Border x:Name="mask" Background="White" Margin="1" CornerRadius="5"/>
+
+                            <Border Padding="0" Background="{StaticResource BackgroundDarkBrush}" CornerRadius="6" >
+                                <Grid x:Name="PART_Track">
+                                    <Rectangle Margin="0,0,0,0"  x:Name="PART_Indicator" HorizontalAlignment="Left" Fill="{StaticResource GreenBrush}">
+                                        <Rectangle.OpacityMask>
+                                            <VisualBrush Visual="{Binding ElementName=mask}"/>
+                                        </Rectangle.OpacityMask>
+                                    </Rectangle>
+                                </Grid>
+                            </Border>
+                        </Grid>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <!--#region ScrollBar -->
 
         <SolidColorBrush x:Key="StandardBorderBrush" Color="SeaGreen" />

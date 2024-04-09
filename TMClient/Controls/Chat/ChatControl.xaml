@@ -33,6 +33,10 @@
                             </Style.Triggers>
                         </Style>
                     </local:ExtendeListView.ItemContainerStyle>
+                    <local:ExtendeListView.ItemTemplate>
+                        <DataTemplate>
+                        </DataTemplate>
+                    </local:ExtendeListView.ItemTemplate>
                 </local:ExtendeListView>
             </Grid>
         </Border>

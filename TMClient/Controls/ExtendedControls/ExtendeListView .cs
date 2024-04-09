@@ -64,7 +64,6 @@ namespace TMClient.Controls
             Style = (Style)FindResource("DefaultListView");
         }
 
-
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             if (Math.Abs(e.VerticalOffset - (ScrollViewer).ScrollableHeight) < 150)

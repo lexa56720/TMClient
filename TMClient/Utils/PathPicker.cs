@@ -7,7 +7,7 @@ using TMClient.View;
 
 namespace TMClient.Utils
 {
-    internal static class FileLoader
+    internal static class PathPicker
     {
         public static byte[] GetImageData()
         {
@@ -40,7 +40,6 @@ namespace TMClient.Utils
                 return dialog.FileName;
             return string.Empty;
         }
-
         public static string[] PickFiles()
         {
             var dialog = new Microsoft.Win32.OpenFileDialog
@@ -55,6 +54,19 @@ namespace TMClient.Utils
             if (result == true)
                 return dialog.FileNames;
             return [];
+        }
+
+        public static string PickFolder()
+        {
+            var dialog = new Microsoft.Win32.OpenFolderDialog
+            {
+                ValidateNames = true,
+                Multiselect = false,
+            };
+            bool? result = dialog.ShowDialog();
+            if (result == true)
+                return dialog.FolderName;
+            return string.Empty;
         }
     }
 }

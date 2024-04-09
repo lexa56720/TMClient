@@ -67,7 +67,7 @@ namespace TMClient.ViewModel.Chats
 
         private async Task PickImage()
         {
-            var imageData = FileLoader.GetImageData();
+            var imageData = PathPicker.GetImageData();
             if (imageData.Length > 0)
                 await Model.ChangeCover(Chat, imageData);
         }
