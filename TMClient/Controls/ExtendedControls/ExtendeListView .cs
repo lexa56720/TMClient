@@ -66,6 +66,8 @@ namespace TMClient.Controls
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
+            if (e.VerticalChange == 0 && e.ExtentHeightChange==0)
+                return;
             if (Math.Abs(e.VerticalOffset - (ScrollViewer).ScrollableHeight) < 150)
             {
                 if (e.ExtentHeightChange < 0)
@@ -75,7 +77,7 @@ namespace TMClient.Controls
             }
             else
                 ScrollViewer?.ScrollToVerticalOffset(ScrollViewer.VerticalOffset + e.ExtentHeightChange);
-            if (e.VerticalOffset == 0)
+            if (ScrollViewer.VerticalOffset == 0)
             {
                 if (IsReachTopEnabled != true && ReachTop != null && ReachTop.CanExecute(null))
                     ReachTop.Execute(null);

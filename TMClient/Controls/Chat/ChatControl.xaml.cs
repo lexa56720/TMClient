@@ -30,7 +30,6 @@ namespace TMClient.Controls
             }
         }
 
-
         public static readonly DependencyProperty IsReadOnlyProperty =
         DependencyProperty.Register(
             nameof(IsReadOnly),

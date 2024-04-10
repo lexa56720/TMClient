@@ -192,10 +192,8 @@ namespace ClientApiWrapper.Wrapper
             {
                 foreach (var chat in (Chat[])chatsObj)
                 {
-                    if (Cache.AddOrUpdateCache(TimeSpan.MaxValue, chat))
-                        AddToCollections(chat);
-                    else if (Cache.TryGetChat(chat.Id, out var updatedChat))
-                        AddToCollections(updatedChat);
+                    Cache.AddOrUpdateCache(TimeSpan.MaxValue, chat);
+                    AddToCollections(chat);
                 }
             }, chats);
         }

@@ -33,18 +33,15 @@ namespace TMClient.Model.Chats
             return await Api.Messages.MarkAsReaded(messages.Where(m => !m.IsReaded)
                                                            .ToArray());
         }
-        public async Task<Message?> SendMessage(string? text)
-        {
-            if (string.IsNullOrWhiteSpace(text))
-                return null;
-            return await Api.Messages.SendMessage(text, Chat.Id);
-        }
 
-        public async Task<Message?> SendMessage(string? text, string[] filePaths)
+        public async Task<Message?> SendMessage(string text, IEnumerable<string> filePaths)
         {
-            text ??= string.Empty;
+            var paths= filePaths.ToArray();
+            if (paths.Length == 0)
+                return await Api.Messages.SendMessage(text, Chat.Id);
+
             using var tks = new CancellationTokenSource();
-            return await Api.Messages.SendMessage(text, Chat.Id, tks.Token, filePaths);
+            return await Api.Messages.SendMessage(text, Chat.Id, tks.Token, paths);
         }
 
         public bool IsMessageValid(string text, params string[] filePaths)

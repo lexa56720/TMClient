@@ -36,8 +36,8 @@ namespace TMClient.ViewModel.Chats
         }
         private string messageText = string.Empty;
 
-        public bool IsBusy 
-        { 
+        public bool IsBusy
+        {
             get => isBusy;
             set
             {
@@ -47,7 +47,9 @@ namespace TMClient.ViewModel.Chats
         }
         private bool isBusy;
 
-        public ICommand LoadHistory => new AsyncCommand(LoadMessages);
+        private bool IsLoadingHistory { get; set; }
+
+        public ICommand LoadHistory => new AsyncCommand(LoadMessages, (o)=>!IsLoadingHistory);
         public ICommand Send => new AsyncCommand<string>(SendMessage);
         public ICommand PageLoadedCommand => new Command(PageLoaded);
         public ICommand PageUnloadedCommand => new Command(PageUnloaded);
@@ -92,7 +94,7 @@ namespace TMClient.ViewModel.Chats
         {
             if (IsFullyLoaded)
                 return;
-
+            IsLoadingHistory = true;
             Message[] messages;
             if (Messages.Any())
                 messages = await Model.GetHistory(Messages.First().Message);
@@ -107,6 +109,7 @@ namespace TMClient.ViewModel.Chats
             await Model.MarkAsReaded(readedMessages);
 
             AddMessageToStart(messages);
+            IsLoadingHistory = false;
         }
 
         public async Task SendMessage(string? text)
@@ -118,21 +121,12 @@ namespace TMClient.ViewModel.Chats
                 return;
             }
 
-
             IsBusy = true;
 
-            Message? sendedMessage = null;
-            await Task.Run(async () =>
-             {
-                 if (Files.Count == 0)
-                     sendedMessage = await Model.SendMessage(text);
-                 else
-                     sendedMessage = await Model.SendMessage(text, Files.ToArray());
-             });
+            var sendedMessage = await Task.Run(async () => await Model.SendMessage(text, Files));
             if (sendedMessage != null)
             {
                 AddMessageToEnd(sendedMessage);
-
                 MessageText = string.Empty;
                 Files.Clear();
             }
@@ -141,6 +135,7 @@ namespace TMClient.ViewModel.Chats
 
             IsBusy = false;
         }
+
 
         protected async void HandleNewMessages(object? sender, Message[] messages)
         {

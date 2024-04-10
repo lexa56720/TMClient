@@ -133,12 +133,14 @@ namespace ClientApiWrapper.ApiWrapper
             foreach (var chat in chats)
             {
                 if (CachedChats.TryAdd(chat.Id, chat, ChatLifetime))
+                {
+                    UpdateCache(lifeTime, chat.Members.ToArray());
                     continue;
-
+                }
+                
                 isSuccessful = false;
                 UpdateCache(lifeTime, chat);
             }
-            AddOrUpdateCache(lifeTime, chats.SelectMany(c => c.Members).DistinctBy(c => c.Id).ToArray());
             return isSuccessful;
         }
 

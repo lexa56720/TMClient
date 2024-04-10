@@ -8,13 +8,16 @@ namespace ClientApiWrapper.ApiWrapper.Wrapper
 {
     internal class ClientMessagesApi : IMessagesApi
     {
+        private readonly SynchronizationContext UIThread;
+
         private Api Api { get; }
         private ApiConverter Converter { get; }
 
-        internal ClientMessagesApi(Api api, ApiConverter converter)
+        internal ClientMessagesApi(Api api, ApiConverter converter, SynchronizationContext uiThread)
         {
             Api = api;
             Converter = converter;
+            UIThread = uiThread;
         }
         public async Task<Message[]> GetMessagesByOffset(int chatId, int count, int offset)
         {
@@ -84,13 +87,16 @@ namespace ClientApiWrapper.ApiWrapper.Wrapper
             if (convertedMessage == null)
                 return null;
 
-            if (convertedMessage.Destination.LastMessage == null ||
-                convertedMessage.SendTime > convertedMessage.Destination.LastMessage.SendTime)
-            {
-                convertedMessage.Destination.LastMessage = convertedMessage;
-            }
-            convertedMessage.Destination.UnreadCount = 0;
 
+            UIThread.Post((o) =>
+            {
+                if (convertedMessage.Destination.LastMessage == null ||
+                    convertedMessage.SendTime > convertedMessage.Destination.LastMessage.SendTime)
+                {
+                    convertedMessage.Destination.LastMessage = convertedMessage;
+                }
+                convertedMessage.Destination.UnreadCount = 0;
+            }, null);
             return convertedMessage;
         }
 

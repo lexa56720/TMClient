@@ -147,7 +147,14 @@ namespace ClientApiWrapper.ApiWrapper.Wrapper
                 return [];
 
             var result = await Converter.Convert(chats, ignoreUserCache);
-
+            for (int i = 0; i < result.Length; i++)
+            {
+                if (Cache.TryGetChat(result[i].Id, out var cachedChat))
+                {
+                    cachedChat.Update(result[i]);
+                    result[i] = cachedChat;
+                }
+            }
             await AssingLastMessages(result);
             return result;
         }

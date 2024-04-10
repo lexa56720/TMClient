@@ -48,7 +48,7 @@
                                      Orientation="Vertical" FontSize="32" HorizontalAlignment="Right" Command="{Binding LeaveCommand}" />
                 </StackPanel>
             </Grid>
-            <controls:ChatControl LoadMore="{Binding LoadHistory}" Files="{Binding Files}" SendCommand="{Binding Send}"
+            <controls:ChatControl LoadMore="{Binding LoadHistory}" Files="{Binding Files}" SendCommand="{Binding Send}" 
                                   WrittenText="{Binding MessageText}"  Grid.Row="1" Messages="{Binding Messages}" OpenImageCommand="{Binding OpenImageCommand}">
                 <controls:ChatControl.Style>
                     <Style TargetType="controls:ChatControl">
@@ -65,7 +65,7 @@
                 </controls:ChatControl.Style>
             </controls:ChatControl>
 
-            <controls:Loading Grid.Row="0" Grid.RowSpan="2" Width="100" Height="100"  VerticalAlignment="Center"
+            <controls:Loading Grid.Row="0" Grid.RowSpan="2" Width="200" Height="200"  VerticalAlignment="Center"
                               HorizontalAlignment="Center"  Visibility="{Binding IsBusy,Converter={StaticResource BooleanToVisibility}}"/>
 
         </Grid>

@@ -56,7 +56,7 @@
 
                 </StackPanel>
             </Grid>
-            <controls:ChatControl LoadMore="{Binding LoadHistory}" Files="{Binding Files}" WrittenText="{Binding MessageText}" Messages="{Binding Messages}" 
+            <controls:ChatControl LoadMore="{Binding LoadHistory}"  Files="{Binding Files}" WrittenText="{Binding MessageText}" Messages="{Binding Messages}" 
                                   SendCommand="{Binding Send}" Grid.Row="1" OpenImageCommand="{Binding OpenImageCommand}">
                 <controls:ChatControl.Style>
                     <Style TargetType="controls:ChatControl">
@@ -72,7 +72,8 @@
                     </Style>
                 </controls:ChatControl.Style>
             </controls:ChatControl>
-            <controls:Loading Width="100" Height="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" Visibility="{Binding IsBusy,Converter={StaticResource BooleanToVisibility}}" />
+            <controls:Loading Grid.Row="0" Grid.RowSpan="2" Width="200" Height="200" VerticalAlignment="Center" HorizontalAlignment="Center"
+                              Visibility="{Binding IsBusy,Converter={StaticResource BooleanToVisibility}}" />
 
         </Grid>
     </Border>

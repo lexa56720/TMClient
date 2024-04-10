@@ -101,7 +101,18 @@ namespace ClientApiWrapper.ApiWrapper.Wrapper
 
         internal async Task<User[]> GetUserIgnoringCache(int[] userIds)
         {
-            var result = Converter.Convert(await Api.Users.GetUser(userIds.Distinct().ToArray()));
+            var users = await Api.Users.GetUser(userIds.Distinct().ToArray());
+            var result = Converter.Convert(users);
+
+            for (int i = 0; i < result.Length; i++)
+            {         
+                if (Cache.TryGetUser(result[i].Id, out var cachedUser))
+                {
+                    cachedUser.Update(result[i]);
+                    result[i]= cachedUser;
+                }
+            }
+
             return userIds.Select(userId => result.First(c => c.Id == userId)).ToArray();
         }
     }

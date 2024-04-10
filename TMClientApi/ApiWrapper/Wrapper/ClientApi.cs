@@ -88,7 +88,7 @@ namespace ClientApiWrapper.ApiWrapper.Wrapper
             Converter = new ApiConverter(this, Cache);
 
             users = new ClientUsersApi(api, Converter, Cache, Info);
-            messages = new ClientMessagesApi(api, Converter);
+            messages = new ClientMessagesApi(api, Converter,uiContext);
             chats = new ClientChatsApi(api, Converter, Cache);
             friends = new ClientFriendsApi(api, Converter);
             dataValidator = new ClientDataValidator(info);
