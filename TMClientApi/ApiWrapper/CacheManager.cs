@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using TMApi.ApiRequests.Chats;
 
-namespace ApiWrapper.ApiWrapper
+namespace ClientApiWrapper.ApiWrapper
 {
     internal class CacheManager
     {

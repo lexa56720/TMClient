@@ -1,4 +1,4 @@
-﻿using ApiWrapper.Interfaces;
+﻿using ClientApiWrapper.Interfaces;
 using TMClient.Model.Auth;
 using TMClient.Utils;
 using TMClient.View;

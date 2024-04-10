@@ -1,4 +1,4 @@
-﻿using ApiWrapper.Interfaces;
+﻿using ClientApiWrapper.Interfaces;
 using TMClient.Controls;
 using TMClient.Model;
 using TMClient.Utils;

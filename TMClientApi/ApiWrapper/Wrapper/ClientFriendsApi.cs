@@ -1,7 +1,7 @@
 ﻿using TMApi;
-using ApiWrapper.Interfaces;
+using ClientApiWrapper.Interfaces;
 
-namespace ApiWrapper.ApiWrapper.Wrapper
+namespace ClientApiWrapper.ApiWrapper.Wrapper
 {
     internal class ClientFriendsApi : IFriendsApi
     {

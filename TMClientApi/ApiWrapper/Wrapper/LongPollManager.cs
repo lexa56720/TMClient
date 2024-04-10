@@ -1,16 +1,16 @@
 ﻿using TMApi.ApiRequests;
-using ApiWrapper.Interfaces;
-using ApiWrapper.Types;
+using ClientApiWrapper.Interfaces;
+using ClientApiWrapper.Types;
 using ApiTypes.Communication.Friends;
-using ApiWrapper.ApiWrapper;
+using ClientApiWrapper.ApiWrapper;
 using TMApi.ApiRequests.Friends;
 using ApiTypes.Communication.Chats;
-using ApiWrapper.ApiWrapper.Wrapper;
+using ClientApiWrapper.ApiWrapper.Wrapper;
 using TMApi.ApiRequests.Chats;
 using ClientApiWrapper.Types;
 using TMApi.ApiRequests.Users;
 
-namespace ApiWrapper.Wrapper
+namespace ClientApiWrapper.Wrapper
 {
     internal class LongPollManager : IDisposable
     {

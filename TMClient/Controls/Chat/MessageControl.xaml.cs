@@ -1,4 +1,4 @@
-﻿using ApiWrapper.Interfaces;
+﻿using ClientApiWrapper.Interfaces;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows;

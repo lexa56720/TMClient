@@ -1,11 +1,11 @@
 ﻿using System.Net;
 using System.Security.Cryptography;
 using TMApi;
-using ApiWrapper.ApiWrapper.Wrapper;
-using ApiWrapper.Interfaces;
+using ClientApiWrapper.ApiWrapper.Wrapper;
+using ClientApiWrapper.Interfaces;
 using System.Text;
 
-namespace ApiWrapper.ApiWrapper
+namespace ClientApiWrapper.ApiWrapper
 {
     public class ApiFactory
     {
@@ -36,7 +36,7 @@ namespace ApiWrapper.ApiWrapper
                 return null;
 
             var passwordHash = ApiTypes.Shared.HashGenerator.GenerateHashSmall(password);
-            return await ClientApi.Init(new IPEndPoint(Server, provider.FileGetPort),
+            return await ClientApi.Init(provider.ServerInfo, new IPEndPoint(Server, provider.ServerInfo.FileGetPort), 
                                         passwordHash, UserLifetime, ChatLifetime, api, UIContext);
         }
         public async Task<ClientApi?> CreateByRegistration(string username, string login, string password)
@@ -50,7 +50,7 @@ namespace ApiWrapper.ApiWrapper
                 return null;
 
             var passwordHash = ApiTypes.Shared.HashGenerator.GenerateHashSmall(password);
-            return await ClientApi.Init(new IPEndPoint(Server, provider.FileGetPort),
+            return await ClientApi.Init(provider.ServerInfo, new IPEndPoint(Server, provider.ServerInfo.FileGetPort),
                                         passwordHash, UserLifetime, ChatLifetime, api, UIContext);
         }
         public async Task<IApi?> Load(string path)
@@ -77,7 +77,7 @@ namespace ApiWrapper.ApiWrapper
                         return null;
 
                     var passwordHash = ClientApi.DeserializePasswordHash(unprotectedBytes);
-                    return await ClientApi.Init(new IPEndPoint(Server, provider.FileGetPort),
+                    return await ClientApi.Init(provider.ServerInfo, new IPEndPoint(Server, provider.ServerInfo.FileGetPort),
                                                 passwordHash, UserLifetime, ChatLifetime, api, UIContext);
                 }
                 catch

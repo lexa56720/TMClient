@@ -1,4 +1,4 @@
-﻿using ApiWrapper.Interfaces;
+﻿using ClientApiWrapper.Interfaces;
 using System.Windows.Controls;
 using TMClient.ViewModel.Auth;
 

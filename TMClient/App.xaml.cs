@@ -1,6 +1,6 @@
 ﻿using ApiTypes.Shared;
-using ApiWrapper.ApiWrapper.Wrapper;
-using ApiWrapper.Interfaces;
+using ClientApiWrapper.ApiWrapper.Wrapper;
+using ClientApiWrapper.Interfaces;
 using System.Configuration.Provider;
 using System.IO;
 using System.Windows;
@@ -20,7 +20,6 @@ namespace TMClient
     public partial class App : Application
     {
         private IApi? Api;
-
         public static Dispatcher MainThread => App.Current.Dispatcher;
         public App()
         {

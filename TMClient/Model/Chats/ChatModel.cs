@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using ApiTypes.Shared;
+using ClientApiWrapper.Types;
+using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using TMClient.Controls;
 using TMClient.Utils;
@@ -43,6 +46,12 @@ namespace TMClient.Model.Chats
             using var tks = new CancellationTokenSource();
             return await Api.Messages.SendMessage(text, Chat.Id, tks.Token, filePaths);
         }
+
+        public bool IsMessageValid(string text, params string[] filePaths)
+        {
+            return Api.DataValidator.IsMessageLegal(text, filePaths);
+        }
+
         public void SetIsReaded(IEnumerable<Message> messages)
         {
             if (messages.Count() == 0)

@@ -1,8 +1,9 @@
 ﻿using ApiTypes.Communication.Users;
-using ApiWrapper.Types;
+using ClientApiWrapper.Types;
+using ClientApiWrapper.Interfaces;
 using System.Collections.ObjectModel;
 
-namespace ApiWrapper.Interfaces
+namespace ClientApiWrapper.Interfaces
 {
     public interface IApi : IUserInfo, IDisposable
     {
@@ -13,6 +14,8 @@ namespace ApiWrapper.Interfaces
         public IChatsApi Chats { get; }
 
         public IFriendsApi Friends { get; }
+
+        public IDataValidator DataValidator { get; }
 
         public Task Save(string path);
     }

@@ -1,5 +1,4 @@
-﻿
-using AsyncAwaitBestPractices.MVVM;
+﻿using AsyncAwaitBestPractices.MVVM;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using TMClient.Model.Pages;

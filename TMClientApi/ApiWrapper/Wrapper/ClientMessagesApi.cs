@@ -1,10 +1,10 @@
 ﻿using TMApi;
-using ApiWrapper.Interfaces;
-using ApiWrapper.Types;
+using ClientApiWrapper.Interfaces;
+using ClientApiWrapper.Types;
 using TMApi.ApiRequests.Messages;
 using ApiTypes.Communication.BaseTypes;
 
-namespace ApiWrapper.ApiWrapper.Wrapper
+namespace ClientApiWrapper.ApiWrapper.Wrapper
 {
     internal class ClientMessagesApi : IMessagesApi
     {
@@ -71,7 +71,7 @@ namespace ApiWrapper.ApiWrapper.Wrapper
                     result[i] = new SerializableFile(fileName, bytes);
                 });
             }
-            catch (Exception)
+            catch
             {
                 return null;
             }

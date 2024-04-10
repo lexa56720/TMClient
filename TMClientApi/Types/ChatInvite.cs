@@ -1,4 +1,4 @@
-﻿namespace ApiWrapper.Types
+﻿namespace ClientApiWrapper.Types
 {
     public class ChatInvite
     {

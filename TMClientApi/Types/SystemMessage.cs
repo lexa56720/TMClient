@@ -1,4 +1,4 @@
-﻿using ApiWrapper.Types;
+﻿using ClientApiWrapper.Types;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using TMApi;
 
 namespace ClientApiWrapper.Types
 {
-    public class SystemMessage : ApiWrapper.Types.Message
+    public class SystemMessage : ClientApiWrapper.Types.Message
     {
         public override bool IsSystem => true;
 

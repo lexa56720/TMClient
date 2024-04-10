@@ -1,6 +1,6 @@
-﻿using ApiWrapper.Types;
+﻿using ClientApiWrapper.Types;
 
-namespace ApiWrapper.Interfaces
+namespace ClientApiWrapper.Interfaces
 {
     public interface IMessagesApi
     {

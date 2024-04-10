@@ -1,4 +1,4 @@
-﻿using ApiWrapper.Types;
+﻿using ClientApiWrapper.Types;
 using System;
 using System.Collections;
 using System.Collections.Generic;

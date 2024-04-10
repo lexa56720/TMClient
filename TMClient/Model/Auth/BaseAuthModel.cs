@@ -1,5 +1,5 @@
-﻿using ApiWrapper.ApiWrapper;
-using ApiWrapper.Interfaces;
+﻿using ClientApiWrapper.ApiWrapper;
+using ClientApiWrapper.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +20,11 @@ namespace TMClient.Model.Auth
             }
         }
         private static ApiFactory apiProvider = null!;
+        private static SynchronizationContext UIContext;
+        public BaseAuthModel()
+        {
+            UIContext = SynchronizationContext.Current;
+        }
 
         public async Task<IApi?> TryGetApi()
         {
@@ -40,9 +45,8 @@ namespace TMClient.Model.Auth
             var cachedUserLifetime = TimeSpan.FromMinutes(Preferences.Default.CachedUserLifetimeMinutes);
             var cachedChatLifetime = TimeSpan.FromMinutes(Preferences.Default.CachedChatLifetimeMinutes);
 
-            return new ApiFactory(ip, infoPort, cachedUserLifetime, cachedChatLifetime, SynchronizationContext.Current);
+            return new ApiFactory(ip, infoPort, cachedUserLifetime, cachedChatLifetime, UIContext);
         }
-
 
 
         public bool IsLoginValid(string login)

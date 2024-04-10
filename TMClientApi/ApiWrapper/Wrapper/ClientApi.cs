@@ -2,23 +2,24 @@
 using System.Collections.ObjectModel;
 using System.Security.Cryptography;
 using TMApi;
-using ApiWrapper.Interfaces;
-using ApiWrapper.Types;
+using ClientApiWrapper.Interfaces;
+using ClientApiWrapper.Types;
 using TMApi.ApiRequests.Users;
 using System;
-using ApiWrapper.Wrapper;
+using ClientApiWrapper.Wrapper;
 using ClientApiWrapper;
 using System.Net;
 using System.Text;
 using System.Linq;
+using ApiTypes.Communication.Info;
 
-namespace ApiWrapper.ApiWrapper.Wrapper
+namespace ClientApiWrapper.ApiWrapper.Wrapper
 {
     public class ClientApi : IApi, IUserInfo
     {
         public User Info { get; private set; }
 
-        public string PasswordHash { get; set; }
+        public string PasswordHash { get; private set; } = string.Empty;
 
         public event EventHandler<Message[]> NewMessages
         {
@@ -54,6 +55,9 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         public IChatsApi Chats => chats;
         internal readonly ClientChatsApi chats;
 
+        public IDataValidator DataValidator => dataValidator;
+        internal readonly ClientDataValidator dataValidator;
+
         public ObservableCollection<Chat> MultiuserChats { get; private set; }
             = new OrderedObservableCollection<Chat>(new ChatComparer(), (c) => c, nameof(Chat.LastMessage));
         public ObservableCollection<Friend> FriendList { get; private set; }
@@ -66,12 +70,14 @@ namespace ApiWrapper.ApiWrapper.Wrapper
         private ApiConverter Converter { get; set; }
         private CacheManager Cache { get; set; }
         private LongPollManager LongPollManager { get; set; }
+        public ServerInfo ServerInfo { get; }
 
         private readonly Api Api;
 
         private bool IsDisposed = false;
 
-        private ClientApi(IPEndPoint fileServer, TimeSpan userLifetime, TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
+        private ClientApi(ServerInfo info,IPEndPoint fileServer, TimeSpan userLifetime, 
+                          TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
         {
             ApiConverter.FileServer = fileServer;
             Info = ApiConverter.Convert(api.UserInfo.MainInfo, true);
@@ -85,20 +91,21 @@ namespace ApiWrapper.ApiWrapper.Wrapper
             messages = new ClientMessagesApi(api, Converter);
             chats = new ClientChatsApi(api, Converter, Cache);
             friends = new ClientFriendsApi(api, Converter);
-
+            dataValidator = new ClientDataValidator(info);
             LongPollManager = new LongPollManager(api.LongPolling, this, Cache, uiContext);
             users.PasswordChanged += UsersPasswordChanged;
-
+            ServerInfo = info;
             Api = api;
         }
 
 
 
-        internal static async Task<ClientApi?> Init(IPEndPoint fileServer, string password, TimeSpan userLifetime, TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
+        internal static async Task<ClientApi?> Init(ServerInfo info,IPEndPoint fileServer, string passwordHash, TimeSpan userLifetime, 
+                                                    TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
         {
-            var clientApi = new ClientApi(fileServer, userLifetime, chatLifetime, api, uiContext)
+            var clientApi = new ClientApi(info, fileServer, userLifetime, chatLifetime, api, uiContext)
             {
-                PasswordHash = password
+                PasswordHash = passwordHash
             };
 
             var chats = await InitChats(clientApi, api.UserInfo.Chats);

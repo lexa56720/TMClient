@@ -1,6 +1,6 @@
 ﻿using TMApi;
 
-namespace ApiWrapper.Interfaces
+namespace ClientApiWrapper.Interfaces
 {
     public interface IChatsApi
     {

@@ -23,9 +23,9 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Grid IsEnabled="{Binding IsLoading,Converter={StaticResource BooleanInverter}}">
+    <Grid >
 
-        <Grid>
+        <Grid IsEnabled="{Binding IsLoading,Converter={StaticResource BooleanInverter}}">
             <Grid.Style>
                 <Style TargetType="Grid" BasedOn="{StaticResource ResourceKey={x:Type Grid}}">
                     <Setter Property="Grid.BitmapEffect">
@@ -89,6 +89,6 @@
             <controls:IconButton Style="{StaticResource TransperentButton}" Command="{Binding BackNavigation}" Icon="&#xE72b;" Margin="5" 
                           Visibility="{Binding BackNavigationVisibility}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" FontSize="24" />
         </Grid>
-        <controls:Loading Grid.Row="0" Margin="100" Visibility="{Binding LoadingVisibility}" Foreground="White" />
+        <controls:Loading Grid.Row="0" Margin="100" Visibility="{Binding LoadingVisibility}" Foreground="{StaticResource ForegroundBrush}" />
     </Grid>
 </controls:ModernWindow>

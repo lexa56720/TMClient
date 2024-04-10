@@ -53,10 +53,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Using Include="ApiWrapper.Types" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Preferences.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
@@ -69,6 +65,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Preferences.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="ClientApiWrapper.Types" />
   </ItemGroup>
 
 </Project>

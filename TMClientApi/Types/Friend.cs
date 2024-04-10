@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApiWrapper.Types
+namespace ClientApiWrapper.Types
 {
     public class Friend : User,IDisposable
     {

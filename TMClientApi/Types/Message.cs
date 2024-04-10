@@ -3,7 +3,7 @@ using ClientApiWrapper.Types;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 
-namespace ApiWrapper.Types
+namespace ClientApiWrapper.Types
 {
     public class Message : INotifyPropertyChanged
     {

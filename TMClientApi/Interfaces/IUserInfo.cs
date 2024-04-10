@@ -1,5 +1,5 @@
 ﻿using ApiTypes.Communication.Users;
-using ApiWrapper.Types;
+using ClientApiWrapper.Types;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApiWrapper.Interfaces
+namespace ClientApiWrapper.Interfaces
 {
     public interface IUserInfo
     {
@@ -20,6 +20,6 @@ namespace ApiWrapper.Interfaces
         public event EventHandler<int[]> ReadedMessages;
         public User Info { get; }
 
-        public string PasswordHash { get; internal set; }
+        public string PasswordHash { get; }
     }
 }

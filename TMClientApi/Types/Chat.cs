@@ -3,7 +3,7 @@ using ClientApiWrapper.Types;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace ApiWrapper.Types
+namespace ClientApiWrapper.Types
 {
     public class Chat : NamedImageEntity
     {

@@ -3,22 +3,22 @@ global using ApiUser = ApiTypes.Communication.Users.User;
 global using ApiChat = ApiTypes.Communication.Chats.Chat;
 global using ApiChatInvite = ApiTypes.Communication.Chats.ChatInvite;
 global using ApiFriendRequest = ApiTypes.Communication.Friends.FriendRequest;
-global using Chat = ApiWrapper.Types.Chat;
-global using ChatInvite = ApiWrapper.Types.ChatInvite;
-global using FriendRequest = ApiWrapper.Types.FriendRequest;
-global using User = ApiWrapper.Types.User;
-using ApiWrapper.Types;
-using ApiWrapper.Interfaces;
+global using Chat = ClientApiWrapper.Types.Chat;
+global using ChatInvite = ClientApiWrapper.Types.ChatInvite;
+global using FriendRequest = ClientApiWrapper.Types.FriendRequest;
+global using User = ClientApiWrapper.Types.User;
+using ClientApiWrapper.Types;
+using ClientApiWrapper.Interfaces;
 using ClientApiWrapper.Types;
 using System.Net;
 using ApiTypes.Communication.Medias;
 using TMApi;
 using ApiTypes.Communication.Users;
-using ApiWrapper.ApiWrapper.Wrapper;
+using ClientApiWrapper.ApiWrapper.Wrapper;
 using ApiTypes.Communication.Chats;
 using TMApi.ApiRequests.Security;
 
-namespace ApiWrapper.ApiWrapper
+namespace ClientApiWrapper.ApiWrapper
 {
     internal class ApiConverter
     {

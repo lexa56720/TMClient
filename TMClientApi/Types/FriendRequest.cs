@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace ApiWrapper.Types
+namespace ClientApiWrapper.Types
 {
     public class FriendRequest
     {

@@ -1,10 +1,10 @@
 ﻿using ApiTypes.Communication.Users;
 using TMApi;
-using ApiWrapper.Interfaces;
+using ClientApiWrapper.Interfaces;
 using TMApi.ApiRequests.Messages;
 using System.Xml.Linq;
 
-namespace ApiWrapper.ApiWrapper.Wrapper
+namespace ClientApiWrapper.ApiWrapper.Wrapper
 {
     internal class ClientUsersApi : IUsersApi
     {

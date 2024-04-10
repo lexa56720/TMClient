@@ -105,8 +105,19 @@
                                                     </Style>
                                                 </Border.Style>
                                                 <StackPanel>
-                                                    <TextBlock Text="{Binding Dialogue.LastMessage.Text}" TextTrimming="CharacterEllipsis" MaxHeight="100"
-                                                           MaxWidth="{Binding (ListViewItem.ActualWidth),RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"/>
+                                                    <TextBlock TextTrimming="CharacterEllipsis" MaxHeight="100"
+                                                           MaxWidth="{Binding (ListViewItem.ActualWidth),RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}">
+                                                        <TextBlock.Style>
+                                                            <Style BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}" TargetType="TextBlock">
+                                                                <Setter Property="Text" Value="{Binding Dialogue.LastMessage.Text}"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Dialogue.LastMessage.Text}" Value="">
+                                                                        <Setter Property="Text" Value="(Вложение)"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
                                                     <TextBlock HorizontalAlignment="Right" TextTrimming="CharacterEllipsis" Margin="-5,-10,0,-5" Text="{Binding Dialogue.LastMessage.SendTime,Converter={StaticResource DateTimeConverter}}" FontSize="12"/>
                                                 </StackPanel>
                                             </Border>
@@ -184,8 +195,19 @@
                                                     <controls:UserDisplay DockPanel.Dock="Left" User="{Binding LastMessage.Author}" Margin="5" Width="40" Height="40"/>
 
                                                     <StackPanel DockPanel.Dock="Right">
-                                                        <TextBlock Text="{Binding LastMessage.Text}" TextTrimming="CharacterEllipsis"    LineStackingStrategy="BlockLineHeight" LineHeight="28" MaxHeight="84"
-                                                           MaxWidth="{Binding (ListViewItem.ActualWidth),RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"/>
+                                                        <TextBlock TextTrimming="CharacterEllipsis"    LineStackingStrategy="BlockLineHeight" LineHeight="28" MaxHeight="84"
+                                                           MaxWidth="{Binding (ListViewItem.ActualWidth),RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}">
+                                                            <TextBlock.Style>
+                                                                <Style BasedOn="{StaticResource ResourceKey={x:Type TextBlock}}" TargetType="TextBlock">
+                                                                    <Setter Property="Text" Value="{Binding LastMessage.Text}"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding LastMessage.Text}" Value="">
+                                                                            <Setter Property="Text" Value="(Вложение)"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </TextBlock.Style>
+                                                        </TextBlock>
                                                         <TextBlock HorizontalAlignment="Right" TextTrimming="CharacterEllipsis" Margin="-5,-10,0,-5" Text="{Binding LastMessage.SendTime,Converter={StaticResource DateTimeConverter}}" FontSize="12"/>
                                                     </StackPanel>
                                                 </DockPanel>

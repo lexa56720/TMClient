@@ -1,4 +1,4 @@
-﻿using ApiWrapper.Types;
+﻿using ClientApiWrapper.Types;
 using System.Windows.Controls;
 using TMClient.ViewModel.Chats;
 

@@ -1,4 +1,4 @@
-﻿using ApiWrapper.Types;
+﻿using ClientApiWrapper.Types;
 using AsyncAwaitBestPractices.MVVM;
 using System.Collections.ObjectModel;
 using System.IO;

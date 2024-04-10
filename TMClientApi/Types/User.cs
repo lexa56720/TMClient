@@ -2,7 +2,7 @@
 using ClientApiWrapper.Types;
 using System.ComponentModel;
 
-namespace ApiWrapper.Types
+namespace ClientApiWrapper.Types
 {
     public class User : NamedImageEntity
     {

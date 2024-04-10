@@ -57,7 +57,23 @@
                 </StackPanel>
             </Grid>
             <controls:ChatControl LoadMore="{Binding LoadHistory}" Files="{Binding Files}" WrittenText="{Binding MessageText}" Messages="{Binding Messages}" 
-                                  SendCommand="{Binding Send}" Grid.Row="1" IsReadOnly="{Binding  Friend.Dialogue.IsReadOnly}" OpenImageCommand="{Binding OpenImageCommand}"  />
+                                  SendCommand="{Binding Send}" Grid.Row="1" OpenImageCommand="{Binding OpenImageCommand}">
+                <controls:ChatControl.Style>
+                    <Style TargetType="controls:ChatControl">
+                        <Setter Property="IsReadOnly" Value="False"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsBusy}" Value="True">
+                                <Setter Property="IsReadOnly" Value="True"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Friend.Dialogue.IsReadOnly}" Value="True">
+                                <Setter Property="IsReadOnly" Value="True"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:ChatControl.Style>
+            </controls:ChatControl>
+            <controls:Loading Width="100" Height="100" VerticalAlignment="Bottom" HorizontalAlignment="Center" Visibility="{Binding IsBusy,Converter={StaticResource BooleanToVisibility}}" />
+
         </Grid>
     </Border>
 </Page>

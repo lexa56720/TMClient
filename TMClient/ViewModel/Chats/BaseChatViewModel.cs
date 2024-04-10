@@ -1,6 +1,7 @@
 ﻿using AsyncAwaitBestPractices.MVVM;
 using ClientApiWrapper.Types;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using TMClient.Controls;
@@ -35,6 +36,17 @@ namespace TMClient.ViewModel.Chats
         }
         private string messageText = string.Empty;
 
+        public bool IsBusy 
+        { 
+            get => isBusy;
+            set
+            {
+                isBusy = value;
+                OnPropertyChanged(nameof(IsBusy));
+            }
+        }
+        private bool isBusy;
+
         public ICommand LoadHistory => new AsyncCommand(LoadMessages);
         public ICommand Send => new AsyncCommand<string>(SendMessage);
         public ICommand PageLoadedCommand => new Command(PageLoaded);
@@ -54,6 +66,7 @@ namespace TMClient.ViewModel.Chats
         protected T Model { get; private set; }
 
         private bool IsFullyLoaded = false;
+
         public BaseChatViewModel(Chat chat)
         {
             chat.UnreadCount = 0;
@@ -98,13 +111,24 @@ namespace TMClient.ViewModel.Chats
 
         public async Task SendMessage(string? text)
         {
+            text ??= string.Empty;
+            if (!Model.IsMessageValid(text, Files.ToArray()))
+            {
+                var msg = MessageBox.Show("Сообщение имеет недопустимый формат");
+                return;
+            }
 
-            Message? sendedMessage;
-            if (Files.Count == 0)
-                sendedMessage = await Model.SendMessage(text);
-            else
-                sendedMessage = await Model.SendMessage(text, Files.ToArray());
 
+            IsBusy = true;
+
+            Message? sendedMessage = null;
+            await Task.Run(async () =>
+             {
+                 if (Files.Count == 0)
+                     sendedMessage = await Model.SendMessage(text);
+                 else
+                     sendedMessage = await Model.SendMessage(text, Files.ToArray());
+             });
             if (sendedMessage != null)
             {
                 AddMessageToEnd(sendedMessage);
@@ -114,6 +138,8 @@ namespace TMClient.ViewModel.Chats
             }
             Model.SetIsReaded(Messages.Where(m => !m.Message.IsOwn && !m.Message.IsReaded)
                                       .Select(m => m.Message));
+
+            IsBusy = false;
         }
 
         protected async void HandleNewMessages(object? sender, Message[] messages)
@@ -146,8 +172,8 @@ namespace TMClient.ViewModel.Chats
                 }
                 Messages.Add(message);
             }
-
         }
+
         protected void AddMessageToStart(params Message[] messages)
         {
             for (int i = 0; i < messages.Length; i++)
@@ -166,7 +192,6 @@ namespace TMClient.ViewModel.Chats
                         message.IsAuthorVisible = true;
                     }
                 }
-
                 Messages.Insert(0, message);
             }
         }

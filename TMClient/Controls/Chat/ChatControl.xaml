@@ -87,7 +87,8 @@
         </DockPanel>
 
 
-        <ListView Background="Transparent" Grid.Row="2" ItemsSource="{Binding Files,ElementName=chatCtrl}" x:Name="filelist" >
+        <ListView Background="Transparent" Grid.Row="2" ItemsSource="{Binding Files,ElementName=chatCtrl}" x:Name="filelist" 
+                  IsEnabled="{Binding IsReadOnly,Converter={StaticResource BooleanInverter}, ElementName=chatCtrl}">
             <ListView.Style>
                 <Style BasedOn="{StaticResource ResourceKey={x:Type ListView}}" TargetType="ListView">
                     <Setter Property="Visibility" Value="Visible"/>

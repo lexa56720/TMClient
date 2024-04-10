@@ -1,4 +1,4 @@
-﻿using ApiWrapper.Interfaces;
+﻿using ClientApiWrapper.Interfaces;
 using AsyncAwaitBestPractices.MVVM;
 using System.Windows;
 using System.Windows.Controls;

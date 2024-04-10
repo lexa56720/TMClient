@@ -1,5 +1,5 @@
-﻿using ApiWrapper.ApiWrapper;
-using ApiWrapper.Interfaces;
+﻿using ClientApiWrapper.ApiWrapper;
+using ClientApiWrapper.Interfaces;
 using System.IO;
 using System.Net;
 

@@ -1,8 +1,8 @@
 ﻿using TMApi;
-using ApiWrapper.Interfaces;
-using ApiWrapper.Types;
+using ClientApiWrapper.Interfaces;
+using ClientApiWrapper.Types;
 
-namespace ApiWrapper.ApiWrapper.Wrapper
+namespace ClientApiWrapper.ApiWrapper.Wrapper
 {
     internal class ClientChatsApi : IChatsApi
     {
