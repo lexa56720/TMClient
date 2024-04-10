@@ -10,7 +10,7 @@ using TMClient.Utils.Validations;
 
 namespace TMClient.ViewModel.Auth
 {
-    class SignUpViewModel : BaseAuthViewModel<SignUpModel>,IDataErrorInfo
+    class SignUpViewModel : BaseAuthViewModel<SignUpModel>, IDataErrorInfo
     {
         public string UserName { get; set; } = string.Empty;
 
@@ -55,8 +55,8 @@ namespace TMClient.ViewModel.Auth
         }
         private string repeatPassword = string.Empty;
 
-        public string ErrorText 
-        { 
+        public string ErrorText
+        {
             get => errorText;
             set
             {
@@ -116,7 +116,7 @@ namespace TMClient.ViewModel.Auth
         }
 
         private async Task SignUp()
-        {    
+        {
             if (!Model.IsLoginValid(Login) || !Model.IsPasswordValid(Password))
             {
                 ErrorVisibility = Visibility.Visible;
@@ -125,7 +125,12 @@ namespace TMClient.ViewModel.Auth
             IsBusy = true;
             try
             {
-                IApi? api = await Model.Registration(UserName, Login, Password);
+                IApi? api = null;
+                await Task.Run(async () =>
+                  {
+                      api = await Model.Registration(UserName, Login, Password);
+                  });
+
                 if (!ReturnApi(api))
                 {
                     ErrorVisibility = Visibility.Visible;

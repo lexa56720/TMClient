@@ -83,7 +83,11 @@ namespace TMClient.ViewModel.Auth
             IsBusy = true;
             try
             {
-                IApi? api = await Model.SignIn(Login, Password);
+                IApi? api = null;
+                await Task.Run(async () =>
+                {
+                    api = await Model.SignIn(Login, Password);
+                });
                 if (!ReturnApi(api))
                 {
                     ErrorVisibility = Visibility.Visible;

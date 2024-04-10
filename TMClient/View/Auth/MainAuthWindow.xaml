@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TMClient.View.Auth"
-        xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         AllowsTransparency="True" ResizeMode="NoResize"
@@ -90,6 +89,6 @@
             <controls:IconButton Style="{StaticResource TransperentButton}" Command="{Binding BackNavigation}" Icon="&#xE72b;" Margin="5" 
                           Visibility="{Binding BackNavigationVisibility}" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" FontSize="24" />
         </Grid>
-        <fa:ImageAwesome Grid.Row="0" Icon="Refresh" Margin="200" Visibility="{Binding LoadingVisibility}" Foreground="White" Spin="True" SpinDuration="10" />
+        <controls:Loading Grid.Row="0" Margin="100" Visibility="{Binding LoadingVisibility}" Foreground="White" />
     </Grid>
 </controls:ModernWindow>

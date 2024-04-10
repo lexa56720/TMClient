@@ -133,7 +133,11 @@ namespace TMClient.ViewModel.Auth
             if (IsTryLoadAuth && Preferences.Default.IsSaveAuth != false)
             {
                 IsLoading = true;
-                IApi? api = await Model.TryGetApi();
+                IApi? api = null;
+                await Task.Run(async () =>
+                {
+                    api = await Model.TryGetApi();
+                });
                 IsLoading = false;
                 ReturnApi.Invoke(api);
             }
