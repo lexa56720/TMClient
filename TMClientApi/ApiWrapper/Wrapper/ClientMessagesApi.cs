@@ -62,7 +62,7 @@ namespace ClientApiWrapper.ApiWrapper.Wrapper
                     convertedMessage.Destination.LastMessage = convertedMessage;
                 }
                 convertedMessage.Destination.UnreadCount = 0;
-            });
+            },null);
             return convertedMessage;
         }
         public async Task<Message?> SendMessage(string text, int destinationId, CancellationToken token, string[] filePaths)
