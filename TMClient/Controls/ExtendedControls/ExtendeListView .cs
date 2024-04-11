@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -58,7 +59,7 @@ namespace TMClient.Controls
             set { SetValue(IsReachTopEnabledProperty, value); }
         }
 
-        public ExtendeListView():base()
+        public ExtendeListView() : base()
         {
             ScrollViewer = FindScrollViewer(this);
             Style = (Style)FindResource("DefaultListView");
@@ -66,17 +67,28 @@ namespace TMClient.Controls
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            if (e.VerticalChange == 0 && e.ExtentHeightChange==0)
+            if (e.VerticalChange == 0 && e.ExtentHeightChange == 0)
                 return;
-            if (Math.Abs(e.VerticalOffset - (ScrollViewer).ScrollableHeight) < 150)
+            if (Math.Abs(e.VerticalOffset - ScrollViewer.ScrollableHeight - e.ExtentHeightChange) < 500)
             {
-                if (e.ExtentHeightChange < 0)
-                    ScrollViewer?.ScrollToVerticalOffset(ScrollViewer.VerticalOffset - e.ExtentHeightChange * 2);
-                else
-                    ScrollViewer?.ScrollToVerticalOffset(ScrollViewer.VerticalOffset + e.ExtentHeightChange);
+                if (e.ExtentHeightChange != 0)
+                    ScrollViewer?.ScrollToVerticalOffset(ScrollViewer.ExtentHeight);
             }
             else
-                ScrollViewer?.ScrollToVerticalOffset(ScrollViewer.VerticalOffset + e.ExtentHeightChange);
+            {
+                if (e.ExtentHeightChange != 0)
+                {
+                    if (e.ExtentHeightChange == ScrollViewer.ExtentHeight)
+                        ScrollViewer?.ScrollToVerticalOffset(e.ExtentHeight);
+                    else
+                    {
+                        if (e.ExtentHeight != ScrollViewer.ExtentHeight)
+                            return;
+                        ScrollViewer?.ScrollToVerticalOffset(ScrollViewer.VerticalOffset + e.ExtentHeightChange);
+                    }
+                    return;
+                }
+            }
             if (ScrollViewer.VerticalOffset == 0)
             {
                 if (IsReachTopEnabled != true && ReachTop != null && ReachTop.CanExecute(null))

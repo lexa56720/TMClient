@@ -53,13 +53,16 @@ namespace ClientApiWrapper.ApiWrapper.Wrapper
             if (convertedMessage == null)
                 return null;
 
-            if (convertedMessage.Destination.LastMessage == null ||
-                convertedMessage.SendTime > convertedMessage.Destination.LastMessage.SendTime)
-            {
-                convertedMessage.Destination.LastMessage = convertedMessage;
-            }
-            convertedMessage.Destination.UnreadCount = 0;
 
+            UIThread.Post((o) =>
+            {
+                if (convertedMessage.Destination.LastMessage == null ||
+                convertedMessage.SendTime > convertedMessage.Destination.LastMessage.SendTime)
+                {
+                    convertedMessage.Destination.LastMessage = convertedMessage;
+                }
+                convertedMessage.Destination.UnreadCount = 0;
+            });
             return convertedMessage;
         }
         public async Task<Message?> SendMessage(string text, int destinationId, CancellationToken token, string[] filePaths)
