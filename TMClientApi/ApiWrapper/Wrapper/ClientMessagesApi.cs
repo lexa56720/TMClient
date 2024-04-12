@@ -114,11 +114,14 @@ namespace ClientApiWrapper.ApiWrapper.Wrapper
 
             var result = await Api.Messages.MarkAsReaded(ids);
             if (result)
-                foreach (var message in messages)
+                UIThread.Post((o) =>
                 {
-                    message.IsReaded = true;
-                    message.Destination.UnreadCount--;
-                }
+                    foreach (var message in messages)
+                    {
+                        message.IsReaded = true;
+                        message.Destination.UnreadCount--;
+                    }
+                }, null);
             return result;
         }
     }

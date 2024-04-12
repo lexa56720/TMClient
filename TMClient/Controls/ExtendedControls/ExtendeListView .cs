@@ -59,6 +59,17 @@ namespace TMClient.Controls
             set { SetValue(IsReachTopEnabledProperty, value); }
         }
 
+        public static readonly DependencyProperty IsOnBottomProperty =
+        DependencyProperty.Register(
+            nameof(IsOnBottom),
+            typeof(bool),
+            typeof(ExtendeListView),
+            new PropertyMetadata(false));
+        public bool IsOnBottom
+        {
+            get { return (bool)GetValue(IsOnBottomProperty); }
+            set { SetValue(IsOnBottomProperty, value); }
+        }
         public ExtendeListView() : base()
         {
             ScrollViewer = FindScrollViewer(this);
@@ -67,24 +78,26 @@ namespace TMClient.Controls
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            if (e.VerticalChange == 0 && e.ExtentHeightChange == 0)
+            if (e.VerticalChange == 0 && e.ExtentHeightChange == 0 || ScrollViewer == null)
                 return;
+
+            IsOnBottom = (ScrollViewer.ScrollableHeight - e.VerticalOffset) < 200;
             if (Math.Abs(e.VerticalOffset - ScrollViewer.ScrollableHeight - e.ExtentHeightChange) < 500)
             {
                 if (e.ExtentHeightChange != 0)
-                    ScrollViewer?.ScrollToVerticalOffset(ScrollViewer.ExtentHeight);
+                    ScrollViewer.ScrollToVerticalOffset(ScrollViewer.ExtentHeight);
             }
             else
             {
                 if (e.ExtentHeightChange != 0)
                 {
                     if (e.ExtentHeightChange == ScrollViewer.ExtentHeight)
-                        ScrollViewer?.ScrollToVerticalOffset(e.ExtentHeight);
+                        ScrollViewer.ScrollToVerticalOffset(e.ExtentHeight);
                     else
                     {
                         if (e.ExtentHeight != ScrollViewer.ExtentHeight)
                             return;
-                        ScrollViewer?.ScrollToVerticalOffset(ScrollViewer.VerticalOffset + e.ExtentHeightChange);
+                        ScrollViewer.ScrollToVerticalOffset(ScrollViewer.VerticalOffset + e.ExtentHeightChange);
                     }
                     return;
                 }

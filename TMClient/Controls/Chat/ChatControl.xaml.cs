@@ -42,6 +42,19 @@ namespace TMClient.Controls
             set { SetValue(IsReadOnlyProperty, value); }
         }
 
+        public static readonly DependencyProperty IsCanReadNewMessagesProperty =
+        DependencyProperty.Register(
+            nameof(IsCanReadNewMessages),
+            typeof(bool),
+            typeof(ChatControl),
+            new PropertyMetadata(false));
+
+        public bool IsCanReadNewMessages
+        {
+            get { return (bool)GetValue(IsCanReadNewMessagesProperty); }
+            set { SetValue(IsCanReadNewMessagesProperty, value); }
+        }
+
 
         public static readonly DependencyProperty LoadMoreProperty =
         DependencyProperty.Register(

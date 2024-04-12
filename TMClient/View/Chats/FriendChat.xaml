@@ -57,7 +57,7 @@
                 </StackPanel>
             </Grid>
             <controls:ChatControl LoadMore="{Binding LoadHistory}"  Files="{Binding Files}" WrittenText="{Binding MessageText}" Messages="{Binding Messages}" 
-                                  SendCommand="{Binding Send}" Grid.Row="1" OpenImageCommand="{Binding OpenImageCommand}">
+                                  SendCommand="{Binding Send}" Grid.Row="1" OpenImageCommand="{Binding OpenImageCommand}" IsCanReadNewMessages="{Binding IsCanRead,Mode=OneWayToSource}" >
                 <controls:ChatControl.Style>
                     <Style TargetType="controls:ChatControl">
                         <Setter Property="IsReadOnly" Value="False"/>

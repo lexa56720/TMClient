@@ -35,7 +35,6 @@ namespace TMClient.ViewModel.Chats
             }
         }
         private string messageText = string.Empty;
-
         public bool IsBusy
         {
             get => isBusy;
@@ -46,10 +45,20 @@ namespace TMClient.ViewModel.Chats
             }
         }
         private bool isBusy;
+        public bool IsCanRead
+        {
+            get => isCanRead;
+            set
+            {
+                if (value && value!=isCanRead )
+                     Model.MarkAsReaded(Messages.Select(m=>m.Message).ToArray()); 
+                isCanRead = value;
+                OnPropertyChanged(nameof(IsCanRead));
+            }
+        }
+        private bool isCanRead;
 
-        private bool IsLoadingHistory { get; set; }
-
-        public ICommand LoadHistory => new AsyncCommand(LoadMessages, (o)=>!IsLoadingHistory);
+        public ICommand LoadHistory => new AsyncCommand(LoadMessages, (o) => !IsBusy);
         public ICommand Send => new AsyncCommand<string>(SendMessage);
         public ICommand PageLoadedCommand => new Command(PageLoaded);
         public ICommand PageUnloadedCommand => new Command(PageUnloaded);
@@ -94,7 +103,7 @@ namespace TMClient.ViewModel.Chats
         {
             if (IsFullyLoaded)
                 return;
-            IsLoadingHistory = true;
+            IsBusy = true;
             Message[] messages;
             if (Messages.Any())
                 messages = await Model.GetHistory(Messages.First().Message);
@@ -109,7 +118,7 @@ namespace TMClient.ViewModel.Chats
             await Model.MarkAsReaded(readedMessages);
 
             AddMessageToStart(messages);
-            IsLoadingHistory = false;
+            IsBusy = false;
         }
 
         public async Task SendMessage(string? text)
@@ -139,9 +148,12 @@ namespace TMClient.ViewModel.Chats
 
         protected async void HandleNewMessages(object? sender, Message[] messages)
         {
+
             var currentChatMessages = messages.Where(m => m.Destination.Id == Chat.Id)
                                               .ToArray();
-            await Model.MarkAsReaded(currentChatMessages);
+
+            if (IsCanRead)
+                await Model.MarkAsReaded(currentChatMessages);
 
             App.MainThread.Invoke(() => AddMessageToEnd(currentChatMessages));
         }

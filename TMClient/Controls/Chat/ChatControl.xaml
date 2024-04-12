@@ -18,6 +18,7 @@
                 <local:ExtendeListView Background="#202020" Padding="0" Margin="0"  ScrollViewer.VerticalScrollBarVisibility="Visible"
                                        IsReachTopEnabled="{Binding IsReadOnly, ElementName=chatCtrl}"
                                        ReachTop="{Binding LoadMore, ElementName=chatCtrl}"
+                                       IsOnBottom="{Binding  IsCanReadNewMessages,ElementName=chatCtrl,Mode=TwoWay}"
                                        ItemsSource="{Binding Messages, ElementName=chatCtrl}" HorizontalContentAlignment="Stretch" 
                                        ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
                     <local:ExtendeListView.ItemContainerStyle>
