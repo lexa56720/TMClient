@@ -12,19 +12,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Lib\FirewallAPI.dll" />
-    <None Remove="Lib\FirewallExecutor.exe" />
     <None Remove="Resources\Fonts\SegoeIcons.ttf" />
     <None Remove="Resources\Fonts\segoeui.ttf" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Lib\FirewallAPI.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Lib\FirewallExecutor.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Resources\AppIcon.ico" />
   </ItemGroup>
 
