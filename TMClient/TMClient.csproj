@@ -7,14 +7,24 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>Resources\AppIcon.ico</ApplicationIcon>
+    <Platforms>AnyCPU;x86</Platforms>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Lib\FirewallAPI.dll" />
+    <None Remove="Lib\FirewallExecutor.exe" />
     <None Remove="Resources\Fonts\SegoeIcons.ttf" />
     <None Remove="Resources\Fonts\segoeui.ttf" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Lib\FirewallAPI.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\FirewallExecutor.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\AppIcon.ico" />
   </ItemGroup>
 
@@ -33,17 +43,14 @@
     <Reference Include="ApiTypes">
       <HintPath>Lib\ApiTypes.dll</HintPath>
     </Reference>
-    <Reference Include="AutoSerializer">
-      <HintPath>Lib\AutoSerializer.dll</HintPath>
-    </Reference>
     <Reference Include="CSDTP">
       <HintPath>Lib\CSDTP.dll</HintPath>
     </Reference>
-    <Reference Include="Open.Nat">
-      <HintPath>Lib\Open.Nat.dll</HintPath>
-    </Reference>
     <Reference Include="PerformanceUtils">
       <HintPath>Lib\PerformanceUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="TMApi">
+      <HintPath>Lib\TMApi.dll</HintPath>
     </Reference>
   </ItemGroup>
 

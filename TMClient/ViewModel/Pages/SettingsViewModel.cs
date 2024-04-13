@@ -102,10 +102,6 @@ namespace TMClient.ViewModel
             SaveLocation = path;
         }
 
-        [GeneratedRegex("^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$")]
-        private static partial Regex IpRegexClass();
-        private Regex IpRegex = IpRegexClass();
-
         public string Error => throw new NotImplementedException();
         public string this[string columnName]
         {
@@ -114,10 +110,6 @@ namespace TMClient.ViewModel
                 var error = string.Empty;
                 switch (columnName)
                 {
-                    case nameof(ServerAddress):
-                        if (!IpRegex.IsMatch(ServerAddress))
-                            error = "Некорректный адресс";
-                        break;
                     case nameof(InfoPort):
                         if (!int.TryParse(InfoPort, out var auth) || auth >= ushort.MaxValue)
                             error = "Некорректный порт";

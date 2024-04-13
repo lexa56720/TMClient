@@ -250,8 +250,11 @@ namespace TMClient.Controls
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             EnableBlur();
-            EnableRoundCorners();
-            EnableBorderless();
+            if (Environment.OSVersion.Version.Build >= 22000)
+            {
+                EnableRoundCorners();
+                EnableBorderless();
+            }
         }
         private void EnableBorderless()
         {

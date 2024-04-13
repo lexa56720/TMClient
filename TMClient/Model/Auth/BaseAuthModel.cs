@@ -15,8 +15,7 @@ namespace TMClient.Model.Auth
         {
             get
             {
-                apiProvider ??= GetApiProvider();
-                return apiProvider;
+                return GetApiProvider();
             }
         }
         private static ApiFactory apiProvider = null!;

@@ -39,7 +39,18 @@ namespace TMClient
         {
             await OpenPage(true);
         }
+        void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs args)
+        {
+            using var sw=File.CreateText("logs.txt");
+            sw.WriteLine(args.Exception);
+            sw.Flush();
+            sw.Close();
+            MessageBox.Show("Возникло исключение. подробности в файле logs.txt");
 
+            args.Handled = true;
+            Api?.Dispose();
+            Environment.Exit(0);
+        }
         private async Task OpenPage(bool tryToLoadAuth)
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -57,6 +68,7 @@ namespace TMClient
             }
             else
             {
+                Api?.Dispose();
                 Shutdown();
             }
         }

@@ -8,6 +8,7 @@
              xmlns:v="clr-namespace:TMClient.Utils.Validations"
              xmlns:controls="clr-namespace:TMClient.Controls"
              Startup="ApplicationStart"
+             DispatcherUnhandledException="App_DispatcherUnhandledException" 
              Exit="ApplicationExit">
     <Application.Resources>
 
