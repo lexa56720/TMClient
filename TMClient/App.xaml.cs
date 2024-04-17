@@ -25,11 +25,11 @@ namespace TMClient
         {
             if (string.IsNullOrWhiteSpace(Preferences.Default.AuthPath))
                 Preferences.Default.AuthPath = Path.Combine(
-                       Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/userdata/auth/authdata.bin");
+                       Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TMClient/userdata/auth/authdata.bin");
 
             if (string.IsNullOrWhiteSpace(Preferences.Default.AppFolder))
                 Preferences.Default.AppFolder = Path.Combine(
-                       Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TmApp/");
+                       Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "TMClient/");
 
             Preferences.Default.Save();
 

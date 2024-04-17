@@ -50,8 +50,9 @@ namespace TMClient.ViewModel.Chats
             get => isCanRead;
             set
             {
-                if (value && value!=isCanRead )
-                     Model.MarkAsReaded(Messages.Select(m=>m.Message).ToArray()); 
+                if (value && value != isCanRead)
+                    Model.MarkAsReaded(Messages.Where(m => !m.Message.IsOwn)
+                                               .Select(m => m.Message).ToArray());
                 isCanRead = value;
                 OnPropertyChanged(nameof(IsCanRead));
             }
@@ -172,11 +173,9 @@ namespace TMClient.ViewModel.Chats
             for (int i = 0; i < messages.Length; i++)
             {
                 var message = CreateMessage(messages[i]);
-                if (!message.Message.IsSystem && Messages.LastOrDefault() is MessageContainer prev &&
-                    !prev.Message.IsSystem && prev.Message.Author.Id != message.Message.Author.Id)
-                {
-                    message.IsAuthorVisible = false;
-                }
+
+                message.IsAuthorVisible = !message.Message.IsSystem && Messages.LastOrDefault() is MessageContainer prev && (
+                    (!prev.Message.IsSystem && prev.Message.Author.Id != message.Message.Author.Id) || prev.Message.IsSystem);
                 Messages.Add(message);
             }
         }

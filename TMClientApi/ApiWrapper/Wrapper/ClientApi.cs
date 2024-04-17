@@ -76,7 +76,7 @@ namespace ClientApiWrapper.ApiWrapper.Wrapper
 
         private bool IsDisposed = false;
 
-        private ClientApi(ServerInfo info,IPEndPoint fileServer, TimeSpan userLifetime, 
+        private ClientApi(ServerInfo info, IPEndPoint fileServer, TimeSpan userLifetime,
                           TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
         {
             ApiConverter.FileServer = fileServer;
@@ -88,7 +88,7 @@ namespace ClientApiWrapper.ApiWrapper.Wrapper
             Converter = new ApiConverter(this, Cache);
 
             users = new ClientUsersApi(api, Converter, Cache, Info);
-            messages = new ClientMessagesApi(api, Converter,uiContext);
+            messages = new ClientMessagesApi(api, Converter, uiContext);
             chats = new ClientChatsApi(api, Converter, Cache);
             friends = new ClientFriendsApi(api, Converter);
             dataValidator = new ClientDataValidator(info);
@@ -100,7 +100,7 @@ namespace ClientApiWrapper.ApiWrapper.Wrapper
 
 
 
-        internal static async Task<ClientApi?> Init(ServerInfo info,IPEndPoint fileServer, string passwordHash, TimeSpan userLifetime, 
+        internal static async Task<ClientApi?> Init(ServerInfo info, IPEndPoint fileServer, string passwordHash, TimeSpan userLifetime,
                                                     TimeSpan chatLifetime, Api api, SynchronizationContext uiContext)
         {
             var clientApi = new ClientApi(info, fileServer, userLifetime, chatLifetime, api, uiContext)
@@ -184,6 +184,8 @@ namespace ClientApiWrapper.ApiWrapper.Wrapper
             await ms.FlushAsync();
             var bytes = ms.ToArray();
             var protectedBytes = ProtectedData.Protect(bytes, null, DataProtectionScope.CurrentUser);
+            if (!Directory.Exists(Path.GetDirectoryName(path)))
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
             using var fs = File.Create(path);
             await fs.WriteAsync(protectedBytes);
         }

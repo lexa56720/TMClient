@@ -152,13 +152,13 @@ namespace TMClient.ViewModel.Pages
         {
             await Messenger.Send(Messages.ModalOpened, true);
             var imageData = GetImageData();
+            await Messenger.Send(Messages.ModalClosed, true);
             if (imageData.Length > 0)
             {
                 await Messenger.Send(Messages.LoadingStart, true);
                 await Model.ChangeAvatar(imageData);
                 await Messenger.Send(Messages.LoadingOver, true);
             }
-            await Messenger.Send(Messages.ModalClosed, true);
         }
         private byte[] GetImageData()
         {

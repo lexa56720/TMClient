@@ -172,7 +172,7 @@
                 <local:UserDisplay User="{Binding Message.Author}"  Width="45" Height="45"  Margin="0,0,3,0" VerticalAlignment="Top">
                 </local:UserDisplay>
 
-                <TextBlock Text="{Binding Message.Author.Name}" FontSize="12" Margin="-5,0,0,0" MaxWidth="60" TextTrimming="WordEllipsis" />
+                <TextBlock Text="{Binding Message.Author.Name}" HorizontalAlignment="Center" FontSize="12" Margin="-5,0,0,0" MaxWidth="60" TextTrimming="WordEllipsis" />
             </StackPanel>
         </Grid>
     </Border>

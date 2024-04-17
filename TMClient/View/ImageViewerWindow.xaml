@@ -8,7 +8,7 @@
         mc:Ignorable="d" Title="Просмотр изображения" 
         AllowsTransparency="True" SizeToContent="WidthAndHeight"
         WindowStyle="None" MinHeight="400" MinWidth="400"
-        MaxHeight="1000"
+        MaxHeight="800" MaxWidth="1000"
         WindowStartupLocation="CenterScreen"
         HorizontalAlignment="Center" VerticalAlignment="Center" ResizeMode="NoResize">
 

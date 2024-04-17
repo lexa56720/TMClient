@@ -13,19 +13,19 @@
     <controls:ModernWindow.Background>
         <SolidColorBrush Opacity="0.3" Color="{StaticResource BackgroundColor}"/>
     </controls:ModernWindow.Background>
-    <Grid>
+    <Grid x:Name="membersRow" >
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel>
             <controls:EntityImage Entity="{Binding Chat}" Width="256" Height="256" />
-            <TextBlock Text="{Binding Chat.Name}" Margin="0,-5,0,0" FontWeight="DemiBold" HorizontalAlignment="Center" FontSize="28"/>
+            <TextBlock Text="{Binding Chat.Name}" Margin="0,0,0,0" FontWeight="DemiBold" HorizontalAlignment="Center" FontSize="28"/>
         </StackPanel>
         <Border Grid.Row="2" Background="{StaticResource BackgroundBrush}" >
             <StackPanel>
                 <TextBlock Text="Участники:" HorizontalAlignment="Center" FontSize="24"/>
-                <ListView  ItemsSource="{Binding Members}" ScrollViewer.VerticalScrollBarVisibility="Visible"
+                <ListView   ItemsSource="{Binding Members}" ScrollViewer.VerticalScrollBarVisibility="Visible"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="list" >
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem" BasedOn="{StaticResource ResourceKey={x:Type ListViewItem}}">
