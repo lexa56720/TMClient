@@ -157,6 +157,5 @@ namespace TMClient.ViewModel
             Preferences.Default.Save();
             SuccessSave = true;
         }
-
     }
 }

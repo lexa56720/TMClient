@@ -7,7 +7,6 @@ using TMApi.ApiRequests.Friends;
 using ApiTypes.Communication.Chats;
 using ClientApiWrapper.ApiWrapper.Wrapper;
 using TMApi.ApiRequests.Chats;
-using ClientApiWrapper.Types;
 using TMApi.ApiRequests.Users;
 
 namespace ClientApiWrapper.Wrapper
@@ -154,7 +153,7 @@ namespace ClientApiWrapper.Wrapper
         private async void HandleNewMessages(object? sender, int[] e)
         {
             var messages = await Api.Messages.GetMessages(e);
-
+            messages = messages.OrderBy(m => m.SendTime).ToArray();
             UIContext.Post(messagesObj =>
             {
                 foreach (var message in (Message[])messagesObj)
