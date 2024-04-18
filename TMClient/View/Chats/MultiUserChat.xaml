@@ -24,8 +24,8 @@
                 <StackPanel IsEnabled="{Binding Chat.IsReadOnly,Converter={StaticResource BooleanInverter}}"
                             Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,0,0" Orientation="Horizontal">
 
-                    <controls:ChatDisplay Chat="{Binding Chat}" Width="50" Height="50"/>
-                    <StackPanel>
+                    <controls:ChatDisplay Chat="{Binding Chat}" Width="60" Height="60"/>
+                    <StackPanel VerticalAlignment="Center">
                         <Label FontSize="24" Content="{Binding Chat.Name}" HorizontalAlignment="Left" Padding="0"  HorizontalContentAlignment="Center" Margin="0,-5,0,-5"  />
 
                         <StackPanel Orientation="Horizontal">
@@ -33,19 +33,19 @@
                             <TextBlock Text="&#xE716;" Margin="-5,1,0,0" FontFamily="{StaticResource SegoeIcons}" FontSize="16" />
                         </StackPanel>
                     </StackPanel>
-                    <controls:IconButton Icon="&#xe70f;" Margin="5" Style="{StaticResource TransperentButton}"
+                    <controls:IconButton Icon="&#xe70f;" Margin="5" Style="{StaticResource TransperentButton}" Text="Изменить" TextFontSize="14"
                                          Visibility="{Binding Chat.Admin.IsCurrentUser,Converter={StaticResource BooleanToVisibility}}"
-                      Orientation="Vertical" FontSize="32" VerticalAlignment="Center" HorizontalAlignment="Left" Command="{Binding EditCommand}" />
+                      Orientation="Vertical" FontSize="28" VerticalAlignment="Center" HorizontalAlignment="Left" Command="{Binding EditCommand}" />
 
                 </StackPanel>
                 <StackPanel  IsEnabled="{Binding Chat.IsReadOnly,Converter={StaticResource BooleanInverter}}"  Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
 
 
-                    <controls:IconButton Icon="&#xE8FA;"  Margin="5" Style="{StaticResource TransperentButton}"
-                                     Orientation="Vertical" FontSize="32" HorizontalAlignment="Right" Command="{Binding InviteCommand}" />
+                    <controls:IconButton Icon="&#xE8FA;"  Margin="5" Style="{StaticResource TransperentButton}" Text="Пригласить" TextFontSize="14"
+                                     Orientation="Vertical" FontSize="28" HorizontalAlignment="Right" Command="{Binding InviteCommand}" />
 
-                    <controls:IconButton Icon="&#xEA54;" Margin="5" Style="{StaticResource TransperentButton}"
-                                     Orientation="Vertical" FontSize="32" HorizontalAlignment="Right" Command="{Binding LeaveCommand}" />
+                    <controls:IconButton Icon="&#xEA54;" Margin="5" Style="{StaticResource TransperentButton}" Text="Покинуть" TextFontSize="14"
+                                     Orientation="Vertical" FontSize="28" HorizontalAlignment="Right" Command="{Binding LeaveCommand}" />
                 </StackPanel>
             </Grid>
             <controls:ChatControl LoadMore="{Binding LoadHistory}" Files="{Binding Files}" SendCommand="{Binding Send}" IsCanReadNewMessages="{Binding IsCanRead,Mode=OneWayToSource}" 
