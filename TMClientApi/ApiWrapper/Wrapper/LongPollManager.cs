@@ -71,7 +71,10 @@ namespace ClientApiWrapper.Wrapper
             {
                 foreach (var id in (int[])userIds)
                     if (Cache.TryGetUser(id, out var user))
+                    {
+                        user.LastAction = DateTime.UtcNow;
                         user.IsOnline = false;
+                    }
             }, e);
         }
         private void HandleUserOnline(object? sender, int[] e)
