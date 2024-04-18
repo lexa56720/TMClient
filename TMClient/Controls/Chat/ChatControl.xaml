@@ -83,7 +83,11 @@
 
             <TextBox x:Name="MessageBox" DockPanel.Dock="Left" TextWrapping="Wrap" Margin="0,5,5,0" HorizontalAlignment="Stretch" MaxLength="512" 
               FontSize="24" MaxLines="10" Style="{StaticResource DarkTextBox}" Text="{Binding WrittenText,ElementName=chatCtrl}"
-                     VerticalScrollBarVisibility="Auto" AcceptsReturn="True" />
+                     VerticalScrollBarVisibility="Auto" AcceptsReturn="True">
+                <TextBox.InputBindings>
+                    <KeyBinding Gesture="Enter" CommandParameter="{Binding Text,ElementName=MessageBox}" Command="{Binding SendCommand,ElementName=chatCtrl}" Modifiers="Ctrl" />
+                </TextBox.InputBindings>
+            </TextBox>
 
         </DockPanel>
 

@@ -127,7 +127,6 @@ namespace TMClient.ViewModel.Chats
             text ??= string.Empty;
             if (!Model.IsMessageValid(text, Files.ToArray()))
             {
-                var msg = MessageBox.Show("Сообщение имеет недопустимый формат");
                 return;
             }
 
