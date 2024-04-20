@@ -75,7 +75,13 @@
             <local:IconButton DockPanel.Dock="Right" Icon="&#xE724;" FontSize="32" VerticalAlignment="Bottom"
                               Style="{StaticResource TransperentButton}"
                               Command="{Binding SendCommand, ElementName=chatCtrl}"
-                              CommandParameter="{Binding Text,ElementName=MessageBox}"/>
+                              CommandParameter="{Binding Text,ElementName=MessageBox}">
+                <local:IconButton.ToolTip>
+                    <Grid>
+                        <TextBlock Text="CTRL+ENTER"/>
+                    </Grid>
+                </local:IconButton.ToolTip>
+            </local:IconButton>
 
             <local:IconButton DockPanel.Dock="Right" Icon="&#xE723;" FontSize="32" VerticalAlignment="Bottom"  Style="{StaticResource TransperentButton}"
                               Command="{Binding AttachCommand, ElementName=chatCtrl}" />

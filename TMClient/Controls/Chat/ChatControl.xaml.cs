@@ -153,5 +153,6 @@ namespace TMClient.Controls
             foreach (var file in files)
                 Files.Add(file);
         }
+
     }
 }
