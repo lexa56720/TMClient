@@ -20,6 +20,7 @@ namespace TMClient
     public partial class App : Application
     {
         private IApi? Api;
+        public const int Version = 1;
         public static Dispatcher MainThread => App.Current.Dispatcher;
         public App()
         {

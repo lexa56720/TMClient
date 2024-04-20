@@ -44,7 +44,7 @@ namespace TMClient.Model.Auth
             var cachedUserLifetime = TimeSpan.FromMinutes(Preferences.Default.CachedUserLifetimeMinutes);
             var cachedChatLifetime = TimeSpan.FromMinutes(Preferences.Default.CachedChatLifetimeMinutes);
 
-            return new ApiFactory(ip, infoPort, cachedUserLifetime, cachedChatLifetime, UIContext);
+            return new ApiFactory(ip, infoPort, cachedUserLifetime, cachedChatLifetime, App.Version, UIContext);
         }
 
 

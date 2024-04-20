@@ -21,6 +21,10 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
+                <controls:IconButton Icon="&#xe70f;" Grid.Column="0" Margin="0" Style="{StaticResource TransperentButton}" Text="Изменить" TextFontSize="14"
+                                         Visibility="{Binding Chat.Admin.IsCurrentUser,Converter={StaticResource BooleanToVisibility}}"
+                      Orientation="Vertical" FontSize="28" VerticalAlignment="Center" HorizontalAlignment="Left" Command="{Binding EditCommand}" />
+
                 <StackPanel IsEnabled="{Binding Chat.IsReadOnly,Converter={StaticResource BooleanInverter}}"
                             Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,0,0" Orientation="Horizontal">
 
@@ -33,9 +37,7 @@
                             <TextBlock Text="&#xE716;" Margin="-5,1,0,0" FontFamily="{StaticResource SegoeIcons}" FontSize="16" />
                         </StackPanel>
                     </StackPanel>
-                    <controls:IconButton Icon="&#xe70f;" Margin="5" Style="{StaticResource TransperentButton}" Text="Изменить" TextFontSize="14"
-                                         Visibility="{Binding Chat.Admin.IsCurrentUser,Converter={StaticResource BooleanToVisibility}}"
-                      Orientation="Vertical" FontSize="28" VerticalAlignment="Center" HorizontalAlignment="Left" Command="{Binding EditCommand}" />
+
 
                 </StackPanel>
                 <StackPanel  IsEnabled="{Binding Chat.IsReadOnly,Converter={StaticResource BooleanInverter}}"  Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
