@@ -148,13 +148,12 @@ namespace TMClient.ViewModel.Chats
 
         protected async void HandleNewMessages(object? sender, Message[] messages)
         {
-
-            var currentChatMessages = messages.Where(m => m.Destination.Id == Chat.Id)
+            var currentChatMessages = messages.Where(m => m.Destination.Id == Chat.Id
+                                                 && !Messages.Any(l=>l.Message.Id==m.Id))
                                               .ToArray();
 
             if (IsCanRead)
                 await Model.MarkAsReaded(currentChatMessages);
-
             App.MainThread.Invoke(() => AddMessageToEnd(currentChatMessages));
         }
         private void ReadMessages(object? sender, int[] e)
