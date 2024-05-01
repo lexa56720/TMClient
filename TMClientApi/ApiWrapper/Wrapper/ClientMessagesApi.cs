@@ -3,6 +3,7 @@ using ClientApiWrapper.Interfaces;
 using ClientApiWrapper.Types;
 using TMApi.ApiRequests.Messages;
 using ApiTypes.Communication.BaseTypes;
+using TMApi.API;
 
 namespace ClientApiWrapper.ApiWrapper.Wrapper
 {

@@ -4,6 +4,7 @@ using TMApi;
 using ClientApiWrapper.ApiWrapper.Wrapper;
 using ClientApiWrapper.Interfaces;
 using System.Text;
+using TMApi.API;
 
 namespace ClientApiWrapper.ApiWrapper
 {

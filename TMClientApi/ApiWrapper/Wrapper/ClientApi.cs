@@ -12,6 +12,7 @@ using System.Net;
 using System.Text;
 using System.Linq;
 using ApiTypes.Communication.Info;
+using TMApi.API;
 
 namespace ClientApiWrapper.ApiWrapper.Wrapper
 {

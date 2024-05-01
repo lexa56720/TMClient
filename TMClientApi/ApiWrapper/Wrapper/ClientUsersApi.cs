@@ -3,6 +3,7 @@ using TMApi;
 using ClientApiWrapper.Interfaces;
 using TMApi.ApiRequests.Messages;
 using System.Xml.Linq;
+using TMApi.API;
 
 namespace ClientApiWrapper.ApiWrapper.Wrapper
 {

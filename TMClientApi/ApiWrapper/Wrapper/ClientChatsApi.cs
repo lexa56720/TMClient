@@ -1,6 +1,7 @@
 ﻿using TMApi;
 using ClientApiWrapper.Interfaces;
 using ClientApiWrapper.Types;
+using TMApi.API;
 
 namespace ClientApiWrapper.ApiWrapper.Wrapper
 {
