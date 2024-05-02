@@ -137,7 +137,7 @@
                                         <Setter.Value>
                                             <MultiBinding Converter="{StaticResource IndexConverter}">
                                                 <Binding ElementName="filelist" />
-                                                <Binding Path="{Binding .}" />
+                                                <Binding Path="." />
                                                 <Binding ElementName="filelist" Path="Items.Count" />
                                             </MultiBinding>
                                         </Setter.Value>
