@@ -97,7 +97,7 @@
 
         </DockPanel>
 
-        <ListView Background="Transparent" Grid.Row="2" ItemsSource="{Binding Files,ElementName=chatCtrl}" x:Name="filelist" 
+        <ListView Background="Transparent" Grid.Row="2"  ItemsSource="{Binding Files,ElementName=chatCtrl}" x:Name="filelist" 
                   IsEnabled="{Binding IsReadOnly,Converter={StaticResource BooleanInverter}, ElementName=chatCtrl}">
             <ListView.Style>
                 <Style BasedOn="{StaticResource ResourceKey={x:Type ListView}}" TargetType="ListView">
@@ -130,7 +130,22 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid >
-                        <local:FileDisplay MaxWidth="200" MaxHeight="100" Path="{Binding .}" />
+                        <local:FileDisplay MaxWidth="200" MaxHeight="100" Path="{Binding .}">
+                            <local:FileDisplay.Style>
+                                <Style TargetType="local:FileDisplay">
+                                    <Setter Property="Index">
+                                        <Setter.Value>
+                                            <MultiBinding Converter="{StaticResource IndexConverter}">
+                                                <Binding ElementName="filelist" />
+                                                <Binding Path="{Binding .}" />
+                                                <Binding ElementName="filelist" Path="Items.Count" />
+                                            </MultiBinding>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                                
+                            </local:FileDisplay.Style>
+                        </local:FileDisplay>
                         <local:IconButton Icon="&#xe711;" Margin="5" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalAlignment="Top" 
                                           Style="{StaticResource DarkTransperentButton}" Command="{Binding Path=RemoveFileCommand,ElementName=chatCtrl}" CommandParameter="{Binding .}" />
                     </Grid>

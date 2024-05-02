@@ -33,6 +33,17 @@ namespace TMClient.Controls
             set { SetValue(PathProperty, value); }
         }
 
+        public static readonly DependencyProperty IndexProperty =
+        DependencyProperty.Register(nameof(Index),
+                                typeof(int),
+                                typeof(FileDisplay),
+                                new PropertyMetadata(0));
+        public int Index
+        {
+            get { return (int)GetValue(IndexProperty); }
+            set { SetValue(IndexProperty, value); }
+        }
+
         public bool IsImage
         {
             get => isImage;

@@ -24,6 +24,7 @@
         <c:BooleanToVisibility x:Key="BooleanToVisibility"></c:BooleanToVisibility>
         <c:SearchConverter x:Key="SearchConverter"></c:SearchConverter>
         <c:PathToFilenameConverter x:Key="PathToFilenameConverter"></c:PathToFilenameConverter>
+        <c:IndexConverter x:Key="IndexConverter"></c:IndexConverter>
         
         <v:NameRule x:Key="NameRule"></v:NameRule>
         <v:ChatNameRule x:Key="ChatNameRule"></v:ChatNameRule>

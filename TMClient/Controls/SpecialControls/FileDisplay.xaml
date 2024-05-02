@@ -31,6 +31,7 @@
         <Border  Background="#69000000" VerticalAlignment="Bottom" CornerRadius="0,0,5,5">
             <TextBlock  TextTrimming="CharacterEllipsis"  FontSize="{Binding FontSize}" Text="{Binding Path,Converter={StaticResource PathToFilenameConverter}}" />
         </Border>
+        <TextBlock Text="{Binding Index}" />
 
     </Grid>
 </UserControl>
