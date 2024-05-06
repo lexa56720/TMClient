@@ -68,20 +68,27 @@ namespace ClientApiWrapper.ApiWrapper.Wrapper
             var requestedChats = new List<int>();
             for (int i = 0; i < chatIds.Length; i++)
             {
+                //Получение чатов которые есть в кэше
                 if (Cache.TryGetChat(chatIds[i], out var chat))
                     result.Add(chat);
+                //Создание списка запрашиваемых чатов, которых нет в кэше
                 else
                     requestedChats.Add(chatIds[i]);
             }
+            //Проверка, все ли запрашиваемы чаты были в кэше
             if (result.Count == chatIds.Length)
                 return result.ToArray();
 
+            //Запрос и конвертация недостающих чатов
             var converted = await Converter.Convert(await Api.Chats.GetChat(requestedChats.ToArray()));
             if (converted.Length == 0)
                 return [];
+            //Добавление в чат
             Cache.AddToCache(converted);
             result.AddRange(converted);
+            //Добавление информации о последнем сообщении
             await AssingLastMessages(converted);
+            //Создание итогового массива соответсвущего запросу
             return chatIds.Select(chatId => result.First(c => c.Id == chatId)).ToArray();
         }
 

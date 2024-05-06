@@ -96,7 +96,6 @@ namespace ClientApiWrapper.ApiWrapper
                         unprotectedBytes = ProtectedData.Unprotect(bytes, null, DataProtectionScope.CurrentUser);
                     }).WaitAsync(TimeSpan.FromSeconds(2));
 
-
                     var api = await provider.DeserializeAuthData(unprotectedBytes);
                     if (api == null)
                         return null;

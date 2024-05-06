@@ -147,6 +147,5 @@ namespace TMClient.ViewModel.Auth
             Password = string.Empty;
             RepeatPassword = string.Empty;
         }
-
     }
 }

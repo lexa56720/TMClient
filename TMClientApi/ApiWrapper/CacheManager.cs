@@ -51,7 +51,6 @@ namespace ClientApiWrapper.ApiWrapper
             return AddOrUpdateCache(ChatLifetime, chats);
         }
 
-
         public bool UpdateCache(TimeSpan lifeTime, params User[] users)
         {
             bool isSuccessful = true;
@@ -172,7 +171,6 @@ namespace ClientApiWrapper.ApiWrapper
             CachedChats.TryGetValue(chatId, out var chat);
             return chat;
         }
-
     }
 }
 

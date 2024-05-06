@@ -6,9 +6,8 @@ namespace TMClient.Model.Auth
     {
         public async Task<IApi?> Registration(string name, string login, string password)
         {
-            return await ApiProvider.CreateByRegistration(name, login, password);
+            return await GetApiProvider().CreateByRegistration(name, login, password);
         }
-
 
         public bool IsNameValid(string name)
         {

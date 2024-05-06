@@ -13,11 +13,12 @@ namespace TMClient.Controls
     public class ModernWindow : Window
     {
         [DllImport("user32.dll")]
-        private static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttributeData data);
+        private static extern int SetWindowCompositionAttribute(IntPtr hwnd, 
+                                                                ref WindowCompositionAttributeData data);
 
         [DllImport("dwmapi.dll", CharSet = CharSet.Unicode, PreserveSig = false)]
-        private static extern void DwmSetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attribute, ref uint pvAttribute, uint cbAttribute);
-
+        private static extern void DwmSetWindowAttribute(IntPtr hwnd, DWMWINDOWATTRIBUTE attribute,
+                                                         ref uint pvAttribute, uint cbAttribute);
         private enum AccentState
         {
             ACCENT_DISABLED = 1,
@@ -47,12 +48,9 @@ namespace TMClient.Controls
 
         private enum WindowCompositionAttribute
         {
-            // ...
             WCA_ACCENT_POLICY = 19
-            // ...
         }
 
-        // The enum flag for DwmSetWindowAttribute's second parameter, which tells the function what attribute to set.
         // Copied from dwmapi.h
         private enum DWMWINDOWATTRIBUTE
         {
@@ -60,8 +58,6 @@ namespace TMClient.Controls
             DWMWA_BORDER_COLOR = 34,
         }
 
-        // The DWM_WINDOW_CORNER_PREFERENCE enum for DwmSetWindowAttribute's third parameter, which tells the function
-        // what value of the enum to set.
         // Copied from dwmapi.h
         private enum DWM_WINDOW_CORNER_PREFERENCE
         {
@@ -273,7 +269,6 @@ namespace TMClient.Controls
         private void EnableBlur()
         {
             var windowHelper = new WindowInteropHelper(this);
-
             var accent = new AccentPolicy
             {
                 AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND,
@@ -292,7 +287,6 @@ namespace TMClient.Controls
             };
 
             SetWindowCompositionAttribute(windowHelper.Handle, ref data);
-
             Marshal.FreeHGlobal(accentPtr);
         }
     }

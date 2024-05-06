@@ -74,13 +74,14 @@ namespace TMClient.ViewModel.Auth
         }
         private async Task SignIn()
         {      
+            //Проверка допустимости логина
             if (!Model.IsLoginValid(Login))
             {
                 ErrorVisibility = Visibility.Visible;
                 return;
             }
-
             IsBusy = true;
+            //Попытка авторизации
             try
             {
                 IApi? api = null;
@@ -100,11 +101,8 @@ namespace TMClient.ViewModel.Auth
                 ErrorVisibility = Visibility.Visible;
                 IsBusy = false;
             }
-
-
+            //очистка поля с паролем
             Password = string.Empty;
         }
-
-
     }
 }

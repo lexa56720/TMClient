@@ -15,7 +15,7 @@ namespace TMClient.ViewModel.Auth
             set
             {
                 isSaveAuth = value;
-                Model.SaveIsAuth(value);
+                Model.SetIsSaveAuth(value);
                 OnPropertyChanged(nameof(IsSaveAuth));
             }
         }

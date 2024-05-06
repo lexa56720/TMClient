@@ -54,15 +54,19 @@ namespace ClientApiWrapper.ApiWrapper
 
         public async Task<Chat> Convert(ApiChat chat)
         {
+            //Получение списка участников
             var members = await UserApi.GetUser(chat.MemberIds);
 
+            //Получение ссылок на обложки
             var largePic = GetImageUrl(chat.ChatCover.SingleOrDefault(p => p.Size == ImageSize.Large));
             var mediumPic = GetImageUrl(chat.ChatCover.SingleOrDefault(p => p.Size == ImageSize.Medium));
             var smallPic = GetImageUrl(chat.ChatCover.SingleOrDefault(p => p.Size == ImageSize.Small));
 
+            //Создание финального объекта
             var result = new Chat(chat.Id, chat.Name, members.Single(m => m.Id == chat.AdminId), chat.UnreadCount,
                                   chat.IsDialogue, largePic, mediumPic, smallPic);
 
+            //Добавление пользователей в финальный объект 
             foreach (var member in members)
                 result.Members.Add(member);
 

@@ -91,8 +91,6 @@
 
         <Color x:Key="TransperentGreenColor">#004CAF50</Color>
 
-
-
         <Storyboard x:Key="MouseOverStart">
             <ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)" 
                                     To="{StaticResource ActiveHighlightColor}"
@@ -425,7 +423,6 @@
             </Style.Triggers>
         </Style>
 
-
         <Style x:Key="DarkTransperentButton" BasedOn="{StaticResource ResourceKey=DefaultButton}" TargetType="Button">
             <Setter Property="Background" Value="#69000000" />
             <Style.Triggers>
@@ -641,7 +638,6 @@
 
         <Style TargetType="Grid">
             <Setter Property="Control.Background" Value="Transparent" />
-
             <Style.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="0" />

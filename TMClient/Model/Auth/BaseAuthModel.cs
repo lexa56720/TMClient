@@ -11,14 +11,6 @@ namespace TMClient.Model.Auth
 {
     internal class BaseAuthModel
     {
-        protected ApiFactory ApiProvider
-        {
-            get
-            {
-                return GetApiProvider();
-            }
-        }
-        private static ApiFactory apiProvider = null!;
         private static SynchronizationContext UIContext;
         public BaseAuthModel()
         {
@@ -29,7 +21,7 @@ namespace TMClient.Model.Auth
         {
             try
             {
-                return await ApiProvider.Load(Preferences.Default.AuthPath);
+                return await GetApiProvider().Load(Preferences.Default.AuthPath);
             }
             catch
             {
@@ -37,7 +29,7 @@ namespace TMClient.Model.Auth
             }
         }
 
-        private static ApiFactory GetApiProvider()
+        protected static ApiFactory GetApiProvider()
         {
             var ip = IPAddress.Parse(Preferences.Default.ServerAddress);
             var infoPort = Preferences.Default.InfoPort;
@@ -58,7 +50,7 @@ namespace TMClient.Model.Auth
             return ApiTypes.Shared.DataConstraints.IsPasswordLegal(pass);
         }
 
-        public void SaveIsAuth(bool value)
+        public void SetIsSaveAuth(bool value)
         {
             Preferences.Default.IsSaveAuth = value;
             Preferences.Default.Save();
