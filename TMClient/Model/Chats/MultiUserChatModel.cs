@@ -13,6 +13,7 @@ namespace TMClient.Model.Chats
         {
         }
 
+        //Выход из чата
         public async Task<bool> LeaveChat()
         {
             return await Api.Chats.LeaveChat(Chat.Id);

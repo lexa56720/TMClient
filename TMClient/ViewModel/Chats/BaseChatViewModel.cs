@@ -13,7 +13,6 @@ namespace TMClient.ViewModel.Chats
 {
     internal abstract class BaseChatViewModel<T> : BaseViewModel where T : ChatModel
     {
-        public int Id { get; private set; }
         public Chat Chat { get; private set; }
         public ObservableCollection<MessageContainer> Messages
         {
@@ -65,13 +64,6 @@ namespace TMClient.ViewModel.Chats
         public ICommand PageUnloadedCommand => new Command(PageUnloaded);
         public ICommand OpenImageCommand => new Command(OpenImage);
 
-        private void OpenImage(object? obj)
-        {
-            if (obj is not ImageSource image)
-                return;
-            var imageViewer = new ImageViewerWindow(image);
-            imageViewer.Show();
-        }
 
         public ObservableCollection<string> Files { get; set; } = [];
 
@@ -83,7 +75,6 @@ namespace TMClient.ViewModel.Chats
         {
             chat.UnreadCount = 0;
             Chat = chat;
-            Id = chat.Id;
 
             Model = GetModel(chat);
         }
@@ -198,6 +189,14 @@ namespace TMClient.ViewModel.Chats
                 }
                 Messages.Insert(0, message);
             }
+        }
+
+        private void OpenImage(object? obj)
+        {
+            if (obj is not ImageSource image)
+                return;
+            var imageViewer = new ImageViewerWindow(image);
+            imageViewer.Show();
         }
     }
 }

@@ -19,21 +19,25 @@ namespace TMClient.Model.Chats
             Count = count;
         }
 
+        //Получение сообщений относительно другого
         public async Task<Message[]> GetHistory(Message lastMessage)
         {
             return await Api.Messages.GetMessages(Chat.Id, lastMessage.Id, Count);
         }
+        //Получение сообщений со смещением
         public async Task<Message[]> GetHistory(int offset)
         {
             return await Api.Messages.GetMessagesByOffset(Chat.Id, Count, offset);
         }
 
+        //Пометить сообщения как прочтённые
         public async Task<bool> MarkAsReaded(Message[] messages)
         {
             return await Api.Messages.MarkAsReaded(messages.Where(m => !m.IsReaded)
                                                            .ToArray());
         }
 
+        //Отправка сообщений
         public async Task<Message?> SendMessage(string text, IEnumerable<string> filePaths)
         {
             var paths= filePaths.ToArray();
@@ -44,11 +48,7 @@ namespace TMClient.Model.Chats
             return await Api.Messages.SendMessage(text, Chat.Id, tks.Token, paths);
         }
 
-        public bool IsMessageValid(string text, params string[] filePaths)
-        {
-            return Api.DataValidator.IsMessageLegal(text, filePaths);
-        }
-
+        //Установка флага IsReaded в сообщениях
         public void SetIsReaded(IEnumerable<Message> messages)
         {
             if (messages.Count() == 0)
@@ -60,6 +60,11 @@ namespace TMClient.Model.Chats
                     message.IsReaded = true;
                 }
             });
+        }
+
+        public bool IsMessageValid(string text, params string[] filePaths)
+        {
+            return Api.DataValidator.IsMessageLegal(text, filePaths);
         }
     }
 }
