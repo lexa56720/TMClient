@@ -182,7 +182,7 @@ namespace TMClient.ViewModel.Chats
                             next.IsAuthorVisible = false;
                         message.IsAuthorVisible = true;
                     }
-                    else if (Messages.FirstOrDefault() is MessageContainer nextM && nextM.Message.IsSystem)
+                    else if ((Messages.FirstOrDefault()==null)||(Messages.FirstOrDefault() is MessageContainer nextM && nextM.Message.IsSystem))
                     {
                         message.IsAuthorVisible = true;
                     }

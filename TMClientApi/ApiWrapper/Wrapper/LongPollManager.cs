@@ -88,16 +88,16 @@ namespace ClientApiWrapper.Wrapper
         }
 
 
-        private async void HandleNewChatInivites(object? sender, int[] e)
+        private  void HandleNewChatInivites(object? sender, int[] e)
         {
-            var invites = await Api.chats.GetChatInviteIgnoringCache(e);
-            UIContext.Post(invitesObj =>
+            UIContext.Post(async state =>
             {
-                foreach (var inivite in (ChatInvite[])invitesObj)
+                var invites = await Api.chats.GetChatInviteIgnoringCache(e);
+                foreach (var inivite in invites)
                     Api.ChatInvites.Add(inivite);
-                Cache.AddOrUpdateCache(TimeSpan.MaxValue, ((ChatInvite[])invitesObj).Select(i => i.Inviter).ToArray());
-                Cache.AddOrUpdateCache(TimeSpan.MaxValue, ((ChatInvite[])invitesObj).Select(i => i.Chat).ToArray());
-            }, invites);
+                Cache.AddOrUpdateCache(TimeSpan.MaxValue, (invites).Select(i => i.Inviter).ToArray());
+                Cache.AddOrUpdateCache(TimeSpan.MaxValue, (invites).Select(i => i.Chat).ToArray());
+            }, null);
         }
 
         private async void HandleRelatedUsersChanged(object? sender, int[] e)
@@ -111,11 +111,11 @@ namespace ClientApiWrapper.Wrapper
 
         private async void HandleChatChanged(object? sender, int[] e)
         {
-            var chats = await Api.chats.GetChatIgnoringCache(e, false);
-            UIContext.Post(chatsObj =>
+            UIContext.Post(async state =>
             {
-                Cache.AddOrUpdateCache(TimeSpan.MaxValue, (Chat[])chatsObj);
-            }, chats);
+                var chats = await Api.chats.GetChatIgnoringCache(e, false);
+                Cache.AddOrUpdateCache(TimeSpan.MaxValue,chats);
+            }, null);
         }
         private void HandleRemovedChats(object? sender, int[] e)
         {
@@ -186,18 +186,17 @@ namespace ClientApiWrapper.Wrapper
             ReadedMessages?.Invoke(this, e);
         }
 
-        private async void HandleNewChats(object? sender, int[] e)
+        private void HandleNewChats(object? sender, int[] e)
         {
-            var chats = await Api.chats.GetChatIgnoringCache(e, true);
-
-            UIContext.Post(chatsObj =>
+            UIContext.Post(async state =>
             {
-                foreach (var chat in (Chat[])chatsObj)
+                var chats = await Api.chats.GetChatIgnoringCache(e, true);
+                foreach (var chat in chats)
                 {
                     Cache.AddOrUpdateCache(TimeSpan.MaxValue, chat);
                     AddToCollections(chat);
                 }
-            }, chats);
+            }, null);
         }
 
         private void AddToCollections(Chat chat)
