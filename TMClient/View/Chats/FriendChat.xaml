@@ -56,7 +56,7 @@
 
                 </StackPanel>
             </Grid>
-            <controls:ChatControl LoadMore="{Binding LoadHistory}"  Files="{Binding Files}" WrittenText="{Binding MessageText}" Messages="{Binding Messages}" 
+            <controls:ChatControl x:Name="ChatControl" LoadMore="{Binding LoadHistory}"  Files="{Binding Files}" WrittenText="{Binding MessageText}" Messages="{Binding Messages}" 
                                   SendCommand="{Binding Send}" Grid.Row="1" OpenImageCommand="{Binding OpenImageCommand}" IsCanReadNewMessages="{Binding IsCanRead,Mode=OneWayToSource}" >
                 <controls:ChatControl.Style>
                     <Style TargetType="controls:ChatControl">

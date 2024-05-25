@@ -28,7 +28,7 @@ namespace TMClient.ViewModel.Chats
 
         private readonly Action OpenEditorPage;
 
-        public MultiUserChatViewModel(Chat chat,Action openEditorPage) : base(chat)
+        public MultiUserChatViewModel(Chat chat,Action openEditorPage, Action setChatFocus) : base(chat, setChatFocus)
         {
             OpenEditorPage = openEditorPage;
         }

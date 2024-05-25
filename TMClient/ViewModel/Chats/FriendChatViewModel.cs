@@ -12,7 +12,7 @@ namespace TMClient.ViewModel.Chats
         public ICommand BlockCommand => new AsyncCommand(Block);
 
 
-        public FriendChatViewModel(Friend friend) : base(friend.Dialogue)
+        public FriendChatViewModel(Friend friend, Action setChatFocus) : base(friend.Dialogue,setChatFocus)
         {
             Friend = friend;
         }

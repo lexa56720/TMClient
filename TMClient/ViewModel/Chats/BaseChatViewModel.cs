@@ -41,6 +41,8 @@ namespace TMClient.ViewModel.Chats
             {
                 isBusy = value;
                 OnPropertyChanged(nameof(IsBusy));
+                if (!isBusy)
+                    SetChatFocus();
             }
         }
         private bool isBusy;
@@ -70,12 +72,13 @@ namespace TMClient.ViewModel.Chats
         protected T Model { get; private set; }
 
         private bool IsFullyLoaded = false;
+        private readonly Action SetChatFocus;
 
-        public BaseChatViewModel(Chat chat)
+        public BaseChatViewModel(Chat chat,Action setChatFocus)
         {
             chat.UnreadCount = 0;
             Chat = chat;
-
+            SetChatFocus = setChatFocus;
             Model = GetModel(chat);
         }
 

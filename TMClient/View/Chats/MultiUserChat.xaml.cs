@@ -23,8 +23,9 @@ namespace TMClient.View.Chats
     {
         public MultiUserChat(Chat chat,Action openEditorPage)
         {
-            DataContext =new MultiUserChatViewModel(chat, openEditorPage);
             InitializeComponent();
+            DataContext = new MultiUserChatViewModel(chat, openEditorPage, ChatControl.SetChatBoxFocus);
+
         }
     }
 }

@@ -10,8 +10,9 @@ namespace TMClient.View
     {
         public FriendChat(Friend friend)
         {
-            DataContext = new FriendChatViewModel(friend);
             InitializeComponent();
+            DataContext = new FriendChatViewModel(friend, ChatControl.SetChatBoxFocus);
+
         }
     }
 }

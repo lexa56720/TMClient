@@ -30,6 +30,11 @@ namespace TMClient.Controls
             }
         }
 
+        public void SetChatBoxFocus()
+        {
+            MessageBox.Focus();
+        }
+
         public static readonly DependencyProperty IsReadOnlyProperty =
         DependencyProperty.Register(
             nameof(IsReadOnly),
@@ -68,14 +73,12 @@ namespace TMClient.Controls
             set { SetValue(LoadMoreProperty, value); }
         }
 
-
         public static readonly DependencyProperty SendCommandProperty =
         DependencyProperty.Register(
            nameof(SendCommand),
            typeof(ICommand),
            typeof(ChatControl),
            new PropertyMetadata(null));
-
         public ICommand SendCommand
         {
             get { return (ICommand)GetValue(SendCommandProperty); }
@@ -148,7 +151,7 @@ namespace TMClient.Controls
         }
         public void Attach()
         {
-            var files = PathPicker.PickFiles("Все|*.*",true);
+            var files = PathPicker.PickFiles("Все|*.*", true);
             Files.Clear();
             foreach (var file in files)
                 Files.Add(file);
